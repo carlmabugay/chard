@@ -11,14 +11,16 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
     it('should return all portfolio when using fetchAll method.', function () {
 
+        // Arrange:
         $count = 10;
-
         PortfolioModel::factory(10)->create();
 
         $repository = new EloquentPortfolioReadRepository;
 
+        // Act:
         $portfolios = $repository->fetchAll();
 
+        // Assert:
         expect($portfolios)->toHaveCount($count);
 
     });
