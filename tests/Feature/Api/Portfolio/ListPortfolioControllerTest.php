@@ -9,7 +9,7 @@ uses(RefreshDatabase::class);
 
 describe('Feature: ListPortfolioController', function () {
 
-    it('returns collection of authenticated user\'s portfolio resource when using /api/v1/portfolios GET api endpoint.', function () {
+    it('should return collection of authenticated user\'s portfolio resource when using /api/v1/portfolios GET api endpoint.', function () {
 
         // Arrange:
         $user = UserModel::factory()->create();
@@ -32,4 +32,20 @@ describe('Feature: ListPortfolioController', function () {
 
     });
 
+    it('should return empty data and 0 total record when no records found upon using /api/v1/portfolios GET api endpoint.', function () {
+
+        // Arrange:
+        $user = UserModel::factory()->create();
+
+        // Act:
+        Sanctum::actingAs($user);
+        $response = $this->get('/api/v1/portfolios');
+
+        // Assert:
+        $response->assertOk()
+            ->assertJson([
+                'data' => [],
+                'total' => 0,
+            ]);
+    });
 });

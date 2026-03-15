@@ -58,10 +58,10 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
         });
 
-        it('should throws an exception when no record found upon using fetchById method.', function () {
+        it('should throw an exception when no record found upon using fetchById method.', function () {
 
             // Act:
-            $portfolio_entity = $this->repository->fetchById(1);
+            $this->repository->fetchById(1);
 
             // Assert:
         })->throws(ModelNotFoundException::class);

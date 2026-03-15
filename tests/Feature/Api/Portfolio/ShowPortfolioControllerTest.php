@@ -46,7 +46,7 @@ describe('Feature: ShowPortfolioController', function () {
             $random_id = 100;
             $user = UserModel::factory()->create();
 
-            $portfolio = PortfolioModel::factory()
+            PortfolioModel::factory()
                 ->for($user)
                 ->create();
 
