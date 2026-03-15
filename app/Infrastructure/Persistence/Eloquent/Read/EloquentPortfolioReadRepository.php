@@ -16,6 +16,13 @@ class EloquentPortfolioReadRepository implements PortfolioReadRepositoryInterfac
             ->all();
     }
 
+    public function fetchById(int $id): Portfolio
+    {
+        $portfolio = PortfolioModel::query()->findOrFail($id);
+
+        return $this->toDomain($portfolio);
+    }
+
     public function toDomain(PortfolioModel $portfolio): Portfolio
     {
         return new Portfolio(

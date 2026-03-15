@@ -9,5 +9,7 @@ interface PortfolioReadRepositoryInterface
 {
     public function fetchAll(): array;
 
+    public function fetchById(int $id): Portfolio;
+
     public function toDomain(PortfolioModel $portfolio): Portfolio;
 }

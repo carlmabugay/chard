@@ -1,0 +1,46 @@
+<?php
+
+use App\Application\UseCases\GetPortfolio;
+use App\Domain\Portfolio\Entities\Portfolio;
+use App\Domain\Portfolio\Services\PortfolioService;
+use App\Models\Portfolio as PortfolioModel;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+uses(TestCase::class, RefreshDatabase::class);
+
+describe('Integration: Get Portfolio', function () {
+
+    it('should return portfolio that filtered by id when using handle method.', function () {
+
+        // Arrange:
+        $portfolio_model = PortfolioModel::factory()->create();
+
+        $portfolio_entity = new Portfolio(
+            user_id: $portfolio_model->user_id,
+            id: $portfolio_model->id,
+            name: $portfolio_model->name,
+            created_at: $portfolio_model->created_at,
+            updated_at: $portfolio_model->updated_at,
+        );
+
+        $service = Mockery::mock(PortfolioService::class);
+
+        $use_case = new GetPortfolio($service);
+
+        // Expectation:
+        $service->shouldReceive('fetchById')
+            ->once()
+            ->with($portfolio_model->id)
+            ->andReturn($portfolio_entity);
+
+        // Act:
+        $result = $use_case->handle($portfolio_model->id);
+
+        // Assert:
+        expect($result)
+            ->toBeInstanceOf(Portfolio::class)
+            ->and($result->name())->toBe($portfolio_entity->name());
+
+    });
+});

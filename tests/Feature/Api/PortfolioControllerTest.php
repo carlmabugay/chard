@@ -9,7 +9,7 @@ uses(RefreshDatabase::class);
 
 describe('Feature: PortfolioController', function () {
 
-    it('returns collection of authenticated user\'s portfolio resource when using /api/v1/portfolios api endpoint.', function () {
+    it('returns collection of authenticated user\'s portfolio resource when using /api/v1/portfolios GET api endpoint.', function () {
 
         // Arrange:
         $user = UserModel::factory()->create();
@@ -30,6 +30,31 @@ describe('Feature: PortfolioController', function () {
                 'total',
             ]);
 
+    });
+
+    it('should return a portfolio resource when using /api/v1/portfolios/{id} GET api endpoint.', function () {
+
+        // Arrange:
+        $user = UserModel::factory()->create();
+
+        $portfolio = PortfolioModel::factory()
+            ->for($user)
+            ->create();
+
+        // Act:
+        Sanctum::actingAs($user);
+        $response = $this->get('/api/v1/portfolios/'.$portfolio->id);
+
+        // Assert:
+        $response->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'name',
+                    'created_at',
+                    'updated_at',
+                ],
+            ]);
     });
 
 });
