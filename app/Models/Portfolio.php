@@ -14,8 +14,8 @@ class Portfolio extends Model
 
     protected $fillable = [
         'user_id',
-        'id',
         'name',
+        'id',
     ];
 
     protected $casts = [

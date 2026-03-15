@@ -3,10 +3,12 @@
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentPortfolioReadRepository;
+use App\Infrastructure\Persistence\Eloquent\Write\EloquentPortfolioWriteRepository;
 
 beforeEach(function () {
-    $this->repository = Mockery::mock(EloquentPortfolioReadRepository::class);
-    $this->service = new PortfolioService($this->repository);
+    $this->read_repository = Mockery::mock(EloquentPortfolioReadRepository::class);
+    $this->write_repository = Mockery::mock(EloquentPortfolioWriteRepository::class);
+    $this->service = new PortfolioService($this->write_repository, $this->read_repository);
 
 });
 
@@ -17,14 +19,11 @@ describe('Unit: Portfolio Service', function () {
         // Arrange:
         $portfolio = new Portfolio(
             user_id: random_int(1, 10),
-            id: random_int(1, 10),
             name: 'PH Stock Market',
-            created_at: now(),
-            updated_at: null,
         );
 
         // Expectation:
-        $this->repository->shouldReceive('fetchAll')
+        $this->read_repository->shouldReceive('fetchAll')
             ->once()
             ->andReturn([
                 $portfolio,
@@ -44,14 +43,12 @@ describe('Unit: Portfolio Service', function () {
 
         $portfolio = new Portfolio(
             user_id: random_int(1, 10),
-            id: $id,
             name: 'PH Stock Market',
-            created_at: now(),
-            updated_at: null,
+            id: $id,
         );
 
         // Expectation:
-        $this->repository->shouldReceive('fetchById')
+        $this->read_repository->shouldReceive('fetchById')
             ->once()
             ->with($id)
             ->andReturn($portfolio);
@@ -64,6 +61,23 @@ describe('Unit: Portfolio Service', function () {
             ->toBeInstanceOf(Portfolio::class)
             ->and($result->id())->toBe($id);
 
+    });
+
+    it('should create new portfolio when using save method.', function () {
+
+        // Arrange:
+        $portfolio = new Portfolio(
+            user_id: random_int(1, 10),
+            name: 'PH Stock Market',
+        );
+
+        // Expectation:
+        $this->write_repository->shouldReceive('save')
+            ->once()
+            ->with($portfolio);
+
+        // Act:
+        $this->service->save($portfolio);
     });
 
 });

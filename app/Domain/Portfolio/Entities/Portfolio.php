@@ -6,10 +6,10 @@ readonly class Portfolio
 {
     public function __construct(
         private int $user_id,
-        private int $id,
         private string $name,
-        private string $created_at,
-        private ?string $updated_at,
+        private ?int $id = null,
+        private ?string $created_at = null,
+        private ?string $updated_at = null,
     ) {}
 
     public function userId(): int
@@ -17,7 +17,7 @@ readonly class Portfolio
         return $this->user_id;
     }
 
-    public function id(): int
+    public function id(): ?int
     {
         return $this->id;
     }
@@ -27,7 +27,7 @@ readonly class Portfolio
         return $this->name;
     }
 
-    public function createdAt(): string
+    public function createdAt(): ?string
     {
         return $this->created_at;
     }

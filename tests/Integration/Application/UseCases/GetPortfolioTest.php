@@ -18,8 +18,8 @@ describe('Integration: Get Portfolio', function () {
 
         $portfolio_entity = new Portfolio(
             user_id: $portfolio_model->user_id,
-            id: $portfolio_model->id,
             name: $portfolio_model->name,
+            id: $portfolio_model->id,
             created_at: $portfolio_model->created_at,
             updated_at: $portfolio_model->updated_at,
         );

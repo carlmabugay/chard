@@ -3,21 +3,28 @@
 namespace App\Domain\Portfolio\Services;
 
 use App\Domain\Portfolio\Contracts\Read\PortfolioReadRepositoryInterface;
+use App\Domain\Portfolio\Contracts\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Portfolio\Entities\Portfolio;
 
 class PortfolioService
 {
     public function __construct(
-        private readonly PortfolioReadRepositoryInterface $repository
+        private readonly PortfolioWriteRepositoryInterface $write_repository,
+        private readonly PortfolioReadRepositoryInterface $read_repository
     ) {}
 
     public function fetchAll(): array
     {
-        return $this->repository->fetchAll();
+        return $this->read_repository->fetchAll();
     }
 
     public function fetchById(int $id): Portfolio
     {
-        return $this->repository->fetchById($id);
+        return $this->read_repository->fetchById($id);
+    }
+
+    public function save(Portfolio $portfolio): void
+    {
+        $this->write_repository->save($portfolio);
     }
 }
