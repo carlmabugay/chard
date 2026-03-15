@@ -18,6 +18,7 @@ class PortfolioResource extends JsonResource
             'id' => $this->resource->id(),
             'name' => $this->resource->name(),
             'created_at' => $this->resource->createdAt(),
+            'updated_at' => $this->resource->updatedAt(),
         ];
     }
 }

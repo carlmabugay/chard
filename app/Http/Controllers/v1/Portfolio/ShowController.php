@@ -6,7 +6,7 @@ use App\Application\UseCases\GetPortfolio;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PortfolioResource;
 
-class ShowPortfolioController extends Controller
+class ShowController extends Controller
 {
     public function __invoke(int $id, GetPortfolio $use_case): PortfolioResource
     {

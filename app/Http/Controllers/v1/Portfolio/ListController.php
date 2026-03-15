@@ -8,11 +8,10 @@ use App\Http\Resources\PortfolioCollection;
 
 final class ListController extends Controller
 {
-    public function __invoke(ListPortfolios $useCase): PortfolioCollection
+    public function __invoke(ListPortfolios $use_case): PortfolioCollection
     {
+        $result = $use_case->handle();
 
-        $result = $useCase->handle();
-
-        return new PortfolioCollection($result);
+        return PortfolioCollection::make($result);
     }
 }

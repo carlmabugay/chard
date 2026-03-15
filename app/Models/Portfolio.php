@@ -12,6 +12,17 @@ class Portfolio extends Model
     /** @use HasFactory<PortfolioFactory> */
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'id',
+        'name',
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
