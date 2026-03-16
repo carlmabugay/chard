@@ -23,8 +23,8 @@ class PortfolioService
         return $this->read_repository->fetchById($id);
     }
 
-    public function save(Portfolio $portfolio): void
+    public function store(Portfolio $portfolio): void
     {
-        $this->write_repository->save($portfolio);
+        $this->write_repository->store($portfolio);
     }
 }

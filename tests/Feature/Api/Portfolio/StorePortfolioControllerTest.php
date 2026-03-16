@@ -6,9 +6,9 @@ use Laravel\Sanctum\Sanctum;
 
 uses(RefreshDatabase::class);
 
-describe('Feature: CreatePortfolioController', function () {
+describe('Feature: StorePortfolioController', function () {
 
-    it('should save new portfolio resource when using /api/v1/portfolios POST api endpoint.', function () {
+    it('should store new portfolio resource when using /api/v1/portfolios POST api endpoint.', function () {
 
         // Arrange:
         $user = UserModel::factory()->create();

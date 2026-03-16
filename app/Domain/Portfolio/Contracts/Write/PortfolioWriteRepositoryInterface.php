@@ -6,5 +6,5 @@ use App\Domain\Portfolio\Entities\Portfolio;
 
 interface PortfolioWriteRepositoryInterface
 {
-    public function save(Portfolio $portfolio): void;
+    public function store(Portfolio $portfolio): void;
 }

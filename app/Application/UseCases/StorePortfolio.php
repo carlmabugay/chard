@@ -2,23 +2,23 @@
 
 namespace App\Application\UseCases;
 
-use App\Application\DTOs\SavePortfolioDTO;
+use App\Application\DTOs\StorePortfolioDTO;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
 
-class SavePortfolio
+class StorePortfolio
 {
     public function __construct(
         private readonly PortfolioService $service
     ) {}
 
-    public function handle(SavePortfolioDTO $dto): void
+    public function handle(StorePortfolioDTO $dto): void
     {
         $portfolio = new Portfolio(
             user_id: $dto->user_id,
             name: $dto->name,
         );
 
-        $this->service->save($portfolio);
+        $this->service->store($portfolio);
     }
 }

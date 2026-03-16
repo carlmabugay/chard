@@ -1,7 +1,7 @@
 <?php
 
-use App\Application\DTOs\SavePortfolioDTO;
-use App\Application\UseCases\SavePortfolio;
+use App\Application\DTOs\StorePortfolioDTO;
+use App\Application\UseCases\StorePortfolio;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
 use App\Models\User as UserModel;
@@ -10,14 +10,14 @@ use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
 
-describe('Integration: Save Portfolio', function () {
+describe('Integration: Store Portfolio', function () {
 
-    it('should save portfolio when using handle method.', function () {
+    it('should store portfolio when using handle method.', function () {
 
         // Arrange:
         $user = UserModel::factory()->create();
 
-        $dto = SavePortfolioDTO::fromArray([
+        $dto = StorePortfolioDTO::fromArray([
             'user_id' => $user->id,
             'name' => 'PH Stock Market',
         ]);
@@ -30,11 +30,11 @@ describe('Integration: Save Portfolio', function () {
         $service = Mockery::mock(PortfolioService::class);
 
         // Expectation:
-        $service->shouldReceive('save')
+        $service->shouldReceive('store')
             ->once();
 
         // Act:
-        $use_case = new SavePortfolio($service);
+        $use_case = new StorePortfolio($service);
         $use_case->handle($dto);
 
         // Assert:

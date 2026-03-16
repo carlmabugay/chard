@@ -25,7 +25,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
         // Act:
         $repository = new EloquentPortfolioWriteRepository;
 
-        $repository->save($portfolio);
+        $repository->store($portfolio);
 
         // Assert:
         $this->assertDatabaseCount($table, 1);

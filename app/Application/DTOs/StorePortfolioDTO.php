@@ -2,7 +2,7 @@
 
 namespace App\Application\DTOs;
 
-class SavePortfolioDTO
+class StorePortfolioDTO
 {
     public function __construct(
         public int $user_id,

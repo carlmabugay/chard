@@ -63,7 +63,7 @@ describe('Unit: Portfolio Service', function () {
 
     });
 
-    it('should create new portfolio when using save method.', function () {
+    it('should create new portfolio when using store method.', function () {
 
         // Arrange:
         $portfolio = new Portfolio(
@@ -72,12 +72,12 @@ describe('Unit: Portfolio Service', function () {
         );
 
         // Expectation:
-        $this->write_repository->shouldReceive('save')
+        $this->write_repository->shouldReceive('store')
             ->once()
             ->with($portfolio);
 
         // Act:
-        $this->service->save($portfolio);
+        $this->service->store($portfolio);
     });
 
 });
