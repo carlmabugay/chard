@@ -2,6 +2,7 @@
 
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentPortfolioWriteRepository;
+use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -10,7 +11,7 @@ uses(TestCase::class, RefreshDatabase::class);
 
 describe('Integration: EloquentPortfolioReadRepository', function () {
 
-    it('should create new portfolio when using save method.', function () {
+    it('should create new portfolio when using store method.', function () {
 
         // Arrange
         $table = 'portfolios';
@@ -32,6 +33,32 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
         $this->assertDatabaseHas($table, [
             'user_id' => $user->id,
             'name' => $portfolio_name,
+        ]);
+    });
+
+    it('should update portfolio when using store method.', function () {
+
+        // Arrange:
+        $user = UserModel::factory()->create();
+        $portfolio_model = PortfolioModel::factory()->create();
+        $new_portfolio_name = 'Dividend Investment';
+
+        $portfolio_entity = new Portfolio(
+            user_id: $user->id,
+            name: $new_portfolio_name,
+            id: $portfolio_model->id,
+        );
+
+        // Act:
+        $repository = new EloquentPortfolioWriteRepository;
+
+        $repository->store($portfolio_entity);
+
+        // Assert:
+        $this->assertDatabaseHas('portfolios', [
+            'user_id' => $user->id,
+            'id' => $portfolio_model->id,
+            'name' => $new_portfolio_name,
         ]);
     });
 

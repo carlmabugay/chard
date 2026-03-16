@@ -4,11 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePortfolioRequest extends FormRequest
+class UpdatePortfolioRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
+            'id' => 'required|exists:portfolios,id',
             'name' => 'required|string',
         ];
     }
