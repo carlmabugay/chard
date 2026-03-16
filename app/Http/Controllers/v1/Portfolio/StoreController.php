@@ -10,15 +10,17 @@ use Illuminate\Support\Arr;
 
 final class StoreController extends Controller
 {
-    public function __invoke(
-        CreatePortfolioRequest $request,
-        SavePortfolio $use_case
-    ) {
+    public function __invoke(CreatePortfolioRequest $request, SavePortfolio $use_case)
+    {
 
         $data = Arr::add($request->validated(), 'user_id', $request->user()->id);
 
         $dto = SavePortfolioDTO::fromArray($data);
 
         $use_case->handle($dto);
+
+        return response()->json([
+            'success' => true,
+        ], 201);
     }
 }

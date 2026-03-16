@@ -26,12 +26,13 @@ describe('Feature: ShowPortfolioController', function () {
 
             // Assert:
             $response->assertOk()
-                ->assertJsonStructure([
+                ->assertJson([
+                    'success' => true,
                     'data' => [
-                        'id',
-                        'name',
-                        'created_at',
-                        'updated_at',
+                        'id' => $portfolio->id,
+                        'name' => $portfolio->name,
+                        'created_at' => $portfolio->created_at,
+                        'updated_at' => $portfolio->updated_at,
                     ],
                 ]);
         });
@@ -58,6 +59,7 @@ describe('Feature: ShowPortfolioController', function () {
 
             $response->assertNotFound()
                 ->assertJson([
+                    'success' => false,
                     'error' => 'Portfolio not found',
                     'message' => sprintf('Portfolio with ID: %s not found', $random_id),
                 ]);

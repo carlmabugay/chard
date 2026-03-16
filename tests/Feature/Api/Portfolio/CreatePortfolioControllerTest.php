@@ -21,7 +21,10 @@ describe('Feature: CreatePortfolioController', function () {
         $response = $this->post('/api/v1/portfolios', $payload);
 
         // Assert:
-        $response->assertOk();
+        $response->assertCreated()
+            ->assertJson([
+                'success' => true,
+            ]);
     });
 
 });

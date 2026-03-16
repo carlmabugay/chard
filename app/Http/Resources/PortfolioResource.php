@@ -21,4 +21,12 @@ class PortfolioResource extends JsonResource
             'updated_at' => $this->resource->updatedAt(),
         ];
     }
+
+    public function with($request): array
+    {
+
+        return [
+            'success' => true,
+        ];
+    }
 }

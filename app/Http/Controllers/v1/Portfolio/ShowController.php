@@ -19,6 +19,7 @@ final class ShowController extends Controller
 
         } catch (ModelNotFoundException) {
             return response()->json([
+                'success' => false,
                 'error' => 'Portfolio not found',
                 'message' => sprintf('Portfolio with ID: %s not found', $id),
             ], 404);

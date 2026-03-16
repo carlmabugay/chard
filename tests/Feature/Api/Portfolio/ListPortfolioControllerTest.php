@@ -12,10 +12,11 @@ describe('Feature: ListPortfolioController', function () {
     it('should return collection of authenticated user\'s portfolio resource when using /api/v1/portfolios GET api endpoint.', function () {
 
         // Arrange:
+        $no_of_portfolio = 5;
         $user = UserModel::factory()->create();
 
         PortfolioModel::factory()
-            ->count(5)
+            ->count($no_of_portfolio)
             ->for($user)
             ->create();
 
@@ -25,9 +26,10 @@ describe('Feature: ListPortfolioController', function () {
 
         // Assert:
         $response->assertOk()
-            ->assertJsonStructure([
-                'data',
-                'total',
+            ->assertJson([
+                'success' => true,
+                'data' => [],
+                'total' => $no_of_portfolio,
             ]);
 
     });

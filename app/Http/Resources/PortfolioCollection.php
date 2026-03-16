@@ -10,6 +10,7 @@ class PortfolioCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
+            'success' => true,
             'data' => $this->collection,
             'total' => $this->count(),
         ];
