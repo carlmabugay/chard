@@ -14,9 +14,10 @@ describe('Feature: UpdatePortfolioController', function () {
         // Arrange:
         $user = UserModel::factory()->create();
         $portfolio = PortfolioModel::factory()->create();
+        $new_portfolio_name = 'PH Stock Market';
         $payload = [
             'id' => $portfolio->id,
-            'name' => 'New Portfolio Name',
+            'name' => $new_portfolio_name,
         ];
 
         // Act:
@@ -24,9 +25,14 @@ describe('Feature: UpdatePortfolioController', function () {
         $response = $this->put('/api/v1/portfolios', $payload);
 
         // Assert:
+        $this->assertDatabaseHas('portfolios', $payload);
+
         $response->assertOk()
             ->assertJson([
                 'success' => true,
+                'data' => [
+                    'name' => $new_portfolio_name,
+                ],
             ]);
     });
 });

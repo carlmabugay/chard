@@ -8,14 +8,16 @@ use App\Models\Portfolio as PortfolioModel;
 
 class EloquentPortfolioWriteRepository implements PortfolioWriteRepositoryInterface
 {
-    public function store(Portfolio $portfolio): void
+    public function store(Portfolio $portfolio): Portfolio
     {
-        PortfolioModel::query()->updateOrCreate(
+        $stored_portfolio = PortfolioModel::query()->updateOrCreate(
             ['id' => $portfolio->id()],
             [
                 'user_id' => $portfolio->userId(),
                 'name' => $portfolio->name(),
             ]
         );
+
+        return Portfolio::fromEloquentModel($stored_portfolio);
     }
 }

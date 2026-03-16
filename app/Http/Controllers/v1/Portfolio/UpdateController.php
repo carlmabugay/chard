@@ -6,6 +6,7 @@ use App\Application\DTOs\StorePortfolioDTO;
 use App\Application\UseCases\StorePortfolio;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdatePortfolioRequest;
+use App\Http\Resources\PortfolioResource;
 use Illuminate\Support\Arr;
 use Throwable;
 
@@ -19,11 +20,9 @@ final class UpdateController extends Controller
 
             $dto = StorePortfolioDTO::fromArray($data);
 
-            $use_case->handle($dto);
+            $result = $use_case->handle($dto);
 
-            return response()->json([
-                'success' => true,
-            ], 200);
+            return new PortfolioResource($result);
 
         } catch (Throwable $error) {
 

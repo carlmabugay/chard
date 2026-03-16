@@ -26,7 +26,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
         // Act:
         $repository = new EloquentPortfolioWriteRepository;
 
-        $repository->store($portfolio);
+        $stored_portfolio = $repository->store($portfolio);
 
         // Assert:
         $this->assertDatabaseCount($table, 1);
@@ -34,6 +34,8 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
             'user_id' => $user->id,
             'name' => $portfolio_name,
         ]);
+
+        expect($stored_portfolio)->toBeInstanceOf(Portfolio::class);
     });
 
     it('should update portfolio when using store method.', function () {
@@ -52,7 +54,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
         // Act:
         $repository = new EloquentPortfolioWriteRepository;
 
-        $repository->store($portfolio_entity);
+        $updated_portfolio = $repository->store($portfolio_entity);
 
         // Assert:
         $this->assertDatabaseHas('portfolios', [
@@ -60,6 +62,8 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
             'id' => $portfolio_model->id,
             'name' => $new_portfolio_name,
         ]);
+
+        expect($updated_portfolio)->toBeInstanceOf(Portfolio::class);
     });
 
 });

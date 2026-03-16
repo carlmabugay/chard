@@ -12,7 +12,7 @@ class EloquentPortfolioReadRepository implements PortfolioReadRepositoryInterfac
     {
         return PortfolioModel::query()
             ->get()
-            ->map(fn ($model) => $this->toDomain($model))
+            ->map(fn ($model) => Portfolio::fromEloquentModel($model))
             ->all();
     }
 
@@ -20,17 +20,6 @@ class EloquentPortfolioReadRepository implements PortfolioReadRepositoryInterfac
     {
         $portfolio = PortfolioModel::query()->findOrFail($id);
 
-        return $this->toDomain($portfolio);
-    }
-
-    public function toDomain(PortfolioModel $portfolio): Portfolio
-    {
-        return new Portfolio(
-            user_id: $portfolio->user_id,
-            id: $portfolio->id,
-            name: $portfolio->name,
-            created_at: $portfolio->created_at,
-            updated_at: $portfolio->updated_at,
-        );
+        return Portfolio::fromEloquentModel($portfolio);
     }
 }

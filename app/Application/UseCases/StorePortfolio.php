@@ -12,13 +12,14 @@ class StorePortfolio
         private readonly PortfolioService $service
     ) {}
 
-    public function handle(StorePortfolioDTO $dto): void
+    public function handle(StorePortfolioDTO $dto): Portfolio
     {
         $portfolio = new Portfolio(
             user_id: $dto->user_id,
             name: $dto->name,
+            id: $dto->id,
         );
 
-        $this->service->store($portfolio);
+        return $this->service->store($portfolio);
     }
 }

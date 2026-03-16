@@ -24,6 +24,9 @@ describe('Feature: StorePortfolioController', function () {
         $response->assertCreated()
             ->assertJson([
                 'success' => true,
+                'data' => [
+                    'name' => 'PH Stock Market',
+                ],
             ]);
     });
 
