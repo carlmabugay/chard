@@ -9,7 +9,6 @@ beforeEach(function () {
     $this->read_repository = Mockery::mock(EloquentPortfolioReadRepository::class);
     $this->write_repository = Mockery::mock(EloquentPortfolioWriteRepository::class);
     $this->service = new PortfolioService($this->write_repository, $this->read_repository);
-
 });
 
 describe('Unit: Portfolio Service', function () {

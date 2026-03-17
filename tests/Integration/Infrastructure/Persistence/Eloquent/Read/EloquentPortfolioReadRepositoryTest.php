@@ -27,7 +27,9 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
             $portfolios = $this->repository->fetchAll();
 
             // Assert:
-            expect($portfolios)->toHaveCount($count);
+            expect($portfolios)
+                ->toBeArray()
+                ->toHaveCount($count);
 
         });
 
