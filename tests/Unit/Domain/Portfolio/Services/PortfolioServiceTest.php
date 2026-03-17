@@ -13,7 +13,7 @@ beforeEach(function () {
 
 describe('Unit: Portfolio Service', function () {
 
-    it('should return all portfolio when using fetchAll method.', function () {
+    it('should return all portfolios when using fetchAll method.', function () {
 
         // Arrange:
         $portfolio = new Portfolio(

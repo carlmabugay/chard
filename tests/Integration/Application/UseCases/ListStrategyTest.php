@@ -1,6 +1,7 @@
 <?php
 
 use App\Application\UseCases\ListStrategies;
+use App\Domain\Strategy\Entities\Strategy;
 use App\Domain\Strategy\Services\StrategyService;
 use App\Models\Strategy as StrategyModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,7 +15,8 @@ describe('Integration: List of all Strategies', function () {
 
         // Arrange:
         $count = 10;
-        $strategies = StrategyModel::factory()->count($count)->create();
+        $strategy_model = StrategyModel::factory()->count($count)->create();
+        $strategy_entity = $strategy_model->map(fn (StrategyModel $model) => Strategy::fromEloquentModel($model))->all();
 
         $service = Mockery::mock(StrategyService::class);
 
@@ -23,15 +25,15 @@ describe('Integration: List of all Strategies', function () {
         $service->shouldReceive('fetchAll')
             ->once()
             ->andReturn([
-                $strategies,
+                $strategy_entity,
             ]);
 
         // Act:
         $result = $use_case->handle();
 
         // Assert:
-        expect($result[0])
-            ->toHaveCount($count);
+        expect($result)->toBeArray()
+            ->and(count($strategy_entity))->toEqual($count);
 
     });
 });

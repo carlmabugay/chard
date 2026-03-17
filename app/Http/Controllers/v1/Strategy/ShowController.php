@@ -10,7 +10,7 @@ use Throwable;
 
 class ShowController extends Controller
 {
-    public function __invoke(int $id, GetStrategy $use_case): JsonResponse|StrategyResource
+    public function __invoke(int $id, GetStrategy $use_case): StrategyResource|JsonResponse
     {
         try {
 

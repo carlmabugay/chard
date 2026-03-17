@@ -17,7 +17,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
     describe('Positives', function () {
 
-        it('should return all portfolio when using fetchAll method.', function () {
+        it('should return all portfolios when using fetchAll method.', function () {
 
             // Arrange:
             $count = 10;

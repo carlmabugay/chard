@@ -10,7 +10,7 @@ use Throwable;
 
 final class ListController extends Controller
 {
-    public function __invoke(ListStrategies $use_case): JsonResponse|StrategyCollection
+    public function __invoke(ListStrategies $use_case): StrategyCollection|JsonResponse
     {
         try {
 

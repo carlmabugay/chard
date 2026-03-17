@@ -10,12 +10,13 @@ use Throwable;
 
 final class ListController extends Controller
 {
-    public function __invoke(ListPortfolios $use_case): JsonResponse|PortfolioCollection
+    public function __invoke(ListPortfolios $use_case): PortfolioCollection|JsonResponse
     {
         try {
             $result = $use_case->handle();
 
             return PortfolioCollection::make($result);
+
         } catch (Throwable $error) {
 
             return $this->errorResponse($error->getMessage(), $error->getCode());

@@ -7,12 +7,13 @@ use App\Application\UseCases\StorePortfolio;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreatePortfolioRequest;
 use App\Http\Resources\PortfolioResource;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Throwable;
 
 final class StoreController extends Controller
 {
-    public function __invoke(CreatePortfolioRequest $request, StorePortfolio $use_case)
+    public function __invoke(CreatePortfolioRequest $request, StorePortfolio $use_case): PortfolioResource|JsonResponse
     {
         try {
 

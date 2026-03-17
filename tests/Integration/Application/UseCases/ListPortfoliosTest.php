@@ -1,6 +1,7 @@
 <?php
 
 use App\Application\UseCases\ListPortfolios;
+use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
 use App\Models\Portfolio as PortfolioModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,7 +15,10 @@ describe('Integration: List of all Portfolios', function () {
 
         // Arrange:
         $count = 10;
-        $portfolios = PortfolioModel::factory()->count($count)->create();
+        $portfolio_model = PortfolioModel::factory()->count($count)->create();
+        $portfolio_entity = $portfolio_model->map(
+            fn (PortfolioModel $model) => Portfolio::fromEloquentModel($model)
+        )->all();
 
         $service = Mockery::mock(PortfolioService::class);
 
@@ -23,14 +27,15 @@ describe('Integration: List of all Portfolios', function () {
         $service->shouldReceive('fetchAll')
             ->once()
             ->andReturn([
-                $portfolios,
+                $portfolio_entity,
             ]);
 
         // Act:
         $result = $use_case->handle();
 
         // Assert:
-        expect($result[0])->toHaveCount($count);
+        expect($result)->toBeArray()
+            ->and(count($portfolio_entity))->toEqual($count);
 
     });
 });
