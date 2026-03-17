@@ -5,6 +5,7 @@ use App\Http\Controllers\v1\Portfolio\ShowController as ShowPortfolioController;
 use App\Http\Controllers\v1\Portfolio\StoreController as StorePortfolioController;
 use App\Http\Controllers\v1\Portfolio\UpdateController as UpdatePortfolioController;
 use App\Http\Controllers\v1\Strategy\ListController as ListStrategyController;
+use App\Http\Controllers\v1\Strategy\ShowController as ShowStrategyController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -15,5 +16,6 @@ Route::prefix('v1')->group(function () {
     Route::put('portfolios', UpdatePortfolioController::class);
 
     Route::get('strategies', ListStrategyController::class);
+    Route::get('strategies/{id}', ShowStrategyController::class);
 
 })->middleware('auth:sanctum');

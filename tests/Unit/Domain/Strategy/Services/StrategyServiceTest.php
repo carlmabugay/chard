@@ -14,7 +14,7 @@ describe('Unit: Strategy Service', function () {
     it('should return all strategies when using fetchAll method.', function () {
 
         // Arrange:
-        $portfolio = new Strategy(
+        $strategy = new Strategy(
             user_id: random_int(1, 10),
             name: 'Trend Following',
         );
@@ -23,7 +23,7 @@ describe('Unit: Strategy Service', function () {
         $this->read_repository->shouldReceive('fetchAll')
             ->once()
             ->andReturn([
-                $portfolio,
+                $strategy,
             ]);
 
         // Act:
@@ -32,4 +32,32 @@ describe('Unit: Strategy Service', function () {
         // Assert:
         expect($result)->toBeArray();
     });
+
+    it('should return a strategy when using fetchById method.', function () {
+
+        // Arrange:
+        $id = random_int(1, 10);
+
+        $strategy = new Strategy(
+            user_id: random_int(1, 10),
+            name: 'Trend Following',
+            id: $id,
+        );
+
+        // Expectation:
+        $this->read_repository->shouldReceive('fetchById')
+            ->once()
+            ->with($id)
+            ->andReturn($strategy);
+
+        // Act:
+        $result = $this->service->fetchById($id);
+
+        // Assert:
+        expect($result)
+            ->toBeInstanceOf(Strategy::class)
+            ->and($result->id())->toBe($id);
+
+    });
+
 });

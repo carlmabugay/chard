@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Strategy\Entities\Strategy;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentStrategyReadRepository;
 use App\Models\Strategy as StrategyModel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,13 +21,27 @@ describe('Integration: EloquentStrategyReadRepository', function () {
         StrategyModel::factory(10)->create();
 
         // Act:
-        $portfolios = $this->repository->fetchAll();
+        $strategies = $this->repository->fetchAll();
 
         // Assert:
-        expect($portfolios)
+        expect($strategies)
             ->toBeArray()
             ->toHaveCount($count);
 
+    });
+
+    it('should return a strategy when using fetchById method.', function () {
+
+        // Arrange:
+        $strategy_model = StrategyModel::factory()->create();
+
+        // Act:
+        $strategy_entity = $this->repository->fetchById($strategy_model->id);
+
+        // Assert:
+        expect($strategy_entity)
+            ->toBeInstanceOf(Strategy::class)
+            ->and($strategy_entity->id())->toBe($strategy_model->id);
     });
 
 });

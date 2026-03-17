@@ -15,4 +15,11 @@ class EloquentStrategyReadRepository implements StrategyReadRepositoryInterface
             ->map(fn ($model) => Strategy::fromEloquentModel($model))
             ->all();
     }
+
+    public function fetchById(int $id): Strategy
+    {
+        $strategy_model = StrategyModel::query()->findOrFail($id);
+
+        return Strategy::fromEloquentModel($strategy_model);
+    }
 }
