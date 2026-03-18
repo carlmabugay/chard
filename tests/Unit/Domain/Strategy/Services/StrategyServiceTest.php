@@ -63,7 +63,7 @@ describe('Unit: Strategy Service', function () {
 
     });
 
-    it('should create new strategy when using store method.', function () {
+    it('should store strategy when using store method.', function () {
 
         // Arrange:
         $strategy = new Strategy(

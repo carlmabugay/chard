@@ -7,6 +7,7 @@ use App\Http\Controllers\v1\Portfolio\UpdateController as UpdatePortfolioControl
 use App\Http\Controllers\v1\Strategy\ListController as ListStrategyController;
 use App\Http\Controllers\v1\Strategy\ShowController as ShowStrategyController;
 use App\Http\Controllers\v1\Strategy\StoreController as StoreStrategyController;
+use App\Http\Controllers\v1\Strategy\UpdateController as UpdateStrategyController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -19,5 +20,6 @@ Route::prefix('v1')->group(function () {
     Route::get('strategies', ListStrategyController::class);
     Route::post('strategies', StoreStrategyController::class);
     Route::get('strategies/{id}', ShowStrategyController::class);
+    Route::put('strategies', UpdateStrategyController::class);
 
 })->middleware('auth:sanctum');

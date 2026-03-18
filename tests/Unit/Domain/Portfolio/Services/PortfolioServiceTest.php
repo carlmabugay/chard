@@ -63,7 +63,7 @@ describe('Unit: Portfolio Service', function () {
 
     });
 
-    it('should create new portfolio when using store method.', function () {
+    it('should store portfolio when using store method.', function () {
 
         // Arrange:
         $portfolio = new Portfolio(
