@@ -9,30 +9,64 @@ uses(RefreshDatabase::class);
 
 describe('Feature: ShowStrategyController', function () {
 
-    it('should return a strategy resource when using /api/v1/strategies/{id} GET api endpoint.', function () {
+    describe('Positives', function () {
 
-        // Arrange:
-        $user = UserModel::factory()->create();
+        it('should return a strategy resource when using /api/v1/strategies/{id} GET api endpoint.', function () {
 
-        $strategy = StrategyModel::factory()
-            ->for($user)
-            ->create();
+            // Arrange:
+            $user = UserModel::factory()->create();
 
-        // Act:
-        Sanctum::actingAs($user);
-        $response = $this->get(sprintf('%s/%s', '/api/v1/strategies', $strategy->id));
+            $strategy = StrategyModel::factory()
+                ->for($user)
+                ->create();
 
-        // Assert:
-        $response->assertOk()
-            ->assertJson([
-                'success' => true,
-                'data' => [
-                    'id' => $strategy->id,
-                    'name' => $strategy->name,
-                    'created_at' => $strategy->created_at,
-                    'updated_at' => $strategy->updated_at,
-                ],
-            ]);
+            // Act:
+            Sanctum::actingAs($user);
+            $response = $this->get(sprintf('%s/%s', '/api/v1/strategies', $strategy->id));
+
+            // Assert:
+            $response->assertOk()
+                ->assertJson([
+                    'success' => true,
+                    'data' => [
+                        'id' => $strategy->id,
+                        'name' => $strategy->name,
+                        'created_at' => $strategy->created_at,
+                        'updated_at' => $strategy->updated_at,
+                    ],
+                ]);
+        });
+
+    });
+
+    describe('Negatives', function () {
+
+        it('should handle error message when no record found upon using /api/v1/strategies/{id} GET api endpoint.',
+            function () {
+
+                // Arrange:
+                $random_id = 100;
+                $user = UserModel::factory()->create();
+
+                StrategyModel::factory()
+                    ->for($user)
+                    ->create();
+
+                // Act:
+                Sanctum::actingAs($user);
+                $response = $this->get(sprintf('/api/v1/strategies/%s', $random_id));
+
+                // Assert:
+
+                $response->assertNotFound()
+                    ->assertJson([
+                        'success' => false,
+                        'error' => 'Strategy not found',
+                        'message' => sprintf('Strategy with ID: %s not found', $random_id),
+                    ]);
+
+            });
+
     });
 
 });

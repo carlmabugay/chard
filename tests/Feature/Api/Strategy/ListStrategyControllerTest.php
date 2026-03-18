@@ -7,7 +7,7 @@ use Laravel\Sanctum\Sanctum;
 
 uses(RefreshDatabase::class);
 
-describe('Feature: ListPortfolioController', function () {
+describe('Feature: ListStrategyController', function () {
 
     it('should return collection of authenticated user\'s strategy resource when using /api/v1/strategies GET api endpoint.',
         function () {
@@ -35,4 +35,21 @@ describe('Feature: ListPortfolioController', function () {
 
         });
 
+    it('should return empty data and 0 total record when no records found upon using /api/v1/strategies GET api endpoint.',
+        function () {
+
+            // Arrange:
+            $user = UserModel::factory()->create();
+
+            // Act:
+            Sanctum::actingAs($user);
+            $response = $this->get('/api/v1/strategies');
+
+            // Assert:
+            $response->assertOk()
+                ->assertJson([
+                    'data' => [],
+                    'total' => 0,
+                ]);
+        });
 });

@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Throwable;
 
-class UpdateController extends Controller
+final class UpdateController extends Controller
 {
     public function __invoke(UpdateStrategyRequest $request, StoreStrategy $use_case): StrategyResource|JsonResponse
     {
