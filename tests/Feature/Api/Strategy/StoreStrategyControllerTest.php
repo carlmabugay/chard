@@ -6,27 +6,28 @@ use Laravel\Sanctum\Sanctum;
 
 uses(RefreshDatabase::class);
 
-describe('Feature: StorePortfolioController', function () {
+describe('Feature: StoreStrategyController', function () {
 
-    it('should store new portfolio resource when using /api/v1/portfolios POST api endpoint.', function () {
+    it('should store new strategy resource when using /api/v1/strategies POST api endpoint.', function () {
 
         // Arrange:
         $user = UserModel::factory()->create();
-        $portfolio_name = 'PH Stock Market';
+        $strategy_name = 'Trend Following';
+
         $payload = [
-            'name' => $portfolio_name,
+            'name' => $strategy_name,
         ];
 
         // Act:
         Sanctum::actingAs($user);
-        $response = $this->post('/api/v1/portfolios', $payload);
+        $response = $this->post('/api/v1/strategies', $payload);
 
         // Assert:
         $response->assertCreated()
             ->assertJson([
                 'success' => true,
                 'data' => [
-                    'name' => $portfolio_name,
+                    'name' => $strategy_name,
                 ],
             ]);
     });

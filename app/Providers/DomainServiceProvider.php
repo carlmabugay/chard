@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Domain\Portfolio\Contracts\Read\PortfolioReadRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Strategy\Contracts\Read\StrategyReadRepositoryInterface;
+use App\Domain\Strategy\Contracts\Write\StrategyWriteRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentPortfolioReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentStrategyReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentPortfolioWriteRepository;
+use App\Infrastructure\Persistence\Eloquent\Write\EloquentStrategyWriteRepository;
 use Illuminate\Support\ServiceProvider;
 
 class DomainServiceProvider extends ServiceProvider
@@ -17,6 +19,7 @@ class DomainServiceProvider extends ServiceProvider
         PortfolioWriteRepositoryInterface::class => EloquentPortfolioWriteRepository::class,
 
         StrategyReadRepositoryInterface::class => EloquentStrategyReadRepository::class,
+        StrategyWriteRepositoryInterface::class => EloquentStrategyWriteRepository::class,
     ];
 
     /**

@@ -3,10 +3,13 @@
 use App\Domain\Strategy\Entities\Strategy;
 use App\Domain\Strategy\Services\StrategyService;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentStrategyReadRepository;
+use App\Infrastructure\Persistence\Eloquent\Write\EloquentStrategyWriteRepository;
 
 beforeEach(function () {
+    $this->write_repository = Mockery::mock(EloquentStrategyWriteRepository::class);
     $this->read_repository = Mockery::mock(EloquentStrategyReadRepository::class);
-    $this->service = new StrategyService($this->read_repository);
+
+    $this->service = new StrategyService($this->write_repository, $this->read_repository);
 });
 
 describe('Unit: Strategy Service', function () {
@@ -58,6 +61,25 @@ describe('Unit: Strategy Service', function () {
             ->toBeInstanceOf(Strategy::class)
             ->and($result->id())->toBe($id);
 
+    });
+
+    it('should create new strategy when using store method.', function () {
+
+        // Arrange:
+        $strategy = new Strategy(
+            user_id: random_int(1, 10),
+            name: 'Trend Following',
+        );
+
+        // Expectation:
+        $this->write_repository->shouldReceive('store')
+            ->once()
+            ->with($strategy);
+
+        // Act:
+        $stored_strategy = $this->service->store($strategy);
+
+        expect($stored_strategy)->toBeInstanceOf(Strategy::class);
     });
 
 });

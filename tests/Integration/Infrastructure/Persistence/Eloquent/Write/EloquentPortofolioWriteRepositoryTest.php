@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
 
-describe('Integration: EloquentPortfolioReadRepository', function () {
+describe('Integration: EloquentPortfolioWriteRepository', function () {
 
     it('should create new portfolio when using store method.', function () {
 

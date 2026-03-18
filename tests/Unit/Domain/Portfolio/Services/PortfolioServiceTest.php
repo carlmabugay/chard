@@ -6,8 +6,9 @@ use App\Infrastructure\Persistence\Eloquent\Read\EloquentPortfolioReadRepository
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentPortfolioWriteRepository;
 
 beforeEach(function () {
-    $this->read_repository = Mockery::mock(EloquentPortfolioReadRepository::class);
     $this->write_repository = Mockery::mock(EloquentPortfolioWriteRepository::class);
+    $this->read_repository = Mockery::mock(EloquentPortfolioReadRepository::class);
+
     $this->service = new PortfolioService($this->write_repository, $this->read_repository);
 });
 
@@ -76,7 +77,9 @@ describe('Unit: Portfolio Service', function () {
             ->with($portfolio);
 
         // Act:
-        $this->service->store($portfolio);
+        $stored_portfolio = $this->service->store($portfolio);
+
+        expect($stored_portfolio)->toBeInstanceOf(Portfolio::class);
     });
 
 });

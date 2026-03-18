@@ -1,0 +1,44 @@
+<?php
+
+use App\Application\DTOs\StoreStrategyDTO;
+use App\Application\UseCases\StoreStrategy;
+use App\Domain\Strategy\Entities\Strategy;
+use App\Domain\Strategy\Services\StrategyService;
+use App\Models\User as UserModel;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+uses(TestCase::class, RefreshDatabase::class);
+
+describe('Integration: Store Strategy', function () {
+
+    it('should store strategy when using handle method.', function () {
+
+        // Arrange:
+        $user = UserModel::factory()->create();
+
+        $dto = StoreStrategyDTO::fromArray([
+            'user_id' => $user->id,
+            'name' => 'Trend Following',
+        ]);
+
+        $strategy_entity = new Strategy(
+            user_id: $dto->user_id,
+            name: $dto->name,
+        );
+
+        $service = Mockery::mock(StrategyService::class);
+
+        // Expectation:
+        $service->shouldReceive('store')
+            ->once()
+            ->andReturn($strategy_entity);
+
+        // Act:
+        $use_case = new StoreStrategy($service);
+        $result = $use_case->handle($dto);
+
+        // Assert:
+        expect($result)->toBeInstanceOf(Strategy::class);
+    });
+});

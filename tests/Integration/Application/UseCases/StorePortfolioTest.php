@@ -31,12 +31,14 @@ describe('Integration: Store Portfolio', function () {
 
         // Expectation:
         $service->shouldReceive('store')
-            ->once();
+            ->once()
+            ->andReturn($portfolio_entity);
 
         // Act:
         $use_case = new StorePortfolio($service);
-        $use_case->handle($dto);
+        $result = $use_case->handle($dto);
 
         // Assert:
+        expect($result)->toBeInstanceOf(Portfolio::class);
     });
 });
