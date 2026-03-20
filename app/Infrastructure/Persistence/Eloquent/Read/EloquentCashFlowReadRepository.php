@@ -15,4 +15,11 @@ class EloquentCashFlowReadRepository implements CashFlowReadRepositoryInterface
             ->map(fn (CashFlowModel $model) => CashFlow::fromEloquentModel($model))
             ->all();
     }
+
+    public function findById(int $id): CashFlow
+    {
+        $cash_flow = CashFlowModel::query()->findOrFail($id);
+
+        return CashFlow::fromEloquentModel($cash_flow);
+    }
 }

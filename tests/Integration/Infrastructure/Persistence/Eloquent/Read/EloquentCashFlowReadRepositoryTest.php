@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\CashFlow\Entities\CashFlow;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentCashFlowReadRepository;
 use App\Models\CashFlow as CashFlowModel;
 use App\Models\Portfolio as PortfolioModel;
@@ -24,12 +25,26 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
         ]);
 
         // Act:
-        $cash_flows = $this->repository->findAll();
+        $result = $this->repository->findAll();
 
         // Assert:
-        expect($cash_flows)
+        expect($result)
             ->toBeArray()
             ->toHaveCount($count);
+
+    });
+
+    it('should return a portfolio when using findById method.', function () {
+
+        // Arrange:
+        $cash_flow = CashFlowModel::factory()->create();
+
+        // Act:
+        $result = $this->repository->findById($cash_flow->id);
+
+        // Assert:
+        expect($result)->toBeInstanceOf(CashFlow::class)
+            ->and($result->id())->toBe($cash_flow->id);
 
     });
 

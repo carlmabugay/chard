@@ -2,16 +2,17 @@
 
 namespace App\Application\CashFlow\UserCases;
 
+use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\CashFlow\Services\CashFlowService;
 
-readonly class ListCashFlows
+readonly class GetCashFlow
 {
     public function __construct(
         private CashFlowService $service
     ) {}
 
-    public function handle(): array
+    public function handle(int $id): CashFlow
     {
-        return $this->service->findAll();
+        return $this->service->findById($id);
     }
 }

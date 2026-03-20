@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\v1\CashFlow\ListController as ListCashFlowController;
+use App\Http\Controllers\v1\CashFlow\ShowController as ShowCashFlowController;
 use App\Http\Controllers\v1\Portfolio\ListController as ListPortfolioController;
 use App\Http\Controllers\v1\Portfolio\ShowController as ShowPortfolioController;
 use App\Http\Controllers\v1\Portfolio\StoreController as StorePortfolioController;
@@ -25,6 +26,7 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('cashflows')->group(function () {
         Route::get('/', ListCashFlowController::class);
+        Route::get('/{id}', ShowCashFlowController::class);
     });
 
 })->middleware('auth:sanctum');

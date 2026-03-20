@@ -4,14 +4,15 @@ namespace App\Domain\CashFlow\Entities;
 
 use App\Models\CashFlow as Model;
 
-class CashFlow
+readonly class CashFlow
 {
     public function __construct(
-        private readonly int $portfolio_id,
-        private readonly string $type,
-        private readonly float $amount,
-        private readonly ?string $created_at = null,
-        private readonly ?string $updated_at = null,
+        private int $portfolio_id,
+        private string $type,
+        private float $amount,
+        private ?int $id = null,
+        private ?string $created_at = null,
+        private ?string $updated_at = null,
     ) {}
 
     public function portfolioId(): int
@@ -27,6 +28,11 @@ class CashFlow
     public function amount(): float
     {
         return $this->amount;
+    }
+
+    public function id(): ?int
+    {
+        return $this->id;
     }
 
     public function createdAt(): string
@@ -45,6 +51,7 @@ class CashFlow
             portfolio_id: $model->portfolio_id,
             type: $model->type,
             amount: $model->amount,
+            id: $model->id,
             created_at: $model->created_at,
             updated_at: $model->updated_at,
         );
