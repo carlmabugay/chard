@@ -1,10 +1,7 @@
 <?php
 
 use App\Models\User as UserModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
-
-uses(RefreshDatabase::class);
 
 describe('Feature: StoreStrategyController', function () {
 

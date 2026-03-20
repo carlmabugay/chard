@@ -1,10 +1,7 @@
 <?php
 
 use App\Models\Portfolio as PortfolioModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
-
-uses(RefreshDatabase::class);
 
 describe('Feature: StoreCashFlowController', function () {
 

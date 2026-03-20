@@ -4,12 +4,8 @@ use App\Application\Portolio\UseCases\ListPortfolios;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
 use App\Models\Portfolio as PortfolioModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-uses(TestCase::class, RefreshDatabase::class);
-
-describe('Integration: List of all Portfolios', function () {
+describe('Integration: ListPortfolios Use Case', function () {
 
     it('should list all portfolios when using handle method.', function () {
 

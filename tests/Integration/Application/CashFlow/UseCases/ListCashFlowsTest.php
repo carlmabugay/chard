@@ -4,12 +4,8 @@ use App\Application\CashFlow\UserCases\ListCashFlows;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\CashFlow\Services\CashFlowService;
 use App\Models\CashFlow as CashFlowModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-uses(TestCase::class, RefreshDatabase::class);
-
-describe('Integration: List of all Cash Flows', function () {
+describe('Integration: ListCashFlows Use Case', function () {
 
     it('should list all cash flows when using handle method.', function () {
 

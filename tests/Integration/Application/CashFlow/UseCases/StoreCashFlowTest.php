@@ -5,12 +5,8 @@ use App\Application\CashFlow\UserCases\StoreCashFlow;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\CashFlow\Services\CashFlowService;
 use App\Models\Portfolio as PortfolioModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-uses(TestCase::class, RefreshDatabase::class);
-
-describe('Integration: Store Cash Flow', function () {
+describe('Integration: StoreCashFlow Use Case', function () {
 
     it('should store cash flow when using handle method.', function () {
 

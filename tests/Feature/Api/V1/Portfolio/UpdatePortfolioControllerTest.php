@@ -2,10 +2,7 @@
 
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
-
-uses(RefreshDatabase::class);
 
 describe('Feature: UpdatePortfolioController', function () {
 

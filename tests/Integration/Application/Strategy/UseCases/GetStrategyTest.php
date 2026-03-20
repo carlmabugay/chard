@@ -4,12 +4,8 @@ use App\Application\Strategy\UseCases\GetStrategy;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Domain\Strategy\Services\StrategyService;
 use App\Models\Strategy as StrategyModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-uses(TestCase::class, RefreshDatabase::class);
-
-describe('Integration: Get Strategy', function () {
+describe('Integration: GetStrategy Use Case', function () {
 
     it('should return strategy that filtered by id when using handle method.', function () {
 

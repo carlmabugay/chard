@@ -2,12 +2,7 @@
 
 use App\Models\CashFlow as CashFlowModel;
 use App\Models\Portfolio as PortfolioModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
-
-uses(RefreshDatabase::class);
-
-beforeEach(function () {});
 
 describe('Feature: ListCashFlowController', function () {
 

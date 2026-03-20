@@ -4,10 +4,6 @@ use App\Domain\Strategy\Entities\Strategy;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentStrategyWriteRepository;
 use App\Models\Strategy as StrategyModel;
 use App\Models\User as UserModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-
-uses(TestCase::class, RefreshDatabase::class);
 
 describe('Integration: EloquentStrategyWriteRepository', function () {
 

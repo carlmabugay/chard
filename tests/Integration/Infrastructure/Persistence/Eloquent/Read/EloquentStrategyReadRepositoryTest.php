@@ -4,10 +4,6 @@ use App\Domain\Strategy\Entities\Strategy;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentStrategyReadRepository;
 use App\Models\Strategy as StrategyModel;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-
-uses(TestCase::class, RefreshDatabase::class);
 
 beforeEach(function () {
     $this->repository = new EloquentStrategyReadRepository;

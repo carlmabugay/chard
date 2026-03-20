@@ -5,12 +5,8 @@ use App\Application\Portolio\UseCases\StorePortfolio;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
 use App\Models\User as UserModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-uses(TestCase::class, RefreshDatabase::class);
-
-describe('Integration: Store Portfolio', function () {
+describe('Integration: StorePortfolio Use Case', function () {
 
     it('should store portfolio when using handle method.', function () {
 

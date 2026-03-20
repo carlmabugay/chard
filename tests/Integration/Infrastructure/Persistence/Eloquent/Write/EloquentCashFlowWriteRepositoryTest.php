@@ -3,10 +3,6 @@
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentCashFlowWriteRepository;
 use App\Models\Portfolio as PortfolioModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-
-uses(TestCase::class, RefreshDatabase::class);
 
 describe('Integration: EloquentCashFlowWriteRepository', function () {
 

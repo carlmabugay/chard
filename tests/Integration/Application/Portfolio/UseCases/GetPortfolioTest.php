@@ -4,12 +4,8 @@ use App\Application\Portolio\UseCases\GetPortfolio;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
 use App\Models\Portfolio as PortfolioModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-uses(TestCase::class, RefreshDatabase::class);
-
-describe('Integration: Get Portfolio', function () {
+describe('Integration: GetPortfolio Use Case', function () {
 
     it('should return portfolio that filtered by id when using handle method.', function () {
 

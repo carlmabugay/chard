@@ -4,12 +4,8 @@ use App\Application\Strategy\UseCases\ListStrategies;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Domain\Strategy\Services\StrategyService;
 use App\Models\Strategy as StrategyModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-uses(TestCase::class, RefreshDatabase::class);
-
-describe('Integration: List of all Strategies', function () {
+describe('Integration: ListStrategies Use Case', function () {
 
     it('should list all strategies when using handle method.', function () {
 

@@ -12,7 +12,7 @@ beforeEach(function () {
     $this->service = new CashFlowService($this->write_repository, $this->read_repository);
 });
 
-describe('Unit: Cash Flow Service', function () {
+describe('Unit: CashFlowService', function () {
 
     it('should return all cash flows when using findAll method.', function () {
 

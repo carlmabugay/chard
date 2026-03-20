@@ -4,10 +4,6 @@ use App\Domain\Portfolio\Entities\Portfolio;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentPortfolioWriteRepository;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-
-uses(TestCase::class, RefreshDatabase::class);
 
 describe('Integration: EloquentPortfolioWriteRepository', function () {
 

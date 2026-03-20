@@ -5,12 +5,8 @@ use App\Application\Strategy\UseCases\StoreStrategy;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Domain\Strategy\Services\StrategyService;
 use App\Models\User as UserModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-uses(TestCase::class, RefreshDatabase::class);
-
-describe('Integration: Store Strategy', function () {
+describe('Integration: StoreStrategy Use Case', function () {
 
     it('should store strategy when using handle method.', function () {
 

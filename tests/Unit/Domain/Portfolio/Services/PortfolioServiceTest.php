@@ -1,18 +1,18 @@
 <?php
 
+use App\Domain\Portfolio\Contracts\Read\PortfolioReadRepositoryInterface;
+use App\Domain\Portfolio\Contracts\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
-use App\Infrastructure\Persistence\Eloquent\Read\EloquentPortfolioReadRepository;
-use App\Infrastructure\Persistence\Eloquent\Write\EloquentPortfolioWriteRepository;
 
 beforeEach(function () {
-    $this->write_repository = Mockery::mock(EloquentPortfolioWriteRepository::class);
-    $this->read_repository = Mockery::mock(EloquentPortfolioReadRepository::class);
+    $this->write_repository = Mockery::mock(PortfolioWriteRepositoryInterface::class);
+    $this->read_repository = Mockery::mock(PortfolioReadRepositoryInterface::class);
 
     $this->service = new PortfolioService($this->write_repository, $this->read_repository);
 });
 
-describe('Unit: Portfolio Service', function () {
+describe('Unit: PortfolioService', function () {
 
     it('should return all portfolios when using fetchAll method.', function () {
 
@@ -74,11 +74,13 @@ describe('Unit: Portfolio Service', function () {
         // Expectation:
         $this->write_repository->shouldReceive('store')
             ->once()
-            ->with($portfolio);
+            ->with($portfolio)
+            ->andReturn($portfolio);
 
         // Act:
         $stored_portfolio = $this->service->store($portfolio);
 
+        // Assert
         expect($stored_portfolio)->toBeInstanceOf(Portfolio::class);
     });
 

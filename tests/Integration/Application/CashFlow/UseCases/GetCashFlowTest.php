@@ -4,12 +4,8 @@ use App\Application\CashFlow\UserCases\GetCashFlow;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\CashFlow\Services\CashFlowService;
 use App\Models\CashFlow as CashFlowModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
-uses(TestCase::class, RefreshDatabase::class);
-
-describe('Integration: Get Cash Flow', function () {
+describe('Integration: GetCashFlow Use Case', function () {
 
     it('should return cash flow that filtered by id when using handle method.', function () {
 

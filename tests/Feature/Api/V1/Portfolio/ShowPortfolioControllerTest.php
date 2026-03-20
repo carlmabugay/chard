@@ -2,10 +2,7 @@
 
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
-
-uses(RefreshDatabase::class);
 
 describe('Feature: ShowPortfolioController', function () {
 
@@ -41,30 +38,31 @@ describe('Feature: ShowPortfolioController', function () {
 
     describe('Negatives', function () {
 
-        it('should handle error message when no record found upon using /api/v1/portfolios/{id} GET api endpoint.', function () {
+        it('should handle error message when no record found upon using /api/v1/portfolios/{id} GET api endpoint.',
+            function () {
 
-            // Arrange:
-            $random_id = 100;
-            $user = UserModel::factory()->create();
+                // Arrange:
+                $random_id = 100;
+                $user = UserModel::factory()->create();
 
-            PortfolioModel::factory()
-                ->for($user)
-                ->create();
+                PortfolioModel::factory()
+                    ->for($user)
+                    ->create();
 
-            // Act:
-            Sanctum::actingAs($user);
-            $response = $this->get(sprintf('/api/v1/portfolios/%s', $random_id));
+                // Act:
+                Sanctum::actingAs($user);
+                $response = $this->get(sprintf('/api/v1/portfolios/%s', $random_id));
 
-            // Assert:
+                // Assert:
 
-            $response->assertNotFound()
-                ->assertJson([
-                    'success' => false,
-                    'error' => 'Portfolio not found',
-                    'message' => sprintf('Portfolio with ID: %s not found', $random_id),
-                ]);
+                $response->assertNotFound()
+                    ->assertJson([
+                        'success' => false,
+                        'error' => 'Portfolio not found',
+                        'message' => sprintf('Portfolio with ID: %s not found', $random_id),
+                    ]);
 
-        });
+            });
 
     });
 
