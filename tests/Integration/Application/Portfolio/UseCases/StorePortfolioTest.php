@@ -19,8 +19,8 @@ describe('Integration: StorePortfolio Use Case', function () {
         ]);
 
         $portfolio_entity = new Portfolio(
-            user_id: $dto->user_id,
-            name: $dto->name,
+            user_id: $dto->userId(),
+            name: $dto->name(),
         );
 
         $service = Mockery::mock(PortfolioService::class);

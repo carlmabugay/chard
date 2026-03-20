@@ -19,8 +19,8 @@ describe('Integration: StoreStrategy Use Case', function () {
         ]);
 
         $strategy_entity = new Strategy(
-            user_id: $dto->user_id,
-            name: $dto->name,
+            user_id: $dto->userId(),
+            name: $dto->name(),
         );
 
         $service = Mockery::mock(StrategyService::class);

@@ -4,10 +4,10 @@ namespace App\Application\Strategy\UseCases;
 
 use App\Domain\Strategy\Services\StrategyService;
 
-class ListStrategies
+readonly class ListStrategies
 {
     public function __construct(
-        private readonly StrategyService $service
+        private StrategyService $service
     ) {}
 
     public function handle(): array

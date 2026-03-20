@@ -2,14 +2,34 @@
 
 namespace App\Application\CashFlow\DTOs;
 
-class StoreCashFlowDTO
+readonly class StoreCashFlowDTO
 {
     public function __construct(
-        public int $portfolio_id,
+        private int $portfolio_id,
         public string $type,
         public float $amount,
         public ?int $id = null,
     ) {}
+
+    public function portfolioId(): int
+    {
+        return $this->portfolio_id;
+    }
+
+    public function type(): string
+    {
+        return $this->type;
+    }
+
+    public function amount(): float
+    {
+        return $this->amount;
+    }
+
+    public function id(): ?int
+    {
+        return $this->id;
+    }
 
     public static function fromArray(array $data): self
     {

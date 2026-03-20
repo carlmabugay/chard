@@ -6,18 +6,18 @@ use App\Application\Portolio\DTOs\StorePortfolioDTO;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
 
-class StorePortfolio
+readonly class StorePortfolio
 {
     public function __construct(
-        private readonly PortfolioService $service
+        private PortfolioService $service
     ) {}
 
     public function handle(StorePortfolioDTO $dto): Portfolio
     {
         $portfolio = new Portfolio(
-            user_id: $dto->user_id,
-            name: $dto->name,
-            id: $dto->id,
+            user_id: $dto->userId(),
+            name: $dto->name(),
+            id: $dto->id(),
         );
 
         return $this->service->store($portfolio);

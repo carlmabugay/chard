@@ -4,10 +4,10 @@ namespace App\Application\Portolio\UseCases;
 
 use App\Domain\Portfolio\Services\PortfolioService;
 
-class ListPortfolios
+readonly class ListPortfolios
 {
     public function __construct(
-        private readonly PortfolioService $service
+        private PortfolioService $service
     ) {}
 
     public function handle(): array

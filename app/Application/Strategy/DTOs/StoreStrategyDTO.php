@@ -2,13 +2,28 @@
 
 namespace App\Application\Strategy\DTOs;
 
-class StoreStrategyDTO
+readonly class StoreStrategyDTO
 {
     public function __construct(
-        public int $user_id,
-        public string $name,
-        public ?int $id = null,
+        private int $user_id,
+        private string $name,
+        private ?int $id = null,
     ) {}
+
+    public function userId(): int
+    {
+        return $this->user_id;
+    }
+
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    public function id(): ?int
+    {
+        return $this->id;
+    }
 
     public static function fromArray(array $data): self
     {
