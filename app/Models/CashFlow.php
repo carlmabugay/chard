@@ -13,8 +13,10 @@ class CashFlow extends Model
     use HasFactory;
 
     protected $fillable = [
+        'portfolio_id',
         'type',
         'amount',
+        'id',
     ];
 
     public function portfolio(): BelongsTo

@@ -2,13 +2,15 @@
 
 namespace App\Domain\CashFlow\Services;
 
+use App\Domain\CashFlow\Contracts\Read\CashFlowReadRepositoryInterface;
+use App\Domain\CashFlow\Contracts\Write\CashFlowWriteRepositoryInterface;
 use App\Domain\CashFlow\Entities\CashFlow;
-use App\Infrastructure\Persistence\Eloquent\Read\EloquentCashFlowReadRepository;
 
 class CashFlowService
 {
     public function __construct(
-        private readonly EloquentCashFlowReadRepository $read_repository,
+        private readonly CashFlowWriteRepositoryInterface $write_repository,
+        private readonly CashFlowReadRepositoryInterface $read_repository,
     ) {}
 
     public function findAll(): array
@@ -19,5 +21,10 @@ class CashFlowService
     public function findById(int $id): CashFlow
     {
         return $this->read_repository->findById($id);
+    }
+
+    public function store(CashFlow $cash_flow): CashFlow
+    {
+        return $this->write_repository->store($cash_flow);
     }
 }

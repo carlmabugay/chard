@@ -1,12 +1,15 @@
 <?php
 
+use App\Domain\CashFlow\Contracts\Read\CashFlowReadRepositoryInterface;
+use App\Domain\CashFlow\Contracts\Write\CashFlowWriteRepositoryInterface;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\CashFlow\Services\CashFlowService;
-use App\Infrastructure\Persistence\Eloquent\Read\EloquentCashFlowReadRepository;
 
 beforeEach(function () {
-    $this->read_repository = Mockery::mock(EloquentCashFlowReadRepository::class);
-    $this->service = new CashFlowService($this->read_repository);
+    $this->write_repository = Mockery::mock(CashFlowWriteRepositoryInterface::class);
+    $this->read_repository = Mockery::mock(CashFlowReadRepositoryInterface::class);
+
+    $this->service = new CashFlowService($this->write_repository, $this->read_repository);
 });
 
 describe('Unit: Cash Flow Service', function () {
@@ -57,5 +60,27 @@ describe('Unit: Cash Flow Service', function () {
         expect($result)->toBeInstanceOf(CashFlow::class)
             ->and($result->id())->toBe($id);
 
+    });
+
+    it('should store cash flow when using store method.', function () {
+
+        // Arrange:
+        $cash_flow = new CashFlow(
+            portfolio_id: random_int(1, 10),
+            type: 'deposit',
+            amount: 5000,
+        );
+
+        // Expectation:
+        $this->write_repository->shouldReceive('store')
+            ->once()
+            ->with($cash_flow)
+            ->andReturn($cash_flow);
+
+        // Act:
+        $stored_cash_flow = $this->service->store($cash_flow);
+
+        // Assert:
+        expect($stored_cash_flow)->toBeInstanceOf(CashFlow::class);
     });
 });
