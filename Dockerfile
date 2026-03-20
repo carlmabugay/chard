@@ -1,6 +1,6 @@
 FROM php:8.4-fpm
 
-Run apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y \
     git \
     unzip \
     libzip-dev \
@@ -8,7 +8,15 @@ Run apt-get update && apt-get install -y \
     libpq-dev \
     && docker-php-ext-install pdo pdo_mysql zip
 
-# Install Composer \
+# Install PCOV
+RUN pecl install pcov \
+    && docker-php-ext-enable pcov
+
+# Configure PCOV (important!)
+RUN echo "pcov.enabled=1" >> /usr/local/etc/php/conf.d/pcov.ini \
+    && echo "pcov.directory=/var/www" >> /usr/local/etc/php/conf.d/pcov.ini
+
+# Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 RUN useradd -G www-data,root -u 1000 -d /home/app app
