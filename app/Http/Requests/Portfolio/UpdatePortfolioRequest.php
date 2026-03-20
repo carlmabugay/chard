@@ -9,6 +9,7 @@ class UpdatePortfolioRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'user_id' => 'required|integer|exists:users,id',
             'id' => 'required|exists:portfolios,id',
             'name' => 'required|string',
         ];

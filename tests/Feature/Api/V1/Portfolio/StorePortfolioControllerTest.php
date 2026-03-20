@@ -9,9 +9,10 @@ describe('Feature: StorePortfolioController', function () {
 
         // Arrange:
         $user = UserModel::factory()->create();
-        $portfolio_name = 'PH Stock Market';
+
         $payload = [
-            'name' => $portfolio_name,
+            'user_id' => $user->id,
+            'name' => 'PH Stock Market',
         ];
 
         // Act:
@@ -23,7 +24,7 @@ describe('Feature: StorePortfolioController', function () {
             ->assertJson([
                 'success' => true,
                 'data' => [
-                    'name' => $portfolio_name,
+                    'name' => $payload['name'],
                 ],
             ]);
     });

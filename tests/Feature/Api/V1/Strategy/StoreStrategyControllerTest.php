@@ -9,10 +9,10 @@ describe('Feature: StoreStrategyController', function () {
 
         // Arrange:
         $user = UserModel::factory()->create();
-        $strategy_name = 'Trend Following';
 
         $payload = [
-            'name' => $strategy_name,
+            'user_id' => $user->id,
+            'name' => 'Trend Following',
         ];
 
         // Act:
@@ -24,7 +24,7 @@ describe('Feature: StoreStrategyController', function () {
             ->assertJson([
                 'success' => true,
                 'data' => [
-                    'name' => $strategy_name,
+                    'name' => $payload['name'],
                 ],
             ]);
     });

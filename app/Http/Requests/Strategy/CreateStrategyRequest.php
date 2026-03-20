@@ -9,6 +9,7 @@ class CreateStrategyRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'user_id' => 'required|integer|exists:users,id',
             'name' => 'required|string',
         ];
     }

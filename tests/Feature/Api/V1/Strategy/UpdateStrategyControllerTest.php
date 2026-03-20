@@ -11,10 +11,11 @@ describe('Feature: UpdateStrategyController', function () {
         // Arrange:
         $user = UserModel::factory()->create();
         $strategy = StrategyModel::factory()->create();
-        $new_strategy_name = 'Pullback Trading';
+
         $payload = [
+            'user_id' => $user->id,
             'id' => $strategy->id,
-            'name' => $new_strategy_name,
+            'name' => 'Pullback Trading',
         ];
 
         // Act:
@@ -28,7 +29,7 @@ describe('Feature: UpdateStrategyController', function () {
             ->assertJson([
                 'success' => true,
                 'data' => [
-                    'name' => $new_strategy_name,
+                    'name' => $payload['name'],
                 ],
             ]);
     });

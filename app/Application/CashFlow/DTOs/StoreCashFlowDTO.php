@@ -31,13 +31,13 @@ readonly class StoreCashFlowDTO
         return $this->id;
     }
 
-    public static function fromArray(array $data): self
+    public static function fromRequest(array $request): self
     {
         return new self(
-            portfolio_id: $data['portfolio_id'],
-            type: $data['type'],
-            amount: $data['amount'],
-            id: $data['id'] ?? null,
+            portfolio_id: $request['portfolio_id'],
+            type: $request['type'],
+            amount: $request['amount'],
+            id: $request['id'] ?? null,
         );
     }
 }

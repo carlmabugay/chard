@@ -13,7 +13,7 @@ describe('Integration: StorePortfolio Use Case', function () {
         // Arrange:
         $user = UserModel::factory()->create();
 
-        $dto = StorePortfolioDTO::fromArray([
+        $dto = StorePortfolioDTO::fromRequest([
             'user_id' => $user->id,
             'name' => 'PH Stock Market',
         ]);

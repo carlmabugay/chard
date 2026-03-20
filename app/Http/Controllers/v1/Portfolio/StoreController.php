@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Portfolio\CreatePortfolioRequest;
 use App\Http\Resources\Portfolio\PortfolioResource;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Arr;
 use Throwable;
 
 final class StoreController extends Controller
@@ -17,9 +16,7 @@ final class StoreController extends Controller
     {
         try {
 
-            $data = Arr::add($request->validated(), 'user_id', $request->user()->id);
-
-            $dto = StorePortfolioDTO::fromArray($data);
+            $dto = StorePortfolioDTO::fromRequest($request->validated());
 
             $result = $use_case->handle($dto);
 

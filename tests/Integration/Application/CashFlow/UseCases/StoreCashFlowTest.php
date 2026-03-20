@@ -13,7 +13,7 @@ describe('Integration: StoreCashFlow Use Case', function () {
         // Arrange:
         $portfolio = PortfolioModel::factory()->create();
 
-        $dto = StoreCashFlowDTO::fromArray([
+        $dto = StoreCashFlowDTO::fromRequest([
             'portfolio_id' => $portfolio->id,
             'type' => 'deposit',
             'amount' => 5000,

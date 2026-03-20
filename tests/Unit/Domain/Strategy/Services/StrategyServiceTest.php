@@ -18,7 +18,7 @@ describe('Unit: StrategyService', function () {
 
         // Arrange:
         $strategy = new Strategy(
-            user_id: random_int(1, 10),
+            user_id: rand(1, 10),
             name: 'Trend Following',
         );
 
@@ -39,10 +39,10 @@ describe('Unit: StrategyService', function () {
     it('should return a strategy when using fetchById method.', function () {
 
         // Arrange:
-        $id = random_int(1, 10);
+        $id = rand(1, 10);
 
         $strategy = new Strategy(
-            user_id: random_int(1, 10),
+            user_id: rand(1, 10),
             name: 'Trend Following',
             id: $id,
         );
@@ -67,7 +67,7 @@ describe('Unit: StrategyService', function () {
 
         // Arrange:
         $strategy = new Strategy(
-            user_id: random_int(1, 10),
+            user_id: rand(1, 10),
             name: 'Trend Following',
         );
 

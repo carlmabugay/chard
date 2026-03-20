@@ -25,12 +25,12 @@ readonly class StorePortfolioDTO
         return $this->id;
     }
 
-    public static function fromArray(array $data): self
+    public static function fromRequest(array $request): self
     {
         return new self(
-            user_id: $data['user_id'],
-            name: $data['name'],
-            id: $data['id'] ?? null,
+            user_id: $request['user_id'],
+            name: $request['name'],
+            id: $request['id'] ?? null,
         );
     }
 }

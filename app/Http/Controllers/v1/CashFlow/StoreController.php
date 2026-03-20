@@ -16,7 +16,7 @@ final class StoreController extends Controller
     {
         try {
 
-            $dto = StoreCashFlowDTO::fromArray($request->validated());
+            $dto = StoreCashFlowDTO::fromRequest($request->validated());
 
             $result = $use_case->handle($dto);
 

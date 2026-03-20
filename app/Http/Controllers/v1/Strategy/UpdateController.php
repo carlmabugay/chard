@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Strategy\UpdateStrategyRequest;
 use App\Http\Resources\Strategy\StrategyResource;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Arr;
 use Throwable;
 
 final class UpdateController extends Controller
@@ -17,9 +16,7 @@ final class UpdateController extends Controller
     {
         try {
 
-            $data = Arr::add($request->validated(), 'user_id', $request->user()->id);
-
-            $dto = StoreStrategyDTO::fromArray($data);
+            $dto = StoreStrategyDTO::fromRequest($request->validated());
 
             $result = $use_case->handle($dto);
 

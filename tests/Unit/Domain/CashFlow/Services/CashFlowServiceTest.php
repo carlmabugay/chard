@@ -18,7 +18,7 @@ describe('Unit: CashFlowService', function () {
 
         // Arrange:
         $cash_flow = new CashFlow(
-            portfolio_id: random_int(1, 10),
+            portfolio_id: rand(1, 10),
             type: 'deposit',
             amount: 5000,
         );
@@ -40,9 +40,9 @@ describe('Unit: CashFlowService', function () {
     it('should return a cash flows when using findById method.', function () {
 
         // Arrange:
-        $id = random_int(1, 10);
+        $id = rand(1, 10);
         $cash_flow = new CashFlow(
-            portfolio_id: random_int(1, 10),
+            portfolio_id: rand(1, 10),
             type: 'deposit',
             amount: 5000,
             id: $id,
@@ -66,7 +66,7 @@ describe('Unit: CashFlowService', function () {
 
         // Arrange:
         $cash_flow = new CashFlow(
-            portfolio_id: random_int(1, 10),
+            portfolio_id: rand(1, 10),
             type: 'deposit',
             amount: 5000,
         );

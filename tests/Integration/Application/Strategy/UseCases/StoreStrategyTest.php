@@ -13,7 +13,7 @@ describe('Integration: StoreStrategy Use Case', function () {
         // Arrange:
         $user = UserModel::factory()->create();
 
-        $dto = StoreStrategyDTO::fromArray([
+        $dto = StoreStrategyDTO::fromRequest([
             'user_id' => $user->id,
             'name' => 'Trend Following',
         ]);

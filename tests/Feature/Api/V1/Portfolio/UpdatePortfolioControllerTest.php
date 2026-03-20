@@ -13,6 +13,7 @@ describe('Feature: UpdatePortfolioController', function () {
         $portfolio = PortfolioModel::factory()->create();
         $new_portfolio_name = 'PH Stock Market';
         $payload = [
+            'user_id' => $user->id,
             'id' => $portfolio->id,
             'name' => $new_portfolio_name,
         ];

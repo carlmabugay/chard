@@ -18,7 +18,7 @@ describe('Unit: PortfolioService', function () {
 
         // Arrange:
         $portfolio = new Portfolio(
-            user_id: random_int(1, 10),
+            user_id: rand(1, 10),
             name: 'PH Stock Market',
         );
 
@@ -39,10 +39,10 @@ describe('Unit: PortfolioService', function () {
     it('should return a portfolio when using fetchById method.', function () {
 
         // Arrange:
-        $id = random_int(1, 10);
+        $id = rand(1, 10);
 
         $portfolio = new Portfolio(
-            user_id: random_int(1, 10),
+            user_id: rand(1, 10),
             name: 'PH Stock Market',
             id: $id,
         );
@@ -67,7 +67,7 @@ describe('Unit: PortfolioService', function () {
 
         // Arrange:
         $portfolio = new Portfolio(
-            user_id: random_int(1, 10),
+            user_id: rand(1, 10),
             name: 'PH Stock Market',
         );
 
