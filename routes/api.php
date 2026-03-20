@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\v1\CashFlow\ListController as ListCashFlowController;
 use App\Http\Controllers\v1\Portfolio\ListController as ListPortfolioController;
 use App\Http\Controllers\v1\Portfolio\ShowController as ShowPortfolioController;
 use App\Http\Controllers\v1\Portfolio\StoreController as StorePortfolioController;
@@ -21,5 +22,9 @@ Route::prefix('v1')->group(function () {
     Route::post('strategies', StoreStrategyController::class);
     Route::get('strategies/{id}', ShowStrategyController::class);
     Route::put('strategies', UpdateStrategyController::class);
+
+    Route::prefix('cashflows')->group(function () {
+        Route::get('/', ListCashFlowController::class);
+    });
 
 })->middleware('auth:sanctum');
