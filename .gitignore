@@ -34,3 +34,4 @@ pnpm-debug.log*
 docker/mysql/data/
 dbdata*/
 .composer
+chard_testing

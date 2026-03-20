@@ -1,7 +1,7 @@
 <?php
 
-use App\Application\DTOs\StoreStrategyDTO;
-use App\Application\UseCases\StoreStrategy;
+use App\Application\Strategy\DTOs\StoreStrategyDTO;
+use App\Application\Strategy\UseCases\StoreStrategy;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Domain\Strategy\Services\StrategyService;
 use App\Models\User as UserModel;

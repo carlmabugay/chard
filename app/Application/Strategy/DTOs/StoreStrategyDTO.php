@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\DTOs;
+namespace App\Application\Strategy\DTOs;
 
 class StoreStrategyDTO
 {

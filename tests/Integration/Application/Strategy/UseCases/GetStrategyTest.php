@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\UseCases\GetStrategy;
+use App\Application\Strategy\UseCases\GetStrategy;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Domain\Strategy\Services\StrategyService;
 use App\Models\Strategy as StrategyModel;

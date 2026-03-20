@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\v1\Portfolio;
 
-use App\Application\UseCases\GetPortfolio;
+use App\Application\Portolio\UseCases\GetPortfolio;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PortfolioResource;
+use App\Http\Resources\Portfolio\PortfolioResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Throwable;

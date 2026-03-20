@@ -1,7 +1,7 @@
 <?php
 
-use App\Application\DTOs\StorePortfolioDTO;
-use App\Application\UseCases\StorePortfolio;
+use App\Application\Portolio\DTOs\StorePortfolioDTO;
+use App\Application\Portolio\UseCases\StorePortfolio;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
 use App\Models\User as UserModel;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\UseCases;
+namespace App\Application\Portolio\UseCases;
 
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;

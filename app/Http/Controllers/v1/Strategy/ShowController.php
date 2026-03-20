@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Application\UseCases\GetStrategy;
+use App\Application\Strategy\UseCases\GetStrategy;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\StrategyResource;
+use App\Http\Resources\Strategy\StrategyResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Throwable;

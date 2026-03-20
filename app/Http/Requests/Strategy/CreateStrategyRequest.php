@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Strategy;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePortfolioRequest extends FormRequest
+class CreateStrategyRequest extends FormRequest
 {
     public function rules(): array
     {

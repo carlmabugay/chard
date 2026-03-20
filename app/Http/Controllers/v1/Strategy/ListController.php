@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Application\UseCases\ListStrategies;
+use App\Application\Strategy\UseCases\ListStrategies;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\StrategyCollection;
+use App\Http\Resources\Strategy\StrategyCollection;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 

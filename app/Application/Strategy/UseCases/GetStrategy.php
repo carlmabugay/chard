@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\UseCases;
+namespace App\Application\Strategy\UseCases;
 
 use App\Domain\Strategy\Entities\Strategy;
 use App\Domain\Strategy\Services\StrategyService;

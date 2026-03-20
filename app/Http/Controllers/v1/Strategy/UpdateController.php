@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Application\DTOs\StoreStrategyDTO;
-use App\Application\UseCases\StoreStrategy;
+use App\Application\Strategy\DTOs\StoreStrategyDTO;
+use App\Application\Strategy\UseCases\StoreStrategy;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateStrategyRequest;
-use App\Http\Resources\StrategyResource;
+use App\Http\Requests\Strategy\UpdateStrategyRequest;
+use App\Http\Resources\Strategy\StrategyResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Throwable;

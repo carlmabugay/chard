@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\v1\Portfolio;
 
-use App\Application\UseCases\ListPortfolios;
+use App\Application\Portolio\UseCases\ListPortfolios;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PortfolioCollection;
+use App\Http\Resources\Portfolio\PortfolioCollection;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 

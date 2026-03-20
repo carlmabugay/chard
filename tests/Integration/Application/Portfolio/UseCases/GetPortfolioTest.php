@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\UseCases\GetPortfolio;
+use App\Application\Portolio\UseCases\GetPortfolio;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
 use App\Models\Portfolio as PortfolioModel;

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\v1\Portfolio;
 
-use App\Application\DTOs\StorePortfolioDTO;
-use App\Application\UseCases\StorePortfolio;
+use App\Application\Portolio\DTOs\StorePortfolioDTO;
+use App\Application\Portolio\UseCases\StorePortfolio;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdatePortfolioRequest;
-use App\Http\Resources\PortfolioResource;
+use App\Http\Requests\Portfolio\UpdatePortfolioRequest;
+use App\Http\Resources\Portfolio\PortfolioResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 use Throwable;
