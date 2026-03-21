@@ -1,32 +1,72 @@
 <?php
 
+use App\Application\Portolio\UseCases\StorePortfolio;
 use App\Models\User as UserModel;
 use Laravel\Sanctum\Sanctum;
+use Mockery\MockInterface;
 
 describe('Feature: StorePortfolioController', function () {
 
-    it('should store new portfolio resource when using /api/v1/portfolios POST api endpoint.', function () {
+    describe('Positives', function () {
 
-        // Arrange:
-        $user = UserModel::factory()->create();
+        it('should store new portfolio resource when using /api/v1/portfolios POST api endpoint.', function () {
 
-        $payload = [
-            'user_id' => $user->id,
-            'name' => 'PH Stock Market',
-        ];
+            // Arrange:
+            $user = UserModel::factory()->create();
 
-        // Act:
-        Sanctum::actingAs($user);
-        $response = $this->post('/api/v1/portfolios', $payload);
+            $payload = [
+                'user_id' => $user->id,
+                'name' => 'PH Stock Market',
+            ];
 
-        // Assert:
-        $response->assertCreated()
-            ->assertJson([
-                'success' => true,
-                'data' => [
-                    'name' => $payload['name'],
-                ],
-            ]);
+            // Act:
+            Sanctum::actingAs($user);
+            $response = $this->post('/api/v1/portfolios', $payload);
+
+            // Assert:
+            $response->assertCreated()
+                ->assertJson([
+                    'success' => true,
+                    'data' => [
+                        'name' => $payload['name'],
+                    ],
+                ]);
+        });
+
+    });
+
+    describe('Negatives', function () {
+
+        it('should handle server error response when using /api/v1/portfolios POST api endpoint.', function () {
+
+            // Arrange:
+            $user = UserModel::factory()->create();
+
+            $payload = [
+                'user_id' => $user->id,
+                'name' => 'PH Stock Market',
+            ];
+
+            // Expectation:
+            $this->mock(StorePortfolio::class, function (MockInterface $mock) {
+                $mock->shouldReceive('handle')
+                    ->once()
+                    ->andThrow(new Exception('This is a mock exception message.'));
+            });
+
+            // Act:
+            Sanctum::actingAs($user);
+            $response = $this->post('/api/v1/portfolios', $payload);
+
+            // Assert:
+            $response->assertInternalServerError()
+                ->assertJson([
+                    'success' => false,
+                    'error' => 'An unexpected error occurred. Please try again later.',
+                    'message' => 'This is a mock exception message.',
+                ]);
+        });
+
     });
 
 });

@@ -17,13 +17,13 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
             // Arrange:
             $count = 10;
-            PortfolioModel::factory(10)->create();
+            PortfolioModel::factory($count)->create();
 
             // Act:
-            $portfolios = $this->repository->fetchAll();
+            $result = $this->repository->fetchAll();
 
             // Assert:
-            expect($portfolios)
+            expect($result)
                 ->toBeArray()
                 ->toHaveCount($count);
 
@@ -32,15 +32,15 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
         it('should return a portfolio when using fetchById method.', function () {
 
             // Arrange:
-            $portfolio_model = PortfolioModel::factory()->create();
+            $portfolio = PortfolioModel::factory()->create();
 
             // Act:
-            $portfolio_entity = $this->repository->fetchById($portfolio_model->id);
+            $result = $this->repository->fetchById($portfolio->id);
 
             // Assert:
-            expect($portfolio_entity)
+            expect($result)
                 ->toBeInstanceOf(Portfolio::class)
-                ->and($portfolio_entity->id())->toBe($portfolio_model->id);
+                ->and($result->id())->toBe($portfolio->id);
         });
     });
 
@@ -49,17 +49,20 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
         it('should return an empty array when no records found upon using fetchAll method.', function () {
 
             // Act:
-            $portfolios = $this->repository->fetchAll();
+            $result = $this->repository->fetchAll();
 
             // Assert:
-            expect($portfolios)->toBeEmpty();
+            expect($result)->toBeEmpty();
 
         });
 
         it('should throw an exception when no record found upon using fetchById method.', function () {
 
+            // Arrange:
+            $random_id = rand(1, 10);
+
             // Act:
-            $this->repository->fetchById(1);
+            $this->repository->fetchById($random_id);
 
             // Assert:
         })->throws(ModelNotFoundException::class);

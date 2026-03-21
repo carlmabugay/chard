@@ -19,7 +19,9 @@ final class ListController extends Controller
             return StrategyCollection::make($result);
 
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage(), $error->getCode());
+
+            return $this->errorResponse($error->getMessage());
+
         }
     }
 }

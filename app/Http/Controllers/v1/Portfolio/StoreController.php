@@ -24,7 +24,7 @@ final class StoreController extends Controller
 
         } catch (Throwable $error) {
 
-            return $this->errorResponse($error->getMessage(), $error->getCode());
+            return $this->errorResponse($error->getMessage());
 
         }
 

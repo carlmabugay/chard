@@ -22,16 +22,17 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
         // Act:
         $repository = new EloquentPortfolioWriteRepository;
 
-        $stored_portfolio = $repository->store($portfolio);
+        $result = $repository->store($portfolio);
 
         // Assert:
+        expect($result)->toBeInstanceOf(Portfolio::class);
+
         $this->assertDatabaseCount($table, 1);
         $this->assertDatabaseHas($table, [
-            'user_id' => $user->id,
-            'name' => $portfolio_name,
+            'user_id' => $result->userId(),
+            'name' => $result->name(),
+            'id' => $result->id(),
         ]);
-
-        expect($stored_portfolio)->toBeInstanceOf(Portfolio::class);
     });
 
     it('should update portfolio when using store method.', function () {
@@ -39,27 +40,27 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
         // Arrange:
         $user = UserModel::factory()->create();
         $portfolio_model = PortfolioModel::factory()->create();
-        $new_portfolio_name = 'Dividend Investment';
 
         $portfolio_entity = new Portfolio(
             user_id: $user->id,
-            name: $new_portfolio_name,
+            name: 'Dividend Investment',
             id: $portfolio_model->id,
         );
 
         // Act:
         $repository = new EloquentPortfolioWriteRepository;
 
-        $updated_portfolio = $repository->store($portfolio_entity);
+        $result = $repository->store($portfolio_entity);
 
         // Assert:
+        expect($result)->toBeInstanceOf(Portfolio::class);
+
         $this->assertDatabaseHas('portfolios', [
-            'user_id' => $user->id,
-            'id' => $portfolio_model->id,
-            'name' => $new_portfolio_name,
+            'user_id' => $result->userId(),
+            'name' => $result->name(),
+            'id' => $result->id(),
         ]);
 
-        expect($updated_portfolio)->toBeInstanceOf(Portfolio::class);
     });
 
 });

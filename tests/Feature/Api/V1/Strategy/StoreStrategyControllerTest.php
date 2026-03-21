@@ -1,32 +1,70 @@
 <?php
 
+use App\Application\Strategy\UseCases\StoreStrategy;
 use App\Models\User as UserModel;
 use Laravel\Sanctum\Sanctum;
+use Mockery\MockInterface;
 
 describe('Feature: StoreStrategyController', function () {
 
-    it('should store new strategy resource when using /api/v1/strategies POST api endpoint.', function () {
+    describe('Positives', function () {
 
-        // Arrange:
-        $user = UserModel::factory()->create();
+        it('should store new strategy resource when using /api/v1/strategies POST api endpoint.', function () {
 
-        $payload = [
-            'user_id' => $user->id,
-            'name' => 'Trend Following',
-        ];
+            // Arrange:
+            $user = UserModel::factory()->create();
+            $payload = [
+                'user_id' => $user->id,
+                'name' => 'Trend Following',
+            ];
 
-        // Act:
-        Sanctum::actingAs($user);
-        $response = $this->post('/api/v1/strategies', $payload);
+            // Act:
+            Sanctum::actingAs($user);
+            $response = $this->post('/api/v1/strategies', $payload);
 
-        // Assert:
-        $response->assertCreated()
-            ->assertJson([
-                'success' => true,
-                'data' => [
-                    'name' => $payload['name'],
-                ],
-            ]);
+            // Assert:
+            $response->assertCreated()
+                ->assertJson([
+                    'success' => true,
+                    'data' => [
+                        'name' => $payload['name'],
+                    ],
+                ]);
+        });
+
+    });
+
+    describe('Negatives', function () {
+
+        it('should handle server error response when using /api/v1/strategies POST api endpoint.', function () {
+
+            // Arrange:
+            $user = UserModel::factory()->create();
+            $payload = [
+                'user_id' => $user->id,
+                'name' => 'Trend Following',
+            ];
+
+            // Expectation:
+            $this->mock(StoreStrategy::class, function (MockInterface $mock) {
+                $mock->shouldReceive('handle')
+                    ->once()
+                    ->andThrow(new Exception('This is a mock exception message.'));
+            });
+
+            // Act:
+            Sanctum::actingAs($user);
+            $response = $this->post('/api/v1/strategies', $payload);
+
+            // Assert:
+            $response->assertInternalServerError()
+                ->assertJson([
+                    'success' => false,
+                    'error' => 'An unexpected error occurred. Please try again later.',
+                    'message' => 'This is a mock exception message.',
+                ]);
+        });
+
     });
 
 });

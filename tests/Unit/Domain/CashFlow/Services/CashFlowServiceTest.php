@@ -40,25 +40,27 @@ describe('Unit: CashFlowService', function () {
     it('should return a cash flows when using findById method.', function () {
 
         // Arrange:
-        $id = rand(1, 10);
+        $random_cash_flow_id = rand(1, 10);
         $cash_flow = new CashFlow(
             portfolio_id: rand(1, 10),
             type: 'deposit',
             amount: 5000,
-            id: $id,
+            id: $random_cash_flow_id,
         );
 
         // Expectation:
         $this->read_repository->shouldReceive('findById')
             ->once()
+            ->with($random_cash_flow_id)
             ->andReturn($cash_flow);
 
         // Act:
-        $result = $this->service->findById($id);
+        $result = $this->service->findById($random_cash_flow_id);
 
         // Assert:
-        expect($result)->toBeInstanceOf(CashFlow::class)
-            ->and($result->id())->toBe($id);
+        expect($result)
+            ->toBeInstanceOf(CashFlow::class)
+            ->and($result->id())->toBe($random_cash_flow_id);
 
     });
 
@@ -78,9 +80,11 @@ describe('Unit: CashFlowService', function () {
             ->andReturn($cash_flow);
 
         // Act:
-        $stored_cash_flow = $this->service->store($cash_flow);
+        $result = $this->service->store($cash_flow);
 
         // Assert:
-        expect($stored_cash_flow)->toBeInstanceOf(CashFlow::class);
+        expect($result)
+            ->toBeInstanceOf(CashFlow::class)
+            ->and($result->id())->toBe($cash_flow->id());
     });
 });

@@ -6,10 +6,10 @@ use App\Application\CashFlow\DTOs\StoreCashFlowDTO;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\CashFlow\Services\CashFlowService;
 
-readonly class StoreCashFlow
+class StoreCashFlow
 {
     public function __construct(
-        private CashFlowService $service
+        private readonly CashFlowService $service
     ) {}
 
     public function handle(StoreCashFlowDTO $dto): CashFlow

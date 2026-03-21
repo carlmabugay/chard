@@ -12,14 +12,7 @@ describe('Integration: GetCashFlow Use Case', function () {
         // Arrange:
         $cash_flow_model = CashFlowModel::factory()->create();
 
-        $cash_flow_entity = new CashFlow(
-            portfolio_id: $cash_flow_model->portfolio_id,
-            type: $cash_flow_model->type,
-            amount: $cash_flow_model->amount,
-            id: $cash_flow_model->id,
-            created_at: $cash_flow_model->created_at,
-            updated_at: $cash_flow_model->updated_at,
-        );
+        $cash_flow_entity = CashFlow::fromEloquentModel($cash_flow_model);
 
         $service = Mockery::mock(CashFlowService::class);
 
@@ -37,7 +30,7 @@ describe('Integration: GetCashFlow Use Case', function () {
         // Assert:
         expect($result)
             ->toBeInstanceOf(CashFlow::class)
-            ->and($result->id())->toBe($cash_flow_model->id);
+            ->and($result->id())->toBe($cash_flow_entity->id());
 
     });
 });

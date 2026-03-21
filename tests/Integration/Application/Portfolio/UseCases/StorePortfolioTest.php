@@ -35,6 +35,9 @@ describe('Integration: StorePortfolio Use Case', function () {
         $result = $use_case->handle($dto);
 
         // Assert:
-        expect($result)->toBeInstanceOf(Portfolio::class);
+        expect($result)
+            ->toBeInstanceOf(Portfolio::class)
+            ->and(($result->id()))->toBe($portfolio_entity->id())
+            ->and($result->name())->toBe($portfolio_entity->name());
     });
 });

@@ -4,10 +4,10 @@ namespace App\Application\CashFlow\UserCases;
 
 use App\Domain\CashFlow\Services\CashFlowService;
 
-readonly class ListCashFlows
+class ListCashFlows
 {
     public function __construct(
-        private CashFlowService $service
+        private readonly CashFlowService $service
     ) {}
 
     public function handle(): array

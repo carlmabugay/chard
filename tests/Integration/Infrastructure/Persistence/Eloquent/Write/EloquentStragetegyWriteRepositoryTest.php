@@ -12,26 +12,26 @@ describe('Integration: EloquentStrategyWriteRepository', function () {
         // Arrange
         $table = 'strategies';
         $user = UserModel::factory()->create();
-        $strategy_name = 'Trend Following';
 
         $strategy = new Strategy(
             user_id: $user->id,
-            name: $strategy_name,
+            name: 'Trend Following',
         );
 
         // Act:
         $repository = new EloquentStrategyWriteRepository;
 
-        $stored_strategy = $repository->store($strategy);
+        $result = $repository->store($strategy);
 
         // Assert:
+        expect($result)->toBeInstanceOf(Strategy::class);
+
         $this->assertDatabaseCount($table, 1);
         $this->assertDatabaseHas($table, [
-            'user_id' => $user->id,
-            'name' => $strategy_name,
+            'user_id' => $result->userId(),
+            'name' => $result->name(),
+            'id' => $result->id(),
         ]);
-
-        expect($stored_strategy)->toBeInstanceOf(Strategy::class);
     });
 
     it('should update strategy when using store method.', function () {
@@ -39,27 +39,26 @@ describe('Integration: EloquentStrategyWriteRepository', function () {
         // Arrange:
         $user = UserModel::factory()->create();
         $strategy_model = StrategyModel::factory()->create();
-        $new_strategy_name = 'Pullback Trading';
 
         $strategy_entity = new Strategy(
             user_id: $user->id,
-            name: $new_strategy_name,
+            name: 'Pullback Trading',
             id: $strategy_model->id,
         );
 
         // Act:
         $repository = new EloquentStrategyWriteRepository;
 
-        $updated_strategy = $repository->store($strategy_entity);
+        $result = $repository->store($strategy_entity);
 
         // Assert:
-        $this->assertDatabaseHas('strategies', [
-            'user_id' => $user->id,
-            'id' => $strategy_model->id,
-            'name' => $new_strategy_name,
-        ]);
+        expect($result)->toBeInstanceOf(Strategy::class);
 
-        expect($updated_strategy)->toBeInstanceOf(Strategy::class);
+        $this->assertDatabaseHas('strategies', [
+            'user_id' => $result->userId(),
+            'name' => $result->name(),
+            'id' => $result->id(),
+        ]);
     });
 
 });

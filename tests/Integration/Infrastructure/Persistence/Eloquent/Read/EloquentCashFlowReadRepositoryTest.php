@@ -33,7 +33,7 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
 
         });
 
-        it('should return a portfolio when using findById method.', function () {
+        it('should return a cash flows when using findById method.', function () {
 
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
@@ -42,7 +42,8 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
             $result = $this->repository->findById($cash_flow->id);
 
             // Assert:
-            expect($result)->toBeInstanceOf(CashFlow::class)
+            expect($result)
+                ->toBeInstanceOf(CashFlow::class)
                 ->and($result->id())->toBe($cash_flow->id);
 
         });
@@ -54,17 +55,20 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
         it('should return an empty array when no records found upon using findAll method.', function () {
 
             // Act:
-            $strategies = $this->repository->findAll();
+            $result = $this->repository->findAll();
 
             // Assert:
-            expect($strategies)->toBeEmpty();
+            expect($result)->toBeEmpty();
 
         });
 
         it('should throw an exception when no record found upon using findById method.', function () {
 
+            // Arrange:
+            $random_id = rand(1, 10);
+
             // Act:
-            $this->repository->findById(1);
+            $this->repository->findById($random_id);
 
             // Assert:
         })->throws(ModelNotFoundException::class);

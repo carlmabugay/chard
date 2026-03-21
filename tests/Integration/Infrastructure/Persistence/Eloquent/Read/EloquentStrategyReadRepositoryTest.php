@@ -17,13 +17,13 @@ describe('Integration: EloquentStrategyReadRepository', function () {
 
             // Arrange:
             $count = 10;
-            StrategyModel::factory(10)->create();
+            StrategyModel::factory($count)->create();
 
             // Act:
-            $strategies = $this->repository->fetchAll();
+            $result = $this->repository->fetchAll();
 
             // Assert:
-            expect($strategies)
+            expect($result)
                 ->toBeArray()
                 ->toHaveCount($count);
 
@@ -32,15 +32,15 @@ describe('Integration: EloquentStrategyReadRepository', function () {
         it('should return a strategy when using fetchById method.', function () {
 
             // Arrange:
-            $strategy_model = StrategyModel::factory()->create();
+            $strategy = StrategyModel::factory()->create();
 
             // Act:
-            $strategy_entity = $this->repository->fetchById($strategy_model->id);
+            $result = $this->repository->fetchById($strategy->id);
 
             // Assert:
-            expect($strategy_entity)
+            expect($result)
                 ->toBeInstanceOf(Strategy::class)
-                ->and($strategy_entity->id())->toBe($strategy_model->id);
+                ->and($result->id())->toBe($strategy->id);
         });
 
     });
@@ -50,17 +50,20 @@ describe('Integration: EloquentStrategyReadRepository', function () {
         it('should return an empty array when no records found upon using fetchAll method.', function () {
 
             // Act:
-            $strategies = $this->repository->fetchAll();
+            $result = $this->repository->fetchAll();
 
             // Assert:
-            expect($strategies)->toBeEmpty();
+            expect($result)->toBeEmpty();
 
         });
 
         it('should throw an exception when no record found upon using fetchById method.', function () {
 
+            // Arrange:
+            $random_id = rand(1, 10);
+
             // Act:
-            $this->repository->fetchById(1);
+            $this->repository->fetchById($random_id);
 
             // Assert:
         })->throws(ModelNotFoundException::class);

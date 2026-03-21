@@ -12,9 +12,7 @@ describe('Integration: ListCashFlows Use Case', function () {
         // Arrange:
         $count = 10;
         $cash_flow_model = CashFlowModel::factory()->count($count)->create();
-        $cash_flow_entity = $cash_flow_model->map(
-            fn (CashFlowModel $model) => CashFlow::fromEloquentModel($model)
-        )->all();
+        $cash_flow_entity = $cash_flow_model->map(fn (CashFlowModel $model) => CashFlow::fromEloquentModel($model))->all();
 
         $service = Mockery::mock(CashFlowService::class);
 
@@ -30,7 +28,8 @@ describe('Integration: ListCashFlows Use Case', function () {
         $result = $use_case->handle();
 
         // Assert:
-        expect($result)->toBeArray()
+        expect($result)
+            ->toBeArray()
             ->and(count($cash_flow_entity))->toEqual($count);
 
     });

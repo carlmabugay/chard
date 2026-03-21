@@ -23,7 +23,9 @@ final class StoreController extends Controller
             return new CashFlowResource($result)->response()->setStatusCode(201);
 
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage(), $error->getCode());
+
+            return $this->errorResponse($error->getMessage());
+
         }
     }
 }

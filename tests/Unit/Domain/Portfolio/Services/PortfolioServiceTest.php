@@ -39,27 +39,27 @@ describe('Unit: PortfolioService', function () {
     it('should return a portfolio when using fetchById method.', function () {
 
         // Arrange:
-        $id = rand(1, 10);
+        $random_portfolio_id = rand(1, 10);
 
         $portfolio = new Portfolio(
             user_id: rand(1, 10),
             name: 'PH Stock Market',
-            id: $id,
+            id: $random_portfolio_id,
         );
 
         // Expectation:
         $this->read_repository->shouldReceive('fetchById')
             ->once()
-            ->with($id)
+            ->with($random_portfolio_id)
             ->andReturn($portfolio);
 
         // Act:
-        $result = $this->service->fetchById($id);
+        $result = $this->service->fetchById($random_portfolio_id);
 
         // Assert:
         expect($result)
             ->toBeInstanceOf(Portfolio::class)
-            ->and($result->id())->toBe($id);
+            ->and($result->id())->toBe($random_portfolio_id);
 
     });
 
@@ -78,10 +78,12 @@ describe('Unit: PortfolioService', function () {
             ->andReturn($portfolio);
 
         // Act:
-        $stored_portfolio = $this->service->store($portfolio);
+        $result = $this->service->store($portfolio);
 
         // Assert
-        expect($stored_portfolio)->toBeInstanceOf(Portfolio::class);
+        expect($result)
+            ->toBeInstanceOf(Portfolio::class)
+            ->and($result->id())->toBe($portfolio->id());
     });
 
 });

@@ -6,10 +6,10 @@ use App\Application\Strategy\DTOs\StoreStrategyDTO;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Domain\Strategy\Services\StrategyService;
 
-readonly class StoreStrategy
+class StoreStrategy
 {
     public function __construct(
-        private StrategyService $service
+        private readonly StrategyService $service
     ) {}
 
     public function handle(StoreStrategyDTO $dto): Strategy

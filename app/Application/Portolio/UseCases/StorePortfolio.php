@@ -6,10 +6,10 @@ use App\Application\Portolio\DTOs\StorePortfolioDTO;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
 
-readonly class StorePortfolio
+class StorePortfolio
 {
     public function __construct(
-        private PortfolioService $service
+        private readonly PortfolioService $service
     ) {}
 
     public function handle(StorePortfolioDTO $dto): Portfolio

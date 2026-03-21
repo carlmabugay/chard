@@ -12,13 +12,7 @@ describe('Integration: GetStrategy Use Case', function () {
         // Arrange:
         $strategy_model = StrategyModel::factory()->create();
 
-        $strategy_entity = new Strategy(
-            user_id: $strategy_model->user_id,
-            name: $strategy_model->name,
-            id: $strategy_model->id,
-            created_at: $strategy_model->created_at,
-            updated_at: $strategy_model->updated_at,
-        );
+        $strategy_entity = Strategy::fromEloquentModel($strategy_model);
 
         $service = Mockery::mock(StrategyService::class);
 
@@ -36,6 +30,7 @@ describe('Integration: GetStrategy Use Case', function () {
         // Assert:
         expect($result)
             ->toBeInstanceOf(Strategy::class)
+            ->and($result->id())->toBe($strategy_entity->id())
             ->and($result->name())->toBe($strategy_entity->name());
 
     });

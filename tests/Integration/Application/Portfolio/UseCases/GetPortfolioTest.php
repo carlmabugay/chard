@@ -12,13 +12,7 @@ describe('Integration: GetPortfolio Use Case', function () {
         // Arrange:
         $portfolio_model = PortfolioModel::factory()->create();
 
-        $portfolio_entity = new Portfolio(
-            user_id: $portfolio_model->user_id,
-            name: $portfolio_model->name,
-            id: $portfolio_model->id,
-            created_at: $portfolio_model->created_at,
-            updated_at: $portfolio_model->updated_at,
-        );
+        $portfolio_entity = Portfolio::fromEloquentModel($portfolio_model);
 
         $service = Mockery::mock(PortfolioService::class);
 
@@ -36,6 +30,7 @@ describe('Integration: GetPortfolio Use Case', function () {
         // Assert:
         expect($result)
             ->toBeInstanceOf(Portfolio::class)
+            ->and(($result->id()))->toBe($portfolio_entity->id())
             ->and($result->name())->toBe($portfolio_entity->name());
 
     });

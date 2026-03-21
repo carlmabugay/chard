@@ -28,7 +28,9 @@ final class ShowController extends Controller
             ], 404);
 
         } catch (Throwable $error) {
-            return $this->errorResponse($error->getMessage(), $error->getCode());
+
+            return $this->errorResponse($error->getMessage());
+
         }
     }
 }

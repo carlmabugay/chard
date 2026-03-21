@@ -12,9 +12,7 @@ describe('Integration: ListPortfolios Use Case', function () {
         // Arrange:
         $count = 10;
         $portfolio_model = PortfolioModel::factory()->count($count)->create();
-        $portfolio_entity = $portfolio_model->map(
-            fn (PortfolioModel $model) => Portfolio::fromEloquentModel($model)
-        )->all();
+        $portfolio_entity = $portfolio_model->map(fn (PortfolioModel $model) => Portfolio::fromEloquentModel($model))->all();
 
         $service = Mockery::mock(PortfolioService::class);
 
@@ -30,7 +28,8 @@ describe('Integration: ListPortfolios Use Case', function () {
         $result = $use_case->handle();
 
         // Assert:
-        expect($result)->toBeArray()
+        expect($result)
+            ->toBeArray()
             ->and(count($portfolio_entity))->toEqual($count);
 
     });

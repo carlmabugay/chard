@@ -37,6 +37,8 @@ describe('Integration: StoreCashFlow Use Case', function () {
         $result = $use_case->handle($dto);
 
         // Assert:
-        expect($result)->toBeInstanceOf(CashFlow::class);
+        expect($result)
+            ->toBeInstanceOf(CashFlow::class)
+            ->and($result->id())->toBe($cash_flow_entity->id());
     });
 });

@@ -28,7 +28,8 @@ describe('Integration: ListStrategies Use Case', function () {
         $result = $use_case->handle();
 
         // Assert:
-        expect($result)->toBeArray()
+        expect($result)
+            ->toBeArray()
             ->and(count($strategy_entity))->toEqual($count);
 
     });

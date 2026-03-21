@@ -39,27 +39,27 @@ describe('Unit: StrategyService', function () {
     it('should return a strategy when using fetchById method.', function () {
 
         // Arrange:
-        $id = rand(1, 10);
+        $random_strategy_id = rand(1, 10);
 
         $strategy = new Strategy(
             user_id: rand(1, 10),
             name: 'Trend Following',
-            id: $id,
+            id: $random_strategy_id,
         );
 
         // Expectation:
         $this->read_repository->shouldReceive('fetchById')
             ->once()
-            ->with($id)
+            ->with($random_strategy_id)
             ->andReturn($strategy);
 
         // Act:
-        $result = $this->service->fetchById($id);
+        $result = $this->service->fetchById($random_strategy_id);
 
         // Assert:
         expect($result)
             ->toBeInstanceOf(Strategy::class)
-            ->and($result->id())->toBe($id);
+            ->and($result->id())->toBe($random_strategy_id);
 
     });
 
@@ -78,10 +78,12 @@ describe('Unit: StrategyService', function () {
             ->andReturn($strategy);
 
         // Act:
-        $stored_strategy = $this->service->store($strategy);
+        $result = $this->service->store($strategy);
 
         // Assert
-        expect($stored_strategy)->toBeInstanceOf(Strategy::class);
+        expect($result)
+            ->toBeInstanceOf(Strategy::class)
+            ->and($result->id())->toBe($strategy->id());
     });
 
 });

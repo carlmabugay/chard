@@ -5,10 +5,10 @@ namespace App\Application\Portolio\UseCases;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
 
-readonly class GetPortfolio
+class GetPortfolio
 {
     public function __construct(
-        private PortfolioService $service
+        private readonly PortfolioService $service
     ) {}
 
     public function handle(int $id): Portfolio
