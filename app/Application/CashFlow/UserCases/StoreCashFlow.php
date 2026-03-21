@@ -18,6 +18,7 @@ readonly class StoreCashFlow
             portfolio_id: $dto->portfolioId(),
             type: $dto->type(),
             amount: $dto->amount(),
+            id: $dto->id(),
         );
 
         return $this->service->store($cash_flow);

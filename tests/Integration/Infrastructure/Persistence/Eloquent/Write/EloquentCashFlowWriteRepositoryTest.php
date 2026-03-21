@@ -35,4 +35,31 @@ describe('Integration: EloquentCashFlowWriteRepository', function () {
 
     });
 
+    it('should update cash flow when using store method.', function () {
+
+        // Arrange:
+        $portfolio = PortfolioModel::factory()->create();
+
+        $cash_flow_entity = new CashFlow(
+            portfolio_id: $portfolio->id,
+            type: 'deposit',
+            amount: 5000,
+        );
+
+        // Act:
+        $repository = new EloquentCashFlowWriteRepository;
+
+        $updated_cash_flow = $repository->store($cash_flow_entity);
+
+        // Assert:
+        $this->assertDatabaseHas('cash_flows', [
+            'portfolio_id' => $updated_cash_flow->portfolioId(),
+            'type' => $updated_cash_flow->type(),
+            'amount' => $updated_cash_flow->amount(),
+            'id' => $updated_cash_flow->id(),
+        ]);
+
+        expect($updated_cash_flow)->toBeInstanceOf(CashFlow::class);
+    });
+
 });
