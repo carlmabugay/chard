@@ -16,7 +16,7 @@ describe('Feature: UpdateCashFlowController', function () {
 
             $payload = [
                 'portfolio_id' => $cash_flow->portfolio->id,
-                'type' => $cash_flow->type,
+                'type' => $cash_flow->type->value,
                 'amount' => 1000,
                 'id' => $cash_flow->id,
             ];
@@ -48,7 +48,7 @@ describe('Feature: UpdateCashFlowController', function () {
 
             $payload = [
                 'portfolio_id' => $cash_flow->portfolio->id,
-                'type' => $cash_flow->type,
+                'type' => $cash_flow->type->value,
                 'amount' => 1000,
                 'id' => $cash_flow->id,
             ];

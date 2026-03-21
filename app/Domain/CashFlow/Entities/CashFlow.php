@@ -2,13 +2,14 @@
 
 namespace App\Domain\CashFlow\Entities;
 
+use App\Enums\CashFlowType;
 use App\Models\CashFlow as Model;
 
 readonly class CashFlow
 {
     public function __construct(
         private int $portfolio_id,
-        private string $type,
+        private CashFlowType $type,
         private float $amount,
         private ?int $id = null,
         private ?string $created_at = null,
@@ -20,7 +21,7 @@ readonly class CashFlow
         return $this->portfolio_id;
     }
 
-    public function type(): string
+    public function type(): CashFlowType
     {
         return $this->type;
     }

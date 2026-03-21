@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\CashFlowType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,7 @@ return new class extends Migration
             $table->foreignId('portfolio_id')->constrained();
 
             $table->id();
-            $table->enum('type', ['deposit', 'withdraw'])->default('deposit');
+            $table->enum('type', CashFlowType::values())->default(CashFlowType::DEPOSIT->value);
             $table->float('amount');
             $table->timestamps();
         });

@@ -21,15 +21,15 @@ describe('Feature: ShowCashFlowController', function () {
 
             // Assert:
             $response->assertOk()
-                ->assertJson([
+                ->assertExactJson([
                     'success' => true,
                     'data' => [
                         'portfolio_id' => $cash_flow->portfolio_id,
                         'id' => $cash_flow->id,
                         'type' => $cash_flow->type,
                         'amount' => $cash_flow->amount,
-                        'created_at' => $cash_flow->created_at,
-                        'updated_at' => $cash_flow->updated_at,
+                        'created_at' => $cash_flow->created_at->toDateTimeString(),
+                        'updated_at' => $cash_flow->updated_at->toDateTimeString(),
                     ],
                 ]);
 

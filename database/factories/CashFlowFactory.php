@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\CashFlowType;
 use App\Models\CashFlow;
 use App\Models\Portfolio;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -22,7 +23,7 @@ class CashFlowFactory extends Factory
     {
         return [
             'portfolio_id' => Portfolio::factory(),
-            'type' => $this->faker->randomElement(['deposit', 'withdraw']),
+            'type' => $this->faker->randomElement(CashFlowType::values()),
             'amount' => $this->faker->randomFloat(2, 0, 9999),
         ];
     }

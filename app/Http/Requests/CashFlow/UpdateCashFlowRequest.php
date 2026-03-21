@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\CashFlow;
 
+use App\Enums\CashFlowType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateCashFlowRequest extends FormRequest
 {
@@ -10,7 +12,7 @@ class UpdateCashFlowRequest extends FormRequest
     {
         return [
             'portfolio_id' => 'required|integer|exists:users,id',
-            'type' => 'required|string',
+            'type' => ['required', new Enum(CashFlowType::class)],
             'amount' => 'required|integer',
             'id' => 'required|exists:cash_flows',
         ];

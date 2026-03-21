@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CashFlowType;
 use Database\Factories\CashFlowFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,12 @@ class CashFlow extends Model
         'type',
         'amount',
         'id',
+    ];
+
+    protected $casts = [
+        'type' => CashFlowType::class,
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function portfolio(): BelongsTo

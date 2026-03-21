@@ -4,6 +4,7 @@ use App\Domain\CashFlow\Contracts\Read\CashFlowReadRepositoryInterface;
 use App\Domain\CashFlow\Contracts\Write\CashFlowWriteRepositoryInterface;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\CashFlow\Services\CashFlowService;
+use App\Enums\CashFlowType;
 
 beforeEach(function () {
     $this->write_repository = Mockery::mock(CashFlowWriteRepositoryInterface::class);
@@ -19,7 +20,7 @@ describe('Unit: CashFlowService', function () {
         // Arrange:
         $cash_flow = new CashFlow(
             portfolio_id: rand(1, 10),
-            type: 'deposit',
+            type: CashFlowType::DEPOSIT,
             amount: 5000,
         );
 
@@ -43,7 +44,7 @@ describe('Unit: CashFlowService', function () {
         $random_cash_flow_id = rand(1, 10);
         $cash_flow = new CashFlow(
             portfolio_id: rand(1, 10),
-            type: 'deposit',
+            type: CashFlowType::DEPOSIT,
             amount: 5000,
             id: $random_cash_flow_id,
         );
@@ -69,7 +70,7 @@ describe('Unit: CashFlowService', function () {
         // Arrange:
         $cash_flow = new CashFlow(
             portfolio_id: rand(1, 10),
-            type: 'deposit',
+            type: CashFlowType::DEPOSIT,
             amount: 5000,
         );
 

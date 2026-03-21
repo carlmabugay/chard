@@ -1,6 +1,7 @@
 <?php
 
 use App\Domain\CashFlow\Entities\CashFlow;
+use App\Enums\CashFlowType;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentCashFlowWriteRepository;
 use App\Models\CashFlow as CashFlowModel;
 use App\Models\Portfolio as PortfolioModel;
@@ -15,7 +16,7 @@ describe('Integration: EloquentCashFlowWriteRepository', function () {
 
         $cash_flow_entity = new CashFlow(
             portfolio_id: $portfolio->id,
-            type: 'deposit',
+            type: CashFlowType::DEPOSIT,
             amount: 5000,
         );
 

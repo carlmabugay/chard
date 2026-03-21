@@ -1,6 +1,7 @@
 <?php
 
 use App\Application\CashFlow\UserCases\StoreCashFlow;
+use App\Enums\CashFlowType;
 use App\Models\Portfolio as PortfolioModel;
 use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
@@ -16,7 +17,7 @@ describe('Feature: StoreCashFlowController', function () {
 
             $payload = [
                 'portfolio_id' => $portfolio->id,
-                'type' => 'deposit',
+                'type' => CashFlowType::DEPOSIT->value,
                 'amount' => 100,
             ];
 
@@ -47,7 +48,7 @@ describe('Feature: StoreCashFlowController', function () {
 
             $payload = [
                 'portfolio_id' => $portfolio->id,
-                'type' => 'deposit',
+                'type' => CashFlowType::DEPOSIT->value,
                 'amount' => 100,
             ];
 
