@@ -4,6 +4,7 @@ use App\Domain\CashFlow\Entities\CashFlow;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentCashFlowReadRepository;
 use App\Models\CashFlow as CashFlowModel;
 use App\Models\Portfolio as PortfolioModel;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 beforeEach(function () {
     $this->repository = new EloquentCashFlowReadRepository;
@@ -11,36 +12,62 @@ beforeEach(function () {
 
 describe('Integration: EloquentCashFlowReadRepository', function () {
 
-    it('should return all cash flows when using findAll method.', function () {
+    describe('Positives', function () {
 
-        // Arrange:
-        $count = 10;
-        $portfolio = PortfolioModel::factory()->create();
-        CashFlowModel::factory($count)->create([
-            'portfolio_id' => $portfolio->id,
-        ]);
+        it('should return all cash flows when using findAll method.', function () {
 
-        // Act:
-        $result = $this->repository->findAll();
+            // Arrange:
+            $count = 10;
+            $portfolio = PortfolioModel::factory()->create();
+            CashFlowModel::factory($count)->create([
+                'portfolio_id' => $portfolio->id,
+            ]);
 
-        // Assert:
-        expect($result)
-            ->toBeArray()
-            ->toHaveCount($count);
+            // Act:
+            $result = $this->repository->findAll();
+
+            // Assert:
+            expect($result)
+                ->toBeArray()
+                ->toHaveCount($count);
+
+        });
+
+        it('should return a portfolio when using findById method.', function () {
+
+            // Arrange:
+            $cash_flow = CashFlowModel::factory()->create();
+
+            // Act:
+            $result = $this->repository->findById($cash_flow->id);
+
+            // Assert:
+            expect($result)->toBeInstanceOf(CashFlow::class)
+                ->and($result->id())->toBe($cash_flow->id);
+
+        });
 
     });
 
-    it('should return a portfolio when using findById method.', function () {
+    describe('Negatives', function () {
 
-        // Arrange:
-        $cash_flow = CashFlowModel::factory()->create();
+        it('should return an empty array when no records found upon using findAll method.', function () {
 
-        // Act:
-        $result = $this->repository->findById($cash_flow->id);
+            // Act:
+            $strategies = $this->repository->findAll();
 
-        // Assert:
-        expect($result)->toBeInstanceOf(CashFlow::class)
-            ->and($result->id())->toBe($cash_flow->id);
+            // Assert:
+            expect($strategies)->toBeEmpty();
+
+        });
+
+        it('should throw an exception when no record found upon using findById method.', function () {
+
+            // Act:
+            $this->repository->findById(1);
+
+            // Assert:
+        })->throws(ModelNotFoundException::class);
 
     });
 
