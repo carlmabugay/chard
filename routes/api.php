@@ -7,6 +7,7 @@ use App\Http\Controllers\v1\CashFlow\UpdateController as UpdateCashFlowControlle
 use App\Http\Controllers\v1\Dividend\ListController as ListDividendController;
 use App\Http\Controllers\v1\Dividend\ShowController as ShowDividendController;
 use App\Http\Controllers\v1\Dividend\StoreController as StoreDividendController;
+use App\Http\Controllers\v1\Dividend\UpdateController as UpdateDividendController;
 use App\Http\Controllers\v1\Portfolio\ListController as ListPortfolioController;
 use App\Http\Controllers\v1\Portfolio\ShowController as ShowPortfolioController;
 use App\Http\Controllers\v1\Portfolio\StoreController as StorePortfolioController;
@@ -44,6 +45,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/', ListDividendController::class);
         Route::get('/{id}', ShowDividendController::class);
         Route::post('/', StoreDividendController::class);
+        Route::put('/', UpdateDividendController::class);
     });
 
 })->middleware('auth:sanctum');

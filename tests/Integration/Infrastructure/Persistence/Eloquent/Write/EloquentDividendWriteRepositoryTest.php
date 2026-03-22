@@ -2,6 +2,7 @@
 
 use App\Domain\Dividend\Entities\Dividend;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentDividendWriteRepository;
+use App\Models\Dividend as DividendModel;
 use App\Models\Portfolio as PortfolioModel;
 
 describe('Integration: EloquentDividendWriteRepository', function () {
@@ -36,5 +37,33 @@ describe('Integration: EloquentDividendWriteRepository', function () {
             'recorded_at' => $result->recordedAt(),
         ]);
 
+    });
+
+    it('should update dividend when using store method.', function () {
+
+        // Arrange:
+        $dividend_model = DividendModel::factory()->create();
+
+        $dividend_entity = new Dividend(
+            portfolio_id: $dividend_model->portfolio->id,
+            symbol: 'JFC',
+            amount: 5000,
+            id: $dividend_model->id,
+        );
+
+        // Act:
+        $repository = new EloquentDividendWriteRepository;
+
+        $result = $repository->store($dividend_entity);
+
+        // Assert:
+        expect($result)->toBeInstanceOf(Dividend::class);
+
+        $this->assertDatabaseHas('dividends', [
+            'portfolio_id' => $result->portfolioId(),
+            'symbol' => $result->symbol(),
+            'amount' => $result->amount(),
+            'id' => $result->id(),
+        ]);
     });
 });

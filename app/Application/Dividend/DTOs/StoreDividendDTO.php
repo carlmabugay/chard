@@ -8,6 +8,7 @@ readonly class StoreDividendDTO
         private int $portfolio_id,
         private string $symbol,
         private float $amount,
+        public ?int $id,
         private ?string $recorded_at,
     ) {}
 
@@ -37,7 +38,9 @@ readonly class StoreDividendDTO
             portfolio_id: $request['portfolio_id'],
             symbol: $request['symbol'],
             amount: $request['amount'],
+            id: $request['id'] ?? null,
             recorded_at: $request['recorded_at'],
+
         );
     }
 }

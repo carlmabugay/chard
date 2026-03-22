@@ -57,6 +57,7 @@ readonly class Dividend
             portfolio_id: $dto->portfolioId(),
             symbol: $dto->symbol(),
             amount: $dto->amount(),
+            id: $dto->id,
             recorded_at: $dto->recordedAt(),
         );
     }
