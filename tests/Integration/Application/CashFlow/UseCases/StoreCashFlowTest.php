@@ -19,11 +19,7 @@ describe('Integration: StoreCashFlow Use Case', function () {
             'amount' => 5000,
         ]);
 
-        $cash_flow_entity = new CashFlow(
-            portfolio_id: $dto->portfolioId(),
-            type: $dto->type(),
-            amount: $dto->amount(),
-        );
+        $cash_flow_entity = CashFlow::fromDTO($dto);
 
         $service = Mockery::mock(CashFlowService::class);
 

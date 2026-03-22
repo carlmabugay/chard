@@ -18,10 +18,7 @@ describe('Integration: StoreStrategy Use Case', function () {
             'name' => 'Trend Following',
         ]);
 
-        $strategy_entity = new Strategy(
-            user_id: $dto->userId(),
-            name: $dto->name(),
-        );
+        $strategy_entity = Strategy::fromDTO($dto);
 
         $service = Mockery::mock(StrategyService::class);
 

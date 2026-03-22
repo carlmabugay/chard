@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Dividend\UpdateDividendRequest;
 use App\Http\Resources\Dividend\DividendResource;
 use Illuminate\Http\JsonResponse;
-use PHPUnit\Event\Code\Throwable;
+use Throwable;
 
 final class UpdateController extends Controller
 {

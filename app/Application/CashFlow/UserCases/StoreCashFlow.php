@@ -14,12 +14,7 @@ class StoreCashFlow
 
     public function handle(StoreCashFlowDTO $dto): CashFlow
     {
-        $cash_flow = new CashFlow(
-            portfolio_id: $dto->portfolioId(),
-            type: $dto->type(),
-            amount: $dto->amount(),
-            id: $dto->id(),
-        );
+        $cash_flow = CashFlow::fromDTO($dto);
 
         return $this->service->store($cash_flow);
     }

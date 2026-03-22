@@ -14,12 +14,8 @@ class StoreStrategy
 
     public function handle(StoreStrategyDTO $dto): Strategy
     {
-        $portfolio = new Strategy(
-            user_id: $dto->userId(),
-            name: $dto->name(),
-            id: $dto->id(),
-        );
+        $strategy = Strategy::fromDTO($dto);
 
-        return $this->service->store($portfolio);
+        return $this->service->store($strategy);
     }
 }

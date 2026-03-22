@@ -18,10 +18,7 @@ describe('Integration: StorePortfolio Use Case', function () {
             'name' => 'PH Stock Market',
         ]);
 
-        $portfolio_entity = new Portfolio(
-            user_id: $dto->userId(),
-            name: $dto->name(),
-        );
+        $portfolio_entity = Portfolio::fromDTO($dto);
 
         $service = Mockery::mock(PortfolioService::class);
 

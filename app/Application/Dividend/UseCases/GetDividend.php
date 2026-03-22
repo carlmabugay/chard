@@ -7,7 +7,7 @@ use App\Domain\Dividend\Services\DividendService;
 
 class GetDividend
 {
-    public function __construct(private DividendService $service) {}
+    public function __construct(private readonly DividendService $service) {}
 
     public function handle(int $id): Dividend
     {

@@ -14,11 +14,7 @@ class StorePortfolio
 
     public function handle(StorePortfolioDTO $dto): Portfolio
     {
-        $portfolio = new Portfolio(
-            user_id: $dto->userId(),
-            name: $dto->name(),
-            id: $dto->id(),
-        );
+        $portfolio = Portfolio::fromDTO($dto);
 
         return $this->service->store($portfolio);
     }

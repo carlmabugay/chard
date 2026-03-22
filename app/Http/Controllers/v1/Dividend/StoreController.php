@@ -8,9 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Dividend\CreateDividendRequest;
 use App\Http\Resources\Dividend\DividendResource;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
-class StoreController extends Controller
+final class StoreController extends Controller
 {
     public function __invoke(CreateDividendRequest $request, StoreDividend $use_case): DividendResource|JsonResponse
     {
@@ -19,7 +19,7 @@ class StoreController extends Controller
 
             $result = $use_case->handle($dto);
 
-            return DividendResource::make($result)->response()->setStatusCode(Response::HTTP_CREATED);
+            return DividendResource::make($result)->response()->setStatusCode(201);
 
         } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());

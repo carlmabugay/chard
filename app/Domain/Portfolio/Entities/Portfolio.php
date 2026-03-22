@@ -2,6 +2,7 @@
 
 namespace App\Domain\Portfolio\Entities;
 
+use App\Application\Portolio\DTOs\StorePortfolioDTO;
 use App\Models\Portfolio as Model;
 
 class Portfolio
@@ -47,6 +48,15 @@ class Portfolio
             id: $model->id,
             created_at: $model->created_at,
             updated_at: $model->updated_at,
+        );
+    }
+
+    public static function fromDTO(StorePortfolioDTO $dto): self
+    {
+        return new self(
+            user_id: $dto->userId(),
+            name: $dto->name(),
+            id: $dto->id(),
         );
     }
 }

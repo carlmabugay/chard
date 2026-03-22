@@ -6,7 +6,7 @@ use App\Application\Dividend\UseCases\GetDividend;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Dividend\DividendResource;
 use Illuminate\Http\JsonResponse;
-use PHPUnit\Event\Code\Throwable;
+use Throwable;
 
 final class ShowController extends Controller
 {

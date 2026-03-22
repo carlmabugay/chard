@@ -19,7 +19,7 @@ final class ShowController extends Controller
 
             return CashFlowResource::make($result);
 
-        } catch (ModelNotFoundException $error) {
+        } catch (ModelNotFoundException) {
 
             return response()->json([
                 'success' => false,
