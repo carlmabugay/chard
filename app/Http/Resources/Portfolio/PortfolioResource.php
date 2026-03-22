@@ -7,11 +7,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class PortfolioResource extends JsonResource
 {
-    /**
-     * Transform the resource collection into an array.
-     *
-     * @return array<int|string, mixed>
-     */
     public function toArray(Request $request): array
     {
         return [
@@ -24,7 +19,6 @@ class PortfolioResource extends JsonResource
 
     public function with($request): array
     {
-
         return [
             'success' => true,
         ];

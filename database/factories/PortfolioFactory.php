@@ -6,18 +6,10 @@ use App\Models\Portfolio;
 use App\Models\User as UserModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends Factory<Portfolio>
- */
 class PortfolioFactory extends Factory
 {
     protected $model = Portfolio::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [

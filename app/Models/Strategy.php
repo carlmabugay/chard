@@ -13,7 +13,6 @@ class Strategy extends Model
     protected $fillable = [
         'user_id',
         'name',
-        'id',
     ];
 
     protected $casts = [
