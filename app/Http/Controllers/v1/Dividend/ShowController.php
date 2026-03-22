@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Controllers\v1\Dividend;
+
+use App\Application\Dividend\UseCases\GetDividend;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Dividend\DividendResource;
+use Illuminate\Http\JsonResponse;
+use PHPUnit\Event\Code\Throwable;
+
+final class ShowController extends Controller
+{
+    public function __invoke(int $id, GetDividend $use_case): DividendResource|JsonResponse
+    {
+
+        try {
+
+            $result = $use_case->handle($id);
+
+            return DividendResource::make($result);
+
+        } catch (Throwable $error) {
+
+            return $this->errorResponse($error->message());
+        }
+    }
+}

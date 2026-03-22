@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Dividend\Entities\Dividend;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentDividendReadRepository;
 use App\Models\Dividend as DividendModel;
 use App\Models\Portfolio as PortfolioModel;
@@ -28,6 +29,21 @@ describe('Integration: EloquentDividendReadRepository', function () {
         expect($result)
             ->toBeArray()
             ->toHaveCount($no_of_dividends);
+    });
+
+    it('should return a cash flows when using findById method.', function () {
+
+        // Arrange:
+        $dividend = DividendModel::factory()->create();
+
+        // Act:
+        $result = $this->repository->findById($dividend->id);
+
+        // Assert:
+        expect($result)
+            ->toBeInstanceOf(Dividend::class)
+            ->and($result->id())->toBe($dividend->id);
+
     });
 
 });

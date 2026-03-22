@@ -36,4 +36,31 @@ describe('Unit: DividendService', function () {
         expect($result)->toBeArray();
     });
 
+    it('should return a cash flows when using findById method.', function () {
+
+        // Arrange:
+        $random_dividend_id = rand(1, 10);
+        $dividend = new Dividend(
+            portfolio_id: rand(1, 10),
+            symbol: 'JFC',
+            amount: 5000,
+            id: $random_dividend_id,
+        );
+
+        // Expectation:
+        $this->read_repository->shouldReceive('findById')
+            ->once()
+            ->with($random_dividend_id)
+            ->andReturn($dividend);
+
+        // Act:
+        $result = $this->service->findById($random_dividend_id);
+
+        // Assert:
+        expect($result)
+            ->toBeInstanceOf(Dividend::class)
+            ->and($result->id())->toBe($random_dividend_id);
+
+    });
+
 });
