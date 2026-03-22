@@ -1,14 +1,15 @@
 <?php
 
 use App\Domain\Dividend\Contracts\Read\DividendReadRepositoryInterface;
+use App\Domain\Dividend\Contracts\Write\DividendWriteRepositoryInterface;
 use App\Domain\Dividend\Entities\Dividend;
 use App\Domain\Dividend\Services\DividendService;
 
 beforeEach(function () {
-
+    $this->write_repository = Mockery::mock(DividendWriteRepositoryInterface::class);
     $this->read_repository = Mockery::mock(DividendReadRepositoryInterface::class);
 
-    $this->service = new DividendService($this->read_repository);
+    $this->service = new DividendService($this->write_repository, $this->read_repository);
 });
 
 describe('Unit: DividendService', function () {
@@ -63,4 +64,27 @@ describe('Unit: DividendService', function () {
 
     });
 
+    it('should store dividend when using store method.', function () {
+
+        // Arrange:
+        $dividend = new Dividend(
+            portfolio_id: rand(1, 10),
+            symbol: 'JFC',
+            amount: 5000,
+        );
+
+        // Expectation:
+        $this->write_repository->shouldReceive('store')
+            ->once()
+            ->andReturn($dividend);
+
+        // Act:
+        $result = $this->service->store($dividend);
+
+        // Assert:
+        expect($result)
+            ->toBeInstanceOf(Dividend::class)
+            ->and($result->id())->toBe($dividend->id());
+
+    });
 });

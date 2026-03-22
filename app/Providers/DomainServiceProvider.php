@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Domain\CashFlow\Contracts\Read\CashFlowReadRepositoryInterface;
 use App\Domain\CashFlow\Contracts\Write\CashFlowWriteRepositoryInterface;
 use App\Domain\Dividend\Contracts\Read\DividendReadRepositoryInterface;
+use App\Domain\Dividend\Contracts\Write\DividendWriteRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Read\PortfolioReadRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Strategy\Contracts\Read\StrategyReadRepositoryInterface;
@@ -14,6 +15,7 @@ use App\Infrastructure\Persistence\Eloquent\Read\EloquentDividendReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentPortfolioReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentStrategyReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentCashFlowWriteRepository;
+use App\Infrastructure\Persistence\Eloquent\Write\EloquentDividendWriteRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentPortfolioWriteRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentStrategyWriteRepository;
 use Illuminate\Support\ServiceProvider;
@@ -31,6 +33,7 @@ class DomainServiceProvider extends ServiceProvider
         CashFlowWriteRepositoryInterface::class => EloquentCashFlowWriteRepository::class,
 
         DividendReadRepositoryInterface::class => EloquentDividendReadRepository::class,
+        DividendWriteRepositoryInterface::class => EloquentDividendWriteRepository::class,
     ];
 
     /**

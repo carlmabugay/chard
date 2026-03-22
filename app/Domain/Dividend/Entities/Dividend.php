@@ -2,6 +2,7 @@
 
 namespace App\Domain\Dividend\Entities;
 
+use App\Application\Dividend\DTOs\StoreDividendDTO;
 use Illuminate\Database\Eloquent\Model;
 
 readonly class Dividend
@@ -47,6 +48,16 @@ readonly class Dividend
             amount: $model->amount,
             id: $model->id,
             recorded_at: $model->recorded_at,
+        );
+    }
+
+    public static function fromDTO(StoreDividendDTO $dto): self
+    {
+        return new self(
+            portfolio_id: $dto->portfolioId(),
+            symbol: $dto->symbol(),
+            amount: $dto->amount(),
+            recorded_at: $dto->recordedAt(),
         );
     }
 }

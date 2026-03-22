@@ -16,6 +16,7 @@ class Dividend extends Model
         'portfolio_id',
         'symbol',
         'amount',
+        'recorded_at',
     ];
 
     protected $casts = [
