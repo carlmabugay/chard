@@ -18,7 +18,9 @@ class EloquentCashFlowReadRepository implements CashFlowReadRepositoryInterface
 
     public function findById(int $id): CashFlow
     {
-        $cash_flow = CashFlowModel::query()->findOrFail($id);
+        $cash_flow = CashFlowModel::query()
+            ->with(['portfolio'])
+            ->findOrFail($id);
 
         return CashFlow::fromEloquentModel($cash_flow);
     }

@@ -19,7 +19,6 @@ describe('Unit: CashFlowService', function () {
 
         // Arrange:
         $cash_flow = new CashFlow(
-            portfolio_id: rand(1, 10),
             type: CashFlowType::DEPOSIT,
             amount: 5000,
         );
@@ -43,7 +42,6 @@ describe('Unit: CashFlowService', function () {
         // Arrange:
         $random_cash_flow_id = rand(1, 10);
         $cash_flow = new CashFlow(
-            portfolio_id: rand(1, 10),
             type: CashFlowType::DEPOSIT,
             amount: 5000,
             id: $random_cash_flow_id,
@@ -69,7 +67,6 @@ describe('Unit: CashFlowService', function () {
 
         // Arrange:
         $cash_flow = new CashFlow(
-            portfolio_id: rand(1, 10),
             type: CashFlowType::DEPOSIT,
             amount: 5000,
         );

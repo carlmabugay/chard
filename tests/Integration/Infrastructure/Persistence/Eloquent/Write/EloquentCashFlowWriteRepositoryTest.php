@@ -15,9 +15,9 @@ describe('Integration: EloquentCashFlowWriteRepository', function () {
         $portfolio = PortfolioModel::factory()->create();
 
         $cash_flow_entity = new CashFlow(
-            portfolio_id: $portfolio->id,
             type: CashFlowType::DEPOSIT,
             amount: 5000,
+            portfolio_id: $portfolio->id,
         );
 
         // Act:
@@ -44,10 +44,10 @@ describe('Integration: EloquentCashFlowWriteRepository', function () {
         $cash_flow_model = CashFlowModel::factory()->create();
 
         $cash_flow_entity = new CashFlow(
-            portfolio_id: $cash_flow_model->portfolio->id,
             type: $cash_flow_model->type,
             amount: 5000,
             id: $cash_flow_model->id,
+            portfolio_id: $cash_flow_model->portfolio->id,
         );
 
         // Act:

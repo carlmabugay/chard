@@ -30,9 +30,11 @@ describe('Feature: StoreCashFlowController', function () {
                 ->assertJson([
                     'success' => true,
                     'data' => [
-                        'portfolio_id' => $payload['portfolio_id'],
                         'type' => $payload['type'],
                         'amount' => $payload['amount'],
+                        'portfolio' => [
+                            'id' => $payload['portfolio_id'],
+                        ],
                     ],
                 ]);
         });
