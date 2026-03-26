@@ -22,7 +22,9 @@ class EloquentDividendReadRepository implements DividendReadRepositoryInterface
      */
     public function findById(int $id): Dividend
     {
-        $dividend = DividendModel::query()->findOrFail($id);
+        $dividend = DividendModel::query()
+            ->with(['portfolio'])
+            ->findOrFail($id);
 
         return Dividend::fromEloquentModel($dividend);
     }

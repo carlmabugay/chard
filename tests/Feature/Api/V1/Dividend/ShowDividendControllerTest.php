@@ -24,11 +24,16 @@ describe('Feature: ShowDividendController', function () {
                 ->assertExactJson([
                     'success' => true,
                     'data' => [
-                        'portfolio_id' => $dividend->portfolio_id,
                         'id' => $dividend->id,
                         'symbol' => $dividend->symbol,
                         'amount' => $dividend->amount,
                         'recorded_at' => $dividend->recorded_at->toDateTimeString(),
+                        'portfolio' => [
+                            'id' => $dividend->portfolio->id,
+                            'name' => $dividend->portfolio->name,
+                            'created_at' => $dividend->portfolio->created_at->toDateTimeString(),
+                            'updated_at' => $dividend->portfolio->updated_at->toDateTimeString(),
+                        ],
                     ],
                 ]);
 

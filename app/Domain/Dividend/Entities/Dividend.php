@@ -3,6 +3,7 @@
 namespace App\Domain\Dividend\Entities;
 
 use App\Application\Dividend\DTOs\StoreDividendDTO;
+use App\Domain\Portfolio\Entities\Portfolio;
 use Illuminate\Database\Eloquent\Model;
 
 readonly class Dividend
@@ -13,6 +14,7 @@ readonly class Dividend
         private float $amount,
         private ?int $id = null,
         private ?string $recorded_at = null,
+        private ?Portfolio $portfolio = null,
     ) {}
 
     public function portfolioId(): int
@@ -40,6 +42,11 @@ readonly class Dividend
         return $this->recorded_at;
     }
 
+    public function portfolio(): ?Portfolio
+    {
+        return $this->portfolio;
+    }
+
     public static function fromEloquentModel(Model $model): self
     {
         return new self(
@@ -48,6 +55,7 @@ readonly class Dividend
             amount: $model->amount,
             id: $model->id,
             recorded_at: $model->recorded_at,
+            portfolio: Portfolio::fromEloquentModel($model->portfolio),
         );
     }
 
