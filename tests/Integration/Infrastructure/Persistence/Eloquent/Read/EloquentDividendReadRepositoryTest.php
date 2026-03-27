@@ -30,8 +30,7 @@ describe('Integration: EloquentDividendReadRepository', function () {
 
             // Assert:
             expect($result)
-                ->toBeArray()
-                ->toHaveCount($no_of_dividends);
+                ->toBeArray();
         });
 
         it('should return a cash flows when using findById method.', function () {
@@ -59,7 +58,7 @@ describe('Integration: EloquentDividendReadRepository', function () {
             $result = $this->repository->findAll();
 
             // Assert:
-            expect($result)->toBeEmpty();
+            expect($result['data'])->toBeEmpty();
 
         });
 

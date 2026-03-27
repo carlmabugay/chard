@@ -6,7 +6,7 @@ use App\Domain\Dividend\Entities\Dividend;
 
 interface DividendReadRepositoryInterface
 {
-    public function findAll(): array;
+    public function findAll(array $columns = ['*']): array;
 
     public function findById(int $id): Dividend;
 }

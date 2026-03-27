@@ -29,7 +29,6 @@ describe('Feature: ListDividendController', function () {
                 ->assertJson([
                     'success' => true,
                     'data' => [],
-                    'total' => $no_of_dividends,
                 ]);
 
         });

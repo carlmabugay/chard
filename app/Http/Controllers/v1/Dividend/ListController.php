@@ -16,7 +16,10 @@ final class ListController extends Controller
 
             $result = $use_case->handle();
 
-            return DividendCollection::make($result);
+            return DividendCollection::make($result['data'])->additional([
+                'success' => true,
+                'pagination' => $result['pagination'],
+            ]);
 
         } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
