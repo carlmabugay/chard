@@ -2,17 +2,24 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Read;
 
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Strategy\Contracts\Read\StrategyReadRepositoryInterface;
 use App\Domain\Strategy\Entities\Strategy;
+use App\Infrastructure\Persistence\Eloquent\Query\EloquentQueryApplier;
 use App\Infrastructure\Persistence\Pagination\LaravelPaginatorAdapter;
 use App\Models\Strategy as StrategyModel;
 
 class EloquentStrategyReadRepository implements StrategyReadRepositoryInterface
 {
-    public function fetchAll(): array
+    public function fetchAll(QueryCriteria $criteria): array
     {
 
-        $paginator = StrategyModel::query()->paginate();
+        $query = EloquentQueryApplier::apply(StrategyModel::query(), $criteria);
+
+        $paginator = $query->paginate(
+            perPage: $criteria->per_page,
+            page: $criteria->page,
+        );
 
         $result = LaravelPaginatorAdapter::fromPaginator(
             $paginator,

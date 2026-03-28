@@ -2,6 +2,7 @@
 
 namespace App\Application\Strategy\UseCases;
 
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Strategy\Services\StrategyService;
 
 class ListStrategies
@@ -10,8 +11,8 @@ class ListStrategies
         private readonly StrategyService $service
     ) {}
 
-    public function handle(): array
+    public function handle(QueryCriteria $criteria): array
     {
-        return $this->service->fetchAll();
+        return $this->service->fetchAll($criteria);
     }
 }

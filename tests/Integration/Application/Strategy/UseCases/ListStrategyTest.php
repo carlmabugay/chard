@@ -1,6 +1,7 @@
 <?php
 
 use App\Application\Strategy\UseCases\ListStrategies;
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Domain\Strategy\Services\StrategyService;
 use App\Models\Strategy as StrategyModel;
@@ -15,17 +16,19 @@ describe('Integration: ListStrategies Use Case', function () {
         $strategy_entity = $strategy_model->map(fn (StrategyModel $model) => Strategy::fromEloquentModel($model))->all();
 
         $service = Mockery::mock(StrategyService::class);
+        $criteria = Mockery::mock(QueryCriteria::class);
 
         $use_case = new ListStrategies($service);
 
         $service->shouldReceive('fetchAll')
             ->once()
+            ->with($criteria)
             ->andReturn([
                 $strategy_entity,
             ]);
 
         // Act:
-        $result = $use_case->handle();
+        $result = $use_case->handle($criteria);
 
         // Assert:
         expect($result)

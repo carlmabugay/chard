@@ -2,6 +2,7 @@
 
 namespace App\Domain\Strategy\Services;
 
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Strategy\Contracts\Read\StrategyReadRepositoryInterface;
 use App\Domain\Strategy\Contracts\Write\StrategyWriteRepositoryInterface;
 use App\Domain\Strategy\Entities\Strategy;
@@ -13,9 +14,9 @@ class StrategyService
         private readonly StrategyReadRepositoryInterface $read_repository,
     ) {}
 
-    public function fetchAll(): array
+    public function fetchAll(QueryCriteria $criteria): array
     {
-        return $this->read_repository->fetchAll();
+        return $this->read_repository->fetchAll($criteria);
     }
 
     public function fetchById(int $id): Strategy

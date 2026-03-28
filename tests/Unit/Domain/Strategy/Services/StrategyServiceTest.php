@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Strategy\Contracts\Read\StrategyReadRepositoryInterface;
 use App\Domain\Strategy\Contracts\Write\StrategyWriteRepositoryInterface;
 use App\Domain\Strategy\Entities\Strategy;
@@ -22,15 +23,18 @@ describe('Unit: StrategyService', function () {
             name: 'Trend Following',
         );
 
+        $criteria = new QueryCriteria;
+
         // Expectation:
         $this->read_repository->shouldReceive('fetchAll')
             ->once()
+            ->with($criteria)
             ->andReturn([
                 $strategy,
             ]);
 
         // Act:
-        $result = $this->service->fetchAll();
+        $result = $this->service->fetchAll($criteria);
 
         // Assert:
         expect($result)->toBeArray();

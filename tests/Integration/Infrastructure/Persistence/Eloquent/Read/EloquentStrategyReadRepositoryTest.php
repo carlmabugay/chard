@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentStrategyReadRepository;
 use App\Models\Strategy as StrategyModel;
@@ -20,7 +21,7 @@ describe('Integration: EloquentStrategyReadRepository', function () {
             StrategyModel::factory($count)->create();
 
             // Act:
-            $result = $this->repository->fetchAll();
+            $result = $this->repository->fetchAll(new QueryCriteria);
 
             // Assert:
             expect($result)
@@ -49,7 +50,7 @@ describe('Integration: EloquentStrategyReadRepository', function () {
         it('should return an empty array when no records found upon using fetchAll method.', function () {
 
             // Act:
-            $result = $this->repository->fetchAll();
+            $result = $this->repository->fetchAll(new QueryCriteria);
 
             // Assert:
             expect($result['data'])->toBeEmpty();
