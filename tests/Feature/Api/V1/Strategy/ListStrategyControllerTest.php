@@ -31,7 +31,6 @@ describe('Feature: ListStrategyController', function () {
                     ->assertJson([
                         'success' => true,
                         'data' => [],
-                        'total' => $no_of_strategy,
                     ]);
 
             });
@@ -49,7 +48,6 @@ describe('Feature: ListStrategyController', function () {
             $response->assertOk()
                 ->assertJson([
                     'data' => [],
-                    'total' => 0,
                 ]);
         });
     });

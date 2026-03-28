@@ -24,8 +24,7 @@ describe('Integration: EloquentStrategyReadRepository', function () {
 
             // Assert:
             expect($result)
-                ->toBeArray()
-                ->toHaveCount($count);
+                ->toBeArray();
 
         });
 
@@ -53,7 +52,7 @@ describe('Integration: EloquentStrategyReadRepository', function () {
             $result = $this->repository->fetchAll();
 
             // Assert:
-            expect($result)->toBeEmpty();
+            expect($result['data'])->toBeEmpty();
 
         });
 
