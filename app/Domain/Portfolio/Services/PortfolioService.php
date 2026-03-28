@@ -2,6 +2,7 @@
 
 namespace App\Domain\Portfolio\Services;
 
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Portfolio\Contracts\Read\PortfolioReadRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Portfolio\Entities\Portfolio;
@@ -13,9 +14,9 @@ class PortfolioService
         private readonly PortfolioReadRepositoryInterface $read_repository
     ) {}
 
-    public function fetchAll(): array
+    public function fetchAll(QueryCriteria $criteria): array
     {
-        return $this->read_repository->fetchAll();
+        return $this->read_repository->fetchAll($criteria);
     }
 
     public function fetchById(int $id): Portfolio

@@ -1,6 +1,7 @@
 <?php
 
 use App\Application\Portolio\UseCases\ListPortfolios;
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
 use App\Models\Portfolio as PortfolioModel;
@@ -15,17 +16,19 @@ describe('Integration: ListPortfolios Use Case', function () {
         $portfolio_entity = $portfolio_model->map(fn (PortfolioModel $model) => Portfolio::fromEloquentModel($model))->all();
 
         $service = Mockery::mock(PortfolioService::class);
+        $criteria = Mockery::mock(QueryCriteria::class);
 
         $use_case = new ListPortfolios($service);
 
         $service->shouldReceive('fetchAll')
             ->once()
+            ->with($criteria)
             ->andReturn([
                 $portfolio_entity,
             ]);
 
         // Act:
-        $result = $use_case->handle();
+        $result = $use_case->handle($criteria);
 
         // Assert:
         expect($result)

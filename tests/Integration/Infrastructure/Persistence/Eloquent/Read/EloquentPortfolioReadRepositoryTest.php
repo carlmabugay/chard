@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentPortfolioReadRepository;
 use App\Models\Portfolio as PortfolioModel;
@@ -20,7 +21,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
             PortfolioModel::factory($count)->create();
 
             // Act:
-            $result = $this->repository->fetchAll();
+            $result = $this->repository->fetchAll(new QueryCriteria);
 
             // Assert:
             expect($result)
@@ -48,7 +49,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
         it('should return an empty array when no records found upon using fetchAll method.', function () {
 
             // Act:
-            $result = $this->repository->fetchAll();
+            $result = $this->repository->fetchAll(new QueryCriteria);
 
             // Assert:
             expect($result['data'])->toBeEmpty();

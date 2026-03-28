@@ -2,6 +2,7 @@
 
 namespace App\Application\Portolio\UseCases;
 
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Portfolio\Services\PortfolioService;
 
 class ListPortfolios
@@ -10,8 +11,8 @@ class ListPortfolios
         private readonly PortfolioService $service
     ) {}
 
-    public function handle(): array
+    public function handle(QueryCriteria $criteria): array
     {
-        return $this->service->fetchAll();
+        return $this->service->fetchAll($criteria);
     }
 }

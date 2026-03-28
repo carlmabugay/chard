@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Portfolio\Contracts\Read\PortfolioReadRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Portfolio\Entities\Portfolio;
@@ -22,15 +23,18 @@ describe('Unit: PortfolioService', function () {
             name: 'PH Stock Market',
         );
 
+        $criteria = new QueryCriteria;
+
         // Expectation:
         $this->read_repository->shouldReceive('fetchAll')
             ->once()
+            ->with($criteria)
             ->andReturn([
                 $portfolio,
             ]);
 
         // Act:
-        $result = $this->service->fetchAll();
+        $result = $this->service->fetchAll($criteria);
 
         // Assert:
         expect($result)->toBeArray();
