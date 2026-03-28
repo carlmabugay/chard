@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Dividend\Contracts\Read\DividendReadRepositoryInterface;
 use App\Domain\Dividend\Contracts\Write\DividendWriteRepositoryInterface;
 use App\Domain\Dividend\Entities\Dividend;
@@ -23,15 +24,18 @@ describe('Unit: DividendService', function () {
             amount: 5000,
         );
 
+        $criteria = new QueryCriteria;
+
         // Expectation:
         $this->read_repository->shouldReceive('findAll')
             ->once()
+            ->with($criteria)
             ->andReturn([
                 $dividend,
             ]);
 
         // Act:
-        $result = $this->service->findAll();
+        $result = $this->service->findAll($criteria);
 
         // Assert:
         expect($result)->toBeArray();

@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Dividend\Entities\Dividend;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentDividendReadRepository;
 use App\Models\Dividend as DividendModel;
@@ -26,7 +27,7 @@ describe('Integration: EloquentDividendReadRepository', function () {
                 ]);
 
             // Act:
-            $result = $this->repository->findAll();
+            $result = $this->repository->findAll(new QueryCriteria);
 
             // Assert:
             expect($result)
@@ -55,7 +56,7 @@ describe('Integration: EloquentDividendReadRepository', function () {
         it('should return an empty array when no records found upon using findAll method.', function () {
 
             // Act:
-            $result = $this->repository->findAll();
+            $result = $this->repository->findAll(new QueryCriteria);
 
             // Assert:
             expect($result['data'])->toBeEmpty();

@@ -2,6 +2,7 @@
 
 namespace App\Domain\Dividend\Services;
 
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Dividend\Contracts\Read\DividendReadRepositoryInterface;
 use App\Domain\Dividend\Contracts\Write\DividendWriteRepositoryInterface;
 use App\Domain\Dividend\Entities\Dividend;
@@ -13,9 +14,9 @@ class DividendService
         private readonly DividendReadRepositoryInterface $read_repository,
     ) {}
 
-    public function findAll(): array
+    public function findAll(QueryCriteria $criteria): array
     {
-        return $this->read_repository->findAll();
+        return $this->read_repository->findAll($criteria);
     }
 
     public function findById(int $id): Dividend

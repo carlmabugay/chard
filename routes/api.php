@@ -18,7 +18,7 @@ use App\Http\Controllers\v1\Strategy\StoreController as StoreStrategyController;
 use App\Http\Controllers\v1\Strategy\UpdateController as UpdateStrategyController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('v1')->group(function () {
+Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
 
     Route::prefix('portfolios')->group(function () {
         Route::get('/', ListPortfolioController::class);
@@ -48,4 +48,4 @@ Route::prefix('v1')->group(function () {
         Route::put('/', UpdateDividendController::class);
     });
 
-})->middleware('auth:sanctum');
+});

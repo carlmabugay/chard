@@ -2,14 +2,15 @@
 
 namespace App\Application\Dividend\UseCases;
 
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Dividend\Services\DividendService;
 
 class ListDividends
 {
     public function __construct(private readonly DividendService $service) {}
 
-    public function handle(): array
+    public function handle(QueryCriteria $criteria): array
     {
-        return $this->service->findAll();
+        return $this->service->findAll($criteria);
     }
 }

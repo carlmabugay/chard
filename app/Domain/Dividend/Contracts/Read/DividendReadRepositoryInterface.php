@@ -2,11 +2,12 @@
 
 namespace App\Domain\Dividend\Contracts\Read;
 
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Dividend\Entities\Dividend;
 
 interface DividendReadRepositoryInterface
 {
-    public function findAll(array $columns = ['*']): array;
+    public function findAll(QueryCriteria $criteria): array;
 
     public function findById(int $id): Dividend;
 }

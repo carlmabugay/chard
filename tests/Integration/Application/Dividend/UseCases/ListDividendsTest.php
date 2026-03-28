@@ -1,6 +1,7 @@
 <?php
 
 use App\Application\Dividend\UseCases\ListDividends;
+use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Dividend\Entities\Dividend;
 use App\Domain\Dividend\Services\DividendService;
 use App\Models\Dividend as DividendModel;
@@ -15,17 +16,19 @@ describe('Integration: ListDividends Use Case', function () {
         $dividend_entity = $dividend_model->map(fn (DividendModel $model) => Dividend::fromEloquentModel($model))->all();
 
         $service = Mockery::mock(DividendService::class);
+        $criteria = Mockery::mock(QueryCriteria::class);
 
         $use_case = new ListDividends($service);
 
         $service->shouldReceive('findAll')
             ->once()
+            ->with($criteria)
             ->andReturn([
                 $dividend_entity,
             ]);
 
         // Act:
-        $result = $use_case->handle();
+        $result = $use_case->handle($criteria);
 
         // Assert:
         expect($result)
