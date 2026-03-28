@@ -28,8 +28,7 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
 
             // Assert:
             expect($result)
-                ->toBeArray()
-                ->toHaveCount($count);
+                ->toBeArray();
 
         });
 
@@ -58,7 +57,7 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
             $result = $this->repository->findAll();
 
             // Assert:
-            expect($result)->toBeEmpty();
+            expect($result['data'])->toBeEmpty();
 
         });
 

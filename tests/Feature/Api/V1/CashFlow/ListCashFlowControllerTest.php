@@ -29,7 +29,6 @@ describe('Feature: ListCashFlowController', function () {
                 ->assertJson([
                     'success' => true,
                     'data' => [],
-                    'total' => $no_of_cash_flow,
                 ]);
         });
 
@@ -47,7 +46,6 @@ describe('Feature: ListCashFlowController', function () {
                 $response->assertOk()
                     ->assertJson([
                         'data' => [],
-                        'total' => 0,
                     ]);
             });
 

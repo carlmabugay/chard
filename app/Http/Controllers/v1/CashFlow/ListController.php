@@ -16,7 +16,10 @@ final class ListController extends Controller
 
             $result = $use_case->handle();
 
-            return CashFlowCollection::make($result);
+            return CashFlowCollection::make($result['data'])->additional([
+                'success' => true,
+                'pagination' => $result['pagination'],
+            ]);
 
         } catch (Throwable $error) {
 
