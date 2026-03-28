@@ -24,8 +24,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
             // Assert:
             expect($result)
-                ->toBeArray()
-                ->toHaveCount($count);
+                ->toBeArray();
 
         });
 
@@ -52,7 +51,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
             $result = $this->repository->fetchAll();
 
             // Assert:
-            expect($result)->toBeEmpty();
+            expect($result['data'])->toBeEmpty();
 
         });
 

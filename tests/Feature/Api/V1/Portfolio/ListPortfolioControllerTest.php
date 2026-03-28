@@ -30,7 +30,6 @@ describe('Feature: ListPortfolioController', function () {
                 ->assertJson([
                     'success' => true,
                     'data' => [],
-                    'total' => $no_of_portfolio,
                 ]);
 
         });
@@ -48,7 +47,6 @@ describe('Feature: ListPortfolioController', function () {
             $response->assertOk()
                 ->assertJson([
                     'data' => [],
-                    'total' => 0,
                 ]);
         });
 

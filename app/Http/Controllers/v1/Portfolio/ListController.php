@@ -15,7 +15,10 @@ final class ListController extends Controller
         try {
             $result = $use_case->handle();
 
-            return PortfolioCollection::make($result);
+            return PortfolioCollection::make($result['data'])->additional([
+                'success' => true,
+                'pagination' => $result['pagination'],
+            ]);
 
         } catch (Throwable $error) {
 
