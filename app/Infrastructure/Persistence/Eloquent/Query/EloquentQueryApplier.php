@@ -8,12 +8,10 @@ use Illuminate\Database\Eloquent\Builder;
 
 class EloquentQueryApplier
 {
-    public static function apply(Builder $query, QueryCriteria $criteria): Builder
+    public static function apply(Builder $query, QueryCriteria $criteria, ?callable $searchCallback = null): Builder
     {
-        if ($criteria->search) {
-            $query->where(function (Builder $query) use ($criteria) {
-                $query->where('symbol', 'like', '%'.$criteria->search.'%');
-            });
+        if ($criteria->search && $searchCallback) {
+            $searchCallback($query, $criteria->search);
         }
 
         foreach ($criteria->filters as $filter) {

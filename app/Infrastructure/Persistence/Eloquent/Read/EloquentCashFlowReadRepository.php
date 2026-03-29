@@ -5,14 +5,29 @@ namespace App\Infrastructure\Persistence\Eloquent\Read;
 use App\Domain\CashFlow\Contracts\Read\CashFlowReadRepositoryInterface;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\Common\Query\QueryCriteria;
+use App\Infrastructure\Persistence\Eloquent\Query\EloquentQueryApplier;
 use App\Infrastructure\Persistence\Pagination\LaravelPaginatorAdapter;
 use App\Models\CashFlow as CashFlowModel;
+use App\Traits\HasEloquentSearchable;
 
 class EloquentCashFlowReadRepository implements CashFlowReadRepositoryInterface
 {
+    use HasEloquentSearchable;
+
+    const array SEARCHABLE_COLUMNS = [
+        'type',
+        'amount',
+    ];
+
     public function findAll(QueryCriteria $criteria): array
     {
         $query = CashFlowModel::query()->with('portfolio');
+
+        $query = EloquentQueryApplier::apply(
+            $query,
+            $criteria,
+            fn ($query, $search) => $this->applySearch($criteria, $search, self::SEARCHABLE_COLUMNS)
+        );
 
         $paginator = $query->paginate(
             perPage: $criteria->per_page,

@@ -8,15 +8,27 @@ use App\Domain\Dividend\Entities\Dividend;
 use App\Infrastructure\Persistence\Eloquent\Query\EloquentQueryApplier;
 use App\Infrastructure\Persistence\Pagination\LaravelPaginatorAdapter;
 use App\Models\Dividend as DividendModel;
+use App\Traits\HasEloquentSearchable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class EloquentDividendReadRepository implements DividendReadRepositoryInterface
 {
+    use HasEloquentSearchable;
+
+    const array SEARCHABLE_COLUMNS = [
+        'symbol',
+        'amount',
+    ];
+
     public function findAll(QueryCriteria $criteria): array
     {
         $query = DividendModel::query()->with('portfolio');
 
-        $query = EloquentQueryApplier::apply($query, $criteria);
+        $query = EloquentQueryApplier::apply(
+            $query,
+            $criteria,
+            fn ($query, $search) => $this->applySearch($criteria, $search, self::SEARCHABLE_COLUMNS)
+        );
 
         $paginator = $query->paginate(
             perPage: $criteria->per_page,

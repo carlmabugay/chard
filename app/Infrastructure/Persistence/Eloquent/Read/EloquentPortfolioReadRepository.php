@@ -8,12 +8,23 @@ use App\Domain\Portfolio\Entities\Portfolio;
 use App\Infrastructure\Persistence\Eloquent\Query\EloquentQueryApplier;
 use App\Infrastructure\Persistence\Pagination\LaravelPaginatorAdapter;
 use App\Models\Portfolio as PortfolioModel;
+use App\Traits\HasEloquentSearchable;
 
 class EloquentPortfolioReadRepository implements PortfolioReadRepositoryInterface
 {
+    use HasEloquentSearchable;
+
+    const array SEARCHABLE_COLUMNS = [
+        'name',
+    ];
+
     public function fetchAll(QueryCriteria $criteria): array
     {
-        $query = EloquentQueryApplier::apply(PortfolioModel::query(), $criteria);
+        $query = EloquentQueryApplier::apply(
+            PortfolioModel::query(),
+            $criteria,
+            fn ($query, $search) => $this->applySearch($criteria, $search, self::SEARCHABLE_COLUMNS)
+        );
 
         $paginator = $query->paginate(
             perPage: $criteria->per_page,

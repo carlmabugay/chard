@@ -8,13 +8,23 @@ use App\Domain\Strategy\Entities\Strategy;
 use App\Infrastructure\Persistence\Eloquent\Query\EloquentQueryApplier;
 use App\Infrastructure\Persistence\Pagination\LaravelPaginatorAdapter;
 use App\Models\Strategy as StrategyModel;
+use App\Traits\HasEloquentSearchable;
 
 class EloquentStrategyReadRepository implements StrategyReadRepositoryInterface
 {
+    use HasEloquentSearchable;
+
+    const array SEARCHABLE_COLUMNS = [
+        'name',
+    ];
+
     public function fetchAll(QueryCriteria $criteria): array
     {
-
-        $query = EloquentQueryApplier::apply(StrategyModel::query(), $criteria);
+        $query = EloquentQueryApplier::apply(
+            StrategyModel::query(),
+            $criteria,
+            fn ($query, $search) => $this->applySearch($criteria, $search, self::SEARCHABLE_COLUMNS)
+        );
 
         $paginator = $query->paginate(
             perPage: $criteria->per_page,
