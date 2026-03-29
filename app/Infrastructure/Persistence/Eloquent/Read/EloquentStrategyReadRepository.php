@@ -23,7 +23,7 @@ class EloquentStrategyReadRepository implements StrategyReadRepositoryInterface
         $query = EloquentQueryApplier::apply(
             StrategyModel::query(),
             $criteria,
-            fn ($query, $search) => $this->applySearch($criteria, $search, self::SEARCHABLE_COLUMNS)
+            fn ($query, $search) => $this->applySearch($query, $search, self::SEARCHABLE_COLUMNS)
         );
 
         $paginator = $query->paginate(

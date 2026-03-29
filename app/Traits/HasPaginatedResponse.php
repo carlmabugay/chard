@@ -12,7 +12,7 @@ trait HasPaginatedResponse
     {
         return new QueryCriteria(
             page: $request->query('page', 1),
-            per_page: $request->query('per_page', 15),
+            per_page: $request->query('per_page', 20),
             search: $request->query('search'),
             filters: $request->query('filters', []),
             sorts: $request->query('sorts', []),

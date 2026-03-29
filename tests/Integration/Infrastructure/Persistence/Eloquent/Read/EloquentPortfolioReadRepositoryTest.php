@@ -1,6 +1,7 @@
 <?php
 
 use App\Domain\Common\Query\QueryCriteria;
+use App\Domain\Common\Query\Sort;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentPortfolioReadRepository;
 use App\Models\Portfolio as PortfolioModel;
@@ -25,7 +26,115 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
             // Assert:
             expect($result)
-                ->toBeArray();
+                ->toBeArray()
+                ->and(expect($result['data'])->toHaveCount($count));
+
+        });
+
+        it('should paginate correctly when using fetchAll method.', function () {
+
+            // Arrange:
+            $count = 50;
+            PortfolioModel::factory($count)->create();
+
+            $page_number = 2;
+            $per_page = 10;
+
+            $criteria = new QueryCriteria(
+                page: $page_number,
+                per_page: $per_page,
+            );
+
+            // Act:
+            $result = $this->repository->fetchAll($criteria);
+
+            // Assert:
+            expect($result)
+                ->toBeArray()
+                ->and(expect($result['pagination']['current_page'])->toBe($page_number))
+                ->and(count($result['data']))->toBe($per_page);
+
+        });
+
+        it('should sort by created date ascending when using fetchAll method.', function () {
+
+            // Arrange:
+            $created_now = now();
+            $created_ten_days_ago = $created_now->subDays(10);
+            $create_twenty_days_ago = $created_now->subDays(20);
+
+            PortfolioModel::factory()->create(['created_at' => $created_now]);
+            PortfolioModel::factory()->create(['created_at' => $created_ten_days_ago]);
+            PortfolioModel::factory()->create(['created_at' => $create_twenty_days_ago]);
+
+            $criteria = new QueryCriteria(
+                sorts: [
+                    new Sort('created_at', 'asc'),
+                ]
+            );
+
+            // Act:
+            $result = $this->repository->fetchAll($criteria);
+
+            $dates = collect($result['data'])->map(fn ($item) => $item->createdAt())->all();
+
+            // Assert
+            expect($dates)->toBe([
+                $create_twenty_days_ago->toDateTimeString(),
+                $created_ten_days_ago->toDateTimeString(),
+                $created_now->toDateTimeString(),
+            ]);
+        });
+
+        it('should search by name when using fetchAll method.', function () {
+
+            // Arrange:
+            $name_to_search = 'Forex';
+            PortfolioModel::factory()->create(['name' => 'Philippine Stock Market']);
+            PortfolioModel::factory()->create(['name' => $name_to_search]);
+
+            $criteria = new QueryCriteria(
+                search: $name_to_search
+            );
+
+            // Act
+            $result = $this->repository->fetchAll($criteria);
+
+            // Assert
+            expect($result['data'])
+                ->toHaveCount(1)
+                ->and($result['data'][0]->name())
+                ->toContain($name_to_search);
+
+        });
+
+        it('should apply sort and pagination together when using fetchAll method.', function () {
+
+            // Arrange:
+            $created_now = now();
+            $created_ten_days_ago = $created_now->subDays(10);
+            $create_twenty_days_ago = $created_now->subDays(20);
+
+            PortfolioModel::factory()->create(['created_at' => $created_now]);
+            PortfolioModel::factory()->create(['created_at' => $created_ten_days_ago]);
+            PortfolioModel::factory()->create(['created_at' => $create_twenty_days_ago]);
+
+            $criteria = new QueryCriteria(
+                page: 1,
+                per_page: 1,
+                sorts: [
+                    new Sort('created_at', 'asc'),
+                ]
+            );
+
+            // Act:
+            $result = $this->repository->fetchAll($criteria);
+
+            // Assert:
+            expect($result['data'])
+                ->toHaveCount(1)
+                ->and($result['data'][0]->createdAt())
+                ->toBe($create_twenty_days_ago->toDateTimeString());
 
         });
 
