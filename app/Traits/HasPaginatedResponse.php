@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Traits;
+
+use App\Domain\Common\Query\QueryCriteria;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
+
+trait HasPaginatedResponse
+{
+    public function prepareQueryCriteria(Request $request): QueryCriteria
+    {
+        return new QueryCriteria(
+            page: $request->query('page', 1),
+            per_page: $request->query('per_page', 15),
+            search: $request->query('search'),
+            filters: $request->query('filters', []),
+            sorts: $request->query('sorts', []),
+        );
+    }
+
+    public function paginatedResponse(ResourceCollection $collection, array $pagination): ResourceCollection
+    {
+        return $collection->additional([
+            'success' => true,
+            'pagination' => $pagination,
+        ]);
+    }
+}

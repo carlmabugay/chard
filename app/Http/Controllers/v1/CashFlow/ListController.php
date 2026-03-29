@@ -3,31 +3,25 @@
 namespace App\Http\Controllers\v1\CashFlow;
 
 use App\Application\CashFlow\UserCases\ListCashFlows;
-use App\Domain\Common\Query\QueryCriteria;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CashFlow\CashFlowCollection;
+use App\Traits\HasPaginatedResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Throwable;
 
 final class ListController extends Controller
 {
-    public function __invoke(ListCashFlows $use_case): JsonResponse|CashFlowCollection
+    use HasPaginatedResponse;
+
+    public function __invoke(Request $request, ListCashFlows $use_case): JsonResource|JsonResponse
     {
         try {
 
-            $criteria = new QueryCriteria(
-                page: request('page', 1),
-                per_page: request('per_page', 15),
+            $result = $use_case->handle($this->prepareQueryCriteria($request));
 
-                search: request('search'),
-            );
-
-            $result = $use_case->handle($criteria);
-
-            return CashFlowCollection::make($result['data'])->additional([
-                'success' => true,
-                'pagination' => $result['pagination'],
-            ]);
+            return $this->paginatedResponse(CashFlowCollection::make($result['data']), $result['pagination']);
 
         } catch (Throwable $error) {
 

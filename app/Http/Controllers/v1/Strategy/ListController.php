@@ -3,31 +3,25 @@
 namespace App\Http\Controllers\v1\Strategy;
 
 use App\Application\Strategy\UseCases\ListStrategies;
-use App\Domain\Common\Query\QueryCriteria;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Strategy\StrategyCollection;
+use App\Traits\HasPaginatedResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Throwable;
 
 final class ListController extends Controller
 {
-    public function __invoke(ListStrategies $use_case): StrategyCollection|JsonResponse
+    use HasPaginatedResponse;
+
+    public function __invoke(Request $request, ListStrategies $use_case): JsonResource|JsonResponse
     {
         try {
 
-            $criteria = new QueryCriteria(
-                page: request('page', 1),
-                per_page: request('per_page', 15),
+            $result = $use_case->handle($this->prepareQueryCriteria($request));
 
-                search: request('search'),
-            );
-
-            $result = $use_case->handle($criteria);
-
-            return StrategyCollection::make($result['data'])->additional([
-                'success' => true,
-                'pagination' => $result['pagination'],
-            ]);
+            return $this->paginatedResponse(StrategyCollection::make($result['data']), $result['pagination']);
 
         } catch (Throwable $error) {
 
