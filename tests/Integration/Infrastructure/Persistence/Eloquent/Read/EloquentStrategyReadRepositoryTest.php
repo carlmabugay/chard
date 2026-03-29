@@ -59,8 +59,8 @@ describe('Integration: EloquentStrategyReadRepository', function () {
 
             // Arrange:
             $created_now = now();
-            $created_ten_days_ago = $created_now->subDays(10);
-            $create_twenty_days_ago = $created_now->subDays(20);
+            $created_ten_days_ago = now()->subDays(10);
+            $create_twenty_days_ago = now()->subDays(20);
 
             StrategyModel::factory()->create(['created_at' => $created_now]);
             StrategyModel::factory()->create(['created_at' => $created_ten_days_ago]);

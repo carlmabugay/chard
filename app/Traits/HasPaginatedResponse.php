@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Domain\Common\Query\QueryCriteria;
+use App\Domain\Common\Query\Sort;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -15,7 +16,13 @@ trait HasPaginatedResponse
             per_page: $request->query('per_page', 20),
             search: $request->query('search'),
             filters: $request->query('filters', []),
-            sorts: $request->query('sorts', []),
+            sorts: $request->query('sorts') ?
+            [
+                new Sort(
+                    field: data_get($request->query('sorts'), '0.field', null),
+                    direction: data_get($request->query('sorts'), '0.dir', 'asc'),
+                ),
+            ] : []
         );
     }
 
