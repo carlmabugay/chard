@@ -3,6 +3,7 @@
 namespace App\Application\CashFlow\UserCases;
 
 use App\Domain\CashFlow\Services\CashFlowService;
+use App\Domain\Common\Query\QueryCriteria;
 
 class ListCashFlows
 {
@@ -10,8 +11,8 @@ class ListCashFlows
         private readonly CashFlowService $service
     ) {}
 
-    public function handle(): array
+    public function handle(QueryCriteria $criteria): array
     {
-        return $this->service->findAll();
+        return $this->service->findAll($criteria);
     }
 }

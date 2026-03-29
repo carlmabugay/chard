@@ -5,6 +5,7 @@ namespace App\Domain\CashFlow\Services;
 use App\Domain\CashFlow\Contracts\Read\CashFlowReadRepositoryInterface;
 use App\Domain\CashFlow\Contracts\Write\CashFlowWriteRepositoryInterface;
 use App\Domain\CashFlow\Entities\CashFlow;
+use App\Domain\Common\Query\QueryCriteria;
 
 class CashFlowService
 {
@@ -13,9 +14,9 @@ class CashFlowService
         private readonly CashFlowReadRepositoryInterface $read_repository,
     ) {}
 
-    public function findAll(): array
+    public function findAll(QueryCriteria $criteria): array
     {
-        return $this->read_repository->findAll();
+        return $this->read_repository->findAll($criteria);
     }
 
     public function findById(int $id): CashFlow

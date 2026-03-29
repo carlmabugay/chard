@@ -4,6 +4,7 @@ use App\Domain\CashFlow\Contracts\Read\CashFlowReadRepositoryInterface;
 use App\Domain\CashFlow\Contracts\Write\CashFlowWriteRepositoryInterface;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\CashFlow\Services\CashFlowService;
+use App\Domain\Common\Query\QueryCriteria;
 use App\Enums\CashFlowType;
 
 beforeEach(function () {
@@ -23,15 +24,18 @@ describe('Unit: CashFlowService', function () {
             amount: 5000,
         );
 
+        $criteria = new QueryCriteria;
+
         // Expectation:
         $this->read_repository->shouldReceive('findAll')
             ->once()
+            ->with($criteria)
             ->andReturn([
                 $cash_flow,
             ]);
 
         // Act:
-        $result = $this->service->findAll();
+        $result = $this->service->findAll($criteria);
 
         // Assert:
         expect($result)->toBeArray();

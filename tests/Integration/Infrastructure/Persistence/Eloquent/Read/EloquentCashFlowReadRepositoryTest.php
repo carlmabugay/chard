@@ -1,6 +1,7 @@
 <?php
 
 use App\Domain\CashFlow\Entities\CashFlow;
+use App\Domain\Common\Query\QueryCriteria;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentCashFlowReadRepository;
 use App\Models\CashFlow as CashFlowModel;
 use App\Models\Portfolio as PortfolioModel;
@@ -24,7 +25,7 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
             ]);
 
             // Act:
-            $result = $this->repository->findAll();
+            $result = $this->repository->findAll(new QueryCriteria);
 
             // Assert:
             expect($result)
@@ -54,7 +55,7 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
         it('should return an empty array when no records found upon using findAll method.', function () {
 
             // Act:
-            $result = $this->repository->findAll();
+            $result = $this->repository->findAll(new QueryCriteria);
 
             // Assert:
             expect($result['data'])->toBeEmpty();

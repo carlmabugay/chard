@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1\CashFlow;
 
 use App\Application\CashFlow\UserCases\ListCashFlows;
+use App\Domain\Common\Query\QueryCriteria;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CashFlow\CashFlowCollection;
 use Illuminate\Http\JsonResponse;
@@ -14,7 +15,14 @@ final class ListController extends Controller
     {
         try {
 
-            $result = $use_case->handle();
+            $criteria = new QueryCriteria(
+                page: request('page', 1),
+                per_page: request('per_page', 15),
+
+                search: request('search'),
+            );
+
+            $result = $use_case->handle($criteria);
 
             return CashFlowCollection::make($result['data'])->additional([
                 'success' => true,
