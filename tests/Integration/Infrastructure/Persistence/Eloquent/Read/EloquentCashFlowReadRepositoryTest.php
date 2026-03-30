@@ -85,7 +85,7 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
 
         });
 
-        it('should sort by amount ascending when using findAll method.', function () {
+        it('should sort by amount descending when using findAll method.', function () {
 
             // Arrange:
             CashFlowModel::factory()->create(['amount' => 300]);
