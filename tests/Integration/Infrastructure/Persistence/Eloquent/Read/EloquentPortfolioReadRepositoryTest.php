@@ -18,8 +18,8 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
         it('should return all portfolios when using fetchAll method.', function () {
 
             // Arrange:
-            $count = 10;
-            PortfolioModel::factory($count)->create();
+            $no_of_portfolios = 10;
+            PortfolioModel::factory($no_of_portfolios)->create();
 
             // Act:
             $result = $this->repository->fetchAll(new QueryCriteria);
@@ -27,7 +27,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
             // Assert:
             expect($result)
                 ->toBeArray()
-                ->and(expect($result['data'])->toHaveCount($count));
+                ->and(expect($result['data'])->toHaveCount($no_of_portfolios));
 
         });
 

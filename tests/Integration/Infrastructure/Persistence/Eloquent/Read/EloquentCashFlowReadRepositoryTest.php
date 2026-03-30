@@ -22,18 +22,17 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
         it('should return all cash flows when using findAll method.', function () {
 
             // Arrange:
-            $count = 10;
+            $no_of_cash_flows = 10;
             $portfolio = PortfolioModel::factory()->create();
-            CashFlowModel::factory($count)->create([
-                'portfolio_id' => $portfolio->id,
-            ]);
+            CashFlowModel::factory($no_of_cash_flows)->for($portfolio)->create();
 
             // Act:
             $result = $this->repository->findAll(new QueryCriteria);
 
             // Assert:
             expect($result)
-                ->toBeArray();
+                ->toBeArray()
+                ->and(expect($result['data'])->toHaveCount($no_of_cash_flows));
 
         });
 

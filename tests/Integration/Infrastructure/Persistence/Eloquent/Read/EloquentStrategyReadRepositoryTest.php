@@ -18,15 +18,16 @@ describe('Integration: EloquentStrategyReadRepository', function () {
         it('should return all strategies when using fetchAll method.', function () {
 
             // Arrange:
-            $count = 10;
-            StrategyModel::factory($count)->create();
+            $no_of_strategies = 10;
+            StrategyModel::factory($no_of_strategies)->create();
 
             // Act:
             $result = $this->repository->fetchAll(new QueryCriteria);
 
             // Assert:
             expect($result)
-                ->toBeArray();
+                ->toBeArray()
+                ->and(expect($result['data'])->toHaveCount($no_of_strategies));
 
         });
 

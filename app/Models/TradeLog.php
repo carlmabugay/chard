@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Database\Factories\TradeLogFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TradeLog extends Model
 {
-    /** @use HasFactory<TradeLogFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -27,4 +26,9 @@ class TradeLog extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function portfolio(): BelongsTo
+    {
+        return $this->belongsTo(Portfolio::class);
+    }
 }

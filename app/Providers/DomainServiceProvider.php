@@ -10,10 +10,12 @@ use App\Domain\Portfolio\Contracts\Read\PortfolioReadRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Strategy\Contracts\Read\StrategyReadRepositoryInterface;
 use App\Domain\Strategy\Contracts\Write\StrategyWriteRepositoryInterface;
+use App\Domain\TradeLog\Contracts\Read\TradeLogReadRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentCashFlowReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentDividendReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentPortfolioReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentStrategyReadRepository;
+use App\Infrastructure\Persistence\Eloquent\Read\EloquentTradeLogReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentCashFlowWriteRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentDividendWriteRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentPortfolioWriteRepository;
@@ -34,6 +36,8 @@ class DomainServiceProvider extends ServiceProvider
 
         DividendReadRepositoryInterface::class => EloquentDividendReadRepository::class,
         DividendWriteRepositoryInterface::class => EloquentDividendWriteRepository::class,
+
+        TradeLogReadRepositoryInterface::class => EloquentTradeLogReadRepository::class,
     ];
 
     /**

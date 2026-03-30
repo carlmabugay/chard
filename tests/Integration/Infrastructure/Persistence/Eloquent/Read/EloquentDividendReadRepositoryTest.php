@@ -21,18 +21,15 @@ describe('Integration: EloquentDividendReadRepository', function () {
             // Arrange:
             $no_of_dividends = 10;
             $portfolio = PortfolioModel::factory()->create();
-            DividendModel::factory()
-                ->count($no_of_dividends)
-                ->create([
-                    'portfolio_id' => $portfolio->id,
-                ]);
+            DividendModel::factory($no_of_dividends)->for($portfolio)->create();
 
             // Act:
             $result = $this->repository->findAll(new QueryCriteria);
 
             // Assert:
             expect($result)
-                ->toBeArray();
+                ->toBeArray()
+                ->and(expect($result['data'])->toHaveCount($no_of_dividends));
         });
 
         it('should paginate correctly when using findAll method.', function () {
