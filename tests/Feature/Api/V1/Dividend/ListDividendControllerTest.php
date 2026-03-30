@@ -11,7 +11,7 @@ describe('Feature: ListDividendController', function () {
 
     describe('Positives', function () {
 
-        it('should return collection of authenticated user\'s dividend resource when using /api/v1/dividends GET api endpoint.', function () {
+        it('should return collection of  dividend resource when using /api/v1/dividends GET api endpoint.', function () {
 
             // Arrange:
             $no_of_dividends = 50;
@@ -31,6 +31,119 @@ describe('Feature: ListDividendController', function () {
                     'data' => [],
                 ]);
 
+        });
+
+        it('should paginate dividends when using /api/v1/dividends GET api endpoint.', function () {
+
+            // Arrange:
+            $no_of_dividends = 50;
+            $portfolio = PortfolioModel::factory()->create();
+            DividendModel::factory()->for($portfolio)->count($no_of_dividends)->create();
+
+            $page_number = 2;
+            $per_page = 10;
+
+            $query = http_build_query([
+                'page' => $page_number,
+                'per_page' => $per_page,
+            ]);
+
+            Sanctum::actingAs($portfolio->user);
+
+            // Act:
+            $response = $this->get(sprintf('/api/v1/dividends?%s', $query));
+
+            // Assert:
+            $response->assertOk()
+                ->assertJsonPath('success', true)
+                ->assertJsonPath('pagination.current_page', $page_number)
+                ->assertJsonCount($per_page, 'data');
+
+        });
+
+        it('should sort dividends by amount descending when using /api/v1/dividends GET api endpoint.', function () {
+
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            DividendModel::factory()->for($portfolio)->create(['amount' => 4000]);
+            DividendModel::factory()->for($portfolio)->create(['amount' => 2500]);
+            DividendModel::factory()->for($portfolio)->create(['amount' => 10200]);
+
+            $query = http_build_query([
+                'sorts' => [
+                    ['field' => 'amount', 'direction' => 'desc'],
+                ],
+            ]);
+
+            Sanctum::actingAs($portfolio->user);
+
+            // Act:
+            $response = $this->get(sprintf('/api/v1/dividends?%s', $query));
+
+            $data = $response->json('data');
+
+            $amounts = collect($data)->map(fn ($item) => $item['amount'])->all();
+
+            // Assert:
+            expect($amounts)->toBe([10200, 4000, 2500]);
+
+        });
+
+        it('should search dividends by symbol when using /api/v1/dividends GET api endpoint.', function () {
+
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            $symbol_to_search = 'BPI';
+            DividendModel::factory()->for($portfolio)->create(['symbol' => 'JFC']);
+            DividendModel::factory()->for($portfolio)->create(['symbol' => 'AC']);
+            DividendModel::factory()->for($portfolio)->create(['symbol' => $symbol_to_search]);
+
+            $query = http_build_query([
+                'search' => $symbol_to_search,
+            ]);
+
+            Sanctum::actingAs($portfolio->user);
+
+            // Act:
+            $response = $this->get(sprintf('/api/v1/dividends?%s', $query));
+
+            // Assert:
+            $response->assertOk()
+                ->assertJsonCount(1, 'data')
+                ->assertJsonPath('data.0.symbol', $symbol_to_search);
+
+        });
+
+        it('should apply search, sort, and pagination together when using /api/v1/dividends GET api endpoint.', function () {
+
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            DividendModel::factory()->for($portfolio)->create(['symbol' => 'JFC', 'amount' => 4000]);
+            DividendModel::factory()->for($portfolio)->create(['symbol' => 'AC', 'amount' => 2500]);
+            DividendModel::factory()->for($portfolio)->create(['symbol' => 'BPI', 'amount' => 10200]);
+
+            $query = http_build_query([
+                'search' => 'a',
+                'page' => 1,
+                'per_page' => 1,
+                'sorts' => [
+                    ['field' => 'amount', 'direction' => 'desc'],
+                ],
+            ]);
+
+            Sanctum::actingAs($portfolio->user);
+
+            // Act:
+            $response = $this->get(sprintf('/api/v1/dividends?%s', $query));
+
+            // Assert
+            $response->assertOk()
+                ->assertJsonCount(1, 'data')
+                ->assertJsonPath('data.0.symbol', 'AC')
+                ->assertJsonPath('data.0.amount', 2500);
         });
 
     });

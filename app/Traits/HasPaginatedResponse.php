@@ -20,7 +20,7 @@ trait HasPaginatedResponse
             [
                 new Sort(
                     field: data_get($request->query('sorts'), '0.field', null),
-                    direction: data_get($request->query('sorts'), '0.dir', 'asc'),
+                    direction: data_get($request->query('sorts'), '0.direction', 'asc'),
                 ),
             ] : []
         );
