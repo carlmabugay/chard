@@ -16,6 +16,7 @@ use App\Http\Controllers\v1\Strategy\ListController as ListStrategyController;
 use App\Http\Controllers\v1\Strategy\ShowController as ShowStrategyController;
 use App\Http\Controllers\v1\Strategy\StoreController as StoreStrategyController;
 use App\Http\Controllers\v1\Strategy\UpdateController as UpdateStrategyController;
+use App\Http\Controllers\v1\TradeLog\ListController as ListTradeLogController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
@@ -46,6 +47,10 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::get('/{id}', ShowDividendController::class);
         Route::post('/', StoreDividendController::class);
         Route::put('/', UpdateDividendController::class);
+    });
+
+    Route::prefix('trade-logs')->group(function () {
+        Route::get('/', ListTradeLogController::class);
     });
 
 });
