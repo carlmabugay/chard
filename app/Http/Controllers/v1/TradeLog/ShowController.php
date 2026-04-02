@@ -7,8 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\TradeLog\TradeLogResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Throwable;
 
-class ShowController extends Controller
+final class ShowController extends Controller
 {
     public function __invoke(int $id, GetTradeLog $use_case): TradeLogResource|JsonResponse
     {

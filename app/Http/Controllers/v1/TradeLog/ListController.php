@@ -9,8 +9,9 @@ use App\Traits\HasPaginatedResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Throwable;
 
-class ListController extends Controller
+final class ListController extends Controller
 {
     use HasPaginatedResponse;
 
@@ -22,7 +23,7 @@ class ListController extends Controller
 
             return $this->paginatedResponse(TradeLogCollection::make($result['data']), $result['pagination']);
 
-        } catch (\Throwable $error) {
+        } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
     }
