@@ -16,9 +16,17 @@ class TradeLogResource extends JsonResource
             'type' => $this->resource->type(),
             'price' => $this->resource->price(),
             'shares' => $this->resource->shares(),
+            'fees' => $this->resource->fees(),
             'created_at' => $this->resource->createdAt(),
             'updated_at' => $this->resource->updatedAt(),
             'portfolio' => PortfolioResource::make($this->resource->portfolio()),
+        ];
+    }
+
+    public function with($request): array
+    {
+        return [
+            'success' => true,
         ];
     }
 }

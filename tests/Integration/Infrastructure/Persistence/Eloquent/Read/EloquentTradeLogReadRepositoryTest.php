@@ -3,6 +3,7 @@
 use App\Domain\Common\Query\Filter;
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Common\Query\Sort;
+use App\Domain\TradeLog\Entities\TradeLog;
 use App\Enums\OperatorType;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentTradeLogReadRepository;
 use App\Models\Portfolio as PortfolioModel;
@@ -158,6 +159,21 @@ describe('Integration: EloquentTradeLogReadRepository', function () {
                 ->toBe('buy')
                 ->and($result['data'][0]->shares())
                 ->toBe(290);
+
+        });
+
+        it('should return a trade log when using findById method.', function () {
+
+            // Arrange:
+            $trade_log = TradeLogModel::factory()->create();
+
+            // Act:
+            $result = $this->repository->findById($trade_log->id);
+
+            // Assert:
+            expect($result)
+                ->toBeInstanceOf(TradeLog::class)
+                ->and($result->id())->toBe($trade_log->id);
 
         });
     });

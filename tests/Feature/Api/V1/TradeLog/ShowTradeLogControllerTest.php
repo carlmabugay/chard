@@ -1,0 +1,41 @@
+<?php
+
+use App\Models\TradeLog as TradeLogModel;
+use Laravel\Sanctum\Sanctum;
+
+describe('Feature: ShowTradeLogController', function () {
+
+    it('should return a trade log resource when using /api/v1/trade-logs/{id} GET api endpoint.', function () {
+
+        // Arrange:
+        $trade_log = TradeLogModel::factory()->create();
+
+        // Act:
+        Sanctum::actingAs($trade_log->portfolio->user);
+        $response = $this->get(sprintf('%s/%s', '/api/v1/trade-logs', $trade_log->id));
+
+        // Assert:
+        $response->assertOk()
+            ->assertExactJson([
+                'success' => true,
+                'data' => [
+                    'id' => $trade_log->id,
+                    'symbol' => $trade_log->symbol,
+                    'type' => $trade_log->type,
+                    'price' => $trade_log->price,
+                    'shares' => $trade_log->shares,
+                    'fees' => $trade_log->fees,
+                    'created_at' => $trade_log->created_at->toDateTimeString(),
+                    'updated_at' => $trade_log->updated_at->toDateTimeString(),
+                    'portfolio' => [
+                        'id' => $trade_log->portfolio->id,
+                        'name' => $trade_log->portfolio->name,
+                        'created_at' => $trade_log->portfolio->created_at->toDateTimeString(),
+                        'updated_at' => $trade_log->portfolio->updated_at->toDateTimeString(),
+                    ],
+                ],
+            ]);
+
+    });
+
+});

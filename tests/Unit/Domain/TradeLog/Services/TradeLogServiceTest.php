@@ -40,4 +40,33 @@ describe('Unit: TradeLogServiceTest', function () {
         // Assert:
         expect($result)->toBeArray();
     });
+
+    it('should return a trade logs when using findById method.', function () {
+
+        // Arrange:
+        $random_trade_log_id = rand(1, 10);
+        $trade_log = new TradeLog(
+            symbol: 'JFC',
+            type: 'buy',
+            price: 100,
+            shares: 5000,
+            fees: 250,
+            id: $random_trade_log_id,
+        );
+
+        // Expectation:
+        $this->read_repository->shouldReceive('findById')
+            ->once()
+            ->with($random_trade_log_id)
+            ->andReturn($trade_log);
+
+        // Act:
+        $result = $this->service->findById($random_trade_log_id);
+
+        // Assert:
+        expect($result)
+            ->toBeInstanceOf(TradeLog::class)
+            ->and($result->id())->toBe($random_trade_log_id);
+
+    });
 });
