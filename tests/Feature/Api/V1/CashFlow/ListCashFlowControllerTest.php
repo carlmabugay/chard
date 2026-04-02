@@ -12,7 +12,7 @@ describe('Feature: ListCashFlowController', function () {
 
     describe('Positives', function () {
 
-        it('should return collection of cash flow resource when using /api/v1/cashflows GET api endpoint.', function () {
+        it('should return collection of cash flow resource when using /api/v1/cash-flows GET api endpoint.', function () {
 
             // Arrange:
             $no_of_cash_flows = 50;
@@ -21,7 +21,7 @@ describe('Feature: ListCashFlowController', function () {
 
             // Act:
             Sanctum::actingAs($portfolio->user);
-            $response = $this->get('/api/v1/cashflows');
+            $response = $this->get('/api/v1/cash-flows');
 
             // Assert:
             $response->assertOk()
@@ -31,7 +31,7 @@ describe('Feature: ListCashFlowController', function () {
                 ]);
         });
 
-        it('should paginate cash flows when using /api/v1/cashflows GET api endpoint.', function () {
+        it('should paginate cash flows when using /api/v1/cash-flows GET api endpoint.', function () {
 
             // Arrange:
             $no_of_cash_flows = 50;
@@ -49,7 +49,7 @@ describe('Feature: ListCashFlowController', function () {
             Sanctum::actingAs($portfolio->user);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/cashflows?%s', $query));
+            $response = $this->get(sprintf('/api/v1/cash-flows?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -59,7 +59,7 @@ describe('Feature: ListCashFlowController', function () {
 
         });
 
-        it('should filter cash flows by type when using /api/v1/cashflows GET api endpoint.', function () {
+        it('should filter cash flows by type when using /api/v1/cash-flows GET api endpoint.', function () {
 
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
@@ -76,7 +76,7 @@ describe('Feature: ListCashFlowController', function () {
             Sanctum::actingAs($portfolio->user);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/cashflows?%s', $query));
+            $response = $this->get(sprintf('/api/v1/cash-flows?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -85,7 +85,7 @@ describe('Feature: ListCashFlowController', function () {
 
         });
 
-        it('should sort cash flows by amount descending when using /api/v1/cashflows GET api endpoint.', function () {
+        it('should sort cash flows by amount descending when using /api/v1/cash-flows GET api endpoint.', function () {
 
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
@@ -103,7 +103,7 @@ describe('Feature: ListCashFlowController', function () {
             Sanctum::actingAs($portfolio->user);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/cashflows?%s', $query));
+            $response = $this->get(sprintf('/api/v1/cash-flows?%s', $query));
 
             $data = $response->json('data');
 
@@ -114,7 +114,7 @@ describe('Feature: ListCashFlowController', function () {
 
         });
 
-        it('should search cash flows by amount when using /api/v1/cashflows GET api endpoint.', function () {
+        it('should search cash flows by amount when using /api/v1/cash-flows GET api endpoint.', function () {
 
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
@@ -131,7 +131,7 @@ describe('Feature: ListCashFlowController', function () {
             Sanctum::actingAs($portfolio->user);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/cashflows?%s', $query));
+            $response = $this->get(sprintf('/api/v1/cash-flows?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -140,7 +140,7 @@ describe('Feature: ListCashFlowController', function () {
 
         });
 
-        it('should apply search, filter, sort, and pagination together when using /api/v1/cashflows GET api endpoint.', function () {
+        it('should apply search, filter, sort, and pagination together when using /api/v1/cash-flows GET api endpoint.', function () {
 
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
@@ -167,7 +167,7 @@ describe('Feature: ListCashFlowController', function () {
             Sanctum::actingAs($portfolio->user);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/cashflows?%s', $query));
+            $response = $this->get(sprintf('/api/v1/cash-flows?%s', $query));
 
             // Assert
             $response->assertOk()
@@ -177,7 +177,7 @@ describe('Feature: ListCashFlowController', function () {
 
         });
 
-        it('should return empty data and 0 total record when no records found upon using /api/v1/cashflows GET api endpoint.',
+        it('should return empty data and 0 total record when no records found upon using /api/v1/cash-flows GET api endpoint.',
             function () {
 
                 // Arrange:
@@ -185,7 +185,7 @@ describe('Feature: ListCashFlowController', function () {
 
                 // Act:
                 Sanctum::actingAs($user);
-                $response = $this->get('/api/v1/cashflows');
+                $response = $this->get('/api/v1/cash-flows');
 
                 // Assert:
                 $response->assertOk()
@@ -198,7 +198,7 @@ describe('Feature: ListCashFlowController', function () {
 
     describe('Negatives', function () {
 
-        it('should handle server error response when using /api/v1/cashflows GET api endpoint.', function () {
+        it('should handle server error response when using /api/v1/cash-flows GET api endpoint.', function () {
 
             // Arrange:
             $user = UserModel::factory()->create();
@@ -212,7 +212,7 @@ describe('Feature: ListCashFlowController', function () {
 
             // Act:
             Sanctum::actingAs($user);
-            $response = $this->get('/api/v1/cashflows');
+            $response = $this->get('/api/v1/cash-flows');
 
             // Assert:
             $response->assertInternalServerError()

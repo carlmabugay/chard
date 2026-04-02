@@ -36,7 +36,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::put('/', UpdateStrategyController::class);
     });
 
-    Route::prefix('cashflows')->group(function () {
+    Route::prefix('cash-flows')->group(function () {
         Route::get('/', ListCashFlowController::class);
         Route::post('/', StoreCashFlowController::class);
         Route::get('/{id}', ShowCashFlowController::class);

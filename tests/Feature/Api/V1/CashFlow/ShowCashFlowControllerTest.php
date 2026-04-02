@@ -10,14 +10,14 @@ describe('Feature: ShowCashFlowController', function () {
 
     describe('Positives', function () {
 
-        it('should return a cash flow resource when using /api/v1/cashflows/{id} GET api endpoint.', function () {
+        it('should return a cash flow resource when using /api/v1/cash-flows/{id} GET api endpoint.', function () {
 
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
 
             // Act:
             Sanctum::actingAs($cash_flow->portfolio->user);
-            $response = $this->get(sprintf('%s/%s', '/api/v1/cashflows', $cash_flow->id));
+            $response = $this->get(sprintf('%s/%s', '/api/v1/cash-flows', $cash_flow->id));
 
             // Assert:
             $response->assertOk()
@@ -44,7 +44,7 @@ describe('Feature: ShowCashFlowController', function () {
 
     describe('Negatives', function () {
 
-        it('should handle error message when no record found upon using /api/v1/cashflows/{id} GET api endpoint.', function () {
+        it('should handle error message when no record found upon using /api/v1/cash-flows/{id} GET api endpoint.', function () {
 
             // Arrange:
             $random_id = 100;
@@ -52,7 +52,7 @@ describe('Feature: ShowCashFlowController', function () {
 
             // Act:
             Sanctum::actingAs($cash_flow->portfolio->user);
-            $response = $this->get(sprintf('/api/v1/cashflows/%s', $random_id));
+            $response = $this->get(sprintf('/api/v1/cash-flows/%s', $random_id));
 
             // Assert:
 
@@ -65,7 +65,7 @@ describe('Feature: ShowCashFlowController', function () {
 
         });
 
-        it('should handle server error response when using /api/v1/cashflows/{id} GET api endpoint.', function () {
+        it('should handle server error response when using /api/v1/cash-flows/{id} GET api endpoint.', function () {
 
             // Arrange:
             $random_id = 100;
@@ -80,7 +80,7 @@ describe('Feature: ShowCashFlowController', function () {
 
             // Act:
             Sanctum::actingAs($user);
-            $response = $this->get(sprintf('/api/v1/cashflows/%s', $random_id));
+            $response = $this->get(sprintf('/api/v1/cash-flows/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()
