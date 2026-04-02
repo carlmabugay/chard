@@ -18,7 +18,7 @@ class EloquentPortfolioReadRepository implements PortfolioReadRepositoryInterfac
         'name',
     ];
 
-    public function fetchAll(QueryCriteria $criteria): array
+    public function findAll(QueryCriteria $criteria): array
     {
         $query = EloquentQueryApplier::apply(
             PortfolioModel::query(),
@@ -39,7 +39,7 @@ class EloquentPortfolioReadRepository implements PortfolioReadRepositoryInterfac
         return $result->toArray();
     }
 
-    public function fetchById(int $id): Portfolio
+    public function findById(int $id): Portfolio
     {
         $portfolio = PortfolioModel::query()->findOrFail($id);
 

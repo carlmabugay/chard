@@ -13,6 +13,6 @@ class ListPortfolios
 
     public function handle(QueryCriteria $criteria): array
     {
-        return $this->service->fetchAll($criteria);
+        return $this->service->findAll($criteria);
     }
 }

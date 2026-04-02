@@ -15,7 +15,7 @@ beforeEach(function () {
 
 describe('Unit: PortfolioService', function () {
 
-    it('should return all portfolios when using fetchAll method.', function () {
+    it('should return all portfolios when using findAll method.', function () {
 
         // Arrange:
         $portfolio = new Portfolio(
@@ -26,7 +26,7 @@ describe('Unit: PortfolioService', function () {
         $criteria = new QueryCriteria;
 
         // Expectation:
-        $this->read_repository->shouldReceive('fetchAll')
+        $this->read_repository->shouldReceive('findAll')
             ->once()
             ->with($criteria)
             ->andReturn([
@@ -34,13 +34,13 @@ describe('Unit: PortfolioService', function () {
             ]);
 
         // Act:
-        $result = $this->service->fetchAll($criteria);
+        $result = $this->service->findAll($criteria);
 
         // Assert:
         expect($result)->toBeArray();
     });
 
-    it('should return a portfolio when using fetchById method.', function () {
+    it('should return a portfolio when using findById method.', function () {
 
         // Arrange:
         $random_portfolio_id = rand(1, 10);
@@ -52,13 +52,13 @@ describe('Unit: PortfolioService', function () {
         );
 
         // Expectation:
-        $this->read_repository->shouldReceive('fetchById')
+        $this->read_repository->shouldReceive('findById')
             ->once()
             ->with($random_portfolio_id)
             ->andReturn($portfolio);
 
         // Act:
-        $result = $this->service->fetchById($random_portfolio_id);
+        $result = $this->service->findById($random_portfolio_id);
 
         // Assert:
         expect($result)

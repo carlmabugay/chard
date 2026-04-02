@@ -19,7 +19,7 @@ describe('Integration: GetStrategy Use Case', function () {
         $use_case = new GetStrategy($service);
 
         // Expectation:
-        $service->shouldReceive('fetchById')
+        $service->shouldReceive('findById')
             ->once()
             ->with($strategy_model->id)
             ->andReturn($strategy_entity);

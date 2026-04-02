@@ -15,14 +15,14 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
     describe('Positives', function () {
 
-        it('should return all portfolios when using fetchAll method.', function () {
+        it('should return all portfolios when using findAll method.', function () {
 
             // Arrange:
             $no_of_portfolios = 10;
             PortfolioModel::factory($no_of_portfolios)->create();
 
             // Act:
-            $result = $this->repository->fetchAll(new QueryCriteria);
+            $result = $this->repository->findAll(new QueryCriteria);
 
             // Assert:
             expect($result)
@@ -31,7 +31,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
         });
 
-        it('should paginate correctly when using fetchAll method.', function () {
+        it('should paginate correctly when using findAll method.', function () {
 
             // Arrange:
             $no_of_portfolios = 50;
@@ -46,7 +46,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
             );
 
             // Act:
-            $result = $this->repository->fetchAll($criteria);
+            $result = $this->repository->findAll($criteria);
 
             // Assert:
             expect($result)
@@ -56,7 +56,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
         });
 
-        it('should sort by created date ascending when using fetchAll method.', function () {
+        it('should sort by created date ascending when using findAll method.', function () {
 
             // Arrange:
             $created_now = now();
@@ -74,7 +74,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
             );
 
             // Act:
-            $result = $this->repository->fetchAll($criteria);
+            $result = $this->repository->findAll($criteria);
 
             $dates = collect($result['data'])->map(fn ($item) => $item->createdAt())->all();
 
@@ -86,7 +86,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
             ]);
         });
 
-        it('should search by name when using fetchAll method.', function () {
+        it('should search by name when using findAll method.', function () {
 
             // Arrange:
             $name_to_search = 'Forex';
@@ -98,7 +98,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
             );
 
             // Act
-            $result = $this->repository->fetchAll($criteria);
+            $result = $this->repository->findAll($criteria);
 
             // Assert
             expect($result['data'])
@@ -108,7 +108,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
         });
 
-        it('should apply search, sort and pagination together when using fetchAll method.', function () {
+        it('should apply search, sort and pagination together when using findAll method.', function () {
 
             // Arrange:
             $created_now = now();
@@ -131,7 +131,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
             );
 
             // Act:
-            $result = $this->repository->fetchAll($criteria);
+            $result = $this->repository->findAll($criteria);
 
             // Assert:
             expect($result['data'])
@@ -143,13 +143,13 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
         });
 
-        it('should return a portfolio when using fetchById method.', function () {
+        it('should return a portfolio when using findById method.', function () {
 
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
             // Act:
-            $result = $this->repository->fetchById($portfolio->id);
+            $result = $this->repository->findById($portfolio->id);
 
             // Assert:
             expect($result)
@@ -160,23 +160,23 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
     describe('Negatives', function () {
 
-        it('should return an empty array when no records found upon using fetchAll method.', function () {
+        it('should return an empty array when no records found upon using findAll method.', function () {
 
             // Act:
-            $result = $this->repository->fetchAll(new QueryCriteria);
+            $result = $this->repository->findAll(new QueryCriteria);
 
             // Assert:
             expect($result['data'])->toBeEmpty();
 
         });
 
-        it('should throw an exception when no record found upon using fetchById method.', function () {
+        it('should throw an exception when no record found upon using findById method.', function () {
 
             // Arrange:
             $random_id = rand(1, 10);
 
             // Act:
-            $this->repository->fetchById($random_id);
+            $this->repository->findById($random_id);
 
             // Assert:
         })->throws(ModelNotFoundException::class);

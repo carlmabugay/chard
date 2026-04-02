@@ -20,7 +20,7 @@ describe('Integration: ListPortfolios Use Case', function () {
 
         $use_case = new ListPortfolios($service);
 
-        $service->shouldReceive('fetchAll')
+        $service->shouldReceive('findAll')
             ->once()
             ->with($criteria)
             ->andReturn([

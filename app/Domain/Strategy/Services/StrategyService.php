@@ -14,14 +14,14 @@ class StrategyService
         private readonly StrategyReadRepositoryInterface $read_repository,
     ) {}
 
-    public function fetchAll(QueryCriteria $criteria): array
+    public function findAll(QueryCriteria $criteria): array
     {
-        return $this->read_repository->fetchAll($criteria);
+        return $this->read_repository->findAll($criteria);
     }
 
-    public function fetchById(int $id): Strategy
+    public function findById(int $id): Strategy
     {
-        return $this->read_repository->fetchById($id);
+        return $this->read_repository->findById($id);
     }
 
     public function store(Strategy $strategy): Strategy

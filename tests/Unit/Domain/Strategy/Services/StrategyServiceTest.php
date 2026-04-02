@@ -15,7 +15,7 @@ beforeEach(function () {
 
 describe('Unit: StrategyService', function () {
 
-    it('should return all strategies when using fetchAll method.', function () {
+    it('should return all strategies when using findAll method.', function () {
 
         // Arrange:
         $strategy = new Strategy(
@@ -26,7 +26,7 @@ describe('Unit: StrategyService', function () {
         $criteria = new QueryCriteria;
 
         // Expectation:
-        $this->read_repository->shouldReceive('fetchAll')
+        $this->read_repository->shouldReceive('findAll')
             ->once()
             ->with($criteria)
             ->andReturn([
@@ -34,13 +34,13 @@ describe('Unit: StrategyService', function () {
             ]);
 
         // Act:
-        $result = $this->service->fetchAll($criteria);
+        $result = $this->service->findAll($criteria);
 
         // Assert:
         expect($result)->toBeArray();
     });
 
-    it('should return a strategy when using fetchById method.', function () {
+    it('should return a strategy when using findById method.', function () {
 
         // Arrange:
         $random_strategy_id = rand(1, 10);
@@ -52,13 +52,13 @@ describe('Unit: StrategyService', function () {
         );
 
         // Expectation:
-        $this->read_repository->shouldReceive('fetchById')
+        $this->read_repository->shouldReceive('findById')
             ->once()
             ->with($random_strategy_id)
             ->andReturn($strategy);
 
         // Act:
-        $result = $this->service->fetchById($random_strategy_id);
+        $result = $this->service->findById($random_strategy_id);
 
         // Assert:
         expect($result)

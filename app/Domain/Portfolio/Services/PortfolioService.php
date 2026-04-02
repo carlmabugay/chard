@@ -14,14 +14,14 @@ class PortfolioService
         private readonly PortfolioReadRepositoryInterface $read_repository
     ) {}
 
-    public function fetchAll(QueryCriteria $criteria): array
+    public function findAll(QueryCriteria $criteria): array
     {
-        return $this->read_repository->fetchAll($criteria);
+        return $this->read_repository->findAll($criteria);
     }
 
-    public function fetchById(int $id): Portfolio
+    public function findById(int $id): Portfolio
     {
-        return $this->read_repository->fetchById($id);
+        return $this->read_repository->findById($id);
     }
 
     public function store(Portfolio $portfolio): Portfolio

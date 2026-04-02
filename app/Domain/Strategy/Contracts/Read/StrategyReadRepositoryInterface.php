@@ -7,7 +7,7 @@ use App\Domain\Strategy\Entities\Strategy;
 
 interface StrategyReadRepositoryInterface
 {
-    public function fetchAll(QueryCriteria $criteria): array;
+    public function findAll(QueryCriteria $criteria): array;
 
-    public function fetchById(int $id): Strategy;
+    public function findById(int $id): Strategy;
 }

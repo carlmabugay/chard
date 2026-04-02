@@ -13,6 +13,6 @@ class GetPortfolio
 
     public function handle(int $id): Portfolio
     {
-        return $this->service->fetchById($id);
+        return $this->service->findById($id);
     }
 }

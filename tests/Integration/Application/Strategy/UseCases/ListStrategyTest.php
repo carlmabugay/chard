@@ -20,7 +20,7 @@ describe('Integration: ListStrategies Use Case', function () {
 
         $use_case = new ListStrategies($service);
 
-        $service->shouldReceive('fetchAll')
+        $service->shouldReceive('findAll')
             ->once()
             ->with($criteria)
             ->andReturn([

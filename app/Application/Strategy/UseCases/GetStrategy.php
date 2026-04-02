@@ -13,6 +13,6 @@ class GetStrategy
 
     public function handle(int $id): Strategy
     {
-        return $this->service->fetchById($id);
+        return $this->service->findById($id);
     }
 }

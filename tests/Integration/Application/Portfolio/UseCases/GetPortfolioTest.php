@@ -19,7 +19,7 @@ describe('Integration: GetPortfolio Use Case', function () {
         $use_case = new GetPortfolio($service);
 
         // Expectation:
-        $service->shouldReceive('fetchById')
+        $service->shouldReceive('findById')
             ->once()
             ->with($portfolio_model->id)
             ->andReturn($portfolio_entity);

@@ -7,7 +7,7 @@ use App\Domain\Portfolio\Entities\Portfolio;
 
 interface PortfolioReadRepositoryInterface
 {
-    public function fetchAll(QueryCriteria $criteria): array;
+    public function findAll(QueryCriteria $criteria): array;
 
-    public function fetchById(int $id): Portfolio;
+    public function findById(int $id): Portfolio;
 }

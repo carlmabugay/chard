@@ -18,7 +18,7 @@ class EloquentStrategyReadRepository implements StrategyReadRepositoryInterface
         'name',
     ];
 
-    public function fetchAll(QueryCriteria $criteria): array
+    public function findAll(QueryCriteria $criteria): array
     {
         $query = EloquentQueryApplier::apply(
             StrategyModel::query(),
@@ -39,7 +39,7 @@ class EloquentStrategyReadRepository implements StrategyReadRepositoryInterface
         return $result->toArray();
     }
 
-    public function fetchById(int $id): Strategy
+    public function findById(int $id): Strategy
     {
         $strategy_model = StrategyModel::query()->findOrFail($id);
 
