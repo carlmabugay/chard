@@ -17,7 +17,7 @@ describe('Feature: ListCashFlowController', function () {
             // Arrange:
             $no_of_cash_flows = 50;
             $portfolio = PortfolioModel::factory()->create();
-            CashFlowModel::factory()->for($portfolio)->count($no_of_cash_flows)->create();
+            CashFlowModel::factory($no_of_cash_flows)->for($portfolio)->create();
 
             // Act:
             Sanctum::actingAs($portfolio->user);
@@ -36,7 +36,7 @@ describe('Feature: ListCashFlowController', function () {
             // Arrange:
             $no_of_cash_flows = 50;
             $portfolio = PortfolioModel::factory()->create();
-            CashFlowModel::factory()->for($portfolio)->count($no_of_cash_flows)->create();
+            CashFlowModel::factory($no_of_cash_flows)->for($portfolio)->create();
 
             $page_number = 3;
             $per_page = 15;
@@ -145,13 +145,15 @@ describe('Feature: ListCashFlowController', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
+            $amount_to_search = 100;
+
             CashFlowModel::factory()->for($portfolio)->create(['type' => CashFlowType::DEPOSIT, 'amount' => 200]);
-            CashFlowModel::factory()->for($portfolio)->create(['type' => CashFlowType::WITHDRAW, 'amount' => 100]);
+            CashFlowModel::factory()->for($portfolio)->create(['type' => CashFlowType::WITHDRAW, 'amount' => $amount_to_search]);
             CashFlowModel::factory()->for($portfolio)->create(['type' => CashFlowType::DEPOSIT, 'amount' => 300]);
-            CashFlowModel::factory()->for($portfolio)->create(['type' => CashFlowType::DEPOSIT, 'amount' => 100]);
+            CashFlowModel::factory()->for($portfolio)->create(['type' => CashFlowType::DEPOSIT, 'amount' => $amount_to_search]);
 
             $query = http_build_query([
-                'search' => 100,
+                'search' => $amount_to_search,
                 'page' => 1,
                 'per_page' => 1,
                 'filters' => [

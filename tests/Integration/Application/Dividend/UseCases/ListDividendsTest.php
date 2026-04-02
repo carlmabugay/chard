@@ -12,7 +12,7 @@ describe('Integration: ListDividends Use Case', function () {
 
         // Arrange:
         $no_of_dividends = 10;
-        $dividend_model = DividendModel::factory()->count($no_of_dividends)->create();
+        $dividend_model = DividendModel::factory($no_of_dividends)->create();
         $dividend_entity = $dividend_model->map(fn (DividendModel $model) => Dividend::fromEloquentModel($model))->all();
 
         $service = Mockery::mock(DividendService::class);

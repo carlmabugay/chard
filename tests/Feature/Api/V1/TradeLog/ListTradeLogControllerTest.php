@@ -33,7 +33,7 @@ describe('Feature: ListTradeLogController', function () {
             // Arrange:
             $no_of_trade_logs = 50;
             $portfolio = PortfolioModel::factory()->create();
-            TradeLogModel::factory()->for($portfolio)->count($no_of_trade_logs)->create();
+            TradeLogModel::factory($no_of_trade_logs)->for($portfolio)->create();
 
             $page_number = 3;
             $per_page = 15;

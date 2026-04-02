@@ -22,7 +22,7 @@ describe('Integration: EloquentTradeLogReadRepository', function () {
             // Arrange:
             $no_of_trade_logs = 10;
             $portfolio = PortfolioModel::factory()->create();
-            TradeLogModel::factory()->for($portfolio)->count($no_of_trade_logs)->create();
+            TradeLogModel::factory($no_of_trade_logs)->for($portfolio)->create();
 
             // Act:
             $result = $this->repository->findAll(new QueryCriteria);

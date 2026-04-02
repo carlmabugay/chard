@@ -11,8 +11,8 @@ describe('Integration: ListPortfolios Use Case', function () {
     it('should list all portfolios when using handle method.', function () {
 
         // Arrange:
-        $count = 10;
-        $portfolio_model = PortfolioModel::factory()->count($count)->create();
+        $no_of_portfolios = 10;
+        $portfolio_model = PortfolioModel::factory($no_of_portfolios)->create();
         $portfolio_entity = $portfolio_model->map(fn (PortfolioModel $model) => Portfolio::fromEloquentModel($model))->all();
 
         $service = Mockery::mock(PortfolioService::class);
@@ -33,7 +33,7 @@ describe('Integration: ListPortfolios Use Case', function () {
         // Assert:
         expect($result)
             ->toBeArray()
-            ->and(count($portfolio_entity))->toEqual($count);
+            ->and(count($portfolio_entity))->toEqual($no_of_portfolios);
 
     });
 });

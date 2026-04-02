@@ -13,13 +13,10 @@ describe('Feature: ListPortfolioController', function () {
         it('should return collection of portfolio resource when using /api/v1/portfolios GET api endpoint.', function () {
 
             // Arrange:
-            $no_of_portfolio = 5;
+            $no_of_portfolios = 5;
             $user = UserModel::factory()->create();
 
-            PortfolioModel::factory()
-                ->count($no_of_portfolio)
-                ->for($user)
-                ->create();
+            PortfolioModel::factory($no_of_portfolios)->for($user)->create();
 
             // Act:
             Sanctum::actingAs($user);
@@ -28,20 +25,17 @@ describe('Feature: ListPortfolioController', function () {
             // Assert:
             $response->assertOk()
                 ->assertJsonPath('success', true)
-                ->assertJsonPath('pagination.total', $no_of_portfolio);
+                ->assertJsonPath('pagination.total', $no_of_portfolios);
 
         });
 
         it('should paginate portfolios when using /api/v1/portfolios GET api endpoint.', function () {
 
             // Arrange:
-            $no_of_portfolio = 50;
+            $no_of_portfolios = 50;
             $user = UserModel::factory()->create();
 
-            PortfolioModel::factory()
-                ->count($no_of_portfolio)
-                ->for($user)
-                ->create();
+            PortfolioModel::factory($no_of_portfolios)->for($user)->create();
 
             $page_number = 2;
             $per_page = 10;

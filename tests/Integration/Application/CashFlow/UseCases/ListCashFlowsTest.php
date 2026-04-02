@@ -11,8 +11,8 @@ describe('Integration: ListCashFlows Use Case', function () {
     it('should list all cash flows when using handle method.', function () {
 
         // Arrange:
-        $count = 10;
-        $cash_flow_model = CashFlowModel::factory()->count($count)->create();
+        $no_of_cash_flows = 10;
+        $cash_flow_model = CashFlowModel::factory($no_of_cash_flows)->create();
         $cash_flow_entity = $cash_flow_model->map(fn (CashFlowModel $model) => CashFlow::fromEloquentModel($model))->all();
 
         $service = Mockery::mock(CashFlowService::class);
@@ -33,7 +33,7 @@ describe('Integration: ListCashFlows Use Case', function () {
         // Assert:
         expect($result)
             ->toBeArray()
-            ->and(count($cash_flow_entity))->toEqual($count);
+            ->and(count($cash_flow_entity))->toEqual($no_of_cash_flows);
 
     });
 });

@@ -5,7 +5,6 @@ use App\Domain\Common\Query\Sort;
 use App\Domain\Dividend\Entities\Dividend;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentDividendReadRepository;
 use App\Models\Dividend as DividendModel;
-use App\Models\Portfolio as PortfolioModel;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 beforeEach(function () {
@@ -20,8 +19,7 @@ describe('Integration: EloquentDividendReadRepository', function () {
 
             // Arrange:
             $no_of_dividends = 10;
-            $portfolio = PortfolioModel::factory()->create();
-            DividendModel::factory($no_of_dividends)->for($portfolio)->create();
+            DividendModel::factory($no_of_dividends)->create();
 
             // Act:
             $result = $this->repository->findAll(new QueryCriteria);
@@ -35,8 +33,8 @@ describe('Integration: EloquentDividendReadRepository', function () {
         it('should paginate correctly when using findAll method.', function () {
 
             // Arrange:
-            $count = 50;
-            DividendModel::factory($count)->create();
+            $no_of_dividends = 50;
+            DividendModel::factory($no_of_dividends)->create();
 
             $page_number = 2;
             $per_page = 10;
@@ -103,16 +101,18 @@ describe('Integration: EloquentDividendReadRepository', function () {
 
         });
 
-        it('should apply sort and pagination together when using findAll method.', function () {
+        it('should apply search, sort and pagination together when using findAll method.', function () {
 
             // Arrange:
-            DividendModel::factory()->create(['amount' => 4000]);
-            DividendModel::factory()->create(['amount' => 2500]);
-            DividendModel::factory()->create(['amount' => 10200]);
+            $symbol_to_search = 'BPI';
+            DividendModel::factory()->create(['symbol' => 'JFC', 'amount' => 4000]);
+            DividendModel::factory()->create(['symbol' => 'AC', 'amount' => 2500]);
+            DividendModel::factory()->create(['symbol' => $symbol_to_search, 'amount' => 10200]);
 
             $criteria = new QueryCriteria(
                 page: 1,
                 per_page: 1,
+                search: $symbol_to_search,
                 sorts: [
                     new Sort('amount', 'desc'),
                 ]
@@ -124,6 +124,8 @@ describe('Integration: EloquentDividendReadRepository', function () {
             // Assert
             expect($result['data'])
                 ->toHaveCount(1)
+                ->and($result['data'][0]->symbol())
+                ->toContain($symbol_to_search)
                 ->and($result['data'][0]->amount())
                 ->toBe(10200.00);
 

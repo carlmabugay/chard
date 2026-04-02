@@ -34,8 +34,8 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
         it('should paginate correctly when using fetchAll method.', function () {
 
             // Arrange:
-            $count = 50;
-            PortfolioModel::factory($count)->create();
+            $no_of_portfolios = 50;
+            PortfolioModel::factory($no_of_portfolios)->create();
 
             $page_number = 2;
             $per_page = 10;
@@ -60,8 +60,8 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
             // Arrange:
             $created_now = now();
-            $created_ten_days_ago = $created_now->subDays(10);
-            $create_twenty_days_ago = $created_now->subDays(20);
+            $created_ten_days_ago = now()->subDays(10);
+            $create_twenty_days_ago = now()->subDays(20);
 
             PortfolioModel::factory()->create(['created_at' => $created_now]);
             PortfolioModel::factory()->create(['created_at' => $created_ten_days_ago]);
@@ -108,20 +108,23 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
         });
 
-        it('should apply sort and pagination together when using fetchAll method.', function () {
+        it('should apply search, sort and pagination together when using fetchAll method.', function () {
 
             // Arrange:
             $created_now = now();
             $created_ten_days_ago = $created_now->subDays(10);
             $create_twenty_days_ago = $created_now->subDays(20);
 
-            PortfolioModel::factory()->create(['created_at' => $created_now]);
-            PortfolioModel::factory()->create(['created_at' => $created_ten_days_ago]);
-            PortfolioModel::factory()->create(['created_at' => $create_twenty_days_ago]);
+            $name_to_search = 'Forex';
+
+            PortfolioModel::factory()->create(['name' => 'Philippine Stock Market', 'created_at' => $created_now]);
+            PortfolioModel::factory()->create(['name' => 'Crypto - Alt coins', 'created_at' => $created_ten_days_ago]);
+            PortfolioModel::factory()->create(['name' => $name_to_search, 'created_at' => $create_twenty_days_ago]);
 
             $criteria = new QueryCriteria(
                 page: 1,
                 per_page: 1,
+                search: $name_to_search,
                 sorts: [
                     new Sort('created_at', 'asc'),
                 ]
@@ -133,6 +136,8 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
             // Assert:
             expect($result['data'])
                 ->toHaveCount(1)
+                ->and($result['data'][0]->name())
+                ->toContain($name_to_search)
                 ->and($result['data'][0]->createdAt())
                 ->toBe($create_twenty_days_ago->toDateTimeString());
 

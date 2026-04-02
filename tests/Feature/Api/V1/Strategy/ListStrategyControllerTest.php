@@ -13,13 +13,10 @@ describe('Feature: ListStrategyController', function () {
         it('should return collection of strategy resource when using /api/v1/strategies GET api endpoint.',
             function () {
                 // Arrange:
-                $no_of_strategy = 5;
+                $no_of_strategies = 5;
                 $user = UserModel::factory()->create();
 
-                StrategyModel::factory()
-                    ->count($no_of_strategy)
-                    ->for($user)
-                    ->create();
+                StrategyModel::factory($no_of_strategies)->for($user)->create();
 
                 Sanctum::actingAs($user);
 
@@ -29,20 +26,17 @@ describe('Feature: ListStrategyController', function () {
                 // Assert:
                 $response->assertOk()
                     ->assertJsonPath('success', true)
-                    ->assertJsonPath('pagination.total', $no_of_strategy);
+                    ->assertJsonPath('pagination.total', $no_of_strategies);
 
             });
 
         it('should paginate strategies when using /api/v1/strategies GET api endpoint.', function () {
 
             // Arrange:
-            $no_of_strategy = 50;
+            $no_of_strategies = 50;
             $user = UserModel::factory()->create();
 
-            StrategyModel::factory()
-                ->count($no_of_strategy)
-                ->for($user)
-                ->create();
+            StrategyModel::factory($no_of_strategies)->for($user)->create();
 
             $page_number = 2;
             $per_page = 10;

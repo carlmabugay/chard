@@ -109,20 +109,23 @@ describe('Integration: EloquentStrategyReadRepository', function () {
 
         });
 
-        it('should apply sort and pagination together when using fetchAll method.', function () {
+        it('should apply search, sort and pagination together when using fetchAll method.', function () {
 
             // Arrange:
             $created_now = now();
             $created_ten_days_ago = $created_now->subDays(10);
             $create_twenty_days_ago = $created_now->subDays(20);
 
-            StrategyModel::factory()->create(['created_at' => $created_now]);
-            StrategyModel::factory()->create(['created_at' => $created_ten_days_ago]);
-            StrategyModel::factory()->create(['created_at' => $create_twenty_days_ago]);
+            $name_to_search = 'Trend Following';
+
+            StrategyModel::factory()->create(['name' => 'Mean Reversion', 'created_at' => $created_now]);
+            StrategyModel::factory()->create(['name' => 'Bounce', 'created_at' => $created_ten_days_ago]);
+            StrategyModel::factory()->create(['name' => $name_to_search, 'created_at' => $create_twenty_days_ago]);
 
             $criteria = new QueryCriteria(
                 page: 1,
                 per_page: 1,
+                search: $name_to_search,
                 sorts: [
                     new Sort('created_at', 'asc'),
                 ]
@@ -134,6 +137,8 @@ describe('Integration: EloquentStrategyReadRepository', function () {
             // Assert:
             expect($result['data'])
                 ->toHaveCount(1)
+                ->and($result['data'][0]->name())
+                ->toContain($name_to_search)
                 ->and($result['data'][0]->createdAt())
                 ->toBe($create_twenty_days_ago->toDateTimeString());
 

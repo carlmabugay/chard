@@ -11,8 +11,8 @@ describe('Integration: ListStrategies Use Case', function () {
     it('should list all strategies when using handle method.', function () {
 
         // Arrange:
-        $count = 10;
-        $strategy_model = StrategyModel::factory()->count($count)->create();
+        $no_of_strategies = 10;
+        $strategy_model = StrategyModel::factory($no_of_strategies)->create();
         $strategy_entity = $strategy_model->map(fn (StrategyModel $model) => Strategy::fromEloquentModel($model))->all();
 
         $service = Mockery::mock(StrategyService::class);
@@ -33,7 +33,7 @@ describe('Integration: ListStrategies Use Case', function () {
         // Assert:
         expect($result)
             ->toBeArray()
-            ->and(count($strategy_entity))->toEqual($count);
+            ->and(count($strategy_entity))->toEqual($no_of_strategies);
 
     });
 });

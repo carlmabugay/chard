@@ -8,7 +8,6 @@ use App\Enums\CashFlowType;
 use App\Enums\OperatorType;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentCashFlowReadRepository;
 use App\Models\CashFlow as CashFlowModel;
-use App\Models\Portfolio as PortfolioModel;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 beforeEach(function () {
@@ -23,8 +22,7 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
 
             // Arrange:
             $no_of_cash_flows = 10;
-            $portfolio = PortfolioModel::factory()->create();
-            CashFlowModel::factory($no_of_cash_flows)->for($portfolio)->create();
+            CashFlowModel::factory($no_of_cash_flows)->create();
 
             // Act:
             $result = $this->repository->findAll(new QueryCriteria);
@@ -39,8 +37,8 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
         it('should paginate correctly when using findAll method.', function () {
 
             // Arrange:
-            $count = 50;
-            CashFlowModel::factory($count)->create();
+            $no_of_cash_flows = 50;
+            CashFlowModel::factory($no_of_cash_flows)->create();
 
             $page_number = 2;
             $per_page = 10;
@@ -130,16 +128,18 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
 
         });
 
-        it('should apply filter, sort, and pagination together when using findAll method.', function () {
+        it('should apply search, filter, sort, and pagination together when using findAll method.', function () {
 
             // Arrange:
+            $amount_to_search = 300;
             CashFlowModel::factory()->create(['type' => CashFlowType::DEPOSIT, 'amount' => 200]);
             CashFlowModel::factory()->create(['type' => CashFlowType::WITHDRAW, 'amount' => 100]);
-            CashFlowModel::factory()->create(['type' => CashFlowType::DEPOSIT, 'amount' => 300]);
+            CashFlowModel::factory()->create(['type' => CashFlowType::DEPOSIT, 'amount' => $amount_to_search]);
 
             $criteria = new QueryCriteria(
                 page: 1,
                 per_page: 1,
+                search: $amount_to_search,
                 filters: [
                     new Filter('type', OperatorType::EQ->value, CashFlowType::DEPOSIT->value),
                 ],

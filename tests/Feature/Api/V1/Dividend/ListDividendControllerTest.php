@@ -11,14 +11,12 @@ describe('Feature: ListDividendController', function () {
 
     describe('Positives', function () {
 
-        it('should return collection of  dividend resource when using /api/v1/dividends GET api endpoint.', function () {
+        it('should return collection of dividend resource when using /api/v1/dividends GET api endpoint.', function () {
 
             // Arrange:
             $no_of_dividends = 50;
             $portfolio = PortfolioModel::factory()->create();
-            DividendModel::factory()->count($no_of_dividends)->create([
-                'portfolio_id' => $portfolio->id,
-            ]);
+            DividendModel::factory($no_of_dividends)->for($portfolio)->create();
 
             // Act:
             Sanctum::actingAs($portfolio->user);
@@ -38,7 +36,7 @@ describe('Feature: ListDividendController', function () {
             // Arrange:
             $no_of_dividends = 50;
             $portfolio = PortfolioModel::factory()->create();
-            DividendModel::factory()->for($portfolio)->count($no_of_dividends)->create();
+            DividendModel::factory($no_of_dividends)->for($portfolio)->create();
 
             $page_number = 2;
             $per_page = 10;
