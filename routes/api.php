@@ -19,6 +19,7 @@ use App\Http\Controllers\v1\Strategy\UpdateController as UpdateStrategyControlle
 use App\Http\Controllers\v1\TradeLog\ListController as ListTradeLogController;
 use App\Http\Controllers\v1\TradeLog\ShowController as ShowTradeLogController;
 use App\Http\Controllers\v1\TradeLog\StoreController as StoreTradeLogController;
+use App\Http\Controllers\v1\TradeLog\UpdateController as UpdateTradeLogController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
@@ -55,6 +56,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::get('/', ListTradeLogController::class);
         Route::get('/{id}', ShowTradeLogController::class);
         Route::post('/', StoreTradeLogController::class);
+        Route::put('/', UpdateTradeLogController::class);
     });
 
 });
