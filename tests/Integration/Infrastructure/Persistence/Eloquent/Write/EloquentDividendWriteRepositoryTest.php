@@ -5,6 +5,10 @@ use App\Infrastructure\Persistence\Eloquent\Write\EloquentDividendWriteRepositor
 use App\Models\Dividend as DividendModel;
 use App\Models\Portfolio as PortfolioModel;
 
+beforeEach(function () {
+    $this->repository = new EloquentDividendWriteRepository;
+});
+
 describe('Integration: EloquentDividendWriteRepository', function () {
 
     it('should create new dividend when using store method.', function () {
@@ -21,9 +25,7 @@ describe('Integration: EloquentDividendWriteRepository', function () {
         );
 
         // Act:
-        $repository = new EloquentDividendWriteRepository;
-
-        $result = $repository->store($dividend_entity);
+        $result = $this->repository->store($dividend_entity);
 
         // Assert:
         expect($result)->toBeInstanceOf(Dividend::class);
@@ -52,9 +54,7 @@ describe('Integration: EloquentDividendWriteRepository', function () {
         );
 
         // Act:
-        $repository = new EloquentDividendWriteRepository;
-
-        $result = $repository->store($dividend_entity);
+        $result = $this->repository->store($dividend_entity);
 
         // Assert:
         expect($result)->toBeInstanceOf(Dividend::class);
@@ -66,4 +66,17 @@ describe('Integration: EloquentDividendWriteRepository', function () {
             'id' => $result->id(),
         ]);
     });
+
+    it('should soft delete dividend when using trash method.', function () {
+
+        // Arrange:
+        $dividend = DividendModel::factory()->create();
+
+        // Act:
+        $this->repository->trash($dividend->id);
+
+        // Assert:
+        $this->assertSoftDeleted($dividend);
+    });
+
 });

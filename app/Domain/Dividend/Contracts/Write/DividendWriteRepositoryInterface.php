@@ -7,4 +7,6 @@ use App\Domain\Dividend\Entities\Dividend;
 interface DividendWriteRepositoryInterface
 {
     public function store(Dividend $dividend): Dividend;
+
+    public function trash(int $id): ?bool;
 }

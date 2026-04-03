@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('symbol');
             $table->float('amount');
             $table->timestamp('recorded_at')->nullable();
+            $table->softDeletes();
         });
     }
 

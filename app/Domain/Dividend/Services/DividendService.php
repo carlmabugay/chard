@@ -28,4 +28,9 @@ class DividendService
     {
         return $this->write_repository->store($dividend);
     }
+
+    public function trash(int $id): ?bool
+    {
+        return $this->write_repository->trash($id);
+    }
 }

@@ -22,4 +22,9 @@ class EloquentDividendWriteRepository implements DividendWriteRepositoryInterfac
 
         return Dividend::fromEloquentModel($stored_dividend);
     }
+
+    public function trash(int $id): ?bool
+    {
+        return DividendModel::query()->findOrFail($id)->delete();
+    }
 }

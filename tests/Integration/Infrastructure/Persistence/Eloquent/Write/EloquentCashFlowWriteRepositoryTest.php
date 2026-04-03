@@ -66,7 +66,7 @@ describe('Integration: EloquentCashFlowWriteRepository', function () {
         ]);
     });
 
-    it('should soft delete cash when using trash method.', function () {
+    it('should soft delete cash flow when using trash method.', function () {
 
         // Arrange:
         $cash_flow = CashFlowModel::factory()->create();

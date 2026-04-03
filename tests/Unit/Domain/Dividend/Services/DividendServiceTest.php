@@ -44,27 +44,26 @@ describe('Unit: DividendService', function () {
     it('should return a cash flows when using findById method.', function () {
 
         // Arrange:
-        $random_dividend_id = rand(1, 10);
         $dividend = new Dividend(
             portfolio_id: rand(1, 10),
             symbol: 'JFC',
             amount: 5000,
-            id: $random_dividend_id,
+            id: rand(1, 10),
         );
 
         // Expectation:
         $this->read_repository->shouldReceive('findById')
             ->once()
-            ->with($random_dividend_id)
+            ->with($dividend->id())
             ->andReturn($dividend);
 
         // Act:
-        $result = $this->service->findById($random_dividend_id);
+        $result = $this->service->findById($dividend->id());
 
         // Assert:
         expect($result)
             ->toBeInstanceOf(Dividend::class)
-            ->and($result->id())->toBe($random_dividend_id);
+            ->and($result->id())->toBe($dividend->id());
 
     });
 
@@ -89,6 +88,28 @@ describe('Unit: DividendService', function () {
         expect($result)
             ->toBeInstanceOf(Dividend::class)
             ->and($result->id())->toBe($dividend->id());
+
+    });
+
+    it('should soft delete dividend when using trash method.', function () {
+
+        // Arrange:
+        $dividend = new Dividend(
+            portfolio_id: rand(1, 10),
+            symbol: 'JFC',
+            amount: 5000,
+            id: rand(1, 10),
+        );
+
+        // Act:
+        $this->write_repository->shouldReceive('trash')
+            ->once()
+            ->with($dividend->id())
+            ->andReturn(true);
+
+        $result = $this->service->trash($dividend->id());
+
+        expect($result)->toBeTrue();
 
     });
 });

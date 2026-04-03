@@ -8,6 +8,7 @@ use App\Http\Controllers\v1\CashFlow\UpdateController as UpdateCashFlowControlle
 use App\Http\Controllers\v1\Dividend\ListController as ListDividendController;
 use App\Http\Controllers\v1\Dividend\ShowController as ShowDividendController;
 use App\Http\Controllers\v1\Dividend\StoreController as StoreDividendController;
+use App\Http\Controllers\v1\Dividend\TrashController as TrashDividendController;
 use App\Http\Controllers\v1\Dividend\UpdateController as UpdateDividendController;
 use App\Http\Controllers\v1\Portfolio\ListController as ListPortfolioController;
 use App\Http\Controllers\v1\Portfolio\ShowController as ShowPortfolioController;
@@ -53,6 +54,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::get('/{id}', ShowDividendController::class);
         Route::post('/', StoreDividendController::class);
         Route::put('/', UpdateDividendController::class);
+        Route::delete('/{id}', TrashDividendController::class);
     });
 
     Route::prefix('trade-logs')->group(function () {
