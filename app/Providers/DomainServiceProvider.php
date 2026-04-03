@@ -11,6 +11,7 @@ use App\Domain\Portfolio\Contracts\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Strategy\Contracts\Read\StrategyReadRepositoryInterface;
 use App\Domain\Strategy\Contracts\Write\StrategyWriteRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Read\TradeLogReadRepositoryInterface;
+use App\Domain\TradeLog\Contracts\Write\TradeLogWriteRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentCashFlowReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentDividendReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentPortfolioReadRepository;
@@ -20,6 +21,7 @@ use App\Infrastructure\Persistence\Eloquent\Write\EloquentCashFlowWriteRepositor
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentDividendWriteRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentPortfolioWriteRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentStrategyWriteRepository;
+use App\Infrastructure\Persistence\Eloquent\Write\EloquentTradeLogWriteRepository;
 use Illuminate\Support\ServiceProvider;
 
 class DomainServiceProvider extends ServiceProvider
@@ -38,6 +40,7 @@ class DomainServiceProvider extends ServiceProvider
         DividendWriteRepositoryInterface::class => EloquentDividendWriteRepository::class,
 
         TradeLogReadRepositoryInterface::class => EloquentTradeLogReadRepository::class,
+        TradeLogWriteRepositoryInterface::class => EloquentTradeLogWriteRepository::class,
     ];
 
     /**

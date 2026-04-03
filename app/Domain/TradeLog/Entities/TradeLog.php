@@ -2,6 +2,7 @@
 
 namespace App\Domain\TradeLog\Entities;
 
+use App\Application\TradeLog\DTOs\StoreTradeLogDTO;
 use App\Domain\Portfolio\Entities\Portfolio;
 use Illuminate\Database\Eloquent\Model;
 
@@ -83,6 +84,19 @@ readonly class TradeLog
             updated_at: $model->updated_at,
             portfolio_id: $model->portfolio_id,
             portfolio: Portfolio::fromEloquentModel($model->portfolio),
+        );
+    }
+
+    public static function fromDTO(StoreTradeLogDTO $dto): self
+    {
+        return new self(
+            symbol: $dto->symbol(),
+            type: $dto->type(),
+            price: $dto->price(),
+            shares: $dto->shares(),
+            fees: $dto->fees(),
+            id: $dto->id(),
+            portfolio_id: $dto->portfolioId(),
         );
     }
 }

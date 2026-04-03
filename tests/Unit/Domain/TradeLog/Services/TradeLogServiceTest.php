@@ -2,13 +2,15 @@
 
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\TradeLog\Contracts\Read\TradeLogReadRepositoryInterface;
+use App\Domain\TradeLog\Contracts\Write\TradeLogWriteRepositoryInterface;
 use App\Domain\TradeLog\Entities\TradeLog;
 use App\Domain\TradeLog\Services\TradeLogService;
 
 beforeEach(function () {
+    $this->write_repository = Mockery::mock(TradeLogWriteRepositoryInterface::class);
     $this->read_repository = Mockery::mock(TradeLogReadRepositoryInterface::class);
 
-    $this->service = new TradeLogService($this->read_repository);
+    $this->service = new TradeLogService($this->write_repository, $this->read_repository);
 });
 
 describe('Unit: TradeLogServiceTest', function () {
@@ -68,5 +70,31 @@ describe('Unit: TradeLogServiceTest', function () {
             ->toBeInstanceOf(TradeLog::class)
             ->and($result->id())->toBe($random_trade_log_id);
 
+    });
+
+    it('should store trade logs when using store method.', function () {
+
+        // Arrange:
+        $trade_log = new TradeLog(
+            symbol: 'BPI',
+            type: 'buy',
+            price: 100,
+            shares: 1000,
+            fees: 120,
+        );
+
+        // Expectation:
+        $this->write_repository->shouldReceive('store')
+            ->once()
+            ->with($trade_log)
+            ->andReturn($trade_log);
+
+        // Act:
+        $result = $this->service->store($trade_log);
+
+        // Assert:
+        expect($result)
+            ->toBeInstanceOf(TradeLog::class)
+            ->and($result->id())->toBe($trade_log->id());
     });
 });
