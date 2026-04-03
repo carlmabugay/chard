@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('type', CashFlowType::values())->default(CashFlowType::DEPOSIT->value);
             $table->float('amount');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

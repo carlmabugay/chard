@@ -7,7 +7,7 @@ use App\Domain\TradeLog\Services\TradeLogService;
 class TrashTradeLog
 {
     public function __construct(
-        protected TradeLogService $service
+        protected readonly TradeLogService $service
     ) {}
 
     public function handle(int $id): ?bool

@@ -28,4 +28,9 @@ class CashFlowService
     {
         return $this->write_repository->store($cash_flow);
     }
+
+    public function trash(int $id): ?bool
+    {
+        return $this->write_repository->trash($id);
+    }
 }

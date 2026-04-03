@@ -7,4 +7,6 @@ use App\Domain\CashFlow\Entities\CashFlow;
 interface CashFlowWriteRepositoryInterface
 {
     public function store(CashFlow $cash_flow): CashFlow;
+
+    public function trash(int $id): ?bool;
 }

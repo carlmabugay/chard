@@ -44,26 +44,25 @@ describe('Unit: CashFlowService', function () {
     it('should return a cash flows when using findById method.', function () {
 
         // Arrange:
-        $random_cash_flow_id = rand(1, 10);
         $cash_flow = new CashFlow(
             type: CashFlowType::DEPOSIT,
             amount: 5000,
-            id: $random_cash_flow_id,
+            id: rand(1, 10),
         );
 
         // Expectation:
         $this->read_repository->shouldReceive('findById')
             ->once()
-            ->with($random_cash_flow_id)
+            ->with($cash_flow->id())
             ->andReturn($cash_flow);
 
         // Act:
-        $result = $this->service->findById($random_cash_flow_id);
+        $result = $this->service->findById($cash_flow->id());
 
         // Assert:
         expect($result)
             ->toBeInstanceOf(CashFlow::class)
-            ->and($result->id())->toBe($random_cash_flow_id);
+            ->and($result->id())->toBe($cash_flow->id());
 
     });
 
@@ -88,5 +87,26 @@ describe('Unit: CashFlowService', function () {
         expect($result)
             ->toBeInstanceOf(CashFlow::class)
             ->and($result->id())->toBe($cash_flow->id());
+    });
+
+    it('should soft delete cash flow when using trash method.', function () {
+
+        // Arrange:
+        $cash_flow = new CashFlow(
+            type: CashFlowType::DEPOSIT,
+            amount: 5000,
+            id: rand(1, 10),
+        );
+
+        // Act:
+        $this->write_repository->shouldReceive('trash')
+            ->once()
+            ->with($cash_flow->id())
+            ->andReturn(true);
+
+        $result = $this->service->trash($cash_flow->id());
+
+        expect($result)->toBeTrue();
+
     });
 });

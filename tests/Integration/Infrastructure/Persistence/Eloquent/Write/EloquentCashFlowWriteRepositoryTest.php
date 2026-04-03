@@ -6,6 +6,10 @@ use App\Infrastructure\Persistence\Eloquent\Write\EloquentCashFlowWriteRepositor
 use App\Models\CashFlow as CashFlowModel;
 use App\Models\Portfolio as PortfolioModel;
 
+beforeEach(function () {
+    $this->repository = new EloquentCashFlowWriteRepository;
+});
+
 describe('Integration: EloquentCashFlowWriteRepository', function () {
 
     it('should create new cash flow when using store method.', function () {
@@ -21,9 +25,7 @@ describe('Integration: EloquentCashFlowWriteRepository', function () {
         );
 
         // Act:
-        $repository = new EloquentCashFlowWriteRepository;
-
-        $result = $repository->store($cash_flow_entity);
+        $result = $this->repository->store($cash_flow_entity);
 
         // Assert:
         expect($result)->toBeInstanceOf(CashFlow::class);
@@ -51,9 +53,7 @@ describe('Integration: EloquentCashFlowWriteRepository', function () {
         );
 
         // Act:
-        $repository = new EloquentCashFlowWriteRepository;
-
-        $result = $repository->store($cash_flow_entity);
+        $result = $this->repository->store($cash_flow_entity);
 
         // Assert:
         expect($result)->toBeInstanceOf(CashFlow::class);
@@ -66,4 +66,15 @@ describe('Integration: EloquentCashFlowWriteRepository', function () {
         ]);
     });
 
+    it('should soft delete cash when using trash method.', function () {
+
+        // Arrange:
+        $cash_flow = CashFlowModel::factory()->create();
+
+        // Act:
+        $this->repository->trash($cash_flow->id);
+
+        // Assert:
+        $this->assertSoftDeleted($cash_flow);
+    });
 });

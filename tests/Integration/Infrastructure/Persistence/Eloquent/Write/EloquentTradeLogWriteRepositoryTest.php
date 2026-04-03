@@ -5,6 +5,10 @@ use App\Infrastructure\Persistence\Eloquent\Write\EloquentTradeLogWriteRepositor
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\TradeLog as TradeLogModel;
 
+beforeEach(function () {
+    $this->repository = new EloquentTradeLogWriteRepository;
+});
+
 describe('Integration: EloquentTradeLogWriteRepository', function () {
 
     it('should create new trade log when using store method.', function () {
@@ -23,9 +27,7 @@ describe('Integration: EloquentTradeLogWriteRepository', function () {
         );
 
         // Act:
-        $repository = new EloquentTradeLogWriteRepository;
-
-        $result = $repository->store($trade_log_entity);
+        $result = $this->repository->store($trade_log_entity);
 
         // Assert:
         expect($result)->toBeInstanceOf(TradeLog::class);
@@ -58,9 +60,7 @@ describe('Integration: EloquentTradeLogWriteRepository', function () {
         );
 
         // Act:
-        $repository = new EloquentTradeLogWriteRepository;
-
-        $result = $repository->store($trade_log_entity);
+        $result = $this->repository->store($trade_log_entity);
 
         // Assert:
         expect($result)->toBeInstanceOf(TradeLog::class);
@@ -79,14 +79,12 @@ describe('Integration: EloquentTradeLogWriteRepository', function () {
     it('should soft delete trade log when using trash method.', function () {
 
         // Arrange:
-        $trade_log_model = TradeLogModel::factory()->create();
+        $trade_log = TradeLogModel::factory()->create();
 
         // Act:
-        $repository = new EloquentTradeLogWriteRepository;
-
-        $repository->trash($trade_log_model->id);
+        $this->repository->trash($trade_log->id);
 
         // Assert
-        $this->assertSoftDeleted($trade_log_model);
+        $this->assertSoftDeleted($trade_log);
     });
 });

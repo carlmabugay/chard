@@ -22,4 +22,9 @@ class EloquentCashFlowWriteRepository implements CashFlowWriteRepositoryInterfac
         return CashFlow::fromEloquentModel($stored_cash_flow);
 
     }
+
+    public function trash(int $id): ?bool
+    {
+        return CashFlowModel::query()->findOrFail($id)->delete();
+    }
 }

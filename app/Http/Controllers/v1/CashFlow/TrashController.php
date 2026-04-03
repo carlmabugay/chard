@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\v1\TradeLog;
+namespace App\Http\Controllers\v1\CashFlow;
 
-use App\Application\TradeLog\UseCases\TrashTradeLog;
+use App\Application\CashFlow\UserCases\TrashCashFlow;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -10,7 +10,7 @@ use Throwable;
 
 final class TrashController extends Controller
 {
-    public function __invoke(int $id, TrashTradeLog $use_case): JsonResponse
+    public function __invoke(int $id, TrashCashFlow $use_case): JsonResponse
     {
         try {
 
@@ -24,8 +24,8 @@ final class TrashController extends Controller
 
             return response()->json([
                 'success' => false,
-                'error' => 'Trade log not found to delete.',
-                'message' => sprintf('Trade log with ID: %s not found', $id),
+                'error' => 'Cash flow not found to delete.',
+                'message' => sprintf('Cash flow with ID: %s not found', $id),
             ], 404);
 
         } catch (Throwable $error) {
