@@ -28,4 +28,9 @@ class TradeLogService
     {
         return $this->write_repository->store($tradeLog);
     }
+
+    public function trash(int $id): ?bool
+    {
+        return $this->write_repository->trash($id);
+    }
 }

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('shares')->default(0);
             $table->float('fees', 8, 2)->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

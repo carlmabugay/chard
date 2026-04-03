@@ -7,4 +7,6 @@ use App\Domain\TradeLog\Entities\TradeLog;
 interface TradeLogWriteRepositoryInterface
 {
     public function store(TradeLog $trade_log): TradeLog;
+
+    public function trash(int $id): ?bool;
 }

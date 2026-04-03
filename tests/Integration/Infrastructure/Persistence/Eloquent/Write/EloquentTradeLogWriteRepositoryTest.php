@@ -75,4 +75,18 @@ describe('Integration: EloquentTradeLogWriteRepository', function () {
             'id' => $result->id(),
         ]);
     });
+
+    it('should soft delete trade log when using trash method.', function () {
+
+        // Arrange:
+        $trade_log_model = TradeLogModel::factory()->create();
+
+        // Act:
+        $repository = new EloquentTradeLogWriteRepository;
+
+        $repository->trash($trade_log_model->id);
+
+        // Assert
+        $this->assertSoftDeleted($trade_log_model);
+    });
 });

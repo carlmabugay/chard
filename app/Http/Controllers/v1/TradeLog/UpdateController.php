@@ -10,7 +10,7 @@ use App\Http\Resources\TradeLog\TradeLogResource;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
-class UpdateController extends Controller
+final class UpdateController extends Controller
 {
     public function __invoke(UpdateTradeLogRequest $request, StoreTradeLog $use_case): TradeLogResource|JsonResponse
     {

@@ -24,4 +24,9 @@ class EloquentTradeLogWriteRepository implements TradeLogWriteRepositoryInterfac
 
         return TradeLog::fromEloquentModel($stored_trade_log);
     }
+
+    public function trash(int $id): ?bool
+    {
+        return TradeLogModel::query()->findOrFail($id)->delete();
+    }
 }

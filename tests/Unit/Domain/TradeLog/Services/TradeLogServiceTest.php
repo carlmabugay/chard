@@ -97,4 +97,27 @@ describe('Unit: TradeLogServiceTest', function () {
             ->toBeInstanceOf(TradeLog::class)
             ->and($result->id())->toBe($trade_log->id());
     });
+
+    it('should soft delete trade logs when using trash method.', function () {
+
+        // Arrange:
+        $trade_log = new TradeLog(
+            symbol: 'BPI',
+            type: 'buy',
+            price: 100,
+            shares: 1000,
+            fees: 120,
+            id: rand(1, 10),
+        );
+
+        // Act:
+        $this->write_repository->shouldReceive('trash')
+            ->once()
+            ->with($trade_log->id())
+            ->andReturn(true);
+
+        $result = $this->service->trash($trade_log->id());
+
+        expect($result)->toBeTrue();
+    });
 });
