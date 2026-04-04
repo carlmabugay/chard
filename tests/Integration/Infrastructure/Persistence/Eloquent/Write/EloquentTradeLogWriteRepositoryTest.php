@@ -18,12 +18,12 @@ describe('Integration: EloquentTradeLogWriteRepository', function () {
         $portfolio = PortfolioModel::factory()->create();
 
         $trade_log = new TradeLog(
+            portfolio_id: $portfolio->id,
             symbol: 'BPI',
             type: 'buy',
             price: 100,
             shares: 1000,
             fees: 120,
-            portfolio_id: $portfolio->id,
         );
 
         // Act:
@@ -50,12 +50,12 @@ describe('Integration: EloquentTradeLogWriteRepository', function () {
         $trade_log_model = TradeLogModel::factory()->create();
 
         $trade_log_entity = new TradeLog(
+            portfolio_id: $trade_log_model->portfolio->id,
             symbol: $trade_log_model->symbol,
             type: 'buy',
             price: $trade_log_model->price,
             shares: 5000,
             fees: $trade_log_model->fees,
-            portfolio_id: $trade_log_model->portfolio->id,
         );
 
         // Act:

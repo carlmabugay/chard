@@ -104,4 +104,24 @@ describe('Unit: PortfolioService', function () {
         expect($result)->toBeTrue();
     });
 
+    it('can restore trashed portfolio when using restore method.', function () {
+        // Arrange:
+        $portfolio = new Portfolio(
+            user_id: rand(1, 10),
+            name: 'PH Stock Market',
+            id: rand(1, 10),
+        );
+
+        // Act:
+        $this->write_repository->shouldReceive('restore')
+            ->once()
+            ->with($portfolio->id())
+            ->andReturn(true);
+
+        $result = $this->service->restore($portfolio->id());
+
+        // Assert
+        expect($result)->toBeTrue();
+    });
+
 });

@@ -11,6 +11,7 @@ use App\Http\Controllers\v1\Dividend\StoreController as StoreDividendController;
 use App\Http\Controllers\v1\Dividend\TrashController as TrashDividendController;
 use App\Http\Controllers\v1\Dividend\UpdateController as UpdateDividendController;
 use App\Http\Controllers\v1\Portfolio\ListController as ListPortfolioController;
+use App\Http\Controllers\v1\Portfolio\RestoreController as RestorePortfolioController;
 use App\Http\Controllers\v1\Portfolio\ShowController as ShowPortfolioController;
 use App\Http\Controllers\v1\Portfolio\StoreController as StorePortfolioController;
 use App\Http\Controllers\v1\Portfolio\TrashController as TrashPortfolioController;
@@ -35,6 +36,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::get('/{id}', ShowPortfolioController::class);
         Route::put('/', UpdatePortfolioController::class);
         Route::delete('/{id}', TrashPortfolioController::class);
+        Route::patch('/{id}', RestorePortfolioController::class);
     });
 
     Route::prefix('strategies')->group(function () {
