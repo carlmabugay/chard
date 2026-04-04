@@ -28,4 +28,9 @@ class StrategyService
     {
         return $this->write_repository->store($strategy);
     }
+
+    public function trash(int $id): ?bool
+    {
+        return $this->write_repository->trash($id);
+    }
 }

@@ -18,6 +18,7 @@ use App\Http\Controllers\v1\Portfolio\UpdateController as UpdatePortfolioControl
 use App\Http\Controllers\v1\Strategy\ListController as ListStrategyController;
 use App\Http\Controllers\v1\Strategy\ShowController as ShowStrategyController;
 use App\Http\Controllers\v1\Strategy\StoreController as StoreStrategyController;
+use App\Http\Controllers\v1\Strategy\TrashController as TrashStrategyController;
 use App\Http\Controllers\v1\Strategy\UpdateController as UpdateStrategyController;
 use App\Http\Controllers\v1\TradeLog\ListController as ListTradeLogController;
 use App\Http\Controllers\v1\TradeLog\ShowController as ShowTradeLogController;
@@ -41,6 +42,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::post('/', StoreStrategyController::class);
         Route::get('/{id}', ShowStrategyController::class);
         Route::put('/', UpdateStrategyController::class);
+        Route::delete('/{id}', TrashStrategyController::class);
     });
 
     Route::prefix('cash-flows')->group(function () {

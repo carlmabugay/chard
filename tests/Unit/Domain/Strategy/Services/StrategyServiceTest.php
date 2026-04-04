@@ -43,27 +43,25 @@ describe('Unit: StrategyService', function () {
     it('should return a strategy when using findById method.', function () {
 
         // Arrange:
-        $random_strategy_id = rand(1, 10);
-
         $strategy = new Strategy(
             user_id: rand(1, 10),
             name: 'Trend Following',
-            id: $random_strategy_id,
+            id: rand(1, 10),
         );
 
         // Expectation:
         $this->read_repository->shouldReceive('findById')
             ->once()
-            ->with($random_strategy_id)
+            ->with($strategy->id())
             ->andReturn($strategy);
 
         // Act:
-        $result = $this->service->findById($random_strategy_id);
+        $result = $this->service->findById($strategy->id());
 
         // Assert:
         expect($result)
             ->toBeInstanceOf(Strategy::class)
-            ->and($result->id())->toBe($random_strategy_id);
+            ->and($result->id())->toBe($strategy->id());
 
     });
 
@@ -88,6 +86,28 @@ describe('Unit: StrategyService', function () {
         expect($result)
             ->toBeInstanceOf(Strategy::class)
             ->and($result->id())->toBe($strategy->id());
+    });
+
+    it('should soft delete strategy when using trash method.', function () {
+
+        // Arrange:
+        $strategy = new Strategy(
+            user_id: rand(1, 10),
+            name: 'Trend Following',
+            id: rand(1, 10),
+        );
+
+        // Expectation:
+        $this->write_repository->shouldReceive('trash')
+            ->once()
+            ->with($strategy->id())
+            ->andReturn(true);
+
+        // Act:
+        $result = $this->service->trash($strategy->id());
+
+        // Assert:
+        expect($result)->toBeTrue();
     });
 
 });

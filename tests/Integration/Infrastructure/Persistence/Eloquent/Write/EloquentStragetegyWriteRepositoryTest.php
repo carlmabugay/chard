@@ -5,6 +5,10 @@ use App\Infrastructure\Persistence\Eloquent\Write\EloquentStrategyWriteRepositor
 use App\Models\Strategy as StrategyModel;
 use App\Models\User as UserModel;
 
+beforeEach(function () {
+    $this->repository = new EloquentStrategyWriteRepository;
+});
+
 describe('Integration: EloquentStrategyWriteRepository', function () {
 
     it('should create new strategy when using store method.', function () {
@@ -19,9 +23,7 @@ describe('Integration: EloquentStrategyWriteRepository', function () {
         );
 
         // Act:
-        $repository = new EloquentStrategyWriteRepository;
-
-        $result = $repository->store($strategy);
+        $result = $this->repository->store($strategy);
 
         // Assert:
         expect($result)->toBeInstanceOf(Strategy::class);
@@ -47,9 +49,7 @@ describe('Integration: EloquentStrategyWriteRepository', function () {
         );
 
         // Act:
-        $repository = new EloquentStrategyWriteRepository;
-
-        $result = $repository->store($strategy_entity);
+        $result = $this->repository->store($strategy_entity);
 
         // Assert:
         expect($result)->toBeInstanceOf(Strategy::class);
@@ -59,6 +59,18 @@ describe('Integration: EloquentStrategyWriteRepository', function () {
             'name' => $result->name(),
             'id' => $result->id(),
         ]);
+    });
+
+    it('should soft delete strategy when using trash method.', function () {
+
+        // Arrange:
+        $strategy = StrategyModel::factory()->create();
+
+        // Act:
+        $this->repository->trash($strategy->id);
+
+        // Assert:
+        $this->assertSoftDeleted($strategy);
     });
 
 });
