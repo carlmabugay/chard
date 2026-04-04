@@ -28,4 +28,9 @@ class PortfolioService
     {
         return $this->write_repository->store($portfolio);
     }
+
+    public function trash(int $id): ?bool
+    {
+        return $this->write_repository->trash($id);
+    }
 }

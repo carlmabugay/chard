@@ -118,6 +118,7 @@ describe('Unit: TradeLogServiceTest', function () {
 
         $result = $this->service->trash($trade_log->id());
 
+        // Assert:
         expect($result)->toBeTrue();
     });
 });

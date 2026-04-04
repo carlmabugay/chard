@@ -43,27 +43,25 @@ describe('Unit: PortfolioService', function () {
     it('should return a portfolio when using findById method.', function () {
 
         // Arrange:
-        $random_portfolio_id = rand(1, 10);
-
         $portfolio = new Portfolio(
             user_id: rand(1, 10),
             name: 'PH Stock Market',
-            id: $random_portfolio_id,
+            id: rand(1, 10),
         );
 
         // Expectation:
         $this->read_repository->shouldReceive('findById')
             ->once()
-            ->with($random_portfolio_id)
+            ->with($portfolio->id())
             ->andReturn($portfolio);
 
         // Act:
-        $result = $this->service->findById($random_portfolio_id);
+        $result = $this->service->findById($portfolio->id());
 
         // Assert:
         expect($result)
             ->toBeInstanceOf(Portfolio::class)
-            ->and($result->id())->toBe($random_portfolio_id);
+            ->and($result->id())->toBe($portfolio->id());
 
     });
 
@@ -88,6 +86,28 @@ describe('Unit: PortfolioService', function () {
         expect($result)
             ->toBeInstanceOf(Portfolio::class)
             ->and($result->id())->toBe($portfolio->id());
+    });
+
+    it('should soft delete portfolio when using trash method.', function () {
+
+        // Arrange:
+        $portfolio = new Portfolio(
+            user_id: rand(1, 10),
+            name: 'PH Stock Market',
+            id: rand(1, 10),
+        );
+
+        // Act:
+        $this->write_repository->shouldReceive('trash')
+            ->once()
+            ->with($portfolio->id())
+            ->andReturn(true);
+
+        $result = $this->service->trash($portfolio->id());
+
+        // Assert
+        expect($result)->toBeTrue();
+
     });
 
 });

@@ -5,6 +5,10 @@ use App\Infrastructure\Persistence\Eloquent\Write\EloquentPortfolioWriteReposito
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
 
+beforeEach(function () {
+    $this->repository = new EloquentPortfolioWriteRepository;
+});
+
 describe('Integration: EloquentPortfolioWriteRepository', function () {
 
     it('should create new portfolio when using store method.', function () {
@@ -20,9 +24,8 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
         );
 
         // Act:
-        $repository = new EloquentPortfolioWriteRepository;
 
-        $result = $repository->store($portfolio);
+        $result = $this->repository->store($portfolio);
 
         // Assert:
         expect($result)->toBeInstanceOf(Portfolio::class);
@@ -48,9 +51,7 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
         );
 
         // Act:
-        $repository = new EloquentPortfolioWriteRepository;
-
-        $result = $repository->store($portfolio_entity);
+        $result = $this->repository->store($portfolio_entity);
 
         // Assert:
         expect($result)->toBeInstanceOf(Portfolio::class);
@@ -61,6 +62,20 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
             'id' => $result->id(),
         ]);
 
+    });
+
+    it(' should soft delete portfolio when using trash method.', function () {
+
+        // Arrange:
+        $portfolio = PortfolioModel::factory()->create();
+
+        // Act:
+        $result = $this->repository->trash($portfolio->id);
+
+        // Assert
+        $this->assertSoftDeleted($portfolio);
+
+        expect($result)->toBeTrue();
     });
 
 });
