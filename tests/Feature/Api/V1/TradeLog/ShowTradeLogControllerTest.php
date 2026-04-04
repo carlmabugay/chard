@@ -9,6 +9,7 @@ use Mockery\MockInterface;
 describe('Feature: ShowTradeLogController', function () {
 
     describe('Positives', function () {
+
         it('should return a trade log resource when using /api/v1/trade-logs/{id} GET api endpoint.', function () {
 
             // Arrange:
@@ -57,7 +58,6 @@ describe('Feature: ShowTradeLogController', function () {
             $response = $this->get(sprintf('/api/v1/trade-logs/%s', $random_id));
 
             // Assert:
-
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,

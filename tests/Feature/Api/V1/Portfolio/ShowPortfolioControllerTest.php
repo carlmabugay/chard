@@ -47,7 +47,6 @@ describe('Feature: ShowPortfolioController', function () {
             $response = $this->get(sprintf('/api/v1/portfolios/%s', $random_id));
 
             // Assert:
-
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,

@@ -47,7 +47,6 @@ describe('Feature: ShowStrategyController', function () {
             $response = $this->get(sprintf('/api/v1/strategies/%s', $random_id));
 
             // Assert:
-
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
