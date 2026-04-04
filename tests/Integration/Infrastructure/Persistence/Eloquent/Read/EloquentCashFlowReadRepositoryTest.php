@@ -18,8 +18,7 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
 
     describe('Positives', function () {
 
-        it('should return all cash flows when using findAll method.', function () {
-
+        it('can return all cash flows when using findAll method.', function () {
             // Arrange:
             $no_of_cash_flows = 10;
             CashFlowModel::factory($no_of_cash_flows)->create();
@@ -31,11 +30,9 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
             expect($result)
                 ->toBeArray()
                 ->and(expect($result['data'])->toHaveCount($no_of_cash_flows));
-
         });
 
-        it('should paginate correctly when using findAll method.', function () {
-
+        it('can paginate correctly when using findAll method.', function () {
             // Arrange:
             $no_of_cash_flows = 50;
             CashFlowModel::factory($no_of_cash_flows)->create();
@@ -56,11 +53,9 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
                 ->toBeArray()
                 ->and(expect($result['pagination']['current_page'])->toBe($page_number))
                 ->and(count($result['data']))->toBe($per_page);
-
         });
 
-        it('should filter by type when using findAll method.', function () {
-
+        it('can filter by type when using findAll method.', function () {
             // Arrange:
             CashFlowModel::factory()->create(['type' => CashFlowType::DEPOSIT]);
             CashFlowModel::factory()->create(['type' => CashFlowType::WITHDRAW]);
@@ -79,11 +74,9 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
                 ->toHaveCount(1)
                 ->and($result['data'][0]->type())
                 ->toBe(CashFlowType::DEPOSIT);
-
         });
 
-        it('should sort by amount descending when using findAll method.', function () {
-
+        it('can sort by amount descending when using findAll method.', function () {
             // Arrange:
             CashFlowModel::factory()->create(['amount' => 300]);
             CashFlowModel::factory()->create(['amount' => 100]);
@@ -102,11 +95,9 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
 
             // Assert
             expect($amounts)->toBe([300.00, 200.00, 100.00]);
-
         });
 
-        it('should search by amount when using findAll method.', function () {
-
+        it('can search by amount when using findAll method.', function () {
             // Arrange:
             $amount_to_search = 3000.00;
             CashFlowModel::factory()->create(['amount' => 5000]);
@@ -125,11 +116,9 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
                 ->toHaveCount(1)
                 ->and($result['data'][0]->amount())
                 ->toBe($amount_to_search);
-
         });
 
-        it('should apply search, filter, sort, and pagination together when using findAll method.', function () {
-
+        it('can apply search, filter, sort, and pagination together when using findAll method.', function () {
             // Arrange:
             $amount_to_search = 300;
             CashFlowModel::factory()->create(['type' => CashFlowType::DEPOSIT, 'amount' => 200]);
@@ -156,11 +145,9 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
                 ->toHaveCount(1)
                 ->and($result['data'][0]->amount())
                 ->toBe(300.00);
-
         });
 
-        it('should return a cash flows when using findById method.', function () {
-
+        it('can return a cash flows when using findById method.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
 
@@ -171,25 +158,21 @@ describe('Integration: EloquentCashFlowReadRepository', function () {
             expect($result)
                 ->toBeInstanceOf(CashFlow::class)
                 ->and($result->id())->toBe($cash_flow->id);
-
         });
 
     });
 
     describe('Negatives', function () {
 
-        it('should return an empty array when no records found upon using findAll method.', function () {
-
+        it('can return an empty array when no records found upon using findAll method.', function () {
             // Act:
             $result = $this->repository->findAll(new QueryCriteria);
 
             // Assert:
             expect($result['data'])->toBeEmpty();
-
         });
 
-        it('should throw an exception when no record found upon using findById method.', function () {
-
+        it('can throw an exception when no record found upon using findById method.', function () {
             // Arrange:
             $random_id = rand(1, 10);
 

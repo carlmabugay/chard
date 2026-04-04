@@ -10,14 +10,13 @@ describe('Feature: ShowTradeLogController', function () {
 
     describe('Positives', function () {
 
-        it('should return a trade log resource when using /api/v1/trade-logs/{id} GET api endpoint.', function () {
-
+        it('can return a trade log resource when using /api/v1/trade-logs/{id} GET api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
+            Sanctum::actingAs($trade_log->portfolio->user);
 
             // Act:
-            Sanctum::actingAs($trade_log->portfolio->user);
-            $response = $this->get(sprintf('%s/%s', '/api/v1/trade-logs', $trade_log->id));
+            $response = $this->get(sprintf('/api/v1/trade-logs/%s', $trade_log->id));
 
             // Assert:
             $response->assertOk()
@@ -40,21 +39,19 @@ describe('Feature: ShowTradeLogController', function () {
                         ],
                     ],
                 ]);
-
         });
 
     });
 
     describe('Negatives', function () {
 
-        it('should handle error message when no record found upon using /api/v1/trade-logs/{id} GET api endpoint.', function () {
-
+        it('can handle error message when no record found upon using /api/v1/trade-logs/{id} GET api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $trade_log = TradeLogModel::factory()->create();
+            Sanctum::actingAs($trade_log->portfolio->user);
 
             // Act:
-            Sanctum::actingAs($trade_log->portfolio->user);
             $response = $this->get(sprintf('/api/v1/trade-logs/%s', $random_id));
 
             // Assert:
@@ -64,14 +61,13 @@ describe('Feature: ShowTradeLogController', function () {
                     'error' => 'Trade log not found',
                     'message' => sprintf('Trade log with ID: %s not found', $random_id),
                 ]);
-
         });
 
-        it('should handle server error response when using /api/v1/trade-logs/{id} GET api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/trade-logs/{id} GET api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
+            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(GetTradeLog::class, function (MockInterface $mock) {
@@ -81,7 +77,6 @@ describe('Feature: ShowTradeLogController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($user);
             $response = $this->get(sprintf('/api/v1/trade-logs/%s', $random_id));
 
             // Assert:

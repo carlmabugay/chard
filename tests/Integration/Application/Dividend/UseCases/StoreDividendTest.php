@@ -8,7 +8,7 @@ use App\Models\Portfolio;
 
 describe('Integration: StoreDividend Use Case', function () {
 
-    it('should store a dividend when using the handle method.', function () {
+    it('can store a dividend when using the handle method.', function () {
 
         // Arrange:
         $portfolio = Portfolio::factory()->create();
@@ -23,6 +23,7 @@ describe('Integration: StoreDividend Use Case', function () {
         $dividend_entity = Dividend::fromDTO($dto);
 
         $service = Mockery::mock(DividendService::class);
+
         $use_case = new StoreDividend($service);
 
         // Expectation:
@@ -37,6 +38,7 @@ describe('Integration: StoreDividend Use Case', function () {
         expect($result)
             ->toBeInstanceOf(Dividend::class)
             ->and($result->id())->toBe($dividend_entity->id());
+
     });
 
 });

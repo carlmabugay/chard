@@ -10,14 +10,13 @@ describe('Feature: ShowPortfolioController', function () {
 
     describe('Positives', function () {
 
-        it('should return a portfolio resource when using /api/v1/portfolios/{id} GET api endpoint.', function () {
-
+        it('can return a portfolio resource when using /api/v1/portfolios/{id} GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             // Act:
-            Sanctum::actingAs($portfolio->user);
-            $response = $this->get(sprintf('%s/%s', '/api/v1/portfolios', $portfolio->id));
+            $response = $this->get(sprintf('/api/v1/portfolios/%s', $portfolio->id));
 
             // Assert:
             $response->assertOk()
@@ -36,14 +35,13 @@ describe('Feature: ShowPortfolioController', function () {
 
     describe('Negatives', function () {
 
-        it('should handle error message when no record found upon using /api/v1/portfolios/{id} GET api endpoint.', function () {
-
+        it('can handle error message when no record found upon using /api/v1/portfolios/{id} GET api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             // Act:
-            Sanctum::actingAs($portfolio->user);
             $response = $this->get(sprintf('/api/v1/portfolios/%s', $random_id));
 
             // Assert:
@@ -53,14 +51,13 @@ describe('Feature: ShowPortfolioController', function () {
                     'error' => 'Portfolio not found',
                     'message' => sprintf('Portfolio with ID: %s not found', $random_id),
                 ]);
-
         });
 
-        it('should handle server error response when using /api/v1/portfolios/{id} GET api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/portfolios/{id} GET api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
+            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(GetPortfolio::class, function (MockInterface $mock) {
@@ -70,7 +67,6 @@ describe('Feature: ShowPortfolioController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($user);
             $response = $this->get(sprintf('/api/v1/portfolios/%s', $random_id));
 
             // Assert:

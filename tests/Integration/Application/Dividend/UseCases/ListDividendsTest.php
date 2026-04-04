@@ -8,7 +8,7 @@ use App\Models\Dividend as DividendModel;
 
 describe('Integration: ListDividends Use Case', function () {
 
-    it('should list all dividends when using handle method.', function () {
+    it('can list all dividends when using handle method.', function () {
 
         // Arrange:
         $no_of_dividends = 10;
@@ -20,6 +20,7 @@ describe('Integration: ListDividends Use Case', function () {
 
         $use_case = new ListDividends($service);
 
+        // Expectation:
         $service->shouldReceive('findAll')
             ->once()
             ->with($criteria)
@@ -36,4 +37,5 @@ describe('Integration: ListDividends Use Case', function () {
             ->and(count($dividend_entity))->toEqual($no_of_dividends);
 
     });
+
 });

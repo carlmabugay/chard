@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 readonly class TradeLog
 {
     public function __construct(
+        private int $portfolio_id,
         private string $symbol,
         private string $type,
         private float $price,
@@ -17,7 +18,6 @@ readonly class TradeLog
         private ?int $id = null,
         private ?string $created_at = null,
         private ?string $updated_at = null,
-        private ?int $portfolio_id = null,
         private ?Portfolio $portfolio = null,
     ) {}
 

@@ -8,8 +8,7 @@ use App\Models\CashFlow as CashFlowModel;
 
 describe('Integration: ListCashFlows Use Case', function () {
 
-    it('should list all cash flows when using handle method.', function () {
-
+    it('can list all cash flows when using handle method.', function () {
         // Arrange:
         $no_of_cash_flows = 10;
         $cash_flow_model = CashFlowModel::factory($no_of_cash_flows)->create();
@@ -20,6 +19,7 @@ describe('Integration: ListCashFlows Use Case', function () {
 
         $use_case = new ListCashFlows($service);
 
+        // Expectation:
         $service->shouldReceive('findAll')
             ->once()
             ->with($criteria)
@@ -34,6 +34,6 @@ describe('Integration: ListCashFlows Use Case', function () {
         expect($result)
             ->toBeArray()
             ->and(count($cash_flow_entity))->toEqual($no_of_cash_flows);
-
     });
+
 });

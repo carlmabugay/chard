@@ -8,8 +8,7 @@ use App\Models\User as UserModel;
 
 describe('Integration: StoreStrategy Use Case', function () {
 
-    it('should store strategy when using handle method.', function () {
-
+    it('can store strategy when using handle method.', function () {
         // Arrange:
         $user = UserModel::factory()->create();
 
@@ -22,13 +21,14 @@ describe('Integration: StoreStrategy Use Case', function () {
 
         $service = Mockery::mock(StrategyService::class);
 
+        $use_case = new StoreStrategy($service);
+
         // Expectation:
         $service->shouldReceive('store')
             ->once()
             ->andReturn($strategy_entity);
 
         // Act:
-        $use_case = new StoreStrategy($service);
         $result = $use_case->handle($dto);
 
         // Assert:
@@ -37,4 +37,5 @@ describe('Integration: StoreStrategy Use Case', function () {
             ->and($result->id())->toBe($strategy_entity->id())
             ->and($result->name())->toBe($strategy_entity->name());
     });
+
 });

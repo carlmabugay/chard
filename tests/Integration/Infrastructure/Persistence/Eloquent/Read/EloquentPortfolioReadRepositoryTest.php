@@ -15,8 +15,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
     describe('Positives', function () {
 
-        it('should return all portfolios when using findAll method.', function () {
-
+        it('can return all portfolios when using findAll method.', function () {
             // Arrange:
             $no_of_portfolios = 10;
             PortfolioModel::factory($no_of_portfolios)->create();
@@ -28,11 +27,9 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
             expect($result)
                 ->toBeArray()
                 ->and(expect($result['data'])->toHaveCount($no_of_portfolios));
-
         });
 
-        it('should paginate correctly when using findAll method.', function () {
-
+        it('can paginate correctly when using findAll method.', function () {
             // Arrange:
             $no_of_portfolios = 50;
             PortfolioModel::factory($no_of_portfolios)->create();
@@ -53,11 +50,9 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
                 ->toBeArray()
                 ->and(expect($result['pagination']['current_page'])->toBe($page_number))
                 ->and(count($result['data']))->toBe($per_page);
-
         });
 
-        it('should sort by created date ascending when using findAll method.', function () {
-
+        it('can sort by created date ascending when using findAll method.', function () {
             // Arrange:
             $created_now = now();
             $created_ten_days_ago = now()->subDays(10);
@@ -86,8 +81,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
             ]);
         });
 
-        it('should search by name when using findAll method.', function () {
-
+        it('can search by name when using findAll method.', function () {
             // Arrange:
             $name_to_search = 'Forex';
             PortfolioModel::factory()->create(['name' => 'Philippine Stock Market']);
@@ -105,11 +99,9 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
                 ->toHaveCount(1)
                 ->and($result['data'][0]->name())
                 ->toContain($name_to_search);
-
         });
 
-        it('should apply search, sort and pagination together when using findAll method.', function () {
-
+        it('can apply search, sort and pagination together when using findAll method.', function () {
             // Arrange:
             $created_now = now();
             $created_ten_days_ago = $created_now->subDays(10);
@@ -143,8 +135,7 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
         });
 
-        it('should return a portfolio when using findById method.', function () {
-
+        it('can return a portfolio when using findById method.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -160,18 +151,15 @@ describe('Integration: EloquentPortfolioReadRepository', function () {
 
     describe('Negatives', function () {
 
-        it('should return an empty array when no records found upon using findAll method.', function () {
-
+        it('can return an empty array when no records found upon using findAll method.', function () {
             // Act:
             $result = $this->repository->findAll(new QueryCriteria);
 
             // Assert:
             expect($result['data'])->toBeEmpty();
-
         });
 
-        it('should throw an exception when no record found upon using findById method.', function () {
-
+        it('can throw an exception when no record found upon using findById method.', function () {
             // Arrange:
             $random_id = rand(1, 10);
 

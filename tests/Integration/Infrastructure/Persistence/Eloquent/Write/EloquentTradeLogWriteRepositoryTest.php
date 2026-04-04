@@ -11,13 +11,13 @@ beforeEach(function () {
 
 describe('Integration: EloquentTradeLogWriteRepository', function () {
 
-    it('should create new trade log when using store method.', function () {
+    it('can create new trade log when using store method.', function () {
 
         // Arrange
         $table = 'trade_logs';
         $portfolio = PortfolioModel::factory()->create();
 
-        $trade_log_entity = new TradeLog(
+        $trade_log = new TradeLog(
             symbol: 'BPI',
             type: 'buy',
             price: 100,
@@ -27,25 +27,24 @@ describe('Integration: EloquentTradeLogWriteRepository', function () {
         );
 
         // Act:
-        $result = $this->repository->store($trade_log_entity);
+        $result = $this->repository->store($trade_log);
 
         // Assert:
         expect($result)->toBeInstanceOf(TradeLog::class);
 
         $this->assertDatabaseCount($table, 1);
         $this->assertDatabaseHas($table, [
-            'portfolio_id' => $trade_log_entity->portfolioId(),
-            'type' => $trade_log_entity->type(),
-            'symbol' => $trade_log_entity->symbol(),
-            'price' => $trade_log_entity->price(),
-            'shares' => $trade_log_entity->shares(),
-            'fees' => $trade_log_entity->fees(),
-            'id' => $result->id(),
+            'portfolio_id' => $trade_log->portfolioId(),
+            'type' => $trade_log->type(),
+            'symbol' => $trade_log->symbol(),
+            'price' => $trade_log->price(),
+            'shares' => $trade_log->shares(),
+            'fees' => $trade_log->fees(),
         ]);
 
     });
 
-    it('should update trade log when using store method.', function () {
+    it('can update trade log when using store method.', function () {
 
         // Arrange:
         $trade_log_model = TradeLogModel::factory()->create();
@@ -76,7 +75,7 @@ describe('Integration: EloquentTradeLogWriteRepository', function () {
         ]);
     });
 
-    it('should soft delete trade log when using trash method.', function () {
+    it('can soft delete trade log when using trash method.', function () {
 
         // Arrange:
         $trade_log = TradeLogModel::factory()->create();

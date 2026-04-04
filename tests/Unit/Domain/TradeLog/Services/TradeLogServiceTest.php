@@ -15,10 +15,10 @@ beforeEach(function () {
 
 describe('Unit: TradeLogServiceTest', function () {
 
-    it('should return all trade logs when using findAll method.', function () {
-
+    it('can return all trade logs when using findAll method.', function () {
         // Arrange:
         $trade_log = new TradeLog(
+            portfolio_id: rand(1, 10),
             symbol: 'JFC',
             type: 'buy',
             price: 100,
@@ -43,39 +43,37 @@ describe('Unit: TradeLogServiceTest', function () {
         expect($result)->toBeArray();
     });
 
-    it('should return a trade logs when using findById method.', function () {
-
+    it('can return a trade log when using findById method.', function () {
         // Arrange:
-        $random_trade_log_id = rand(1, 10);
         $trade_log = new TradeLog(
+            portfolio_id: rand(1, 10),
             symbol: 'JFC',
             type: 'buy',
             price: 100,
             shares: 5000,
             fees: 250,
-            id: $random_trade_log_id,
+            id: rand(1, 10),
         );
 
         // Expectation:
         $this->read_repository->shouldReceive('findById')
             ->once()
-            ->with($random_trade_log_id)
+            ->with($trade_log->id())
             ->andReturn($trade_log);
 
         // Act:
-        $result = $this->service->findById($random_trade_log_id);
+        $result = $this->service->findById($trade_log->id());
 
         // Assert:
         expect($result)
             ->toBeInstanceOf(TradeLog::class)
-            ->and($result->id())->toBe($random_trade_log_id);
-
+            ->and($result->id())->toBe($trade_log->id());
     });
 
-    it('should store trade logs when using store method.', function () {
-
+    it('can store trade logs when using store method.', function () {
         // Arrange:
         $trade_log = new TradeLog(
+            portfolio_id: rand(1, 10),
             symbol: 'BPI',
             type: 'buy',
             price: 100,
@@ -98,10 +96,10 @@ describe('Unit: TradeLogServiceTest', function () {
             ->and($result->id())->toBe($trade_log->id());
     });
 
-    it('should soft delete trade logs when using trash method.', function () {
-
+    it('can soft delete trade log when using trash method.', function () {
         // Arrange:
         $trade_log = new TradeLog(
+            portfolio_id: rand(1, 10),
             symbol: 'BPI',
             type: 'buy',
             price: 100,
@@ -121,4 +119,5 @@ describe('Unit: TradeLogServiceTest', function () {
         // Assert:
         expect($result)->toBeTrue();
     });
+
 });

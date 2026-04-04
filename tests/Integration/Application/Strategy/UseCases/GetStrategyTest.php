@@ -7,8 +7,7 @@ use App\Models\Strategy as StrategyModel;
 
 describe('Integration: GetStrategy Use Case', function () {
 
-    it('should return strategy that filtered by id when using handle method.', function () {
-
+    it('can return strategy that filtered by id when using handle method.', function () {
         // Arrange:
         $strategy_model = StrategyModel::factory()->create();
 
@@ -32,6 +31,6 @@ describe('Integration: GetStrategy Use Case', function () {
             ->toBeInstanceOf(Strategy::class)
             ->and($result->id())->toBe($strategy_entity->id())
             ->and($result->name())->toBe($strategy_entity->name());
-
     });
+
 });

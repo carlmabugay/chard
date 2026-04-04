@@ -10,10 +10,10 @@ describe('Feature: StoreCashFlowController', function () {
 
     describe('Positives', function () {
 
-        it('should store new cash flow resource when using /api/v1/cash-flows POST api endpoint.', function () {
-
+        it('can store new cash flow resource when using /api/v1/cash-flows POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             $payload = [
                 'portfolio_id' => $portfolio->id,
@@ -22,7 +22,6 @@ describe('Feature: StoreCashFlowController', function () {
             ];
 
             // Act:
-            Sanctum::actingAs($portfolio->user);
             $response = $this->post('/api/v1/cash-flows', $payload);
 
             // Assert:
@@ -43,10 +42,10 @@ describe('Feature: StoreCashFlowController', function () {
 
     describe('Negatives', function () {
 
-        it('should handle server error response when using /api/v1/cash-flows POST api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/cash-flows POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             $payload = [
                 'portfolio_id' => $portfolio->id,
@@ -62,7 +61,6 @@ describe('Feature: StoreCashFlowController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($portfolio->user);
             $response = $this->post('/api/v1/cash-flows', $payload);
 
             // Assert:

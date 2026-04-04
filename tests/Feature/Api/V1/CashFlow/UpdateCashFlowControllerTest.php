@@ -9,10 +9,10 @@ describe('Feature: UpdateCashFlowController', function () {
 
     describe('Positives', function () {
 
-        it('should update existing cash flow resource when using /api/v1/cash-flows PUT api endpoint.', function () {
-
+        it('can update existing cash flow resource when using /api/v1/cash-flows PUT api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
+            Sanctum::actingAs($cash_flow->portfolio->user);
 
             $payload = [
                 'portfolio_id' => $cash_flow->portfolio->id,
@@ -22,7 +22,6 @@ describe('Feature: UpdateCashFlowController', function () {
             ];
 
             // Act:
-            Sanctum::actingAs($cash_flow->portfolio->user);
             $response = $this->put('/api/v1/cash-flows', $payload);
 
             // Assert:
@@ -41,10 +40,10 @@ describe('Feature: UpdateCashFlowController', function () {
 
     describe('Negatives', function () {
 
-        it('should handle server error response when using /api/v1/cash-flows PUT api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/cash-flows PUT api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
+            Sanctum::actingAs($cash_flow->portfolio->user);
 
             $payload = [
                 'portfolio_id' => $cash_flow->portfolio->id,
@@ -61,7 +60,6 @@ describe('Feature: UpdateCashFlowController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($cash_flow->portfolio->user);
             $response = $this->put('/api/v1/cash-flows', $payload);
 
             // Assert:

@@ -9,10 +9,10 @@ describe('Feature: UpdateDividendController', function () {
 
     describe('Positives', function () {
 
-        it('should update existing cash flow resource when using /api/v1/dividends PUT api endpoint.', function () {
-
+        it('can update existing cash flow resource when using /api/v1/dividends PUT api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();
+            Sanctum::actingAs($dividend->portfolio->user);
 
             $payload = [
                 'portfolio_id' => $dividend->portfolio->id,
@@ -23,7 +23,6 @@ describe('Feature: UpdateDividendController', function () {
             ];
 
             // Act:
-            Sanctum::actingAs($dividend->portfolio->user);
             $response = $this->put('/api/v1/dividends', $payload);
 
             // Assert:
@@ -42,10 +41,10 @@ describe('Feature: UpdateDividendController', function () {
 
     describe('Negatives', function () {
 
-        it('should handle server error response when using /api/v1/dividends PUT api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/dividends PUT api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();
+            Sanctum::actingAs($dividend->portfolio->user);
 
             $payload = [
                 'portfolio_id' => $dividend->portfolio->id,
@@ -63,7 +62,6 @@ describe('Feature: UpdateDividendController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($dividend->portfolio->user);
             $response = $this->put('/api/v1/dividends', $payload);
 
             // Assert:

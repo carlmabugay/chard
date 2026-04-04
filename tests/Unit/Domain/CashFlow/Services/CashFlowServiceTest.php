@@ -16,10 +16,10 @@ beforeEach(function () {
 
 describe('Unit: CashFlowService', function () {
 
-    it('should return all cash flows when using findAll method.', function () {
-
+    it('can return all cash flows when using findAll method.', function () {
         // Arrange:
         $cash_flow = new CashFlow(
+            portfolio_id: rand(1, 10),
             type: CashFlowType::DEPOSIT,
             amount: 5000,
         );
@@ -41,10 +41,10 @@ describe('Unit: CashFlowService', function () {
         expect($result)->toBeArray();
     });
 
-    it('should return a cash flows when using findById method.', function () {
-
+    it('can return a cash flow when using findById method.', function () {
         // Arrange:
         $cash_flow = new CashFlow(
+            portfolio_id: rand(1, 10),
             type: CashFlowType::DEPOSIT,
             amount: 5000,
             id: rand(1, 10),
@@ -63,13 +63,12 @@ describe('Unit: CashFlowService', function () {
         expect($result)
             ->toBeInstanceOf(CashFlow::class)
             ->and($result->id())->toBe($cash_flow->id());
-
     });
 
-    it('should store cash flow when using store method.', function () {
-
+    it('can store cash flow when using store method.', function () {
         // Arrange:
         $cash_flow = new CashFlow(
+            portfolio_id: rand(1, 10),
             type: CashFlowType::DEPOSIT,
             amount: 5000,
         );
@@ -89,10 +88,10 @@ describe('Unit: CashFlowService', function () {
             ->and($result->id())->toBe($cash_flow->id());
     });
 
-    it('should soft delete cash flow when using trash method.', function () {
-
+    it('can soft delete cash flow when using trash method.', function () {
         // Arrange:
         $cash_flow = new CashFlow(
+            portfolio_id: rand(1, 10),
             type: CashFlowType::DEPOSIT,
             amount: 5000,
             id: rand(1, 10),
@@ -107,6 +106,6 @@ describe('Unit: CashFlowService', function () {
         $result = $this->service->trash($cash_flow->id());
 
         expect($result)->toBeTrue();
-
     });
+
 });

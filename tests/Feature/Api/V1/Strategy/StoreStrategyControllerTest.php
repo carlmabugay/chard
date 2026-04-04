@@ -9,17 +9,17 @@ describe('Feature: StoreStrategyController', function () {
 
     describe('Positives', function () {
 
-        it('should store new strategy resource when using /api/v1/strategies POST api endpoint.', function () {
-
+        it('can store new strategy resource when using /api/v1/strategies POST api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
+            Sanctum::actingAs($user);
+
             $payload = [
                 'user_id' => $user->id,
                 'name' => 'Trend Following',
             ];
 
             // Act:
-            Sanctum::actingAs($user);
             $response = $this->post('/api/v1/strategies', $payload);
 
             // Assert:
@@ -36,10 +36,11 @@ describe('Feature: StoreStrategyController', function () {
 
     describe('Negatives', function () {
 
-        it('should handle server error response when using /api/v1/strategies POST api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/strategies POST api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
+            Sanctum::actingAs($user);
+
             $payload = [
                 'user_id' => $user->id,
                 'name' => 'Trend Following',
@@ -53,7 +54,6 @@ describe('Feature: StoreStrategyController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($user);
             $response = $this->post('/api/v1/strategies', $payload);
 
             // Assert:

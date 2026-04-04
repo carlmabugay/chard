@@ -8,6 +8,7 @@ use App\Enums\OperatorType;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentTradeLogReadRepository;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\TradeLog as TradeLogModel;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 beforeEach(function () {
     $this->repository = new EloquentTradeLogReadRepository;
@@ -17,8 +18,7 @@ describe('Integration: EloquentTradeLogReadRepository', function () {
 
     describe('Positives', function () {
 
-        it('should return all trade logs when using findAll method.', function () {
-
+        it('can return all trade logs when using findAll method.', function () {
             // Arrange:
             $no_of_trade_logs = 10;
             $portfolio = PortfolioModel::factory()->create();
@@ -34,8 +34,7 @@ describe('Integration: EloquentTradeLogReadRepository', function () {
 
         });
 
-        it('should paginate correctly when using findAll method.', function () {
-
+        it('can paginate correctly when using findAll method.', function () {
             // Arrange:
             $no_of_trade_logs = 50;
             TradeLogModel::factory($no_of_trade_logs)->create();
@@ -56,11 +55,9 @@ describe('Integration: EloquentTradeLogReadRepository', function () {
                 ->toBeArray()
                 ->and(expect($result['pagination']['current_page'])->toBe($page_number))
                 ->and(count($result['data']))->toBe($per_page);
-
         });
 
-        it('should filter by type when using findAll method.', function () {
-
+        it('can filter by type when using findAll method.', function () {
             // Arrange:
             TradeLogModel::factory()->create(['type' => 'buy']);
             TradeLogModel::factory()->create(['type' => 'sell']);
@@ -79,11 +76,9 @@ describe('Integration: EloquentTradeLogReadRepository', function () {
                 ->toHaveCount(1)
                 ->and($result['data'][0]->type())
                 ->toBe('buy');
-
         });
 
-        it('should sort by shares descending when using findAll method.', function () {
-
+        it('can sort by shares descending when using findAll method.', function () {
             // Arrange:
             TradeLogModel::factory()->create(['shares' => 3500]);
             TradeLogModel::factory()->create(['shares' => 18000]);
@@ -102,11 +97,9 @@ describe('Integration: EloquentTradeLogReadRepository', function () {
 
             // Assert
             expect($shares)->toBe([18000, 3500, 290]);
-
         });
 
-        it('should search by symbol when using findAll method.', function () {
-
+        it('can search by symbol when using findAll method.', function () {
             // Arrange:
             $symbol_to_search = 'BPI';
             TradeLogModel::factory()->create(['symbol' => 'AC']);
@@ -126,11 +119,9 @@ describe('Integration: EloquentTradeLogReadRepository', function () {
                 ->toHaveCount(1)
                 ->and($result['data'][0]->symbol())
                 ->toBe($symbol_to_search);
-
         });
 
-        it('should apply search, filter, sort, and pagination together when using findAll method.', function () {
-
+        it('can apply search, filter, sort, and pagination together when using findAll method.', function () {
             // Arrange:
             $symbol_to_search = 'BPI';
             TradeLogModel::factory()->create(['type' => 'buy', 'symbol' => 'AC', 'shares' => 3500]);
@@ -159,11 +150,9 @@ describe('Integration: EloquentTradeLogReadRepository', function () {
                 ->toBe('buy')
                 ->and($result['data'][0]->shares())
                 ->toBe(290);
-
         });
 
-        it('should return a trade log when using findById method.', function () {
-
+        it('can return a trade log when using findById method.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 
@@ -174,8 +163,30 @@ describe('Integration: EloquentTradeLogReadRepository', function () {
             expect($result)
                 ->toBeInstanceOf(TradeLog::class)
                 ->and($result->id())->toBe($trade_log->id);
-
         });
+
+    });
+
+    describe('Negatives', function () {
+
+        it('can return an empty array when no records found upon using findAll method.', function () {
+            // Act:
+            $result = $this->repository->findAll(new QueryCriteria);
+
+            // Assert:
+            expect($result['data'])->toBeEmpty();
+        });
+
+        it('can throw an exception when no record found upon using findById method.', function () {
+            // Arrange:
+            $random_id = rand(1, 10);
+
+            // Act:
+            $this->repository->findById($random_id);
+
+            // Assert:
+        })->throws(ModelNotFoundException::class);
+
     });
 
 });

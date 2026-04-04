@@ -12,35 +12,34 @@ beforeEach(function () {
 
 describe('Integration: EloquentCashFlowWriteRepository', function () {
 
-    it('should create new cash flow when using store method.', function () {
+    it('can create new cash flow when using store method.', function () {
 
         // Arrange
         $table = 'cash_flows';
         $portfolio = PortfolioModel::factory()->create();
 
-        $cash_flow_entity = new CashFlow(
+        $cash_flow = new CashFlow(
             type: CashFlowType::DEPOSIT,
             amount: 5000,
             portfolio_id: $portfolio->id,
         );
 
         // Act:
-        $result = $this->repository->store($cash_flow_entity);
+        $result = $this->repository->store($cash_flow);
 
         // Assert:
         expect($result)->toBeInstanceOf(CashFlow::class);
 
         $this->assertDatabaseCount($table, 1);
         $this->assertDatabaseHas($table, [
-            'portfolio_id' => $result->portfolioId(),
-            'type' => $result->type(),
-            'amount' => $result->amount(),
-            'id' => $result->id(),
+            'portfolio_id' => $cash_flow->portfolioId(),
+            'type' => $cash_flow->type(),
+            'amount' => $cash_flow->amount(),
         ]);
 
     });
 
-    it('should update cash flow when using store method.', function () {
+    it('can update cash flow when using store method.', function () {
 
         // Arrange:
         $cash_flow_model = CashFlowModel::factory()->create();
@@ -59,14 +58,14 @@ describe('Integration: EloquentCashFlowWriteRepository', function () {
         expect($result)->toBeInstanceOf(CashFlow::class);
 
         $this->assertDatabaseHas('cash_flows', [
-            'portfolio_id' => $result->portfolioId(),
-            'type' => $result->type(),
-            'amount' => $result->amount(),
-            'id' => $result->id(),
+            'portfolio_id' => $cash_flow_entity->portfolioId(),
+            'type' => $cash_flow_entity->type(),
+            'amount' => $cash_flow_entity->amount(),
+            'id' => $cash_flow_entity->id(),
         ]);
     });
 
-    it('should soft delete cash flow when using trash method.', function () {
+    it('can soft delete cash flow when using trash method.', function () {
 
         // Arrange:
         $cash_flow = CashFlowModel::factory()->create();

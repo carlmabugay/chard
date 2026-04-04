@@ -9,10 +9,10 @@ describe('Feature: StorePortfolioController', function () {
 
     describe('Positives', function () {
 
-        it('should store new portfolio resource when using /api/v1/portfolios POST api endpoint.', function () {
-
+        it('can store new portfolio resource when using /api/v1/portfolios POST api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
+            Sanctum::actingAs($user);
 
             $payload = [
                 'user_id' => $user->id,
@@ -20,7 +20,6 @@ describe('Feature: StorePortfolioController', function () {
             ];
 
             // Act:
-            Sanctum::actingAs($user);
             $response = $this->post('/api/v1/portfolios', $payload);
 
             // Assert:
@@ -37,10 +36,10 @@ describe('Feature: StorePortfolioController', function () {
 
     describe('Negatives', function () {
 
-        it('should handle server error response when using /api/v1/portfolios POST api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/portfolios POST api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
+            Sanctum::actingAs($user);
 
             $payload = [
                 'user_id' => $user->id,
@@ -55,7 +54,6 @@ describe('Feature: StorePortfolioController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($user);
             $response = $this->post('/api/v1/portfolios', $payload);
 
             // Assert:

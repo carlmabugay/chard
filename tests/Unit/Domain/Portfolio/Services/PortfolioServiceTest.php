@@ -15,8 +15,7 @@ beforeEach(function () {
 
 describe('Unit: PortfolioService', function () {
 
-    it('should return all portfolios when using findAll method.', function () {
-
+    it('can return all portfolios when using findAll method.', function () {
         // Arrange:
         $portfolio = new Portfolio(
             user_id: rand(1, 10),
@@ -40,8 +39,7 @@ describe('Unit: PortfolioService', function () {
         expect($result)->toBeArray();
     });
 
-    it('should return a portfolio when using findById method.', function () {
-
+    it('can return a portfolio when using findById method.', function () {
         // Arrange:
         $portfolio = new Portfolio(
             user_id: rand(1, 10),
@@ -62,11 +60,9 @@ describe('Unit: PortfolioService', function () {
         expect($result)
             ->toBeInstanceOf(Portfolio::class)
             ->and($result->id())->toBe($portfolio->id());
-
     });
 
-    it('should store portfolio when using store method.', function () {
-
+    it('can store portfolio when using store method.', function () {
         // Arrange:
         $portfolio = new Portfolio(
             user_id: rand(1, 10),
@@ -88,8 +84,7 @@ describe('Unit: PortfolioService', function () {
             ->and($result->id())->toBe($portfolio->id());
     });
 
-    it('should soft delete portfolio when using trash method.', function () {
-
+    it('can soft delete portfolio when using trash method.', function () {
         // Arrange:
         $portfolio = new Portfolio(
             user_id: rand(1, 10),
@@ -107,7 +102,6 @@ describe('Unit: PortfolioService', function () {
 
         // Assert
         expect($result)->toBeTrue();
-
     });
 
 });

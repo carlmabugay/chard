@@ -15,8 +15,7 @@ beforeEach(function () {
 
 describe('Unit: DividendService', function () {
 
-    it('should return all dividends when using findAll method.', function () {
-
+    it('can return all dividends when using findAll method.', function () {
         // Arrange:
         $dividend = new Dividend(
             portfolio_id: rand(1, 10),
@@ -41,8 +40,7 @@ describe('Unit: DividendService', function () {
         expect($result)->toBeArray();
     });
 
-    it('should return a cash flows when using findById method.', function () {
-
+    it('can return a dividend when using findById method.', function () {
         // Arrange:
         $dividend = new Dividend(
             portfolio_id: rand(1, 10),
@@ -64,11 +62,9 @@ describe('Unit: DividendService', function () {
         expect($result)
             ->toBeInstanceOf(Dividend::class)
             ->and($result->id())->toBe($dividend->id());
-
     });
 
-    it('should store dividend when using store method.', function () {
-
+    it('can store dividend when using store method.', function () {
         // Arrange:
         $dividend = new Dividend(
             portfolio_id: rand(1, 10),
@@ -88,11 +84,9 @@ describe('Unit: DividendService', function () {
         expect($result)
             ->toBeInstanceOf(Dividend::class)
             ->and($result->id())->toBe($dividend->id());
-
     });
 
-    it('should soft delete dividend when using trash method.', function () {
-
+    it('can soft delete dividend when using trash method.', function () {
         // Arrange:
         $dividend = new Dividend(
             portfolio_id: rand(1, 10),
@@ -110,6 +104,6 @@ describe('Unit: DividendService', function () {
         $result = $this->service->trash($dividend->id());
 
         expect($result)->toBeTrue();
-
     });
+
 });

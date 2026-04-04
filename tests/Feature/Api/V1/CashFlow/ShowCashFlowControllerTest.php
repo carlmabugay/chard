@@ -10,14 +10,13 @@ describe('Feature: ShowCashFlowController', function () {
 
     describe('Positives', function () {
 
-        it('should return a cash flow resource when using /api/v1/cash-flows/{id} GET api endpoint.', function () {
-
+        it('can return a cash flow resource when using /api/v1/cash-flows/{id} GET api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
+            Sanctum::actingAs($cash_flow->portfolio->user);
 
             // Act:
-            Sanctum::actingAs($cash_flow->portfolio->user);
-            $response = $this->get(sprintf('%s/%s', '/api/v1/cash-flows', $cash_flow->id));
+            $response = $this->get(sprintf('/api/v1/cash-flows/%s', $cash_flow->id));
 
             // Assert:
             $response->assertOk()
@@ -37,39 +36,35 @@ describe('Feature: ShowCashFlowController', function () {
                         ],
                     ],
                 ]);
-
         });
 
     });
 
     describe('Negatives', function () {
 
-        it('should handle error message when no record found upon using /api/v1/cash-flows/{id} GET api endpoint.', function () {
-
+        it('can handle error message when no record found upon using /api/v1/cash-flows/{id} GET api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $cash_flow = CashFlowModel::factory()->create();
+            Sanctum::actingAs($cash_flow->portfolio->user);
 
             // Act:
-            Sanctum::actingAs($cash_flow->portfolio->user);
             $response = $this->get(sprintf('/api/v1/cash-flows/%s', $random_id));
 
             // Assert:
-
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
                     'error' => 'Cash flow not found',
                     'message' => sprintf('Cash flow with ID: %s not found', $random_id),
                 ]);
-
         });
 
-        it('should handle server error response when using /api/v1/cash-flows/{id} GET api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/cash-flows/{id} GET api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
+            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(GetCashFlow::class, function (MockInterface $mock) {
@@ -79,7 +74,6 @@ describe('Feature: ShowCashFlowController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($user);
             $response = $this->get(sprintf('/api/v1/cash-flows/%s', $random_id));
 
             // Assert:

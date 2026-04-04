@@ -7,8 +7,7 @@ use App\Models\CashFlow as CashFlowModel;
 
 describe('Integration: GetCashFlow Use Case', function () {
 
-    it('should return cash flow that filtered by id when using handle method.', function () {
-
+    it('can return cash flow that filtered by id when using handle method.', function () {
         // Arrange:
         $cash_flow_model = CashFlowModel::factory()->create();
 
@@ -31,6 +30,6 @@ describe('Integration: GetCashFlow Use Case', function () {
         expect($result)
             ->toBeInstanceOf(CashFlow::class)
             ->and($result->id())->toBe($cash_flow_entity->id());
-
     });
+
 });

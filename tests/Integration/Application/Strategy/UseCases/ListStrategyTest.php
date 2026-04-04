@@ -8,8 +8,7 @@ use App\Models\Strategy as StrategyModel;
 
 describe('Integration: ListStrategies Use Case', function () {
 
-    it('should list all strategies when using handle method.', function () {
-
+    it('can list all strategies when using handle method.', function () {
         // Arrange:
         $no_of_strategies = 10;
         $strategy_model = StrategyModel::factory($no_of_strategies)->create();
@@ -34,6 +33,6 @@ describe('Integration: ListStrategies Use Case', function () {
         expect($result)
             ->toBeArray()
             ->and(count($strategy_entity))->toEqual($no_of_strategies);
-
     });
+
 });

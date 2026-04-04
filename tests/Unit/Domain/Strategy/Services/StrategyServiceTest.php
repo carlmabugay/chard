@@ -15,8 +15,7 @@ beforeEach(function () {
 
 describe('Unit: StrategyService', function () {
 
-    it('should return all strategies when using findAll method.', function () {
-
+    it('can return all strategies when using findAll method.', function () {
         // Arrange:
         $strategy = new Strategy(
             user_id: rand(1, 10),
@@ -40,8 +39,7 @@ describe('Unit: StrategyService', function () {
         expect($result)->toBeArray();
     });
 
-    it('should return a strategy when using findById method.', function () {
-
+    it('can return a strategy when using findById method.', function () {
         // Arrange:
         $strategy = new Strategy(
             user_id: rand(1, 10),
@@ -62,11 +60,9 @@ describe('Unit: StrategyService', function () {
         expect($result)
             ->toBeInstanceOf(Strategy::class)
             ->and($result->id())->toBe($strategy->id());
-
     });
 
-    it('should store strategy when using store method.', function () {
-
+    it('can store strategy when using store method.', function () {
         // Arrange:
         $strategy = new Strategy(
             user_id: rand(1, 10),
@@ -88,8 +84,7 @@ describe('Unit: StrategyService', function () {
             ->and($result->id())->toBe($strategy->id());
     });
 
-    it('should soft delete strategy when using trash method.', function () {
-
+    it('can soft delete strategy when using trash method.', function () {
         // Arrange:
         $strategy = new Strategy(
             user_id: rand(1, 10),

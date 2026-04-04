@@ -8,10 +8,11 @@ use Mockery\MockInterface;
 describe('Feature: UpdateStrategyController', function () {
 
     describe('Positives', function () {
-        it('should update existing strategy resource when using /api/v1/strategies PUT api endpoint.', function () {
 
+        it('can update existing strategy resource when using /api/v1/strategies PUT api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
+            Sanctum::actingAs($strategy->user);
 
             $payload = [
                 'user_id' => $strategy->user->id,
@@ -20,7 +21,6 @@ describe('Feature: UpdateStrategyController', function () {
             ];
 
             // Act:
-            Sanctum::actingAs($strategy->user);
             $response = $this->put('/api/v1/strategies', $payload);
 
             // Assert:
@@ -38,10 +38,10 @@ describe('Feature: UpdateStrategyController', function () {
 
     describe('Negatives', function () {
 
-        it('should handle server error response when using /api/v1/strategies PUT api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/strategies PUT api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
+            Sanctum::actingAs($strategy->user);
 
             $payload = [
                 'user_id' => $strategy->user->id,
@@ -57,7 +57,6 @@ describe('Feature: UpdateStrategyController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($strategy->user);
             $response = $this->put('/api/v1/strategies', $payload);
 
             // Assert:

@@ -8,8 +8,7 @@ use App\Models\Portfolio as PortfolioModel;
 
 describe('Integration: StoreCashFlow Use Case', function () {
 
-    it('should store cash flow when using handle method.', function () {
-
+    it('can store cash flow when using handle method.', function () {
         // Arrange:
         $portfolio = PortfolioModel::factory()->create();
 
@@ -23,13 +22,14 @@ describe('Integration: StoreCashFlow Use Case', function () {
 
         $service = Mockery::mock(CashFlowService::class);
 
+        $use_case = new StoreCashFlow($service);
+
         // Expectation:
         $service->shouldReceive('store')
             ->once()
             ->andReturn($cash_flow_entity);
 
         // Act:
-        $use_case = new StoreCashFlow($service);
         $result = $use_case->handle($dto);
 
         // Assert:
@@ -37,4 +37,5 @@ describe('Integration: StoreCashFlow Use Case', function () {
             ->toBeInstanceOf(CashFlow::class)
             ->and($result->id())->toBe($cash_flow_entity->id());
     });
+
 });

@@ -8,8 +8,7 @@ use App\Models\User as UserModel;
 
 describe('Integration: StorePortfolio Use Case', function () {
 
-    it('should store portfolio when using handle method.', function () {
-
+    it('can store portfolio when using handle method.', function () {
         // Arrange:
         $user = UserModel::factory()->create();
 
@@ -22,13 +21,14 @@ describe('Integration: StorePortfolio Use Case', function () {
 
         $service = Mockery::mock(PortfolioService::class);
 
+        $use_case = new StorePortfolio($service);
+
         // Expectation:
         $service->shouldReceive('store')
             ->once()
             ->andReturn($portfolio_entity);
 
         // Act:
-        $use_case = new StorePortfolio($service);
         $result = $use_case->handle($dto);
 
         // Assert:
@@ -37,4 +37,5 @@ describe('Integration: StorePortfolio Use Case', function () {
             ->and(($result->id()))->toBe($portfolio_entity->id())
             ->and($result->name())->toBe($portfolio_entity->name());
     });
+
 });

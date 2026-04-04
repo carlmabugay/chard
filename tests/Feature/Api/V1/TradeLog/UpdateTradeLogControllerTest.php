@@ -9,10 +9,10 @@ describe('Feature: UpdateTradeLogController', function () {
 
     describe('Positives', function () {
 
-        it('should update existing trade log resource when using /api/v1/trade-logs PUT api endpoint.', function () {
-
+        it('can update existing trade log resource when using /api/v1/trade-logs PUT api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
+            Sanctum::actingAs($trade_log->portfolio->user);
 
             $payload = [
                 'portfolio_id' => $trade_log->portfolio->id,
@@ -24,7 +24,6 @@ describe('Feature: UpdateTradeLogController', function () {
             ];
 
             // Act:
-            Sanctum::actingAs($trade_log->portfolio->user);
             $response = $this->put('/api/v1/trade-logs', $payload);
 
             // Assert:
@@ -43,10 +42,10 @@ describe('Feature: UpdateTradeLogController', function () {
 
     describe('Negatives', function () {
 
-        it('should handle server error response when using /api/v1/trade-logs PUT api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/trade-logs PUT api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
+            Sanctum::actingAs($trade_log->portfolio->user);
 
             $payload = [
                 'portfolio_id' => $trade_log->portfolio->id,
@@ -65,7 +64,6 @@ describe('Feature: UpdateTradeLogController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($trade_log->portfolio->user);
             $response = $this->put('/api/v1/trade-logs', $payload);
 
             // Assert:
@@ -75,7 +73,6 @@ describe('Feature: UpdateTradeLogController', function () {
                     'error' => 'An unexpected error occurred. Please try again later.',
                     'message' => 'This is a mock exception message.',
                 ]);
-
         });
 
     });

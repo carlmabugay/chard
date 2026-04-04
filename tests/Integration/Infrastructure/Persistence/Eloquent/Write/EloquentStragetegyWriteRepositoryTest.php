@@ -11,7 +11,7 @@ beforeEach(function () {
 
 describe('Integration: EloquentStrategyWriteRepository', function () {
 
-    it('should create new strategy when using store method.', function () {
+    it('can create new strategy when using store method.', function () {
 
         // Arrange
         $table = 'strategies';
@@ -30,13 +30,12 @@ describe('Integration: EloquentStrategyWriteRepository', function () {
 
         $this->assertDatabaseCount($table, 1);
         $this->assertDatabaseHas($table, [
-            'user_id' => $result->userId(),
-            'name' => $result->name(),
-            'id' => $result->id(),
+            'user_id' => $strategy->userId(),
+            'name' => $strategy->name(),
         ]);
     });
 
-    it('should update strategy when using store method.', function () {
+    it('can update strategy when using store method.', function () {
 
         // Arrange:
         $user = UserModel::factory()->create();
@@ -55,13 +54,12 @@ describe('Integration: EloquentStrategyWriteRepository', function () {
         expect($result)->toBeInstanceOf(Strategy::class);
 
         $this->assertDatabaseHas('strategies', [
-            'user_id' => $result->userId(),
-            'name' => $result->name(),
-            'id' => $result->id(),
+            'user_id' => $strategy_entity->userId(),
+            'name' => $strategy_entity->name(),
         ]);
     });
 
-    it('should soft delete strategy when using trash method.', function () {
+    it('can soft delete strategy when using trash method.', function () {
 
         // Arrange:
         $strategy = StrategyModel::factory()->create();

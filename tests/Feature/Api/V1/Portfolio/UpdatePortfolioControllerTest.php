@@ -9,10 +9,10 @@ describe('Feature: UpdatePortfolioController', function () {
 
     describe('Positives', function () {
 
-        it('should update existing portfolio resource when using /api/v1/portfolios PUT api endpoint.', function () {
-
+        it('can update existing portfolio resource when using /api/v1/portfolios PUT api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             $payload = [
                 'user_id' => $portfolio->user->id,
@@ -21,7 +21,6 @@ describe('Feature: UpdatePortfolioController', function () {
             ];
 
             // Act:
-            Sanctum::actingAs($portfolio->user);
             $response = $this->put('/api/v1/portfolios', $payload);
 
             // Assert:
@@ -40,10 +39,10 @@ describe('Feature: UpdatePortfolioController', function () {
 
     describe('Negatives', function () {
 
-        it('should handle server error response when using /api/v1/portfolios PUT api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/portfolios PUT api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             $payload = [
                 'user_id' => $portfolio->user->id,
@@ -59,7 +58,6 @@ describe('Feature: UpdatePortfolioController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($portfolio->user);
             $response = $this->put('/api/v1/portfolios', $payload);
 
             // Assert:

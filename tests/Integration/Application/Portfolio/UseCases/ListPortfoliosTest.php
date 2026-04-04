@@ -8,8 +8,7 @@ use App\Models\Portfolio as PortfolioModel;
 
 describe('Integration: ListPortfolios Use Case', function () {
 
-    it('should list all portfolios when using handle method.', function () {
-
+    it('can list all portfolios when using handle method.', function () {
         // Arrange:
         $no_of_portfolios = 10;
         $portfolio_model = PortfolioModel::factory($no_of_portfolios)->create();
@@ -34,6 +33,6 @@ describe('Integration: ListPortfolios Use Case', function () {
         expect($result)
             ->toBeArray()
             ->and(count($portfolio_entity))->toEqual($no_of_portfolios);
-
     });
+
 });

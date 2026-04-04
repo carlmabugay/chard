@@ -15,8 +15,7 @@ describe('Integration: EloquentStrategyReadRepository', function () {
 
     describe('Positives', function () {
 
-        it('should return all strategies when using findAll method.', function () {
-
+        it('can return all strategies when using findAll method.', function () {
             // Arrange:
             $no_of_strategies = 10;
             StrategyModel::factory($no_of_strategies)->create();
@@ -28,11 +27,9 @@ describe('Integration: EloquentStrategyReadRepository', function () {
             expect($result)
                 ->toBeArray()
                 ->and(expect($result['data'])->toHaveCount($no_of_strategies));
-
         });
 
-        it('should paginate correctly when using findAll method.', function () {
-
+        it('can paginate correctly when using findAll method.', function () {
             // Arrange:
             $count = 50;
             StrategyModel::factory($count)->create();
@@ -53,11 +50,9 @@ describe('Integration: EloquentStrategyReadRepository', function () {
                 ->toBeArray()
                 ->and(expect($result['pagination']['current_page'])->toBe($page_number))
                 ->and(count($result['data']))->toBe($per_page);
-
         });
 
-        it('should sort by created date ascending when using findAll method.', function () {
-
+        it('can sort by created date ascending when using findAll method.', function () {
             // Arrange:
             $created_now = now();
             $created_ten_days_ago = now()->subDays(10);
@@ -84,11 +79,9 @@ describe('Integration: EloquentStrategyReadRepository', function () {
                 $created_ten_days_ago->toDateTimeString(),
                 $created_now->toDateTimeString(),
             ]);
-
         });
 
-        it('should search by name when using findAll method.', function () {
-
+        it('can search by name when using findAll method.', function () {
             // Arrange:
             $name_to_search = 'Trend Following';
             StrategyModel::factory()->create(['name' => 'Pullback']);
@@ -106,11 +99,9 @@ describe('Integration: EloquentStrategyReadRepository', function () {
                 ->toHaveCount(1)
                 ->and($result['data'][0]->name())
                 ->toContain($name_to_search);
-
         });
 
-        it('should apply search, sort and pagination together when using findAll method.', function () {
-
+        it('can apply search, sort and pagination together when using findAll method.', function () {
             // Arrange:
             $created_now = now();
             $created_ten_days_ago = $created_now->subDays(10);
@@ -141,11 +132,9 @@ describe('Integration: EloquentStrategyReadRepository', function () {
                 ->toContain($name_to_search)
                 ->and($result['data'][0]->createdAt())
                 ->toBe($create_twenty_days_ago->toDateTimeString());
-
         });
 
-        it('should return a strategy when using findById method.', function () {
-
+        it('can return a strategy when using findById method.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
 
@@ -162,18 +151,15 @@ describe('Integration: EloquentStrategyReadRepository', function () {
 
     describe('Negatives', function () {
 
-        it('should return an empty array when no records found upon using findAll method.', function () {
-
+        it('can return an empty array when no records found upon using findAll method.', function () {
             // Act:
             $result = $this->repository->findAll(new QueryCriteria);
 
             // Assert:
             expect($result['data'])->toBeEmpty();
-
         });
 
-        it('should throw an exception when no record found upon using findById method.', function () {
-
+        it('can throw an exception when no record found upon using findById method.', function () {
             // Arrange:
             $random_id = rand(1, 10);
 

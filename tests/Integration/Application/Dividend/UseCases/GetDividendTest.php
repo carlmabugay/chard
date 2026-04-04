@@ -7,7 +7,7 @@ use App\Models\Dividend as DividendModel;
 
 describe('Integration: GetDividend Use Case', function () {
 
-    it('should return dividend that filtered by id when using handle method.', function () {
+    it('can return dividend that filtered by id when using handle method.', function () {
 
         // Arrange:
         $dividend_model = DividendModel::factory()->create();

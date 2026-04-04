@@ -11,15 +11,13 @@ describe('Feature: ListTradeLogController', function () {
 
     describe('Positives', function () {
 
-        it('should return collection of trade logs resource when using /api/v1/trade-logs GET api endpoint.', function () {
-
+        it('can return collection of trade logs resource when using /api/v1/trade-logs GET api endpoint.', function () {
             // Arrange:
             $no_of_trade_logs = 15;
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             TradeLogModel::factory($no_of_trade_logs)->for($portfolio)->create();
-
-            Sanctum::actingAs($portfolio->user);
 
             // Act:
             $response = $this->get('/api/v1/trade-logs');
@@ -28,14 +26,14 @@ describe('Feature: ListTradeLogController', function () {
             $response->assertOk()
                 ->assertJsonPath('success', true)
                 ->assertJsonPath('pagination.total', $no_of_trade_logs);
-
         });
 
-        it('should paginate trade logs when using /api/v1/trade-logs GET api endpoint.', function () {
-
+        it('can paginate trade logs when using /api/v1/trade-logs GET api endpoint.', function () {
             // Arrange:
             $no_of_trade_logs = 50;
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
+
             TradeLogModel::factory($no_of_trade_logs)->for($portfolio)->create();
 
             $page_number = 3;
@@ -46,8 +44,6 @@ describe('Feature: ListTradeLogController', function () {
                 'per_page' => $per_page,
             ]);
 
-            Sanctum::actingAs($portfolio->user);
-
             // Act:
             $response = $this->get(sprintf('/api/v1/trade-logs?%s', $query));
 
@@ -56,13 +52,12 @@ describe('Feature: ListTradeLogController', function () {
                 ->assertJsonPath('success', true)
                 ->assertJsonPath('pagination.current_page', $page_number)
                 ->assertJsonCount($per_page, 'data');
-
         });
 
-        it('should filter trade logs by type when using /api/v1/trade-logs GET api endpoint.', function () {
-
+        it('can filter trade logs by type when using /api/v1/trade-logs GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             TradeLogModel::factory()->for($portfolio)->create(['type' => 'buy']);
             TradeLogModel::factory()->for($portfolio)->create(['type' => 'sell']);
@@ -73,8 +68,6 @@ describe('Feature: ListTradeLogController', function () {
                 ],
             ]);
 
-            Sanctum::actingAs($portfolio->user);
-
             // Act:
             $response = $this->get(sprintf('/api/v1/trade-logs?%s', $query));
 
@@ -82,13 +75,12 @@ describe('Feature: ListTradeLogController', function () {
             $response->assertOk()
                 ->assertJsonCount(1, 'data')
                 ->assertJsonPath('data.0.type', 'buy');
-
         });
 
-        it('should sort trade logs by shares descending when using /api/v1/trade-logs GET api endpoint.', function () {
-
+        it('can sort trade logs by shares descending when using /api/v1/trade-logs GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             TradeLogModel::factory()->for($portfolio)->create(['shares' => 3500]);
             TradeLogModel::factory()->for($portfolio)->create(['shares' => 18000]);
@@ -100,8 +92,6 @@ describe('Feature: ListTradeLogController', function () {
                 ],
             ]);
 
-            Sanctum::actingAs($portfolio->user);
-
             // Act:
             $response = $this->get(sprintf('/api/v1/trade-logs?%s', $query));
 
@@ -111,13 +101,12 @@ describe('Feature: ListTradeLogController', function () {
 
             // Assert:
             expect($shares)->toBe([18000, 3500, 290]);
-
         });
 
-        it('should search trade logs by symbol when using /api/v1/trade-logs GET api endpoint.', function () {
-
+        it('can search trade logs by symbol when using /api/v1/trade-logs GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             $symbol_to_search = 'BPI';
             TradeLogModel::factory()->for($portfolio)->create(['symbol' => 'AC']);
@@ -129,8 +118,6 @@ describe('Feature: ListTradeLogController', function () {
                 'search' => $symbol_to_search,
             ]);
 
-            Sanctum::actingAs($portfolio->user);
-
             // Act:
             $response = $this->get(sprintf('/api/v1/trade-logs?%s', $query));
 
@@ -138,13 +125,13 @@ describe('Feature: ListTradeLogController', function () {
             $response->assertOk()
                 ->assertJsonCount(1, 'data')
                 ->assertJsonPath('data.0.symbol', $symbol_to_search);
-
         });
 
-        it('should apply search, filter, sort, and pagination together when using /api/v1/trade-logs GET api endpoint.', function () {
-
+        it('can apply search, filter, sort, and pagination together when using /api/v1/trade-logs GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
+
             $symbol_to_search = 'BPI';
             TradeLogModel::factory()->for($portfolio)->create(['type' => 'buy', 'symbol' => 'AC', 'shares' => 3500]);
             TradeLogModel::factory()->for($portfolio)->create(['type' => 'sell', 'symbol' => 'JGS', 'shares' => 18000]);
@@ -162,8 +149,6 @@ describe('Feature: ListTradeLogController', function () {
                 ],
             ]);
 
-            Sanctum::actingAs($portfolio->user);
-
             // Act:
             $response = $this->get(sprintf('/api/v1/trade-logs?%s', $query));
 
@@ -172,16 +157,16 @@ describe('Feature: ListTradeLogController', function () {
                 ->assertJsonCount(1, 'data')
                 ->assertJsonPath('data.0.type', 'buy')
                 ->assertJsonPath('data.0.shares', 290);
-
         });
+
     });
 
     describe('Negatives', function () {
 
-        it('should handle server error response when using /api/v1/trade-logs GET api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/trade-logs GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
+            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(ListTradeLogs::class, function (MockInterface $mock) {
@@ -191,7 +176,6 @@ describe('Feature: ListTradeLogController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($user);
             $response = $this->get('/api/v1/trade-logs');
 
             // Assert:

@@ -11,15 +11,15 @@ describe('Feature: ListDividendController', function () {
 
     describe('Positives', function () {
 
-        it('should return collection of dividend resource when using /api/v1/dividends GET api endpoint.', function () {
-
+        it('can return collection of dividend resource when using /api/v1/dividends GET api endpoint.', function () {
             // Arrange:
             $no_of_dividends = 50;
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
+
             DividendModel::factory($no_of_dividends)->for($portfolio)->create();
 
             // Act:
-            Sanctum::actingAs($portfolio->user);
             $response = $this->get('/api/v1/dividends');
 
             // Assert:
@@ -28,14 +28,14 @@ describe('Feature: ListDividendController', function () {
                     'success' => true,
                     'data' => [],
                 ]);
-
         });
 
-        it('should paginate dividends when using /api/v1/dividends GET api endpoint.', function () {
-
+        it('can paginate dividends when using /api/v1/dividends GET api endpoint.', function () {
             // Arrange:
             $no_of_dividends = 50;
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
+
             DividendModel::factory($no_of_dividends)->for($portfolio)->create();
 
             $page_number = 2;
@@ -46,8 +46,6 @@ describe('Feature: ListDividendController', function () {
                 'per_page' => $per_page,
             ]);
 
-            Sanctum::actingAs($portfolio->user);
-
             // Act:
             $response = $this->get(sprintf('/api/v1/dividends?%s', $query));
 
@@ -56,13 +54,12 @@ describe('Feature: ListDividendController', function () {
                 ->assertJsonPath('success', true)
                 ->assertJsonPath('pagination.current_page', $page_number)
                 ->assertJsonCount($per_page, 'data');
-
         });
 
-        it('should sort dividends by amount descending when using /api/v1/dividends GET api endpoint.', function () {
-
+        it('can sort dividends by amount descending when using /api/v1/dividends GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             DividendModel::factory()->for($portfolio)->create(['amount' => 4000]);
             DividendModel::factory()->for($portfolio)->create(['amount' => 2500]);
@@ -74,8 +71,6 @@ describe('Feature: ListDividendController', function () {
                 ],
             ]);
 
-            Sanctum::actingAs($portfolio->user);
-
             // Act:
             $response = $this->get(sprintf('/api/v1/dividends?%s', $query));
 
@@ -85,13 +80,12 @@ describe('Feature: ListDividendController', function () {
 
             // Assert:
             expect($amounts)->toBe([10200, 4000, 2500]);
-
         });
 
-        it('should search dividends by symbol when using /api/v1/dividends GET api endpoint.', function () {
-
+        it('can search dividends by symbol when using /api/v1/dividends GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             $symbol_to_search = 'BPI';
             DividendModel::factory()->for($portfolio)->create(['symbol' => 'JFC']);
@@ -102,8 +96,6 @@ describe('Feature: ListDividendController', function () {
                 'search' => $symbol_to_search,
             ]);
 
-            Sanctum::actingAs($portfolio->user);
-
             // Act:
             $response = $this->get(sprintf('/api/v1/dividends?%s', $query));
 
@@ -111,13 +103,12 @@ describe('Feature: ListDividendController', function () {
             $response->assertOk()
                 ->assertJsonCount(1, 'data')
                 ->assertJsonPath('data.0.symbol', $symbol_to_search);
-
         });
 
-        it('should apply search, sort, and pagination together when using /api/v1/dividends GET api endpoint.', function () {
-
+        it('can apply search, sort, and pagination together when using /api/v1/dividends GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             DividendModel::factory()->for($portfolio)->create(['symbol' => 'JFC', 'amount' => 4000]);
             DividendModel::factory()->for($portfolio)->create(['symbol' => 'AC', 'amount' => 2500]);
@@ -131,8 +122,6 @@ describe('Feature: ListDividendController', function () {
                     ['field' => 'amount', 'direction' => 'desc'],
                 ],
             ]);
-
-            Sanctum::actingAs($portfolio->user);
 
             // Act:
             $response = $this->get(sprintf('/api/v1/dividends?%s', $query));
@@ -148,10 +137,10 @@ describe('Feature: ListDividendController', function () {
 
     describe('Negatives', function () {
 
-        it('should handle server error response when using /api/v1/dividends GET api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/dividends GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
+            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(ListDividends::class, function (MockInterface $mock) {
@@ -161,7 +150,6 @@ describe('Feature: ListDividendController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($user);
             $response = $this->get('/api/v1/dividends');
 
             // Assert:
@@ -171,7 +159,6 @@ describe('Feature: ListDividendController', function () {
                     'error' => 'An unexpected error occurred. Please try again later.',
                     'message' => 'This is a mock exception message.',
                 ]);
-
         });
 
     });

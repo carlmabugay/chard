@@ -7,8 +7,7 @@ use App\Models\TradeLog as TradeLogModel;
 
 describe('Integration: GetTradeLog Use Case', function () {
 
-    it('should return trade log that filtered by id when using handle method.', function () {
-
+    it('can return trade log that filtered by id when using handle method.', function () {
         // Arrange:
         $trade_log_model = TradeLogModel::factory()->create();
 
@@ -31,6 +30,6 @@ describe('Integration: GetTradeLog Use Case', function () {
         expect($result)
             ->toBeInstanceOf(TradeLog::class)
             ->and($result->id())->toBe($trade_log_entity->id());
-
     });
+
 });

@@ -6,12 +6,13 @@ use App\Models\Dividend as DividendModel;
 
 describe('Integration: TrashDividend Use Case', function () {
 
-    it('should soft delete dividend when using handle method.', function () {
-
+    it('can soft delete dividend when using handle method.', function () {
         // Arrange:
         $dividend = DividendModel::factory()->create();
 
         $service = Mockery::mock(DividendService::class);
+
+        $use_case = new TrashDividend($service);
 
         // Expectation:
         $service->shouldReceive('trash')
@@ -20,7 +21,6 @@ describe('Integration: TrashDividend Use Case', function () {
             ->andReturn(true);
 
         // Act:
-        $use_case = new TrashDividend($service);
         $result = $use_case->handle($dividend->id);
 
         // Assert:

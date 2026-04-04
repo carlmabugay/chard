@@ -10,14 +10,13 @@ describe('Feature: ShowDividendController', function () {
 
     describe('Positives', function () {
 
-        it('should return a dividend resource when using /api/v1/dividends/{id} GET api endpoint.', function () {
-
+        it('can return a dividend resource when using /api/v1/dividends/{id} GET api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();
+            Sanctum::actingAs($dividend->portfolio->user);
 
             // Act:
-            Sanctum::actingAs($dividend->portfolio->user);
-            $response = $this->get(sprintf('%s/%s', '/api/v1/dividends', $dividend->id));
+            $response = $this->get(sprintf('/api/v1/dividends/%s', $dividend->id));
 
             // Assert:
             $response->assertOk()
@@ -36,22 +35,20 @@ describe('Feature: ShowDividendController', function () {
                         ],
                     ],
                 ]);
-
         });
 
     });
 
     describe('Negatives', function () {
 
-        it('should handle error message when no record found upon using /api/v1/dividends/{id} GET api endpoint.', function () {
-
+        it('can handle error message when no record found upon using /api/v1/dividends/{id} GET api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $dividend = DividendModel::factory()->create();
+            Sanctum::actingAs($dividend->portfolio->user);
 
             // Act:
-            Sanctum::actingAs($dividend->portfolio->user);
-            $response = $this->get(sprintf('%s/%s', '/api/v1/dividends', $random_id));
+            $response = $this->get(sprintf('/api/v1/dividends/%s', $random_id));
 
             // Assert
             $response->assertNotFound()
@@ -62,11 +59,11 @@ describe('Feature: ShowDividendController', function () {
                 ]);
         });
 
-        it('should handle server error response when using /api/v1/dividends/{id} GET api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/dividends/{id} GET api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
+            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(GetDividend::class, function (MockInterface $mock) {
@@ -76,7 +73,6 @@ describe('Feature: ShowDividendController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($user);
             $response = $this->get(sprintf('/api/v1/dividends/%s', $random_id));
 
             // Assert:
@@ -86,7 +82,6 @@ describe('Feature: ShowDividendController', function () {
                     'error' => 'An unexpected error occurred. Please try again later.',
                     'message' => 'This is a mock exception message.',
                 ]);
-
         });
 
     });

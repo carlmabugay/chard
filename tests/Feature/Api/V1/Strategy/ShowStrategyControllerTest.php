@@ -10,14 +10,13 @@ describe('Feature: ShowStrategyController', function () {
 
     describe('Positives', function () {
 
-        it('should return a strategy resource when using /api/v1/strategies/{id} GET api endpoint.', function () {
-
+        it('can return a strategy resource when using /api/v1/strategies/{id} GET api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
+            Sanctum::actingAs($strategy->user);
 
             // Act:
-            Sanctum::actingAs($strategy->user);
-            $response = $this->get(sprintf('%s/%s', '/api/v1/strategies', $strategy->id));
+            $response = $this->get(sprintf('/api/v1/strategies/%s', $strategy->id));
 
             // Assert:
             $response->assertOk()
@@ -36,14 +35,13 @@ describe('Feature: ShowStrategyController', function () {
 
     describe('Negatives', function () {
 
-        it('should handle error message when no record found upon using /api/v1/strategies/{id} GET api endpoint.', function () {
-
+        it('can handle error message when no record found upon using /api/v1/strategies/{id} GET api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $strategy = StrategyModel::factory()->create();
+            Sanctum::actingAs($strategy->user);
 
             // Act:
-            Sanctum::actingAs($strategy->user);
             $response = $this->get(sprintf('/api/v1/strategies/%s', $random_id));
 
             // Assert:
@@ -53,14 +51,13 @@ describe('Feature: ShowStrategyController', function () {
                     'error' => 'Strategy not found',
                     'message' => sprintf('Strategy with ID: %s not found', $random_id),
                 ]);
-
         });
 
-        it('should handle server error response when using /api/v1/strategies/{id} GET api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/strategies/{id} GET api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
+            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(GetStrategy::class, function (MockInterface $mock) {
@@ -70,7 +67,6 @@ describe('Feature: ShowStrategyController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($user);
             $response = $this->get(sprintf('/api/v1/strategies/%s', $random_id));
 
             // Assert:

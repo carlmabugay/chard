@@ -8,8 +8,7 @@ use App\Models\TradeLog as TradeLogModel;
 
 describe('Integration: ListTradeLogs Use Case', function () {
 
-    it('should list all trade logs when using handle method.', function () {
-
+    it('can list all trade logs when using handle method.', function () {
         // Arrange:
         $no_of_trade_logs = 10;
         $trade_log_model = TradeLogModel::factory($no_of_trade_logs)->create();
@@ -20,6 +19,7 @@ describe('Integration: ListTradeLogs Use Case', function () {
 
         $use_case = new ListTradeLogs($service);
 
+        // Expectation:
         $service->shouldReceive('findAll')
             ->once()
             ->with($criteria)
@@ -34,6 +34,6 @@ describe('Integration: ListTradeLogs Use Case', function () {
         expect($result)
             ->toBeArray()
             ->and(count($trade_log_entity))->toEqual($no_of_trade_logs);
-
     });
+
 });

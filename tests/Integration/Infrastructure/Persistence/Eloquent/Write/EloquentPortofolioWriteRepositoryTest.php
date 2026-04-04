@@ -11,7 +11,7 @@ beforeEach(function () {
 
 describe('Integration: EloquentPortfolioWriteRepository', function () {
 
-    it('should create new portfolio when using store method.', function () {
+    it('can create new portfolio when using store method.', function () {
 
         // Arrange
         $table = 'portfolios';
@@ -24,7 +24,6 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
         );
 
         // Act:
-
         $result = $this->repository->store($portfolio);
 
         // Assert:
@@ -32,13 +31,12 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
 
         $this->assertDatabaseCount($table, 1);
         $this->assertDatabaseHas($table, [
-            'user_id' => $result->userId(),
-            'name' => $result->name(),
-            'id' => $result->id(),
+            'user_id' => $portfolio->userId(),
+            'name' => $portfolio->name(),
         ]);
     });
 
-    it('should update portfolio when using store method.', function () {
+    it('can update portfolio when using store method.', function () {
 
         // Arrange:
         $user = UserModel::factory()->create();
@@ -57,14 +55,14 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
         expect($result)->toBeInstanceOf(Portfolio::class);
 
         $this->assertDatabaseHas('portfolios', [
-            'user_id' => $result->userId(),
-            'name' => $result->name(),
-            'id' => $result->id(),
+            'user_id' => $portfolio_entity->userId(),
+            'name' => $portfolio_entity->name(),
+            'id' => $portfolio_entity->id(),
         ]);
 
     });
 
-    it(' should soft delete portfolio when using trash method.', function () {
+    it('can soft delete portfolio when using trash method.', function () {
 
         // Arrange:
         $portfolio = PortfolioModel::factory()->create();

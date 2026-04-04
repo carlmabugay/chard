@@ -12,15 +12,15 @@ describe('Feature: ListCashFlowController', function () {
 
     describe('Positives', function () {
 
-        it('should return collection of cash flow resource when using /api/v1/cash-flows GET api endpoint.', function () {
-
+        it('can return collection of cash flow resource when using /api/v1/cash-flows GET api endpoint.', function () {
             // Arrange:
             $no_of_cash_flows = 50;
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
+
             CashFlowModel::factory($no_of_cash_flows)->for($portfolio)->create();
 
             // Act:
-            Sanctum::actingAs($portfolio->user);
             $response = $this->get('/api/v1/cash-flows');
 
             // Assert:
@@ -31,11 +31,12 @@ describe('Feature: ListCashFlowController', function () {
                 ]);
         });
 
-        it('should paginate cash flows when using /api/v1/cash-flows GET api endpoint.', function () {
-
+        it('can paginate cash flows when using /api/v1/cash-flows GET api endpoint.', function () {
             // Arrange:
             $no_of_cash_flows = 50;
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
+
             CashFlowModel::factory($no_of_cash_flows)->for($portfolio)->create();
 
             $page_number = 3;
@@ -46,8 +47,6 @@ describe('Feature: ListCashFlowController', function () {
                 'per_page' => $per_page,
             ]);
 
-            Sanctum::actingAs($portfolio->user);
-
             // Act:
             $response = $this->get(sprintf('/api/v1/cash-flows?%s', $query));
 
@@ -56,13 +55,12 @@ describe('Feature: ListCashFlowController', function () {
                 ->assertJsonPath('success', true)
                 ->assertJsonPath('pagination.current_page', $page_number)
                 ->assertJsonCount($per_page, 'data');
-
         });
 
-        it('should filter cash flows by type when using /api/v1/cash-flows GET api endpoint.', function () {
-
+        it('can filter cash flows by type when using /api/v1/cash-flows GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             CashFlowModel::factory()->for($portfolio)->create(['type' => CashFlowType::DEPOSIT]);
             CashFlowModel::factory()->for($portfolio)->create(['type' => CashFlowType::WITHDRAW]);
@@ -73,8 +71,6 @@ describe('Feature: ListCashFlowController', function () {
                 ],
             ]);
 
-            Sanctum::actingAs($portfolio->user);
-
             // Act:
             $response = $this->get(sprintf('/api/v1/cash-flows?%s', $query));
 
@@ -82,13 +78,12 @@ describe('Feature: ListCashFlowController', function () {
             $response->assertOk()
                 ->assertJsonCount(1, 'data')
                 ->assertJsonPath('data.0.type', CashFlowType::DEPOSIT->value);
-
         });
 
-        it('should sort cash flows by amount descending when using /api/v1/cash-flows GET api endpoint.', function () {
-
+        it('can sort cash flows by amount descending when using /api/v1/cash-flows GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             CashFlowModel::factory()->for($portfolio)->create(['amount' => 300]);
             CashFlowModel::factory()->for($portfolio)->create(['amount' => 100]);
@@ -100,8 +95,6 @@ describe('Feature: ListCashFlowController', function () {
                 ],
             ]);
 
-            Sanctum::actingAs($portfolio->user);
-
             // Act:
             $response = $this->get(sprintf('/api/v1/cash-flows?%s', $query));
 
@@ -111,13 +104,12 @@ describe('Feature: ListCashFlowController', function () {
 
             // Assert:
             expect($amounts)->toBe([300, 200, 100]);
-
         });
 
-        it('should search cash flows by amount when using /api/v1/cash-flows GET api endpoint.', function () {
-
+        it('can search cash flows by amount when using /api/v1/cash-flows GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             $amount_to_search = 3000;
             CashFlowModel::factory()->for($portfolio)->create(['amount' => 5000]);
@@ -128,8 +120,6 @@ describe('Feature: ListCashFlowController', function () {
                 'search' => $amount_to_search,
             ]);
 
-            Sanctum::actingAs($portfolio->user);
-
             // Act:
             $response = $this->get(sprintf('/api/v1/cash-flows?%s', $query));
 
@@ -137,13 +127,12 @@ describe('Feature: ListCashFlowController', function () {
             $response->assertOk()
                 ->assertJsonCount(1, 'data')
                 ->assertJsonPath('data.0.amount', $amount_to_search);
-
         });
 
-        it('should apply search, filter, sort, and pagination together when using /api/v1/cash-flows GET api endpoint.', function () {
-
+        it('can apply search, filter, sort, and pagination together when using /api/v1/cash-flows GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
 
             $amount_to_search = 100;
 
@@ -164,8 +153,6 @@ describe('Feature: ListCashFlowController', function () {
                 ],
             ]);
 
-            Sanctum::actingAs($portfolio->user);
-
             // Act:
             $response = $this->get(sprintf('/api/v1/cash-flows?%s', $query));
 
@@ -177,31 +164,30 @@ describe('Feature: ListCashFlowController', function () {
 
         });
 
-        it('should return empty data and 0 total record when no records found upon using /api/v1/cash-flows GET api endpoint.',
-            function () {
+        it('can return empty data and 0 total record when no records found upon using /api/v1/cash-flows GET api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->create();
+            Sanctum::actingAs($user);
 
-                // Arrange:
-                $user = UserModel::factory()->create();
+            // Act:
 
-                // Act:
-                Sanctum::actingAs($user);
-                $response = $this->get('/api/v1/cash-flows');
+            $response = $this->get('/api/v1/cash-flows');
 
-                // Assert:
-                $response->assertOk()
-                    ->assertJson([
-                        'data' => [],
-                    ]);
-            });
+            // Assert:
+            $response->assertOk()
+                ->assertJson([
+                    'data' => [],
+                ]);
+        });
 
     });
 
     describe('Negatives', function () {
 
-        it('should handle server error response when using /api/v1/cash-flows GET api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/cash-flows GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
+            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(ListCashFlows::class, function (MockInterface $mock) {
@@ -211,7 +197,6 @@ describe('Feature: ListCashFlowController', function () {
             });
 
             // Act:
-            Sanctum::actingAs($user);
             $response = $this->get('/api/v1/cash-flows');
 
             // Assert:

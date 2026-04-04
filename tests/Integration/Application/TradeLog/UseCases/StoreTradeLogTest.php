@@ -8,8 +8,7 @@ use App\Models\Portfolio as PortfolioModel;
 
 describe('Integration: StoreTradeLog Use Case', function () {
 
-    it('should store trade log when using handle method.', function () {
-
+    it('can store trade log when using handle method.', function () {
         // Arrange:
         $portfolio = PortfolioModel::factory()->create();
 
@@ -26,13 +25,14 @@ describe('Integration: StoreTradeLog Use Case', function () {
 
         $service = Mockery::mock(TradeLogService::class);
 
+        $use_case = new StoreTradeLog($service);
+
         // Expectation:
         $service->shouldReceive('store')
             ->once()
             ->andReturn($trade_log_entity);
 
         // Act:
-        $use_case = new StoreTradeLog($service);
         $result = $use_case->handle($dto);
 
         // Assert:
@@ -40,4 +40,5 @@ describe('Integration: StoreTradeLog Use Case', function () {
             ->toBeInstanceOf(TradeLog::class)
             ->and($result->id())->toBe($trade_log_entity->id());
     });
+
 });

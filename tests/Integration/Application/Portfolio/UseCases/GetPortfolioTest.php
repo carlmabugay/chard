@@ -7,8 +7,7 @@ use App\Models\Portfolio as PortfolioModel;
 
 describe('Integration: GetPortfolio Use Case', function () {
 
-    it('should return portfolio that filtered by id when using handle method.', function () {
-
+    it('can return portfolio that filtered by id when using handle method.', function () {
         // Arrange:
         $portfolio_model = PortfolioModel::factory()->create();
 
@@ -32,6 +31,6 @@ describe('Integration: GetPortfolio Use Case', function () {
             ->toBeInstanceOf(Portfolio::class)
             ->and(($result->id()))->toBe($portfolio_entity->id())
             ->and($result->name())->toBe($portfolio_entity->name());
-
     });
+
 });

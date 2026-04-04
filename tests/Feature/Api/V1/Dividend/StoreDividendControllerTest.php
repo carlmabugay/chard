@@ -9,18 +9,17 @@ describe('Feature: StoreCashFlowController', function () {
 
     describe('Positives', function () {
 
-        it('should store new cash flow resource when using /api/v1/dividends POST api endpoint.', function () {
-
+        it('can store new cash flow resource when using /api/v1/dividends POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
+
             $payload = [
                 'portfolio_id' => $portfolio->id,
                 'symbol' => 'JFC',
                 'amount' => 100,
                 'recorded_at' => now()->toDateTimeString(),
             ];
-
-            Sanctum::actingAs($portfolio->user);
 
             // Act:
             $result = $this->post('/api/v1/dividends', $payload);
@@ -38,25 +37,23 @@ describe('Feature: StoreCashFlowController', function () {
                         ],
                     ],
                 ]);
-
         });
 
     });
 
     describe('Negatives', function () {
 
-        it('should handle server error response when using /api/v1/dividends POST api endpoint.', function () {
-
+        it('can handle server error response when using /api/v1/dividends POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
+            Sanctum::actingAs($portfolio->user);
+
             $payload = [
                 'portfolio_id' => $portfolio->id,
                 'symbol' => 'JFC',
                 'amount' => 100,
                 'recorded_at' => now()->toDateTimeString(),
             ];
-
-            Sanctum::actingAs($portfolio->user);
 
             // Expectation:
             $this->mock(StoreDividend::class, function (MockInterface $mock) {
@@ -75,7 +72,6 @@ describe('Feature: StoreCashFlowController', function () {
                     'error' => 'An unexpected error occurred. Please try again later.',
                     'message' => 'This is a mock exception message.',
                 ]);
-
         });
 
     });

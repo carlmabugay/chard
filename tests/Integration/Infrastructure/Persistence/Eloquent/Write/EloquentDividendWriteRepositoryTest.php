@@ -11,7 +11,7 @@ beforeEach(function () {
 
 describe('Integration: EloquentDividendWriteRepository', function () {
 
-    it('should create new dividend when using store method.', function () {
+    it('can create new dividend when using store method.', function () {
 
         // Arrange
         $table = 'dividends';
@@ -32,16 +32,15 @@ describe('Integration: EloquentDividendWriteRepository', function () {
 
         $this->assertDatabaseCount($table, 1);
         $this->assertDatabaseHas($table, [
-            'portfolio_id' => $result->portfolioId(),
-            'symbol' => $result->symbol(),
-            'amount' => $result->amount(),
-            'id' => $result->id(),
-            'recorded_at' => $result->recordedAt(),
+            'portfolio_id' => $dividend_entity->portfolioId(),
+            'symbol' => $dividend_entity->symbol(),
+            'amount' => $dividend_entity->amount(),
+            'recorded_at' => $dividend_entity->recordedAt(),
         ]);
 
     });
 
-    it('should update dividend when using store method.', function () {
+    it('can update dividend when using store method.', function () {
 
         // Arrange:
         $dividend_model = DividendModel::factory()->create();
@@ -60,14 +59,13 @@ describe('Integration: EloquentDividendWriteRepository', function () {
         expect($result)->toBeInstanceOf(Dividend::class);
 
         $this->assertDatabaseHas('dividends', [
-            'portfolio_id' => $result->portfolioId(),
-            'symbol' => $result->symbol(),
-            'amount' => $result->amount(),
-            'id' => $result->id(),
+            'portfolio_id' => $dividend_entity->portfolioId(),
+            'symbol' => $dividend_entity->symbol(),
+            'amount' => $dividend_entity->amount(),
         ]);
     });
 
-    it('should soft delete dividend when using trash method.', function () {
+    it('can soft delete dividend when using trash method.', function () {
 
         // Arrange:
         $dividend = DividendModel::factory()->create();
