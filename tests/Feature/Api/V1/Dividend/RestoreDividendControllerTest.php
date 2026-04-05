@@ -1,25 +1,25 @@
 <?php
 
-use App\Application\Dividend\UseCases\TrashDividend;
+use App\Application\Dividend\UseCases\RestoreDividend;
 use App\Models\Dividend as DividendModel;
 use App\Models\User as UserModel;
 use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
-describe('Feature: TrashDividendController', function () {
+describe('Feature: RestoreDividendController', function () {
 
     describe('Positives', function () {
 
-        it('can trash existing cash flow resource when using /api/v1/dividends DELETE api endpoint.', function () {
+        it('can restore trashed dividend resource when using /api/v1/dividends PATCH api endpoint.', function () {
             // Arrange:
-            $dividend = DividendModel::factory()->create();
+            $dividend = DividendModel::factory()->trashed()->create();
             Sanctum::actingAs($dividend->portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/dividends/%s', $dividend->id));
+            $response = $this->patch(sprintf('/api/v1/dividends/%s', $dividend->id));
 
             // Assert:
-            $this->assertSoftDeleted($dividend);
+            $this->assertNotSoftDeleted($dividend);
 
             $response->assertOk()
                 ->assertJson([
@@ -31,39 +31,39 @@ describe('Feature: TrashDividendController', function () {
 
     describe('Negatives', function () {
 
-        it('can handle error message when no record found upon using /api/v1/dividends/{id} DELETE api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/dividends/{id} PATCH api endpoint.', function () {
             // Arrange:
             $random_id = 100;
-            $dividend = DividendModel::factory()->create();
+            $dividend = DividendModel::factory()->trashed()->create();
             Sanctum::actingAs($dividend->portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/dividends/%s', $random_id));
+            $response = $this->patch(sprintf('/api/v1/dividends/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Dividend not found to delete.',
+                    'error' => 'Dividend not found to restore.',
                     'message' => sprintf('Dividend with ID: %s not found', $random_id),
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/dividends/{id} DELETE api endpoint.', function () {
+        it('can handle server error response when using /api/v1/dividends/{id} PATCH api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
             Sanctum::actingAs($user);
 
             // Expectation:
-            $this->mock(TrashDividend::class, function (MockInterface $mock) {
+            $this->mock(RestoreDividend::class, function (MockInterface $mock) {
                 $mock->shouldReceive('handle')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/dividends/%s', $random_id));
+            $response = $this->patch(sprintf('/api/v1/dividends/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()
@@ -73,6 +73,6 @@ describe('Feature: TrashDividendController', function () {
                     'message' => 'This is a mock exception message.',
                 ]);
         });
-
     });
+
 });

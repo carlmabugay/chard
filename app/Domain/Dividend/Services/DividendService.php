@@ -33,4 +33,12 @@ class DividendService
     {
         return $this->write_repository->trash($id);
     }
+
+    /*
+     * @throws ModelNotFoundException
+     */
+    public function restore(int $id): ?bool
+    {
+        return $this->write_repository->restore($id);
+    }
 }

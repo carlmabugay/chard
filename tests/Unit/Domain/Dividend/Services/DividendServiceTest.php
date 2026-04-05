@@ -95,14 +95,37 @@ describe('Unit: DividendService', function () {
             id: rand(1, 10),
         );
 
-        // Act:
+        // Expectation:
         $this->write_repository->shouldReceive('trash')
             ->once()
             ->with($dividend->id())
             ->andReturn(true);
 
+        // Act:
         $result = $this->service->trash($dividend->id());
 
+        expect($result)->toBeTrue();
+    });
+
+    it('can restore trashed dividend when using trash method.', function () {
+        // Arrange:
+        $dividend = new Dividend(
+            portfolio_id: rand(1, 10),
+            symbol: 'JFC',
+            amount: 5000,
+            id: rand(1, 10),
+        );
+
+        // Expectation:
+        $this->write_repository->shouldReceive('restore')
+            ->once()
+            ->with($dividend->id())
+            ->andReturn(true);
+
+        // Act:
+        $result = $this->service->restore($dividend->id());
+
+        // Assert:
         expect($result)->toBeTrue();
     });
 

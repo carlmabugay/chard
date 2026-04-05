@@ -9,4 +9,6 @@ interface DividendWriteRepositoryInterface
     public function store(Dividend $dividend): Dividend;
 
     public function trash(int $id): ?bool;
+
+    public function restore(int $id): ?bool;
 }
