@@ -105,4 +105,25 @@ describe('Unit: StrategyService', function () {
         expect($result)->toBeTrue();
     });
 
+    it('can restore trashed strategy when using restore method.', function () {
+        // Arrange:
+        $strategy = new Strategy(
+            user_id: rand(1, 10),
+            name: 'Trend Following',
+            id: rand(1, 10),
+        );
+
+        // Expectation:
+        $this->write_repository->shouldReceive('restore')
+            ->once()
+            ->with($strategy->id())
+            ->andReturn(true);
+
+        // Act:
+        $result = $this->service->restore($strategy->id());
+
+        // Assert:
+        expect($result)->toBeTrue();
+    });
+
 });

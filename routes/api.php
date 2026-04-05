@@ -17,6 +17,7 @@ use App\Http\Controllers\v1\Portfolio\StoreController as StorePortfolioControlle
 use App\Http\Controllers\v1\Portfolio\TrashController as TrashPortfolioController;
 use App\Http\Controllers\v1\Portfolio\UpdateController as UpdatePortfolioController;
 use App\Http\Controllers\v1\Strategy\ListController as ListStrategyController;
+use App\Http\Controllers\v1\Strategy\RestoreController as RestoreStrategyController;
 use App\Http\Controllers\v1\Strategy\ShowController as ShowStrategyController;
 use App\Http\Controllers\v1\Strategy\StoreController as StoreStrategyController;
 use App\Http\Controllers\v1\Strategy\TrashController as TrashStrategyController;
@@ -45,6 +46,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::get('/{id}', ShowStrategyController::class);
         Route::put('/', UpdateStrategyController::class);
         Route::delete('/{id}', TrashStrategyController::class);
+        Route::patch('/{id}', RestoreStrategyController::class);
     });
 
     Route::prefix('cash-flows')->group(function () {

@@ -25,4 +25,9 @@ class EloquentStrategyWriteRepository implements StrategyWriteRepositoryInterfac
     {
         return StrategyModel::query()->findOrFail($id)->delete();
     }
+
+    public function restore(int $id): ?bool
+    {
+        return StrategyModel::query()->withTrashed()->findOrFail($id)->restore();
+    }
 }

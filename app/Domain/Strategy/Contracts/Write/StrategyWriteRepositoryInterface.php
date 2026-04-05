@@ -9,4 +9,6 @@ interface StrategyWriteRepositoryInterface
     public function store(Strategy $strategy): Strategy;
 
     public function trash(int $id): ?bool;
+
+    public function restore(int $id): ?bool;
 }
