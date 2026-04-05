@@ -9,4 +9,6 @@ interface CashFlowWriteRepositoryInterface
     public function store(CashFlow $cash_flow): CashFlow;
 
     public function trash(int $id): ?bool;
+
+    public function restore(int $id): ?bool;
 }

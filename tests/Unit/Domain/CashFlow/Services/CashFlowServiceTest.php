@@ -97,14 +97,38 @@ describe('Unit: CashFlowService', function () {
             id: rand(1, 10),
         );
 
-        // Act:
+        // Expectation:
         $this->write_repository->shouldReceive('trash')
             ->once()
             ->with($cash_flow->id())
             ->andReturn(true);
 
+        // Act:
         $result = $this->service->trash($cash_flow->id());
 
+        // Assert:
+        expect($result)->toBeTrue();
+    });
+
+    it('can restore trashed cash flow when using restore method.', function () {
+        // Arrange:
+        $cash_flow = new CashFlow(
+            portfolio_id: rand(1, 10),
+            type: CashFlowType::DEPOSIT,
+            amount: 5000,
+            id: rand(1, 10),
+        );
+
+        // Expectation:
+        $this->write_repository->shouldReceive('restore')
+            ->once()
+            ->with($cash_flow->id())
+            ->andReturn(true);
+
+        // Act:
+        $result = $this->service->restore($cash_flow->id());
+
+        // Assert:
         expect($result)->toBeTrue();
     });
 

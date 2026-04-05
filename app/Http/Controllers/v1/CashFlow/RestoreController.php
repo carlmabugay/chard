@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\v1\Strategy;
+namespace App\Http\Controllers\v1\CashFlow;
 
-use App\Application\Strategy\UseCases\RestoreStrategy;
+use App\Application\CashFlow\UserCases\RestoreCashFlow;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -10,7 +10,7 @@ use Throwable;
 
 final class RestoreController extends Controller
 {
-    public function __invoke(int $id, RestoreStrategy $use_case): JsonResponse
+    public function __invoke(int $id, RestoreCashFlow $use_case): JsonResponse
     {
         try {
 
@@ -21,14 +21,15 @@ final class RestoreController extends Controller
             ]);
 
         } catch (ModelNotFoundException) {
+
             return response()->json([
                 'success' => false,
-                'error' => 'Strategy not found to restore.',
-                'message' => sprintf('Strategy with ID: %s not found', $id),
+                'error' => 'Cash flow not found to restore.',
+                'message' => sprintf('Cash flow with ID: %s not found', $id),
             ], 404);
+
         } catch (Throwable $error) {
             return $this->errorResponse($error->getMessage());
         }
-
     }
 }
