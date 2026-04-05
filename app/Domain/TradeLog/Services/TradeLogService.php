@@ -33,4 +33,9 @@ class TradeLogService
     {
         return $this->write_repository->trash($id);
     }
+
+    public function restore(int $id): ?bool
+    {
+        return $this->write_repository->restore($id);
+    }
 }

@@ -29,4 +29,12 @@ class EloquentTradeLogWriteRepository implements TradeLogWriteRepositoryInterfac
     {
         return TradeLogModel::query()->findOrFail($id)->delete();
     }
+
+    /*
+     * throws ModelNotFoundException
+     */
+    public function restore(int $id): ?bool
+    {
+        return TradeLogModel::query()->withTrashed()->findOrFail($id)->restore();
+    }
 }

@@ -9,4 +9,6 @@ interface TradeLogWriteRepositoryInterface
     public function store(TradeLog $trade_log): TradeLog;
 
     public function trash(int $id): ?bool;
+
+    public function restore(int $id): ?bool;
 }

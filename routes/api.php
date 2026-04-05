@@ -25,6 +25,7 @@ use App\Http\Controllers\v1\Strategy\StoreController as StoreStrategyController;
 use App\Http\Controllers\v1\Strategy\TrashController as TrashStrategyController;
 use App\Http\Controllers\v1\Strategy\UpdateController as UpdateStrategyController;
 use App\Http\Controllers\v1\TradeLog\ListController as ListTradeLogController;
+use App\Http\Controllers\v1\TradeLog\RestoreController as RestoreTradeLogController;
 use App\Http\Controllers\v1\TradeLog\ShowController as ShowTradeLogController;
 use App\Http\Controllers\v1\TradeLog\StoreController as StoreTradeLogController;
 use App\Http\Controllers\v1\TradeLog\TrashController as TrashTradeLogController;
@@ -75,6 +76,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::post('/', StoreTradeLogController::class);
         Route::put('/', UpdateTradeLogController::class);
         Route::delete('/{id}', TrashTradeLogController::class);
+        Route::patch('/{id}', RestoreTradeLogController::class);
     });
 
 });

@@ -120,4 +120,30 @@ describe('Unit: TradeLogServiceTest', function () {
         expect($result)->toBeTrue();
     });
 
+    it('can restore trashed trade log when using restore method.', function () {
+        // Arrange:
+        $trade_log = new TradeLog(
+            portfolio_id: rand(1, 10),
+            symbol: 'BPI',
+            type: 'buy',
+            price: 100,
+            shares: 1000,
+            fees: 120,
+            id: rand(1, 10),
+        );
+
+        // Expectation:
+        $this->write_repository->shouldReceive('restore')
+            ->once()
+            ->with($trade_log->id())
+            ->andReturn(true);
+
+        // Act:
+        $result = $this->service->restore($trade_log->id());
+
+        // Assert:
+        expect($result)->toBeTrue();
+
+    });
+
 });
