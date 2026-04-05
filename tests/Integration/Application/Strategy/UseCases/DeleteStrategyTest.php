@@ -1,21 +1,21 @@
 <?php
 
-use App\Application\Strategy\UseCases\RestoreStrategy;
+use App\Application\Strategy\UseCases\DeleteStrategy;
 use App\Domain\Strategy\Services\StrategyService;
 use App\Models\Strategy as StrategyModel;
 
 describe('Integration: DeleteStrategy Use Case', function () {
 
-    it('can restore trashed strategy when using handle method.', function () {
+    it('can hard delete strategy when using handle method.', function () {
         // Arrange:
         $strategy = StrategyModel::factory()->create();
 
         $service = Mockery::mock(StrategyService::class);
 
-        $use_case = new RestoreStrategy($service);
+        $use_case = new DeleteStrategy($service);
 
         // Expectation:
-        $service->shouldReceive('restore')
+        $service->shouldReceive('delete')
             ->once()
             ->with($strategy->id)
             ->andReturn(true);

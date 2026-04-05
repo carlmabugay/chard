@@ -1,25 +1,26 @@
 <?php
 
-use App\Application\Strategy\UseCases\TrashStrategy;
+use App\Application\Strategy\UseCases\DeleteStrategy;
 use App\Models\Strategy as StrategyModel;
 use App\Models\User as UserModel;
 use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
-describe('Feature: TrashStrategyController', function () {
+describe('Feature: DestroyStrategyController', function () {
 
     describe('Positives', function () {
 
-        it('can soft delete a strategy resource when using /api/v1/strategies/{id} DELETE api endpoint.', function () {
+        it('can soft delete a strategy resource when using /api/v1/strategies/{id}/force DELETE api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
             Sanctum::actingAs($strategy->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/strategies/%s', $strategy->id));
+            $response = $this->delete(sprintf('/api/v1/strategies/%s/force', $strategy->id));
 
             // Assert:
-            $this->assertSoftDeleted($strategy);
+            $this->assertModelMissing($strategy);
+            $this->assertDatabaseMissing($strategy);
 
             $response->assertOk()
                 ->assertJson([
@@ -30,39 +31,39 @@ describe('Feature: TrashStrategyController', function () {
 
     describe('Negatives', function () {
 
-        it('can handle error message when no record found upon using /api/v1/strategies/{id} GET api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/strategies/{id}/force DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $strategy = StrategyModel::factory()->create();
 
             // Act:
             Sanctum::actingAs($strategy->user);
-            $response = $this->get(sprintf('/api/v1/strategies/%s', $random_id));
+            $response = $this->delete(sprintf('/api/v1/strategies/%s/force', $random_id));
 
             // Assert:
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Strategy not found',
+                    'error' => 'Strategy not found to delete.',
                     'message' => sprintf('Strategy with ID: %s not found', $random_id),
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/strategies/{id} DELETE api endpoint.', function () {
+        it('can handle server error response when using /api/v1/strategies/{id}/force DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
             Sanctum::actingAs($user);
 
             // Expectation:
-            $this->mock(TrashStrategy::class, function (MockInterface $mock) {
+            $this->mock(DeleteStrategy::class, function (MockInterface $mock) {
                 $mock->shouldReceive('handle')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/strategies/%s', $random_id));
+            $response = $this->delete(sprintf('/api/v1/strategies/%s/force', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

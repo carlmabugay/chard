@@ -82,6 +82,18 @@ describe('Integration: EloquentStrategyWriteRepository', function () {
             $this->assertNotSoftDeleted($strategy);
         });
 
+        it('can hard delete strategy when using delete method.', function () {
+            // Arrange:
+            $strategy = StrategyModel::factory()->create();
+
+            // Act:
+            $this->repository->delete($strategy->id);
+
+            // Assert:
+            $this->assertModelMissing($strategy);
+            $this->assertDatabaseMissing($strategy);
+        });
+
     });
 
     describe('Negatives', function () {
@@ -102,6 +114,16 @@ describe('Integration: EloquentStrategyWriteRepository', function () {
 
             // Act:
             $this->repository->restore($random_id);
+
+            // Assert:
+        })->throws(ModelNotFoundException::class);
+
+        it('can throw an exception when no record found upon using delete method.', function () {
+            // Arrange:
+            $random_id = rand(1, 10);
+
+            // Act:
+            $this->repository->delete($random_id);
 
             // Assert:
         })->throws(ModelNotFoundException::class);

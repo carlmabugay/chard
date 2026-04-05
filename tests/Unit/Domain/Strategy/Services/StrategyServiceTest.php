@@ -126,4 +126,25 @@ describe('Unit: StrategyService', function () {
         expect($result)->toBeTrue();
     });
 
+    it('can hard delete strategy when using delete method.', function () {
+        // Arrange:
+        $strategy = new Strategy(
+            user_id: rand(1, 10),
+            name: 'Trend Following',
+            id: rand(1, 10),
+        );
+
+        // Expectation:
+        $this->write_repository->shouldReceive('delete')
+            ->once()
+            ->with($strategy->id())
+            ->andReturn(true);
+
+        // Act:
+        $result = $this->service->delete($strategy->id());
+
+        // Assert:
+        expect($result)->toBeTrue();
+    });
+
 });

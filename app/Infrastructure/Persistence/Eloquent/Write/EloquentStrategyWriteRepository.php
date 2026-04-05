@@ -21,13 +21,27 @@ class EloquentStrategyWriteRepository implements StrategyWriteRepositoryInterfac
         return Strategy::fromEloquentModel($stored_strategy);
     }
 
+    /*
+     * @throws ModelNotFoundException
+     */
     public function trash(int $id): ?bool
     {
         return StrategyModel::query()->findOrFail($id)->delete();
     }
 
+    /*
+     * @throws ModelNotFoundException
+     */
     public function restore(int $id): ?bool
     {
         return StrategyModel::query()->withTrashed()->findOrFail($id)->restore();
+    }
+
+    /*
+     * @throws ModelNotFoundException
+     */
+    public function delete(int $id): ?bool
+    {
+        return StrategyModel::query()->findOrFail($id)->forceDelete();
     }
 }

@@ -38,4 +38,9 @@ class StrategyService
     {
         return $this->write_repository->restore($id);
     }
+
+    public function delete(int $id): ?bool
+    {
+        return $this->write_repository->delete($id);
+    }
 }
