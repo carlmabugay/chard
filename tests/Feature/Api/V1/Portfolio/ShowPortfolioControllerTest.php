@@ -48,8 +48,8 @@ describe('Feature: ShowPortfolioController', function () {
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Portfolio not found',
-                    'message' => sprintf('Portfolio with ID: %s not found', $random_id),
+                    'error' => 'Portfolio not found.',
+                    'message' => sprintf('Portfolio with ID: [%s] not found.', $random_id),
                 ]);
         });
 

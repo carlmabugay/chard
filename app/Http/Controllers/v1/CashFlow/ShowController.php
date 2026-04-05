@@ -5,12 +5,16 @@ namespace App\Http\Controllers\v1\CashFlow;
 use App\Application\CashFlow\UserCases\GetCashFlow;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CashFlow\CashFlowResource;
+use App\Models\CashFlow;
+use App\Traits\HasModelNotFoundExceptionResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class ShowController extends Controller
 {
+    use HasModelNotFoundExceptionResponse;
+
     public function __invoke(int $id, GetCashFlow $use_case): CashFlowResource|JsonResponse
     {
         try {
@@ -21,11 +25,7 @@ final class ShowController extends Controller
 
         } catch (ModelNotFoundException) {
 
-            return response()->json([
-                'success' => false,
-                'error' => 'Cash flow not found',
-                'message' => sprintf('Cash flow with ID: %s not found', $id),
-            ], 404);
+            return $this->modelNotFoundResponse(CashFlow::class, $id);
 
         } catch (Throwable $error) {
 

@@ -24,7 +24,9 @@ final class ListController extends Controller
             return $this->paginatedResponse(DividendCollection::make($result['data']), $result['pagination']);
 
         } catch (Throwable $error) {
+
             return $this->errorResponse($error->getMessage());
+
         }
     }
 }

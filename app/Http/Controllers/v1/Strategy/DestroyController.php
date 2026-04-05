@@ -4,12 +4,16 @@ namespace App\Http\Controllers\v1\Strategy;
 
 use App\Application\Strategy\UseCases\DeleteStrategy;
 use App\Http\Controllers\Controller;
+use App\Models\Strategy;
+use App\Traits\HasModelNotFoundExceptionResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class DestroyController extends Controller
 {
+    use HasModelNotFoundExceptionResponse;
+
     public function __invoke(int $id, DeleteStrategy $use_case): JsonResponse
     {
         try {
@@ -20,16 +24,14 @@ final class DestroyController extends Controller
                 'success' => $result,
             ]);
 
-        } catch (ModelNotFoundException $e) {
+        } catch (ModelNotFoundException) {
 
-            return response()->json([
-                'success' => false,
-                'error' => 'Strategy not found to delete.',
-                'message' => sprintf('Strategy with ID: %s not found', $id),
-            ], 404);
+            return $this->modelNotFoundResponse(Strategy::class, $id);
 
         } catch (Throwable $error) {
+
             return $this->errorResponse($error->getMessage());
+
         }
     }
 }

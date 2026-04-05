@@ -44,8 +44,8 @@ describe('Feature: DestroyStrategyController', function () {
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Strategy not found to delete.',
-                    'message' => sprintf('Strategy with ID: %s not found', $random_id),
+                    'error' => 'Strategy not found.',
+                    'message' => sprintf('Strategy with ID: [%s] not found.', $random_id),
                 ]);
         });
 

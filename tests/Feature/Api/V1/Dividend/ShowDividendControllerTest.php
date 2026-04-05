@@ -54,8 +54,8 @@ describe('Feature: ShowDividendController', function () {
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Dividend not found',
-                    'message' => sprintf('Dividend with ID: %s not found', $random_id),
+                    'error' => 'Dividend not found.',
+                    'message' => sprintf('Dividend with ID: [%s] not found.', $random_id),
                 ]);
         });
 

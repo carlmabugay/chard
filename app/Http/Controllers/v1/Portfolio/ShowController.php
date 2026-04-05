@@ -5,12 +5,16 @@ namespace App\Http\Controllers\v1\Portfolio;
 use App\Application\Portolio\UseCases\GetPortfolio;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Portfolio\PortfolioResource;
+use App\Models\Portfolio;
+use App\Traits\HasModelNotFoundExceptionResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class ShowController extends Controller
 {
+    use HasModelNotFoundExceptionResponse;
+
     public function __invoke(int $id, GetPortfolio $use_case): PortfolioResource|JsonResponse
     {
         try {
@@ -21,11 +25,7 @@ final class ShowController extends Controller
 
         } catch (ModelNotFoundException) {
 
-            return response()->json([
-                'success' => false,
-                'error' => 'Portfolio not found',
-                'message' => sprintf('Portfolio with ID: %s not found', $id),
-            ], 404);
+            return $this->modelNotFoundResponse(Portfolio::class, $id);
 
         } catch (Throwable $error) {
 

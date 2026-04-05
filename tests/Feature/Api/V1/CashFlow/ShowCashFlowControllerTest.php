@@ -55,8 +55,8 @@ describe('Feature: ShowCashFlowController', function () {
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Cash flow not found',
-                    'message' => sprintf('Cash flow with ID: %s not found', $random_id),
+                    'error' => 'Cash flow not found.',
+                    'message' => sprintf('Cash flow with ID: [%s] not found.', $random_id),
                 ]);
         });
 

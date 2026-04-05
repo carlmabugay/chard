@@ -30,21 +30,21 @@ describe('Feature: TrashStrategyController', function () {
 
     describe('Negatives', function () {
 
-        it('can handle error message when no record found upon using /api/v1/strategies/{id} GET api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/strategies/{id} DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $strategy = StrategyModel::factory()->create();
 
             // Act:
             Sanctum::actingAs($strategy->user);
-            $response = $this->get(sprintf('/api/v1/strategies/%s', $random_id));
+            $response = $this->delete(sprintf('/api/v1/strategies/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Strategy not found',
-                    'message' => sprintf('Strategy with ID: %s not found', $random_id),
+                    'error' => 'Strategy not found.',
+                    'message' => sprintf('Strategy with ID: [%s] not found.', $random_id),
                 ]);
         });
 

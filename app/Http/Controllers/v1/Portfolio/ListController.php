@@ -28,6 +28,5 @@ final class ListController extends Controller
             return $this->errorResponse($error->getMessage());
 
         }
-
     }
 }

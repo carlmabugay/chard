@@ -27,6 +27,5 @@ final class StoreController extends Controller
             return $this->errorResponse($error->getMessage());
 
         }
-
     }
 }

@@ -44,8 +44,8 @@ describe('Feature: RestorePortfolioController', function () {
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Portfolio not found to restore.',
-                    'message' => sprintf('Portfolio with ID: %s not found', $random_id),
+                    'error' => 'Portfolio not found.',
+                    'message' => sprintf('Portfolio with ID: [%s] not found.', $random_id),
                 ]);
         });
 

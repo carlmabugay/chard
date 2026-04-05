@@ -15,6 +15,7 @@ final class StoreController extends Controller
     public function __invoke(CreateDividendRequest $request, StoreDividend $use_case): DividendResource|JsonResponse
     {
         try {
+
             $dto = StoreDividendDTO::fromRequest($request->validated());
 
             $result = $use_case->handle($dto);
@@ -22,7 +23,9 @@ final class StoreController extends Controller
             return DividendResource::make($result)->response()->setStatusCode(201);
 
         } catch (Throwable $error) {
+
             return $this->errorResponse($error->getMessage());
+
         }
     }
 }

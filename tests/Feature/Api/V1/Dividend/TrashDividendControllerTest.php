@@ -44,8 +44,8 @@ describe('Feature: TrashDividendController', function () {
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Dividend not found to delete.',
-                    'message' => sprintf('Dividend with ID: %s not found', $random_id),
+                    'error' => 'Dividend not found.',
+                    'message' => sprintf('Dividend with ID: [%s] not found.', $random_id),
                 ]);
         });
 

@@ -25,6 +25,7 @@ final class UpdateController extends Controller
         } catch (Throwable $error) {
 
             return $this->errorResponse($error->getMessage());
+
         }
     }
 }

@@ -5,12 +5,16 @@ namespace App\Http\Controllers\V1\TradeLog;
 use App\Application\TradeLog\UseCases\GetTradeLog;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TradeLog\TradeLogResource;
+use App\Models\TradeLog;
+use App\Traits\HasModelNotFoundExceptionResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class ShowController extends Controller
 {
+    use HasModelNotFoundExceptionResponse;
+
     public function __invoke(int $id, GetTradeLog $use_case): TradeLogResource|JsonResponse
     {
         try {
@@ -21,11 +25,7 @@ final class ShowController extends Controller
 
         } catch (ModelNotFoundException) {
 
-            return response()->json([
-                'success' => false,
-                'error' => 'Trade log not found',
-                'message' => sprintf('Trade log with ID: %s not found', $id),
-            ], 404);
+            return $this->modelNotFoundResponse(TradeLog::class, $id);
 
         } catch (Throwable $error) {
 

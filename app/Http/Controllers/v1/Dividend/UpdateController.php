@@ -23,7 +23,9 @@ final class UpdateController extends Controller
             return DividendResource::make($result);
 
         } catch (Throwable $error) {
+
             return $this->errorResponse($error->getMessage());
+
         }
     }
 }

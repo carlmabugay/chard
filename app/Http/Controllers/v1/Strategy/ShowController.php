@@ -5,12 +5,16 @@ namespace App\Http\Controllers\v1\Strategy;
 use App\Application\Strategy\UseCases\GetStrategy;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Strategy\StrategyResource;
+use App\Models\Strategy;
+use App\Traits\HasModelNotFoundExceptionResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class ShowController extends Controller
 {
+    use HasModelNotFoundExceptionResponse;
+
     public function __invoke(int $id, GetStrategy $use_case): StrategyResource|JsonResponse
     {
         try {
@@ -21,11 +25,7 @@ final class ShowController extends Controller
 
         } catch (ModelNotFoundException) {
 
-            return response()->json([
-                'success' => false,
-                'error' => 'Strategy not found',
-                'message' => sprintf('Strategy with ID: %s not found', $id),
-            ], 404);
+            return $this->modelNotFoundResponse(Strategy::class, $id);
 
         } catch (Throwable $error) {
 

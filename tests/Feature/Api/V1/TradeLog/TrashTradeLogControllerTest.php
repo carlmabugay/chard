@@ -44,8 +44,8 @@ describe('Feature: TrashTradeLogController', function () {
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Trade log not found to delete.',
-                    'message' => sprintf('Trade log with ID: %s not found', $random_id),
+                    'error' => 'Trade log not found.',
+                    'message' => sprintf('Trade log with ID: [%s] not found.', $random_id),
                 ]);
         });
 
