@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\v1\CashFlow;
+namespace App\Http\Controllers\v1\Dividend;
 
-use App\Application\CashFlow\UserCases\DeleteCashFlow;
+use App\Application\Dividend\UseCases\DeleteDividend;
 use App\Http\Controllers\Controller;
-use App\Models\CashFlow;
+use App\Models\Dividend;
 use App\Traits\HasModelNotFoundExceptionResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -14,7 +14,7 @@ final class DestroyController extends Controller
 {
     use HasModelNotFoundExceptionResponse;
 
-    public function __invoke(int $id, DeleteCashFlow $use_case): JsonResponse
+    public function __invoke(int $id, DeleteDividend $use_case): JsonResponse
     {
         try {
 
@@ -26,7 +26,7 @@ final class DestroyController extends Controller
 
         } catch (ModelNotFoundException) {
 
-            return $this->modelNotFoundResponse(CashFlow::class, $id);
+            return $this->modelNotFoundResponse(Dividend::class, $id);
 
         } catch (Throwable $error) {
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\v1\CashFlow\ShowController as ShowCashFlowController;
 use App\Http\Controllers\v1\CashFlow\StoreController as StoreCashFlowController;
 use App\Http\Controllers\v1\CashFlow\TrashController as TrashCashFlowController;
 use App\Http\Controllers\v1\CashFlow\UpdateController as UpdateCashFlowController;
+use App\Http\Controllers\v1\Dividend\DestroyController as DestroyDividendController;
 use App\Http\Controllers\v1\Dividend\ListController as ListDividendController;
 use App\Http\Controllers\v1\Dividend\RestoreController as RestoreDividendController;
 use App\Http\Controllers\v1\Dividend\ShowController as ShowDividendController;
@@ -74,6 +75,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::put('/', UpdateDividendController::class);
         Route::delete('/{id}/trash', TrashDividendController::class);
         Route::patch('/{id}', RestoreDividendController::class);
+        Route::delete('/{id}/destroy', DestroyDividendController::class);
     });
 
     Route::prefix('trade-logs')->group(function () {

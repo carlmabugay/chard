@@ -86,7 +86,18 @@ describe('Integration: EloquentDividendWriteRepository', function () {
 
             // Assert:
             $this->assertNotSoftDeleted($dividend);
+        });
 
+        it('can hard delete dividend when using delete method.', function () {
+            // Arrange:
+            $dividend = DividendModel::factory()->create();
+
+            // Act:
+            $this->repository->delete($dividend->id);
+
+            // Assert:
+            $this->assertModelMissing($dividend);
+            $this->assertDatabaseMissing($dividend);
         });
 
     });
@@ -109,6 +120,16 @@ describe('Integration: EloquentDividendWriteRepository', function () {
 
             // Act:
             $this->repository->restore($random_id);
+
+            // Assert
+        })->throws(ModelNotFoundException::class);
+
+        it('can throw an exception when no record found upon using delete method.', function () {
+            // Arrange:
+            $random_id = rand(1, 10);
+
+            // Act:
+            $this->repository->delete($random_id);
 
             // Assert
         })->throws(ModelNotFoundException::class);

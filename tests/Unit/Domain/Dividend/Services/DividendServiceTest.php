@@ -129,4 +129,26 @@ describe('Unit: DividendService', function () {
         expect($result)->toBeTrue();
     });
 
+    it('can hard delete dividend when using delete method.', function () {
+        // Arrange:
+        $dividend = new Dividend(
+            portfolio_id: rand(1, 10),
+            symbol: 'JFC',
+            amount: 5000,
+            id: rand(1, 10),
+        );
+
+        // Expectation:
+        $this->write_repository->shouldReceive('delete')
+            ->once()
+            ->with($dividend->id())
+            ->andReturn(true);
+
+        // Act:
+        $result = $this->service->delete($dividend->id());
+
+        // Assert:
+        expect($result)->toBeTrue();
+    });
+
 });

@@ -11,4 +11,6 @@ interface DividendWriteRepositoryInterface
     public function trash(int $id): ?bool;
 
     public function restore(int $id): ?bool;
+
+    public function delete(int $id): ?bool;
 }
