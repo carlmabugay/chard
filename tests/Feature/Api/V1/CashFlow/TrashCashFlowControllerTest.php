@@ -10,13 +10,13 @@ describe('Feature: TrashCashFlowController', function () {
 
     describe('Positives', function () {
 
-        it('can trash existing cash flow resource when using /api/v1/cash-flows DELETE api endpoint.', function () {
+        it('can trash existing cash flow resource when using /api/v1/cash-flows/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
             Sanctum::actingAs($cash_flow->portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/cash-flows/%s', $cash_flow->id));
+            $response = $this->delete(sprintf('/api/v1/cash-flows/%s/trash', $cash_flow->id));
 
             // Assert:
             $this->assertSoftDeleted($cash_flow);
@@ -31,14 +31,14 @@ describe('Feature: TrashCashFlowController', function () {
 
     describe('Negatives', function () {
 
-        it('can handle error message when no record found upon using /api/v1/cash-flows/{id} DELETE api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/cash-flows/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $cash_flow = CashFlowModel::factory()->create();
             Sanctum::actingAs($cash_flow->portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/cash-flows/%s', $random_id));
+            $response = $this->delete(sprintf('/api/v1/cash-flows/%s/trash', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -50,7 +50,7 @@ describe('Feature: TrashCashFlowController', function () {
 
         });
 
-        it('can handle server error response when using /api/v1/cash-flows/{id} DELETE api endpoint.', function () {
+        it('can handle server error response when using /api/v1/cash-flows/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
@@ -64,7 +64,7 @@ describe('Feature: TrashCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/cash-flows/%s', $random_id));
+            $response = $this->delete(sprintf('/api/v1/cash-flows/%s/trash', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

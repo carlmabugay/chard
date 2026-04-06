@@ -10,13 +10,13 @@ describe('Feature: TrashTradeLogController', function () {
 
     describe('Positives', function () {
 
-        it('can trash existing trade log resource when using /api/v1/trade-logs DELETE api endpoint.', function () {
+        it('can trash existing trade log resource when using /api/v1/trade-logs/trash DELETE api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
             Sanctum::actingAs($trade_log->portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/trade-logs/%s', $trade_log->id));
+            $response = $this->delete(sprintf('/api/v1/trade-logs/%s/trash', $trade_log->id));
 
             // Assert:
             $this->assertSoftDeleted($trade_log);
@@ -31,14 +31,14 @@ describe('Feature: TrashTradeLogController', function () {
 
     describe('Negatives', function () {
 
-        it('can handle error message when no record found upon using /api/v1/trade-logs/{id} DELETE api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/trade-logs/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $trade_log = TradeLogModel::factory()->create();
             Sanctum::actingAs($trade_log->portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/trade-logs/%s', $random_id));
+            $response = $this->delete(sprintf('/api/v1/trade-logs/%s/trash', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -49,7 +49,7 @@ describe('Feature: TrashTradeLogController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/trade-logs/{id} DELETE api endpoint.', function () {
+        it('can handle server error response when using /api/v1/trade-logs/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
@@ -63,7 +63,7 @@ describe('Feature: TrashTradeLogController', function () {
             });
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/trade-logs/%s', $random_id));
+            $response = $this->delete(sprintf('/api/v1/trade-logs/%s/trash', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

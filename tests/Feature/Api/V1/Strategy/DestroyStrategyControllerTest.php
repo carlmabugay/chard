@@ -10,13 +10,13 @@ describe('Feature: DestroyStrategyController', function () {
 
     describe('Positives', function () {
 
-        it('can hard delete a strategy resource when using /api/v1/strategies/{id}/force DELETE api endpoint.', function () {
+        it('can hard delete a strategy resource when using /api/v1/strategies/{id}/destroy DELETE api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
             Sanctum::actingAs($strategy->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/strategies/%s/force', $strategy->id));
+            $response = $this->delete(sprintf('/api/v1/strategies/%s/destroy', $strategy->id));
 
             // Assert:
             $this->assertModelMissing($strategy);
@@ -31,14 +31,14 @@ describe('Feature: DestroyStrategyController', function () {
 
     describe('Negatives', function () {
 
-        it('can handle error message when no record found upon using /api/v1/strategies/{id}/force DELETE api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/strategies/{id}/destroy DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $strategy = StrategyModel::factory()->create();
 
             // Act:
             Sanctum::actingAs($strategy->user);
-            $response = $this->delete(sprintf('/api/v1/strategies/%s/force', $random_id));
+            $response = $this->delete(sprintf('/api/v1/strategies/%s/destroy', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -49,7 +49,7 @@ describe('Feature: DestroyStrategyController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/strategies/{id}/force DELETE api endpoint.', function () {
+        it('can handle server error response when using /api/v1/strategies/{id}/destroy DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
@@ -63,7 +63,7 @@ describe('Feature: DestroyStrategyController', function () {
             });
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/strategies/%s/force', $random_id));
+            $response = $this->delete(sprintf('/api/v1/strategies/%s/destroy', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

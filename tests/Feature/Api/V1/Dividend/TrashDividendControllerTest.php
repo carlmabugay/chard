@@ -10,13 +10,13 @@ describe('Feature: TrashDividendController', function () {
 
     describe('Positives', function () {
 
-        it('can trash existing cash flow resource when using /api/v1/dividends DELETE api endpoint.', function () {
+        it('can trash existing cash flow resource when using /api/v1/dividends/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();
             Sanctum::actingAs($dividend->portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/dividends/%s', $dividend->id));
+            $response = $this->delete(sprintf('/api/v1/dividends/%s/trash', $dividend->id));
 
             // Assert:
             $this->assertSoftDeleted($dividend);
@@ -31,14 +31,14 @@ describe('Feature: TrashDividendController', function () {
 
     describe('Negatives', function () {
 
-        it('can handle error message when no record found upon using /api/v1/dividends/{id} DELETE api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/dividends/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $dividend = DividendModel::factory()->create();
             Sanctum::actingAs($dividend->portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/dividends/%s', $random_id));
+            $response = $this->delete(sprintf('/api/v1/dividends/%s/trash', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -49,7 +49,7 @@ describe('Feature: TrashDividendController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/dividends/{id} DELETE api endpoint.', function () {
+        it('can handle server error response when using /api/v1/dividends/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
@@ -63,7 +63,7 @@ describe('Feature: TrashDividendController', function () {
             });
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/dividends/%s', $random_id));
+            $response = $this->delete(sprintf('/api/v1/dividends/%s/trash', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

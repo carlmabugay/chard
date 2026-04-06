@@ -10,13 +10,13 @@ describe('Feature: TrashStrategyController', function () {
 
     describe('Positives', function () {
 
-        it('can soft delete a strategy resource when using /api/v1/strategies/{id} DELETE api endpoint.', function () {
+        it('can soft delete a strategy resource when using /api/v1/strategies/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
             Sanctum::actingAs($strategy->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/strategies/%s', $strategy->id));
+            $response = $this->delete(sprintf('/api/v1/strategies/%s/trash', $strategy->id));
 
             // Assert:
             $this->assertSoftDeleted($strategy);
@@ -30,14 +30,14 @@ describe('Feature: TrashStrategyController', function () {
 
     describe('Negatives', function () {
 
-        it('can handle error message when no record found upon using /api/v1/strategies/{id} DELETE api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/strategies/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $strategy = StrategyModel::factory()->create();
 
             // Act:
             Sanctum::actingAs($strategy->user);
-            $response = $this->delete(sprintf('/api/v1/strategies/%s', $random_id));
+            $response = $this->delete(sprintf('/api/v1/strategies/%s/trash', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -48,7 +48,7 @@ describe('Feature: TrashStrategyController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/strategies/{id} DELETE api endpoint.', function () {
+        it('can handle server error response when using /api/v1/strategies/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
@@ -62,7 +62,7 @@ describe('Feature: TrashStrategyController', function () {
             });
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/strategies/%s', $random_id));
+            $response = $this->delete(sprintf('/api/v1/strategies/%s/trash', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

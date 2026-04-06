@@ -10,13 +10,13 @@ describe('Feature: TrashPortfolioController', function () {
 
     describe('Positives', function () {
 
-        it('can soft delete portfolio resource when using /api/v1/portfolios DELETE api endpoint.', function () {
+        it('can soft delete portfolio resource when using /api/v1/portfolios/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
             Sanctum::actingAs($portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/portfolios/%s', $portfolio->id));
+            $response = $this->delete(sprintf('/api/v1/portfolios/%s/trash', $portfolio->id));
 
             // Assert:
             $this->assertSoftDeleted($portfolio);
@@ -31,14 +31,14 @@ describe('Feature: TrashPortfolioController', function () {
 
     describe('Negatives', function () {
 
-        it('can handle error message when no record found upon using /api/v1/portfolios/{id} DELETE api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/portfolios/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $portfolio = PortfolioModel::factory()->create();
             Sanctum::actingAs($portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/portfolios/%s', $random_id));
+            $response = $this->delete(sprintf('/api/v1/portfolios/%s/trash', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -49,7 +49,7 @@ describe('Feature: TrashPortfolioController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/portfolios/{id} DELETE api endpoint.', function () {
+        it('can handle server error response when using /api/v1/portfolios/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
@@ -63,7 +63,7 @@ describe('Feature: TrashPortfolioController', function () {
             });
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/portfolios/%s', $random_id));
+            $response = $this->delete(sprintf('/api/v1/portfolios/%s/trash', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

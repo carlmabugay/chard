@@ -41,7 +41,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::post('/', StorePortfolioController::class);
         Route::get('/{id}', ShowPortfolioController::class);
         Route::put('/', UpdatePortfolioController::class);
-        Route::delete('/{id}', TrashPortfolioController::class);
+        Route::delete('/{id}/trash', TrashPortfolioController::class);
         Route::patch('/{id}', RestorePortfolioController::class);
         Route::delete('/{id}/destroy', DestroyPortfolioController::class);
     });
@@ -51,9 +51,9 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::post('/', StoreStrategyController::class);
         Route::get('/{id}', ShowStrategyController::class);
         Route::put('/', UpdateStrategyController::class);
-        Route::delete('/{id}', TrashStrategyController::class);
+        Route::delete('/{id}/trash', TrashStrategyController::class);
         Route::patch('/{id}', RestoreStrategyController::class);
-        Route::delete('/{id}/force', DestroyStrategyController::class);
+        Route::delete('/{id}/destroy', DestroyStrategyController::class);
     });
 
     Route::prefix('cash-flows')->group(function () {
@@ -61,7 +61,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::post('/', StoreCashFlowController::class);
         Route::get('/{id}', ShowCashFlowController::class);
         Route::put('/', UpdateCashFlowController::class);
-        Route::delete('/{id}', TrashCashFlowController::class);
+        Route::delete('/{id}/trash', TrashCashFlowController::class);
         Route::patch('/{id}', RestoreCashFlowController::class);
     });
 
@@ -70,7 +70,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::get('/{id}', ShowDividendController::class);
         Route::post('/', StoreDividendController::class);
         Route::put('/', UpdateDividendController::class);
-        Route::delete('/{id}', TrashDividendController::class);
+        Route::delete('/{id}/trash', TrashDividendController::class);
         Route::patch('/{id}', RestoreDividendController::class);
     });
 
@@ -79,7 +79,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::get('/{id}', ShowTradeLogController::class);
         Route::post('/', StoreTradeLogController::class);
         Route::put('/', UpdateTradeLogController::class);
-        Route::delete('/{id}', TrashTradeLogController::class);
+        Route::delete('/{id}/trash', TrashTradeLogController::class);
         Route::patch('/{id}', RestoreTradeLogController::class);
     });
 
