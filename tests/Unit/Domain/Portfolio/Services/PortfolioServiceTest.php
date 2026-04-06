@@ -124,4 +124,25 @@ describe('Unit: PortfolioService', function () {
         expect($result)->toBeTrue();
     });
 
+    it('can hard delete portfolio when using delete method.', function () {
+        // Arrange:
+        $portfolio = new Portfolio(
+            user_id: rand(1, 10),
+            name: 'PH Stock Market',
+            id: rand(1, 10),
+        );
+
+        // Expectation:
+        $this->write_repository->shouldReceive('delete')
+            ->once()
+            ->with($portfolio->id())
+            ->andReturn(true);
+
+        // Act:
+        $result = $this->service->delete($portfolio->id());
+
+        // Assert:
+        expect($result)->toBeTrue();
+    });
+
 });

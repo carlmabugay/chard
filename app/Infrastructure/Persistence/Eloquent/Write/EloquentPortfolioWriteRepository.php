@@ -30,4 +30,9 @@ class EloquentPortfolioWriteRepository implements PortfolioWriteRepositoryInterf
     {
         return PortfolioModel::query()->withTrashed()->findOrFail($id)->restore();
     }
+
+    public function delete(int $id): ?bool
+    {
+        return PortfolioModel::query()->findOrFail($id)->forceDelete();
+    }
 }

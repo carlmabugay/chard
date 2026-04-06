@@ -10,7 +10,7 @@ describe('Feature: DestroyStrategyController', function () {
 
     describe('Positives', function () {
 
-        it('can soft delete a strategy resource when using /api/v1/strategies/{id}/force DELETE api endpoint.', function () {
+        it('can hard delete a strategy resource when using /api/v1/strategies/{id}/force DELETE api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
             Sanctum::actingAs($strategy->user);

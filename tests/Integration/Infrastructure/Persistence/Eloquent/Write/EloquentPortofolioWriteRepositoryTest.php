@@ -90,6 +90,17 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
             $this->assertNotSoftDeleted($portfolio);
         });
 
+        it('can hard delete portfolio when using delete method.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            // Act:
+            $this->repository->delete($portfolio->id);
+
+            // Assert:
+            $this->assertModelMissing($portfolio);
+            $this->assertDatabaseMissing($portfolio);
+        });
     });
 
     describe('Negatives', function () {
@@ -110,6 +121,16 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
 
             // Act:
             $this->repository->restore($random_id);
+
+            // Assert:
+        })->throws(ModelNotFoundException::class);
+
+        it('can throw an exception when no record found upon using delete method.', function () {
+            // Arrange:
+            $random_id = rand(1, 10);
+
+            // Act:
+            $this->repository->delete($random_id);
 
             // Assert:
         })->throws(ModelNotFoundException::class);
