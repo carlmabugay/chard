@@ -19,6 +19,9 @@ class TradeLogService
         return $this->read_repository->findAll($criteria);
     }
 
+    /*
+     * throws ModelNotFoundException
+     */
     public function findById(int $id): TradeLog
     {
         return $this->read_repository->findById($id);
@@ -29,13 +32,27 @@ class TradeLogService
         return $this->write_repository->store($tradeLog);
     }
 
+    /*
+     * throws ModelNotFoundException
+     */
     public function trash(int $id): ?bool
     {
         return $this->write_repository->trash($id);
     }
 
+    /*
+     * throws ModelNotFoundException
+     */
     public function restore(int $id): ?bool
     {
         return $this->write_repository->restore($id);
+    }
+
+    /*
+     * throws ModelNotFoundException
+     */
+    public function delete(int $id): ?bool
+    {
+        return $this->write_repository->delete($id);
     }
 }

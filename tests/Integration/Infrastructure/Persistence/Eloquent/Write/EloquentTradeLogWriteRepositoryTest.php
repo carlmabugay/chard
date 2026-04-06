@@ -98,6 +98,18 @@ describe('Integration: EloquentTradeLogWriteRepository', function () {
             $this->assertNotSoftDeleted($trade_log);
         });
 
+        it('can hard delete trade log when using delete method.', function () {
+            // Arrange:
+            $trade_log = TradeLogModel::factory()->create();
+
+            // Act:
+            $this->repository->delete($trade_log->id);
+
+            // Assert:
+            $this->assertModelMissing($trade_log);
+            $this->assertDatabaseMissing($trade_log);
+        });
+
     });
 
     describe('Negatives', function () {
@@ -118,6 +130,16 @@ describe('Integration: EloquentTradeLogWriteRepository', function () {
 
             // Act:
             $this->repository->restore($random_id);
+
+            // Assert:
+        })->throws(ModelNotFoundException::class);
+
+        it('can throw an exception when no record found upon using delete method.', function () {
+            // Arrange:
+            $random_id = rand(1, 10);
+
+            // Act:
+            $this->repository->delete($random_id);
 
             // Assert:
         })->throws(ModelNotFoundException::class);

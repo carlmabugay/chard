@@ -143,7 +143,31 @@ describe('Unit: TradeLogServiceTest', function () {
 
         // Assert:
         expect($result)->toBeTrue();
+    });
 
+    it('can hard delete trade log when using delete method.', function () {
+        // Arrange:
+        $trade_log = new TradeLog(
+            portfolio_id: rand(1, 10),
+            symbol: 'BPI',
+            type: 'buy',
+            price: 100,
+            shares: 1000,
+            fees: 120,
+            id: rand(1, 10),
+        );
+
+        // Expectation:
+        $this->write_repository->shouldReceive('delete')
+            ->once()
+            ->with($trade_log->id())
+            ->andReturn(true);
+
+        // Act:
+        $result = $this->service->delete($trade_log->id());
+
+        // Assert:
+        expect($result)->toBeTrue();
     });
 
 });
