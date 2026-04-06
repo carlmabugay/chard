@@ -10,7 +10,7 @@ describe('Feature: DestroyPortfolioController', function () {
 
     describe('Positives', function () {
 
-        it('can hard delete a strategy resource when using /api/v1/portfolios/{id}/destroy DELETE api endpoint.', function () {
+        it('can hard delete a portfolio resource when using /api/v1/portfolios/{id}/destroy DELETE api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
             Sanctum::actingAs($portfolio->user);

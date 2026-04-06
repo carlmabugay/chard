@@ -5,7 +5,6 @@ namespace App\Infrastructure\Persistence\Eloquent\Write;
 use App\Domain\CashFlow\Contracts\Write\CashFlowWriteRepositoryInterface;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Models\CashFlow as CashFlowModel;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class EloquentCashFlowWriteRepository implements CashFlowWriteRepositoryInterface
 {
@@ -24,6 +23,9 @@ class EloquentCashFlowWriteRepository implements CashFlowWriteRepositoryInterfac
 
     }
 
+    /*
+     * @throws ModelNotFoundException
+     */
     public function trash(int $id): ?bool
     {
         return CashFlowModel::query()->findOrFail($id)->delete();
@@ -35,5 +37,13 @@ class EloquentCashFlowWriteRepository implements CashFlowWriteRepositoryInterfac
     public function restore(int $id): ?bool
     {
         return CashFlowModel::query()->withTrashed()->findOrFail($id)->restore();
+    }
+
+    /*
+     * @throws ModelNotFoundException
+     */
+    public function delete(int $id): ?bool
+    {
+        return CashFlowModel::query()->findOrFail($id)->forceDelete();
     }
 }

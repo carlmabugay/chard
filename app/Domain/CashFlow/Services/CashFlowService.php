@@ -19,6 +19,9 @@ class CashFlowService
         return $this->read_repository->findAll($criteria);
     }
 
+    /*
+     * @throws ModelNotFoundException
+     */
     public function findById(int $id): CashFlow
     {
         return $this->read_repository->findById($id);
@@ -29,6 +32,9 @@ class CashFlowService
         return $this->write_repository->store($cash_flow);
     }
 
+    /*
+     * @throws ModelNotFoundException
+     */
     public function trash(int $id): ?bool
     {
         return $this->write_repository->trash($id);
@@ -40,5 +46,13 @@ class CashFlowService
     public function restore(int $id): ?bool
     {
         return $this->write_repository->restore($id);
+    }
+
+    /*
+     * @throws ModelNotFoundException
+     */
+    public function delete(int $id): ?bool
+    {
+        return $this->write_repository->delete($id);
     }
 }

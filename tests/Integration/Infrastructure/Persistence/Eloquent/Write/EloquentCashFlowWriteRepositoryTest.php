@@ -88,6 +88,18 @@ describe('Integration: EloquentCashFlowWriteRepository', function () {
             $this->assertNotSoftDeleted($cash_flow);
         });
 
+        it('can hard delete cash flow when using delete method.', function () {
+            // Arrange:
+            $cash_flow = CashFlowModel::factory()->create();
+
+            // Act:
+            $this->repository->delete($cash_flow->id);
+
+            // Assert:
+            $this->assertModelMissing($cash_flow);
+            $this->assertDatabaseMissing('cash_flows');
+        });
+
     });
 
     describe('Negatives', function () {
@@ -108,6 +120,16 @@ describe('Integration: EloquentCashFlowWriteRepository', function () {
 
             // Act:
             $this->repository->restore($random_id);
+
+            // Assert:
+        })->throws(ModelNotFoundException::class);
+
+        it('can throw an exception when no record found upon using delete method.', function () {
+            // Arrange:
+            $random_id = rand(1, 10);
+
+            // Act:
+            $this->repository->delete($random_id);
 
             // Assert:
         })->throws(ModelNotFoundException::class);

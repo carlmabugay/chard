@@ -132,4 +132,26 @@ describe('Unit: CashFlowService', function () {
         expect($result)->toBeTrue();
     });
 
+    it('can hard delete cash flow when using delete method.', function () {
+        // Arrange:
+        $cash_flow = new CashFlow(
+            portfolio_id: rand(1, 10),
+            type: CashFlowType::DEPOSIT,
+            amount: 5000,
+            id: rand(1, 10),
+        );
+
+        // Expectation:
+        $this->write_repository->shouldReceive('delete')
+            ->once()
+            ->with($cash_flow->id())
+            ->andReturn(true);
+
+        // Act:
+        $result = $this->service->delete($cash_flow->id());
+
+        // Assert:
+        expect($result)->toBeTrue();
+    });
+
 });

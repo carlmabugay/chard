@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\v1\CashFlow\DestroyController as DestroyCashFlowController;
 use App\Http\Controllers\v1\CashFlow\ListController as ListCashFlowController;
 use App\Http\Controllers\v1\CashFlow\RestoreController as RestoreCashFlowController;
 use App\Http\Controllers\v1\CashFlow\ShowController as ShowCashFlowController;
@@ -63,6 +64,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function () {
         Route::put('/', UpdateCashFlowController::class);
         Route::delete('/{id}/trash', TrashCashFlowController::class);
         Route::patch('/{id}', RestoreCashFlowController::class);
+        Route::delete('/{id}/destroy', DestroyCashFlowController::class);
     });
 
     Route::prefix('dividends')->group(function () {

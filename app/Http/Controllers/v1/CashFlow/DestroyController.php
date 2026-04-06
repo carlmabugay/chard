@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\v1\Portfolio;
+namespace App\Http\Controllers\v1\CashFlow;
 
-use App\Application\Portolio\UseCases\DeletePortfolio;
+use App\Application\CashFlow\UserCases\DeleteCashFlow;
 use App\Http\Controllers\Controller;
-use App\Models\Portfolio;
+use App\Models\CashFlow;
 use App\Traits\HasModelNotFoundExceptionResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
-final class DestroyController extends Controller
+class DestroyController extends Controller
 {
     use HasModelNotFoundExceptionResponse;
 
-    public function __invoke(int $id, DeletePortfolio $use_case): JsonResponse
+    public function __invoke(int $id, DeleteCashFlow $use_case): JsonResponse
     {
         try {
 
@@ -26,7 +26,7 @@ final class DestroyController extends Controller
 
         } catch (ModelNotFoundException) {
 
-            return $this->modelNotFoundResponse(Portfolio::class, $id);
+            return $this->modelNotFoundResponse(CashFlow::class, $id);
 
         } catch (Throwable $error) {
 
