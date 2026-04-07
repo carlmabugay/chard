@@ -17,7 +17,7 @@ class LoginController extends Controller
 
             if (! $result) {
                 return response([
-                    'message' => 'Invalid login credentials',
+                    'message' => 'Invalid login credentials.',
                 ], 401);
             }
 
