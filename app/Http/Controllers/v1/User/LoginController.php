@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\LoginRequest;
 use Throwable;
 
-class LoginController extends Controller
+final class LoginController extends Controller
 {
     public function __invoke(LoginRequest $request, AuthenticateUser $use_case)
     {

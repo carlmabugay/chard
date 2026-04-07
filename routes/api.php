@@ -36,6 +36,7 @@ use App\Http\Controllers\v1\TradeLog\StoreController as StoreTradeLogController;
 use App\Http\Controllers\v1\TradeLog\TrashController as TrashTradeLogController;
 use App\Http\Controllers\v1\TradeLog\UpdateController as UpdateTradeLogController;
 use App\Http\Controllers\v1\User\LoginController;
+use App\Http\Controllers\v1\User\LogoutController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -43,6 +44,8 @@ Route::prefix('v1')->group(function () {
     Route::post('user/login', LoginController::class);
 
     Route::middleware('auth:sanctum')->group(function () {
+
+        Route::post('user/logout', LogoutController::class);
 
         Route::prefix('portfolios')->group(function () {
             Route::get('/', ListPortfolioController::class);

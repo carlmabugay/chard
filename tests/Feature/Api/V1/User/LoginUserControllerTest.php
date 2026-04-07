@@ -4,7 +4,7 @@ use App\Application\User\UseCases\AuthenticateUser;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
-describe('Feature: UserLoginController', function () {
+describe('Feature: LoginUserController', function () {
 
     describe('Positives', function () {
 
@@ -67,7 +67,7 @@ describe('Feature: UserLoginController', function () {
             });
 
             // Act:
-            $response = $response = $this->post('/api/v1/user/login', $payload);
+            $response = $this->post('/api/v1/user/login', $payload);
 
             // Assert:
             $response->assertInternalServerError()
