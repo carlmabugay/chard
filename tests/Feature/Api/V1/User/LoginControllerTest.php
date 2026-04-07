@@ -46,6 +46,8 @@ describe('Feature: UserLoginController', function () {
                 ->assertJson([
                     'message' => 'Invalid login credentials.',
                 ]);
+
+            $this->assertGuest();
         });
 
         it('can handle server error response when using /api/v1/user/login POST api endpoint.', function () {
