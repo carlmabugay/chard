@@ -29,6 +29,20 @@ describe('Feature: TrashDividendController', function () {
 
     describe('Negatives', function () {
 
+        it('can return unauthorized message when trying to access protected /api/v1/dividends/{id}/trash DELETE api endpoint unauthenticated.', function () {
+            // Arrange:
+            $dividend = DividendModel::factory()->create();
+
+            // Act:
+            $response = $this->deleteJson(sprintf('/api/v1/dividends/%s/trash', $dividend->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
         it('can handle error message when no record found upon using /api/v1/dividends/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;

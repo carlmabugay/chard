@@ -20,10 +20,10 @@ describe('Feature: StoreCashFlowController', function () {
             ];
 
             // Act:
-            $result = $this->actingAs($portfolio->user)->postJson('/api/v1/dividends', $payload);
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/dividends', $payload);
 
             // Assert:
-            $result->assertCreated()
+            $response->assertCreated()
                 ->assertJson([
                     'success' => true,
                     'data' => [
@@ -40,6 +40,27 @@ describe('Feature: StoreCashFlowController', function () {
     });
 
     describe('Negatives', function () {
+
+        it('can return unauthorized message when trying to access protected /api/v1/dividends POST api endpoint unauthenticated.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $portfolio->id,
+                'symbol' => 'JFC',
+                'amount' => 100,
+                'recorded_at' => now()->toDateTimeString(),
+            ];
+
+            // Act:
+            $response = $this->postJson('/api/v1/dividends', $payload);
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
 
         it('can handle server error response when using /api/v1/dividends POST api endpoint.', function () {
             // Arrange:

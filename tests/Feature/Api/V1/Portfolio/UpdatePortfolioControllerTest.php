@@ -37,6 +37,26 @@ describe('Feature: UpdatePortfolioController', function () {
 
     describe('Negatives', function () {
 
+        it('can return unauthorized message when trying to access protected /api/v1/portfolios PUT api endpoint unauthenticated.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            $payload = [
+                'user_id' => $portfolio->user->id,
+                'id' => $portfolio->id,
+                'name' => 'PH Stock Market',
+            ];
+
+            // Act:
+            $response = $this->putJson('/api/v1/portfolios', $payload);
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
         it('can handle server error response when using /api/v1/portfolios PUT api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();

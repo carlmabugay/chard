@@ -29,6 +29,20 @@ describe('Feature: TrashPortfolioController', function () {
 
     describe('Negatives', function () {
 
+        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{id}/trash DELETE api endpoint.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            // Act:
+            $response = $this->deleteJson(sprintf('/api/v1/portfolios/%s/trash', $portfolio->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
         it('can handle error message when no record found upon using /api/v1/portfolios/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;

@@ -39,6 +39,28 @@ describe('Feature: UpdateDividendController', function () {
 
     describe('Negatives', function () {
 
+        it('can return unauthorized message when trying to access protected /api/v1/dividends PUT api endpoint unauthenticated.', function () {
+            // Arrange:
+            $dividend = DividendModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $dividend->portfolio->id,
+                'symbol' => $dividend->symbol,
+                'amount' => 1000,
+                'id' => $dividend->id,
+                'recorded_at' => $dividend->recorded_at->toDateTimeString(),
+            ];
+
+            // Act:
+            $response = $this->putJson('/api/v1/dividends', $payload);
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
         it('can handle server error response when using /api/v1/dividends PUT api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();

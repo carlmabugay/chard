@@ -29,6 +29,20 @@ describe('Feature: LogoutUserController', function () {
 
     describe('Negatives', function () {
 
+        it('can return unauthorized message when trying to access protected /api/v1/user/logout POST api endpoint unauthenticated.', function () {
+            // Arrange:
+            $user = UserModel::factory()->create();
+
+            // Act:
+            $response = $this->postJson('/api/v1/user/logout');
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
         it('can handle server error response when using /api/v1/user/logout POST api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();

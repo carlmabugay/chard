@@ -38,6 +38,27 @@ describe('Feature: UpdateCashFlowController', function () {
 
     describe('Negatives', function () {
 
+        it('can return unauthorized message when trying to access protected /api/v1/cash-flows PUT api endpoint unauthenticated.', function () {
+            // Arrange:
+            $cash_flow = CashFlowModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $cash_flow->portfolio->id,
+                'type' => $cash_flow->type->value,
+                'amount' => 1000,
+                'id' => $cash_flow->id,
+            ];
+
+            // Act:
+            $response = $this->putJson('/api/v1/cash-flows', $payload);
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
         it('can handle server error response when using /api/v1/cash-flows PUT api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();

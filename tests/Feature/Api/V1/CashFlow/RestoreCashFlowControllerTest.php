@@ -29,6 +29,20 @@ describe('Feature: RestoreCashFlowController', function () {
 
     describe('Negatives', function () {
 
+        it('can return unauthorized message when trying to access protected  /api/v1/cash-flows PATCH api endpoint unauthenticated.', function () {
+            // Arrange:
+            $cash_flow = CashFlowModel::factory()->create();
+
+            // Act:
+            $response = $this->patchJson(sprintf('/api/v1/cash-flows/%s', $cash_flow->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
         it('can handle error message when no record found upon using /api/v1/cash-flows/{id} PATCH api endpoint.', function () {
             // Arrange:
             $random_id = 100;

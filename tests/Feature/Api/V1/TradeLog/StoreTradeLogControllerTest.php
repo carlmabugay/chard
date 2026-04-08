@@ -45,6 +45,29 @@ describe('Feature: StoreTradeLogController', function () {
 
     describe('Negatives', function () {
 
+        it('can return unauthorized message when trying to access protected /api/v1/trade-logs POST api endpoint unauthenticated.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $portfolio->id,
+                'symbol' => 'BPI',
+                'type' => 'buy',
+                'price' => 100,
+                'shares' => 1000,
+                'fees' => 120,
+            ];
+
+            // Act:
+            $response = $this->postJson('/api/v1/trade-logs', $payload);
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
         it('can handle server error response when using /api/v1/trade-logs POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();

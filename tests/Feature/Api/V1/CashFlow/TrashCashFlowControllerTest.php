@@ -29,6 +29,20 @@ describe('Feature: TrashCashFlowController', function () {
 
     describe('Negatives', function () {
 
+        it('can return unauthorized message when trying to access protected /api/v1/cash-flows/{id}/trash DELETE api endpoint unauthenticated.', function () {
+            // Arrange:
+            $cash_flow = CashFlowModel::factory()->create();
+
+            // Act:
+            $response = $this->deleteJson(sprintf('/api/v1/cash-flows/%s/trash', $cash_flow->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
         it('can handle error message when no record found upon using /api/v1/cash-flows/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;

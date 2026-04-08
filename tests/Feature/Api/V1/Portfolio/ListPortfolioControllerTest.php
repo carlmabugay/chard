@@ -23,7 +23,6 @@ describe('Feature: ListPortfolioController', function () {
             $response->assertOk()
                 ->assertJsonPath('success', true)
                 ->assertJsonPath('pagination.total', $no_of_portfolios);
-
         });
 
         it('can paginate portfolios when using /api/v1/portfolios GET api endpoint.', function () {
@@ -49,7 +48,6 @@ describe('Feature: ListPortfolioController', function () {
                 ->assertJsonPath('success', true)
                 ->assertJsonPath('pagination.current_page', $page_number)
                 ->assertJsonCount($per_page, 'data');
-
         });
 
         it('can sort portfolios by created_at ascending when using /api/v1/portfolios GET api endpoint.', function () {
@@ -73,7 +71,6 @@ describe('Feature: ListPortfolioController', function () {
 
             // Assert:
             expect($data[0]['created_at'])->toBeLessThanOrEqual($data[1]['created_at']);
-
         });
 
         it('can search portfolios by name when using /api/v1/portfolios GET api endpoint.', function () {
@@ -150,6 +147,20 @@ describe('Feature: ListPortfolioController', function () {
     });
 
     describe('Negatives', function () {
+
+        it('can return unauthorized message when trying to access protected /api/v1/portfolios GET api endpoint unauthenticated.', function () {
+            // Arrange:
+
+            // Act:
+            $response = $this->getJson('/api/v1/portfolios');
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+
+        });
 
         it('can handle server error response when using /api/v1/portfolios GET api endpoint.', function () {
             // Arrange:

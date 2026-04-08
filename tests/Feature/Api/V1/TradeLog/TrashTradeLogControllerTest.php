@@ -29,6 +29,20 @@ describe('Feature: TrashTradeLogController', function () {
 
     describe('Negatives', function () {
 
+        it('can return unauthorized message when trying to access protected /api/v1/trade-logs/trash DELETE api endpoint unauthenticated.', function () {
+            // Arrange:
+            $trade_log = TradeLogModel::factory()->create();
+
+            // Act:
+            $response = $this->deleteJson(sprintf('/api/v1/trade-logs/%s/trash', $trade_log->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
         it('can handle error message when no record found upon using /api/v1/trade-logs/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;

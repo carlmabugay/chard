@@ -145,6 +145,19 @@ describe('Feature: ListStrategyController', function () {
 
     describe('Negatives', function () {
 
+        it('can return unauthorized message when trying to access protected /api/v1/strategies GET api endpoint unauthenticated.', function () {
+            // Arrange:
+
+            // Act:
+            $response = $this->getJson('/api/v1/strategies');
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
         it('can handle server error response when using /api/v1/strategies GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();

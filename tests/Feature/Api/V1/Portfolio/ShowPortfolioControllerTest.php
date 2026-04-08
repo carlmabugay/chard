@@ -33,6 +33,20 @@ describe('Feature: ShowPortfolioController', function () {
 
     describe('Negatives', function () {
 
+        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{id} GET api endpoint unauthenticated.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            // Act:
+            $response = $this->getJson(sprintf('/api/v1/portfolios/%s', $portfolio->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
         it('can handle error message when no record found upon using /api/v1/portfolios/{id} GET api endpoint.', function () {
             // Arrange:
             $random_id = 100;

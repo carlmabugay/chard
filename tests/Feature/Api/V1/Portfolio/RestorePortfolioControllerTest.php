@@ -29,6 +29,20 @@ describe('Feature: RestorePortfolioController', function () {
 
     describe('Negatives', function () {
 
+        it('can return unauthorized message when trying to access protected /api/v1/portfolios PATCH api endpoint unauthenticated.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->trashed()->create();
+
+            // Act:
+            $response = $this->patchJson(sprintf('/api/v1/portfolios/%s', $portfolio->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
         it('can handle error message when no record found upon using /api/v1/portfolios/{id} PATCH api endpoint.', function () {
             // Arrange:
             $random_id = 100;

@@ -29,6 +29,19 @@ describe('Feature: TrashStrategyController', function () {
 
     describe('Negatives', function () {
 
+        it('can return unauthorized message when trying to access protected /api/v1/strategies/{id} PATCH api endpoint unauthenticated.', function () {
+            // Arrange:
+            $strategy = StrategyModel::factory()->create();
+
+            // Act:
+            $response = $this->patchJson(sprintf('/api/v1/strategies/%s', $strategy->id));
+
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
         it('can handle error message when no record found upon using /api/v1/strategies/{id} PATCH api endpoint.', function () {
             // Arrange:
             $random_id = 100;

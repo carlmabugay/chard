@@ -40,6 +40,26 @@ describe('Feature: StoreCashFlowController', function () {
 
     describe('Negatives', function () {
 
+        it('can return unauthorized message when trying to access protected /api/v1/cash-flows POST api endpoint unauthenticated.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $portfolio->id,
+                'type' => CashFlowType::DEPOSIT->value,
+                'amount' => 100,
+            ];
+
+            // Act:
+            $response = $this->postJson('/api/v1/cash-flows', $payload);
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
         it('can handle server error response when using /api/v1/cash-flows POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
