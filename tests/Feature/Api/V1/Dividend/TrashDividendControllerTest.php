@@ -14,7 +14,7 @@ describe('Feature: TrashDividendController', function () {
             $dividend = DividendModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($dividend->portfolio->user)->delete(sprintf('/api/v1/dividends/%s/trash', $dividend->id));
+            $response = $this->actingAs($dividend->portfolio->user)->deleteJson(sprintf('/api/v1/dividends/%s/trash', $dividend->id));
 
             // Assert:
             $this->assertSoftDeleted($dividend);
@@ -35,7 +35,7 @@ describe('Feature: TrashDividendController', function () {
             $dividend = DividendModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($dividend->portfolio->user)->delete(sprintf('/api/v1/dividends/%s/trash', $random_id));
+            $response = $this->actingAs($dividend->portfolio->user)->deleteJson(sprintf('/api/v1/dividends/%s/trash', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -59,7 +59,7 @@ describe('Feature: TrashDividendController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->delete(sprintf('/api/v1/dividends/%s/trash', $random_id));
+            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/dividends/%s/trash', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

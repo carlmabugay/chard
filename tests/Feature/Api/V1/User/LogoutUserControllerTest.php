@@ -13,7 +13,7 @@ describe('Feature: LogoutUserController', function () {
             $user = UserModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($user, 'web')->post('/api/v1/user/logout');
+            $response = $this->actingAs($user, 'web')->postJson('/api/v1/user/logout');
 
             // Assert:
             $response->assertStatus(200)
@@ -41,7 +41,7 @@ describe('Feature: LogoutUserController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->post('/api/v1/user/logout');
+            $response = $this->actingAs($user)->postJson('/api/v1/user/logout');
 
             // Assert:
             $response->assertInternalServerError()

@@ -18,7 +18,7 @@ describe('Feature: StorePortfolioController', function () {
             ];
 
             // Act:
-            $response = $this->actingAs($user)->post('/api/v1/portfolios', $payload);
+            $response = $this->actingAs($user)->postJson('/api/v1/portfolios', $payload);
 
             // Assert:
             $response->assertCreated()
@@ -51,7 +51,7 @@ describe('Feature: StorePortfolioController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->post('/api/v1/portfolios', $payload);
+            $response = $this->actingAs($user)->postJson('/api/v1/portfolios', $payload);
 
             // Assert:
             $response->assertInternalServerError()

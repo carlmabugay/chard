@@ -18,7 +18,7 @@ describe('Feature: ListTradeLogController', function () {
             TradeLogModel::factory($no_of_trade_logs)->for($portfolio)->create();
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->get('/api/v1/trade-logs');
+            $response = $this->actingAs($portfolio->user)->getJson('/api/v1/trade-logs');
 
             // Assert:
             $response->assertOk()
@@ -42,7 +42,7 @@ describe('Feature: ListTradeLogController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/trade-logs?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade-logs?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -65,7 +65,7 @@ describe('Feature: ListTradeLogController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/trade-logs?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade-logs?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -88,7 +88,7 @@ describe('Feature: ListTradeLogController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/trade-logs?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade-logs?%s', $query));
 
             $data = $response->json('data');
 
@@ -113,7 +113,7 @@ describe('Feature: ListTradeLogController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/trade-logs?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade-logs?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -143,7 +143,7 @@ describe('Feature: ListTradeLogController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/trade-logs?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade-logs?%s', $query));
 
             // Assert
             $response->assertOk()
@@ -168,7 +168,7 @@ describe('Feature: ListTradeLogController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->get('/api/v1/trade-logs');
+            $response = $this->actingAs($user)->getJson('/api/v1/trade-logs');
 
             // Assert:
             $response->assertInternalServerError()

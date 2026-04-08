@@ -14,7 +14,7 @@ describe('Feature: TrashTradeLogController', function () {
             $trade_log = TradeLogModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($trade_log->portfolio->user)->delete(sprintf('/api/v1/trade-logs/%s/trash', $trade_log->id));
+            $response = $this->actingAs($trade_log->portfolio->user)->deleteJson(sprintf('/api/v1/trade-logs/%s/trash', $trade_log->id));
 
             // Assert:
             $this->assertSoftDeleted($trade_log);
@@ -35,7 +35,7 @@ describe('Feature: TrashTradeLogController', function () {
             $trade_log = TradeLogModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($trade_log->portfolio->user)->delete(sprintf('/api/v1/trade-logs/%s/trash', $random_id));
+            $response = $this->actingAs($trade_log->portfolio->user)->deleteJson(sprintf('/api/v1/trade-logs/%s/trash', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -59,7 +59,7 @@ describe('Feature: TrashTradeLogController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->delete(sprintf('/api/v1/trade-logs/%s/trash', $random_id));
+            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/trade-logs/%s/trash', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

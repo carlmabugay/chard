@@ -19,7 +19,7 @@ describe('Feature: ListCashFlowController', function () {
             CashFlowModel::factory($no_of_cash_flows)->for($portfolio)->create();
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->get('/api/v1/cash-flows');
+            $response = $this->actingAs($portfolio->user)->getJson('/api/v1/cash-flows');
 
             // Assert:
             $response->assertOk()
@@ -45,7 +45,7 @@ describe('Feature: ListCashFlowController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/cash-flows?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/cash-flows?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -68,7 +68,7 @@ describe('Feature: ListCashFlowController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/cash-flows?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/cash-flows?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -91,7 +91,7 @@ describe('Feature: ListCashFlowController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/cash-flows?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/cash-flows?%s', $query));
 
             $data = $response->json('data');
 
@@ -115,7 +115,7 @@ describe('Feature: ListCashFlowController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/cash-flows?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/cash-flows?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -147,7 +147,7 @@ describe('Feature: ListCashFlowController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/cash-flows?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/cash-flows?%s', $query));
 
             // Assert
             $response->assertOk()
@@ -163,7 +163,7 @@ describe('Feature: ListCashFlowController', function () {
 
             // Act:
 
-            $response = $this->actingAs($user)->get('/api/v1/cash-flows');
+            $response = $this->actingAs($user)->getJson('/api/v1/cash-flows');
 
             // Assert:
             $response->assertOk()
@@ -188,7 +188,7 @@ describe('Feature: ListCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->get('/api/v1/cash-flows');
+            $response = $this->actingAs($user)->getJson('/api/v1/cash-flows');
 
             // Assert:
             $response->assertInternalServerError()

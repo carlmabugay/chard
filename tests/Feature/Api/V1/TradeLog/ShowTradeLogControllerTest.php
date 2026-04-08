@@ -14,7 +14,7 @@ describe('Feature: ShowTradeLogController', function () {
             $trade_log = TradeLogModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($trade_log->portfolio->user)->get(sprintf('/api/v1/trade-logs/%s', $trade_log->id));
+            $response = $this->actingAs($trade_log->portfolio->user)->getJson(sprintf('/api/v1/trade-logs/%s', $trade_log->id));
 
             // Assert:
             $response->assertOk()
@@ -49,7 +49,7 @@ describe('Feature: ShowTradeLogController', function () {
             $trade_log = TradeLogModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($trade_log->portfolio->user)->get(sprintf('/api/v1/trade-logs/%s', $random_id));
+            $response = $this->actingAs($trade_log->portfolio->user)->getJson(sprintf('/api/v1/trade-logs/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -73,7 +73,7 @@ describe('Feature: ShowTradeLogController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->get(sprintf('/api/v1/trade-logs/%s', $random_id));
+            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/trade-logs/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

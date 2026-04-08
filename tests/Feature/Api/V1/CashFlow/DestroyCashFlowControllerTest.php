@@ -14,7 +14,7 @@ describe('Feature: DestroyCashFlowController', function () {
             $cash_flow = CashFlowModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($cash_flow->portfolio->user)->delete(sprintf('/api/v1/cash-flows/%s/destroy', $cash_flow->id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->deleteJson(sprintf('/api/v1/cash-flows/%s/destroy', $cash_flow->id));
 
             // Assert:
             $this->assertModelMissing($cash_flow);
@@ -35,7 +35,7 @@ describe('Feature: DestroyCashFlowController', function () {
             $cash_flow = CashFlowModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($cash_flow->portfolio->user)->delete(sprintf('/api/v1/cash-flows/%s/destroy', $random_id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->deleteJson(sprintf('/api/v1/cash-flows/%s/destroy', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -59,7 +59,7 @@ describe('Feature: DestroyCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->delete(sprintf('/api/v1/cash-flows/%s/destroy', $random_id));
+            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/cash-flows/%s/destroy', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

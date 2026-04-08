@@ -21,7 +21,7 @@ describe('Feature: UpdateDividendController', function () {
             ];
 
             // Act:
-            $response = $this->actingAs($dividend->portfolio->user)->put('/api/v1/dividends', $payload);
+            $response = $this->actingAs($dividend->portfolio->user)->putJson('/api/v1/dividends', $payload);
 
             // Assert:
             $this->assertDatabaseHas('dividends', $payload);
@@ -59,7 +59,7 @@ describe('Feature: UpdateDividendController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($dividend->portfolio->user)->put('/api/v1/dividends', $payload);
+            $response = $this->actingAs($dividend->portfolio->user)->putJson('/api/v1/dividends', $payload);
 
             // Assert:
             $response->assertInternalServerError()

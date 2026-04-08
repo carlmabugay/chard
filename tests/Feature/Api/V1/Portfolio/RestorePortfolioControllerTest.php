@@ -14,7 +14,7 @@ describe('Feature: RestorePortfolioController', function () {
             $portfolio = PortfolioModel::factory()->trashed()->create();
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->patch(sprintf('/api/v1/portfolios/%s', $portfolio->id));
+            $response = $this->actingAs($portfolio->user)->patchJson(sprintf('/api/v1/portfolios/%s', $portfolio->id));
 
             // Assert:
             $this->assertNotSoftDeleted($portfolio);
@@ -35,7 +35,7 @@ describe('Feature: RestorePortfolioController', function () {
             $portfolio = PortfolioModel::factory()->trashed()->create();
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->patch(sprintf('/api/v1/portfolios/%s', $random_id));
+            $response = $this->actingAs($portfolio->user)->patchJson(sprintf('/api/v1/portfolios/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -59,7 +59,7 @@ describe('Feature: RestorePortfolioController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->patch(sprintf('/api/v1/portfolios/%s', $random_id));
+            $response = $this->actingAs($user)->patchJson(sprintf('/api/v1/portfolios/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

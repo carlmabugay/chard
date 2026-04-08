@@ -14,7 +14,7 @@ describe('Feature: RestoreDividendController', function () {
             $dividend = DividendModel::factory()->trashed()->create();
 
             // Act:
-            $response = $this->actingAs($dividend->portfolio->user)->patch(sprintf('/api/v1/dividends/%s', $dividend->id));
+            $response = $this->actingAs($dividend->portfolio->user)->patchJson(sprintf('/api/v1/dividends/%s', $dividend->id));
 
             // Assert:
             $this->assertNotSoftDeleted($dividend);
@@ -35,7 +35,7 @@ describe('Feature: RestoreDividendController', function () {
             $dividend = DividendModel::factory()->trashed()->create();
 
             // Act:
-            $response = $this->actingAs($dividend->portfolio->user)->patch(sprintf('/api/v1/dividends/%s', $random_id));
+            $response = $this->actingAs($dividend->portfolio->user)->patchJson(sprintf('/api/v1/dividends/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -59,7 +59,7 @@ describe('Feature: RestoreDividendController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->patch(sprintf('/api/v1/dividends/%s', $random_id));
+            $response = $this->actingAs($user)->patchJson(sprintf('/api/v1/dividends/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

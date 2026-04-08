@@ -14,7 +14,7 @@ describe('Feature: ShowStrategyController', function () {
             $strategy = StrategyModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($strategy->user)->get(sprintf('/api/v1/strategies/%s', $strategy->id));
+            $response = $this->actingAs($strategy->user)->getJson(sprintf('/api/v1/strategies/%s', $strategy->id));
 
             // Assert:
             $response->assertOk()
@@ -39,7 +39,7 @@ describe('Feature: ShowStrategyController', function () {
             $strategy = StrategyModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($strategy->user)->get(sprintf('/api/v1/strategies/%s', $random_id));
+            $response = $this->actingAs($strategy->user)->getJson(sprintf('/api/v1/strategies/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -63,7 +63,7 @@ describe('Feature: ShowStrategyController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->get(sprintf('/api/v1/strategies/%s', $random_id));
+            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/strategies/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

@@ -17,7 +17,7 @@ describe('Feature: ListPortfolioController', function () {
             PortfolioModel::factory($no_of_portfolios)->for($user)->create();
 
             // Act:
-            $response = $this->actingAs($user)->get('/api/v1/portfolios');
+            $response = $this->actingAs($user)->getJson('/api/v1/portfolios');
 
             // Assert:
             $response->assertOk()
@@ -42,7 +42,7 @@ describe('Feature: ListPortfolioController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($user)->get(sprintf('/api/v1/portfolios?%s', $query));
+            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/portfolios?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -67,7 +67,7 @@ describe('Feature: ListPortfolioController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($user)->get(sprintf('/api/v1/portfolios?%s', $query));
+            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/portfolios?%s', $query));
 
             $data = $response->json('data');
 
@@ -88,7 +88,7 @@ describe('Feature: ListPortfolioController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($user)->get(sprintf('/api/v1/portfolios?%s', $query));
+            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/portfolios?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -125,7 +125,7 @@ describe('Feature: ListPortfolioController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($user)->get(sprintf('/api/v1/portfolios?%s', $query));
+            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/portfolios?%s', $query));
 
             // Assert
             $response->assertOk()
@@ -138,7 +138,7 @@ describe('Feature: ListPortfolioController', function () {
             $user = UserModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($user)->get('/api/v1/portfolios');
+            $response = $this->actingAs($user)->getJson('/api/v1/portfolios');
 
             // Assert:
             $response->assertOk()
@@ -163,7 +163,7 @@ describe('Feature: ListPortfolioController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->get('/api/v1/portfolios');
+            $response = $this->actingAs($user)->getJson('/api/v1/portfolios');
 
             // Assert:
             $response->assertInternalServerError()

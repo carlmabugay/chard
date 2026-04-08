@@ -14,7 +14,7 @@ describe('Feature: RestoreCashFlowController', function () {
             $cash_flow = CashFlowModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($cash_flow->portfolio->user)->patch(sprintf('/api/v1/cash-flows/%s', $cash_flow->id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->patchJson(sprintf('/api/v1/cash-flows/%s', $cash_flow->id));
 
             // Assert:
             $this->assertNotSoftDeleted($cash_flow);
@@ -35,7 +35,7 @@ describe('Feature: RestoreCashFlowController', function () {
             $cash_flow = CashFlowModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($cash_flow->portfolio->user)->patch(sprintf('/api/v1/cash-flows/%s', $random_id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->patchJson(sprintf('/api/v1/cash-flows/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -59,7 +59,7 @@ describe('Feature: RestoreCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->patch(sprintf('/api/v1/cash-flows/%s', $random_id));
+            $response = $this->actingAs($user)->patchJson(sprintf('/api/v1/cash-flows/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

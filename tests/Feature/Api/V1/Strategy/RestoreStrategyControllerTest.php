@@ -14,7 +14,7 @@ describe('Feature: TrashStrategyController', function () {
             $strategy = StrategyModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($strategy->user)->patch(sprintf('/api/v1/strategies/%s', $strategy->id));
+            $response = $this->actingAs($strategy->user)->patchJson(sprintf('/api/v1/strategies/%s', $strategy->id));
 
             // Assert:
             $this->assertNotSoftDeleted($strategy);
@@ -35,7 +35,7 @@ describe('Feature: TrashStrategyController', function () {
             $strategy = StrategyModel::factory()->trashed()->create();
 
             // Act:
-            $response = $this->actingAs($strategy->user)->patch(sprintf('/api/v1/strategies/%s', $random_id));
+            $response = $this->actingAs($strategy->user)->patchJson(sprintf('/api/v1/strategies/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -59,7 +59,7 @@ describe('Feature: TrashStrategyController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->patch(sprintf('/api/v1/strategies/%s', $random_id));
+            $response = $this->actingAs($user)->patchJson(sprintf('/api/v1/strategies/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

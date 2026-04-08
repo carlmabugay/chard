@@ -18,7 +18,7 @@ describe('Feature: LoginUserController', function () {
             ];
 
             // Act:
-            $response = $this->post('/api/v1/user/login', $payload);
+            $response = $this->postJson('/api/v1/user/login', $payload);
 
             // Assert:
             $response->assertStatus(200);
@@ -39,7 +39,7 @@ describe('Feature: LoginUserController', function () {
             ];
 
             // Act:
-            $response = $this->post('/api/v1/user/login', $payload);
+            $response = $this->postJson('/api/v1/user/login', $payload);
 
             // Assert:
             $response->assertStatus(401)
@@ -67,7 +67,7 @@ describe('Feature: LoginUserController', function () {
             });
 
             // Act:
-            $response = $this->post('/api/v1/user/login', $payload);
+            $response = $this->postJson('/api/v1/user/login', $payload);
 
             // Assert:
             $response->assertInternalServerError()

@@ -14,7 +14,7 @@ describe('Feature: DestroyPortfolioController', function () {
             $portfolio = PortfolioModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->delete(sprintf('/api/v1/portfolios/%s/destroy', $portfolio->id));
+            $response = $this->actingAs($portfolio->user)->deleteJson(sprintf('/api/v1/portfolios/%s/destroy', $portfolio->id));
 
             // Assert:
             $this->assertModelMissing($portfolio);
@@ -35,7 +35,7 @@ describe('Feature: DestroyPortfolioController', function () {
             $portfolio = PortfolioModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->delete(sprintf('/api/v1/portfolios/%s/destroy', $random_id));
+            $response = $this->actingAs($portfolio->user)->deleteJson(sprintf('/api/v1/portfolios/%s/destroy', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -59,7 +59,7 @@ describe('Feature: DestroyPortfolioController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->delete(sprintf('/api/v1/portfolios/%s/destroy', $random_id));
+            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/portfolios/%s/destroy', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

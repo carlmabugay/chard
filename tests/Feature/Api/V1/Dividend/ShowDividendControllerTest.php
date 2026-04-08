@@ -14,7 +14,7 @@ describe('Feature: ShowDividendController', function () {
             $dividend = DividendModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($dividend->portfolio->user)->get(sprintf('/api/v1/dividends/%s', $dividend->id));
+            $response = $this->actingAs($dividend->portfolio->user)->getJson(sprintf('/api/v1/dividends/%s', $dividend->id));
 
             // Assert:
             $response->assertOk()
@@ -45,7 +45,7 @@ describe('Feature: ShowDividendController', function () {
             $dividend = DividendModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($dividend->portfolio->user)->get(sprintf('/api/v1/dividends/%s', $random_id));
+            $response = $this->actingAs($dividend->portfolio->user)->getJson(sprintf('/api/v1/dividends/%s', $random_id));
 
             // Assert
             $response->assertNotFound()
@@ -69,7 +69,7 @@ describe('Feature: ShowDividendController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->get(sprintf('/api/v1/dividends/%s', $random_id));
+            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/dividends/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

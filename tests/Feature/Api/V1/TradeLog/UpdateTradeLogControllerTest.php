@@ -22,7 +22,7 @@ describe('Feature: UpdateTradeLogController', function () {
             ];
 
             // Act:
-            $response = $this->actingAs($trade_log->portfolio->user)->put('/api/v1/trade-logs', $payload);
+            $response = $this->actingAs($trade_log->portfolio->user)->putJson('/api/v1/trade-logs', $payload);
 
             // Assert:
             $this->assertDatabaseHas('trade_logs', $payload);
@@ -61,7 +61,7 @@ describe('Feature: UpdateTradeLogController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($trade_log->portfolio->user)->put('/api/v1/trade-logs', $payload);
+            $response = $this->actingAs($trade_log->portfolio->user)->putJson('/api/v1/trade-logs', $payload);
 
             // Assert:
             $response->assertInternalServerError()

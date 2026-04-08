@@ -19,7 +19,7 @@ describe('Feature: UpdateStrategyController', function () {
             ];
 
             // Act:
-            $response = $this->actingAs($strategy->user)->put('/api/v1/strategies', $payload);
+            $response = $this->actingAs($strategy->user)->putJson('/api/v1/strategies', $payload);
 
             // Assert:
             $this->assertDatabaseHas('strategies', $payload);
@@ -54,7 +54,7 @@ describe('Feature: UpdateStrategyController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($strategy->user)->put('/api/v1/strategies', $payload);
+            $response = $this->actingAs($strategy->user)->putJson('/api/v1/strategies', $payload);
 
             // Assert:
             $response->assertInternalServerError()

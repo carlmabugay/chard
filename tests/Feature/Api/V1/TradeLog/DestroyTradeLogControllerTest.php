@@ -15,7 +15,7 @@ describe('Feature: DestroyTradeLogController', function () {
                 $trade_log = TradeLogModel::factory()->create();
 
                 // Act:
-                $response = $this->actingAs($trade_log->portfolio->user)->delete(sprintf('/api/v1/trade-logs/%s/destroy', $trade_log->id));
+                $response = $this->actingAs($trade_log->portfolio->user)->deleteJson(sprintf('/api/v1/trade-logs/%s/destroy', $trade_log->id));
 
                 // Assert:
                 $this->assertModelMissing($trade_log);
@@ -37,7 +37,7 @@ describe('Feature: DestroyTradeLogController', function () {
                 $trade_log = TradeLogModel::factory()->create();
 
                 // Act:
-                $response = $this->actingAs($trade_log->portfolio->user)->delete(sprintf('/api/v1/trade-logs/%s/destroy', $random_id));
+                $response = $this->actingAs($trade_log->portfolio->user)->deleteJson(sprintf('/api/v1/trade-logs/%s/destroy', $random_id));
 
                 // Assert:
                 $response->assertNotFound()
@@ -62,7 +62,7 @@ describe('Feature: DestroyTradeLogController', function () {
                 });
 
                 // Act:
-                $response = $this->actingAs($user)->delete(sprintf('/api/v1/trade-logs/%s/destroy', $random_id));
+                $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/trade-logs/%s/destroy', $random_id));
 
                 // Assert:
                 $response->assertInternalServerError()

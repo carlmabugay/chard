@@ -18,7 +18,7 @@ describe('Feature: StoreStrategyController', function () {
             ];
 
             // Act:
-            $response = $this->actingAs($user)->post('/api/v1/strategies', $payload);
+            $response = $this->actingAs($user)->postJson('/api/v1/strategies', $payload);
 
             // Assert:
             $response->assertCreated()
@@ -51,7 +51,7 @@ describe('Feature: StoreStrategyController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->post('/api/v1/strategies', $payload);
+            $response = $this->actingAs($user)->postJson('/api/v1/strategies', $payload);
 
             // Assert:
             $response->assertInternalServerError()

@@ -14,7 +14,7 @@ describe('Feature: ShowPortfolioController', function () {
             $portfolio = PortfolioModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/portfolios/%s', $portfolio->id));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/portfolios/%s', $portfolio->id));
 
             // Assert:
             $response->assertOk()
@@ -39,7 +39,7 @@ describe('Feature: ShowPortfolioController', function () {
             $portfolio = PortfolioModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/portfolios/%s', $random_id));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/portfolios/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -63,7 +63,7 @@ describe('Feature: ShowPortfolioController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->get(sprintf('/api/v1/portfolios/%s', $random_id));
+            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/portfolios/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

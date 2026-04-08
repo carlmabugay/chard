@@ -20,7 +20,7 @@ describe('Feature: StoreCashFlowController', function () {
             ];
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->post('/api/v1/cash-flows', $payload);
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/cash-flows', $payload);
 
             // Assert:
             $response->assertCreated()
@@ -58,7 +58,7 @@ describe('Feature: StoreCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->post('/api/v1/cash-flows', $payload);
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/cash-flows', $payload);
 
             // Assert:
             $response->assertInternalServerError()

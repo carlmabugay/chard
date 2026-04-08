@@ -22,7 +22,7 @@ describe('Feature: StoreTradeLogController', function () {
             ];
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->post('/api/v1/trade-logs', $payload);
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/trade-logs', $payload);
 
             // Assert:
             $response->assertCreated()
@@ -66,7 +66,7 @@ describe('Feature: StoreTradeLogController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->post('/api/v1/trade-logs', $payload);
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/trade-logs', $payload);
 
             // Assert:
             $response->assertInternalServerError()

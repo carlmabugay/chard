@@ -20,7 +20,7 @@ describe('Feature: UpdateCashFlowController', function () {
             ];
 
             // Act:
-            $response = $this->actingAs($cash_flow->portfolio->user)->put('/api/v1/cash-flows', $payload);
+            $response = $this->actingAs($cash_flow->portfolio->user)->putJson('/api/v1/cash-flows', $payload);
 
             // Assert:
             $this->assertDatabaseHas('cash_flows', $payload);
@@ -57,7 +57,7 @@ describe('Feature: UpdateCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($cash_flow->portfolio->user)->put('/api/v1/cash-flows', $payload);
+            $response = $this->actingAs($cash_flow->portfolio->user)->putJson('/api/v1/cash-flows', $payload);
 
             // Assert:
             $response->assertInternalServerError()

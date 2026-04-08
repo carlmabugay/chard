@@ -14,7 +14,7 @@ describe('Feature: TrashPortfolioController', function () {
             $portfolio = PortfolioModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->delete(sprintf('/api/v1/portfolios/%s/trash', $portfolio->id));
+            $response = $this->actingAs($portfolio->user)->deleteJson(sprintf('/api/v1/portfolios/%s/trash', $portfolio->id));
 
             // Assert:
             $this->assertSoftDeleted($portfolio);
@@ -35,7 +35,7 @@ describe('Feature: TrashPortfolioController', function () {
             $portfolio = PortfolioModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->delete(sprintf('/api/v1/portfolios/%s/trash', $random_id));
+            $response = $this->actingAs($portfolio->user)->deleteJson(sprintf('/api/v1/portfolios/%s/trash', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -59,7 +59,7 @@ describe('Feature: TrashPortfolioController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->delete(sprintf('/api/v1/portfolios/%s/trash', $random_id));
+            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/portfolios/%s/trash', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

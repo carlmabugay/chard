@@ -14,7 +14,7 @@ describe('Feature: TrashStrategyController', function () {
             $strategy = StrategyModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($strategy->user)->delete(sprintf('/api/v1/strategies/%s/trash', $strategy->id));
+            $response = $this->actingAs($strategy->user)->deleteJson(sprintf('/api/v1/strategies/%s/trash', $strategy->id));
 
             // Assert:
             $this->assertSoftDeleted($strategy);
@@ -34,7 +34,7 @@ describe('Feature: TrashStrategyController', function () {
             $strategy = StrategyModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($strategy->user)->delete(sprintf('/api/v1/strategies/%s/trash', $random_id));
+            $response = $this->actingAs($strategy->user)->deleteJson(sprintf('/api/v1/strategies/%s/trash', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -58,7 +58,7 @@ describe('Feature: TrashStrategyController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->delete(sprintf('/api/v1/strategies/%s/trash', $random_id));
+            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/strategies/%s/trash', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

@@ -14,7 +14,7 @@ describe('Feature: ShowCashFlowController', function () {
             $cash_flow = CashFlowModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($cash_flow->portfolio->user)->get(sprintf('/api/v1/cash-flows/%s', $cash_flow->id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->getJson(sprintf('/api/v1/cash-flows/%s', $cash_flow->id));
 
             // Assert:
             $response->assertOk()
@@ -46,7 +46,7 @@ describe('Feature: ShowCashFlowController', function () {
             $cash_flow = CashFlowModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($cash_flow->portfolio->user)->get(sprintf('/api/v1/cash-flows/%s', $random_id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->getJson(sprintf('/api/v1/cash-flows/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -70,7 +70,7 @@ describe('Feature: ShowCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->get(sprintf('/api/v1/cash-flows/%s', $random_id));
+            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/cash-flows/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

@@ -17,7 +17,7 @@ describe('Feature: ListStrategyController', function () {
             StrategyModel::factory($no_of_strategies)->for($user)->create();
 
             // Act:
-            $response = $this->actingAs($user)->get('/api/v1/strategies');
+            $response = $this->actingAs($user)->getJson('/api/v1/strategies');
 
             // Assert:
             $response->assertOk()
@@ -41,7 +41,7 @@ describe('Feature: ListStrategyController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($user)->get(sprintf('/api/v1/strategies?%s', $query));
+            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/strategies?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -65,7 +65,7 @@ describe('Feature: ListStrategyController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($user)->get(sprintf('/api/v1/strategies?%s', $query));
+            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/strategies?%s', $query));
 
             $data = $response->json('data');
 
@@ -85,7 +85,7 @@ describe('Feature: ListStrategyController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($user)->get(sprintf('/api/v1/strategies?%s', $query));
+            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/strategies?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -122,7 +122,7 @@ describe('Feature: ListStrategyController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($user)->get(sprintf('/api/v1/strategies?%s', $query));
+            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/strategies?%s', $query));
 
             // Assert
             $response->assertOk()
@@ -135,7 +135,7 @@ describe('Feature: ListStrategyController', function () {
             $user = UserModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($user)->get('/api/v1/strategies');
+            $response = $this->actingAs($user)->getJson('/api/v1/strategies');
 
             // Assert:
             $response->assertOk()
@@ -157,7 +157,7 @@ describe('Feature: ListStrategyController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->get('/api/v1/strategies');
+            $response = $this->actingAs($user)->getJson('/api/v1/strategies');
 
             // Assert:
             $response->assertInternalServerError()

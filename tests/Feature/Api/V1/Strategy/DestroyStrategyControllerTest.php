@@ -14,7 +14,7 @@ describe('Feature: DestroyStrategyController', function () {
             $strategy = StrategyModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($strategy->user)->delete(sprintf('/api/v1/strategies/%s/destroy', $strategy->id));
+            $response = $this->actingAs($strategy->user)->deleteJson(sprintf('/api/v1/strategies/%s/destroy', $strategy->id));
 
             // Assert:
             $this->assertModelMissing($strategy);
@@ -35,7 +35,7 @@ describe('Feature: DestroyStrategyController', function () {
             $strategy = StrategyModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($strategy->user)->delete(sprintf('/api/v1/strategies/%s/destroy', $random_id));
+            $response = $this->actingAs($strategy->user)->deleteJson(sprintf('/api/v1/strategies/%s/destroy', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -59,7 +59,7 @@ describe('Feature: DestroyStrategyController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->delete(sprintf('/api/v1/strategies/%s/destroy', $random_id));
+            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/strategies/%s/destroy', $random_id));
 
             // Assert:
             $response->assertInternalServerError()
