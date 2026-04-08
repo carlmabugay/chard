@@ -2,7 +2,6 @@
 
 use App\Application\CashFlow\UserCases\StoreCashFlow;
 use App\Models\CashFlow as CashFlowModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: UpdateCashFlowController', function () {
@@ -12,7 +11,6 @@ describe('Feature: UpdateCashFlowController', function () {
         it('can update existing cash flow resource when using /api/v1/cash-flows PUT api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
-            Sanctum::actingAs($cash_flow->portfolio->user);
 
             $payload = [
                 'portfolio_id' => $cash_flow->portfolio->id,
@@ -22,7 +20,7 @@ describe('Feature: UpdateCashFlowController', function () {
             ];
 
             // Act:
-            $response = $this->put('/api/v1/cash-flows', $payload);
+            $response = $this->actingAs($cash_flow->portfolio->user)->put('/api/v1/cash-flows', $payload);
 
             // Assert:
             $this->assertDatabaseHas('cash_flows', $payload);
@@ -43,7 +41,6 @@ describe('Feature: UpdateCashFlowController', function () {
         it('can handle server error response when using /api/v1/cash-flows PUT api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
-            Sanctum::actingAs($cash_flow->portfolio->user);
 
             $payload = [
                 'portfolio_id' => $cash_flow->portfolio->id,
@@ -60,7 +57,7 @@ describe('Feature: UpdateCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->put('/api/v1/cash-flows', $payload);
+            $response = $this->actingAs($cash_flow->portfolio->user)->put('/api/v1/cash-flows', $payload);
 
             // Assert:
             $response->assertInternalServerError()

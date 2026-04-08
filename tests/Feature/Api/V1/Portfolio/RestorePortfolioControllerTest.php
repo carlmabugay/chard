@@ -3,7 +3,6 @@
 use App\Application\Portolio\UseCases\RestorePortfolio;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: RestorePortfolioController', function () {
@@ -13,10 +12,9 @@ describe('Feature: RestorePortfolioController', function () {
         it('can restore trashed portfolio resource when using /api/v1/portfolios PATCH api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->trashed()->create();
-            Sanctum::actingAs($portfolio->user);
 
             // Act:
-            $response = $this->patch(sprintf('/api/v1/portfolios/%s', $portfolio->id));
+            $response = $this->actingAs($portfolio->user)->patch(sprintf('/api/v1/portfolios/%s', $portfolio->id));
 
             // Assert:
             $this->assertNotSoftDeleted($portfolio);
@@ -35,10 +33,9 @@ describe('Feature: RestorePortfolioController', function () {
             // Arrange:
             $random_id = 100;
             $portfolio = PortfolioModel::factory()->trashed()->create();
-            Sanctum::actingAs($portfolio->user);
 
             // Act:
-            $response = $this->patch(sprintf('/api/v1/portfolios/%s', $random_id));
+            $response = $this->actingAs($portfolio->user)->patch(sprintf('/api/v1/portfolios/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -53,7 +50,6 @@ describe('Feature: RestorePortfolioController', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(RestorePortfolio::class, function (MockInterface $mock) {
@@ -63,7 +59,7 @@ describe('Feature: RestorePortfolioController', function () {
             });
 
             // Act:
-            $response = $this->patch(sprintf('/api/v1/portfolios/%s', $random_id));
+            $response = $this->actingAs($user)->patch(sprintf('/api/v1/portfolios/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

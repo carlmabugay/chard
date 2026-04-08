@@ -3,7 +3,6 @@
 use App\Application\Portolio\UseCases\TrashPortfolio;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: TrashPortfolioController', function () {
@@ -13,10 +12,9 @@ describe('Feature: TrashPortfolioController', function () {
         it('can soft delete portfolio resource when using /api/v1/portfolios/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/portfolios/%s/trash', $portfolio->id));
+            $response = $this->actingAs($portfolio->user)->delete(sprintf('/api/v1/portfolios/%s/trash', $portfolio->id));
 
             // Assert:
             $this->assertSoftDeleted($portfolio);
@@ -35,10 +33,9 @@ describe('Feature: TrashPortfolioController', function () {
             // Arrange:
             $random_id = 100;
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/portfolios/%s/trash', $random_id));
+            $response = $this->actingAs($portfolio->user)->delete(sprintf('/api/v1/portfolios/%s/trash', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -53,7 +50,6 @@ describe('Feature: TrashPortfolioController', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(TrashPortfolio::class, function (MockInterface $mock) {
@@ -63,7 +59,7 @@ describe('Feature: TrashPortfolioController', function () {
             });
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/portfolios/%s/trash', $random_id));
+            $response = $this->actingAs($user)->delete(sprintf('/api/v1/portfolios/%s/trash', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

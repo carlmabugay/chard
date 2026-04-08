@@ -2,7 +2,6 @@
 
 use App\Application\Dividend\UseCases\StoreDividend;
 use App\Models\Dividend as DividendModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: UpdateDividendController', function () {
@@ -12,7 +11,6 @@ describe('Feature: UpdateDividendController', function () {
         it('can update existing cash flow resource when using /api/v1/dividends PUT api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();
-            Sanctum::actingAs($dividend->portfolio->user);
 
             $payload = [
                 'portfolio_id' => $dividend->portfolio->id,
@@ -23,7 +21,7 @@ describe('Feature: UpdateDividendController', function () {
             ];
 
             // Act:
-            $response = $this->put('/api/v1/dividends', $payload);
+            $response = $this->actingAs($dividend->portfolio->user)->put('/api/v1/dividends', $payload);
 
             // Assert:
             $this->assertDatabaseHas('dividends', $payload);
@@ -44,7 +42,6 @@ describe('Feature: UpdateDividendController', function () {
         it('can handle server error response when using /api/v1/dividends PUT api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();
-            Sanctum::actingAs($dividend->portfolio->user);
 
             $payload = [
                 'portfolio_id' => $dividend->portfolio->id,
@@ -62,7 +59,7 @@ describe('Feature: UpdateDividendController', function () {
             });
 
             // Act:
-            $response = $this->put('/api/v1/dividends', $payload);
+            $response = $this->actingAs($dividend->portfolio->user)->put('/api/v1/dividends', $payload);
 
             // Assert:
             $response->assertInternalServerError()

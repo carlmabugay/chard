@@ -2,7 +2,6 @@
 
 use App\Application\Portolio\UseCases\StorePortfolio;
 use App\Models\Portfolio as PortfolioModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: UpdatePortfolioController', function () {
@@ -12,7 +11,6 @@ describe('Feature: UpdatePortfolioController', function () {
         it('can update existing portfolio resource when using /api/v1/portfolios PUT api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             $payload = [
                 'user_id' => $portfolio->user->id,
@@ -21,7 +19,7 @@ describe('Feature: UpdatePortfolioController', function () {
             ];
 
             // Act:
-            $response = $this->put('/api/v1/portfolios', $payload);
+            $response = $this->actingAs($portfolio->user)->put('/api/v1/portfolios', $payload);
 
             // Assert:
             $this->assertDatabaseHas('portfolios', $payload);
@@ -42,7 +40,6 @@ describe('Feature: UpdatePortfolioController', function () {
         it('can handle server error response when using /api/v1/portfolios PUT api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             $payload = [
                 'user_id' => $portfolio->user->id,
@@ -58,7 +55,7 @@ describe('Feature: UpdatePortfolioController', function () {
             });
 
             // Act:
-            $response = $this->put('/api/v1/portfolios', $payload);
+            $response = $this->actingAs($portfolio->user)->put('/api/v1/portfolios', $payload);
 
             // Assert:
             $response->assertInternalServerError()

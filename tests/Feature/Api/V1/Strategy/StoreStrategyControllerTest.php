@@ -2,7 +2,6 @@
 
 use App\Application\Strategy\UseCases\StoreStrategy;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: StoreStrategyController', function () {
@@ -12,7 +11,6 @@ describe('Feature: StoreStrategyController', function () {
         it('can store new strategy resource when using /api/v1/strategies POST api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             $payload = [
                 'user_id' => $user->id,
@@ -20,7 +18,7 @@ describe('Feature: StoreStrategyController', function () {
             ];
 
             // Act:
-            $response = $this->post('/api/v1/strategies', $payload);
+            $response = $this->actingAs($user)->post('/api/v1/strategies', $payload);
 
             // Assert:
             $response->assertCreated()
@@ -39,7 +37,6 @@ describe('Feature: StoreStrategyController', function () {
         it('can handle server error response when using /api/v1/strategies POST api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             $payload = [
                 'user_id' => $user->id,
@@ -54,7 +51,7 @@ describe('Feature: StoreStrategyController', function () {
             });
 
             // Act:
-            $response = $this->post('/api/v1/strategies', $payload);
+            $response = $this->actingAs($user)->post('/api/v1/strategies', $payload);
 
             // Assert:
             $response->assertInternalServerError()

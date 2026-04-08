@@ -3,7 +3,6 @@
 use App\Application\TradeLog\UseCases\GetTradeLog;
 use App\Models\TradeLog as TradeLogModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: ShowTradeLogController', function () {
@@ -13,10 +12,9 @@ describe('Feature: ShowTradeLogController', function () {
         it('can return a trade log resource when using /api/v1/trade-logs/{id} GET api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
-            Sanctum::actingAs($trade_log->portfolio->user);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/trade-logs/%s', $trade_log->id));
+            $response = $this->actingAs($trade_log->portfolio->user)->get(sprintf('/api/v1/trade-logs/%s', $trade_log->id));
 
             // Assert:
             $response->assertOk()
@@ -49,10 +47,9 @@ describe('Feature: ShowTradeLogController', function () {
             // Arrange:
             $random_id = 100;
             $trade_log = TradeLogModel::factory()->create();
-            Sanctum::actingAs($trade_log->portfolio->user);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/trade-logs/%s', $random_id));
+            $response = $this->actingAs($trade_log->portfolio->user)->get(sprintf('/api/v1/trade-logs/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -67,7 +64,6 @@ describe('Feature: ShowTradeLogController', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(GetTradeLog::class, function (MockInterface $mock) {
@@ -77,7 +73,7 @@ describe('Feature: ShowTradeLogController', function () {
             });
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/trade-logs/%s', $random_id));
+            $response = $this->actingAs($user)->get(sprintf('/api/v1/trade-logs/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

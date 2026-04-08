@@ -3,7 +3,6 @@
 use App\Application\Strategy\UseCases\RestoreStrategy;
 use App\Models\Strategy as StrategyModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: TrashStrategyController', function () {
@@ -13,10 +12,9 @@ describe('Feature: TrashStrategyController', function () {
         it('can restore trashed strategy resource when using /api/v1/strategies/{id} PATCH api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
-            Sanctum::actingAs($strategy->user);
 
             // Act:
-            $response = $this->patch(sprintf('/api/v1/strategies/%s', $strategy->id));
+            $response = $this->actingAs($strategy->user)->patch(sprintf('/api/v1/strategies/%s', $strategy->id));
 
             // Assert:
             $this->assertNotSoftDeleted($strategy);
@@ -35,10 +33,9 @@ describe('Feature: TrashStrategyController', function () {
             // Arrange:
             $random_id = 100;
             $strategy = StrategyModel::factory()->trashed()->create();
-            Sanctum::actingAs($strategy->user);
 
             // Act:
-            $response = $this->patch(sprintf('/api/v1/strategies/%s', $random_id));
+            $response = $this->actingAs($strategy->user)->patch(sprintf('/api/v1/strategies/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -53,7 +50,6 @@ describe('Feature: TrashStrategyController', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(RestoreStrategy::class, function (MockInterface $mock) {
@@ -63,7 +59,7 @@ describe('Feature: TrashStrategyController', function () {
             });
 
             // Act:
-            $response = $this->patch(sprintf('/api/v1/strategies/%s', $random_id));
+            $response = $this->actingAs($user)->patch(sprintf('/api/v1/strategies/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

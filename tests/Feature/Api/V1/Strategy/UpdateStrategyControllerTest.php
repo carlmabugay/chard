@@ -2,7 +2,6 @@
 
 use App\Application\Strategy\UseCases\StoreStrategy;
 use App\Models\Strategy as StrategyModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: UpdateStrategyController', function () {
@@ -12,7 +11,6 @@ describe('Feature: UpdateStrategyController', function () {
         it('can update existing strategy resource when using /api/v1/strategies PUT api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
-            Sanctum::actingAs($strategy->user);
 
             $payload = [
                 'user_id' => $strategy->user->id,
@@ -21,7 +19,7 @@ describe('Feature: UpdateStrategyController', function () {
             ];
 
             // Act:
-            $response = $this->put('/api/v1/strategies', $payload);
+            $response = $this->actingAs($strategy->user)->put('/api/v1/strategies', $payload);
 
             // Assert:
             $this->assertDatabaseHas('strategies', $payload);
@@ -41,7 +39,6 @@ describe('Feature: UpdateStrategyController', function () {
         it('can handle server error response when using /api/v1/strategies PUT api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
-            Sanctum::actingAs($strategy->user);
 
             $payload = [
                 'user_id' => $strategy->user->id,
@@ -57,7 +54,7 @@ describe('Feature: UpdateStrategyController', function () {
             });
 
             // Act:
-            $response = $this->put('/api/v1/strategies', $payload);
+            $response = $this->actingAs($strategy->user)->put('/api/v1/strategies', $payload);
 
             // Assert:
             $response->assertInternalServerError()

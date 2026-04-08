@@ -2,7 +2,6 @@
 
 use App\Application\TradeLog\UseCases\StoreTradeLog;
 use App\Models\TradeLog as TradeLogModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: UpdateTradeLogController', function () {
@@ -12,7 +11,6 @@ describe('Feature: UpdateTradeLogController', function () {
         it('can update existing trade log resource when using /api/v1/trade-logs PUT api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
-            Sanctum::actingAs($trade_log->portfolio->user);
 
             $payload = [
                 'portfolio_id' => $trade_log->portfolio->id,
@@ -24,7 +22,7 @@ describe('Feature: UpdateTradeLogController', function () {
             ];
 
             // Act:
-            $response = $this->put('/api/v1/trade-logs', $payload);
+            $response = $this->actingAs($trade_log->portfolio->user)->put('/api/v1/trade-logs', $payload);
 
             // Assert:
             $this->assertDatabaseHas('trade_logs', $payload);
@@ -45,7 +43,6 @@ describe('Feature: UpdateTradeLogController', function () {
         it('can handle server error response when using /api/v1/trade-logs PUT api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
-            Sanctum::actingAs($trade_log->portfolio->user);
 
             $payload = [
                 'portfolio_id' => $trade_log->portfolio->id,
@@ -64,7 +61,7 @@ describe('Feature: UpdateTradeLogController', function () {
             });
 
             // Act:
-            $response = $this->put('/api/v1/trade-logs', $payload);
+            $response = $this->actingAs($trade_log->portfolio->user)->put('/api/v1/trade-logs', $payload);
 
             // Assert:
             $response->assertInternalServerError()

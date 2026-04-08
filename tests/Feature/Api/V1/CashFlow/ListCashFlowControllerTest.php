@@ -5,7 +5,6 @@ use App\Enums\CashFlowType;
 use App\Models\CashFlow as CashFlowModel;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: ListCashFlowController', function () {
@@ -16,12 +15,11 @@ describe('Feature: ListCashFlowController', function () {
             // Arrange:
             $no_of_cash_flows = 50;
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             CashFlowModel::factory($no_of_cash_flows)->for($portfolio)->create();
 
             // Act:
-            $response = $this->get('/api/v1/cash-flows');
+            $response = $this->actingAs($portfolio->user)->get('/api/v1/cash-flows');
 
             // Assert:
             $response->assertOk()
@@ -35,7 +33,6 @@ describe('Feature: ListCashFlowController', function () {
             // Arrange:
             $no_of_cash_flows = 50;
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             CashFlowModel::factory($no_of_cash_flows)->for($portfolio)->create();
 
@@ -48,7 +45,7 @@ describe('Feature: ListCashFlowController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/cash-flows?%s', $query));
+            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/cash-flows?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -60,7 +57,6 @@ describe('Feature: ListCashFlowController', function () {
         it('can filter cash flows by type when using /api/v1/cash-flows GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             CashFlowModel::factory()->for($portfolio)->create(['type' => CashFlowType::DEPOSIT]);
             CashFlowModel::factory()->for($portfolio)->create(['type' => CashFlowType::WITHDRAW]);
@@ -72,7 +68,7 @@ describe('Feature: ListCashFlowController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/cash-flows?%s', $query));
+            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/cash-flows?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -83,7 +79,6 @@ describe('Feature: ListCashFlowController', function () {
         it('can sort cash flows by amount descending when using /api/v1/cash-flows GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             CashFlowModel::factory()->for($portfolio)->create(['amount' => 300]);
             CashFlowModel::factory()->for($portfolio)->create(['amount' => 100]);
@@ -96,7 +91,7 @@ describe('Feature: ListCashFlowController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/cash-flows?%s', $query));
+            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/cash-flows?%s', $query));
 
             $data = $response->json('data');
 
@@ -109,7 +104,6 @@ describe('Feature: ListCashFlowController', function () {
         it('can search cash flows by amount when using /api/v1/cash-flows GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             $amount_to_search = 3000;
             CashFlowModel::factory()->for($portfolio)->create(['amount' => 5000]);
@@ -121,7 +115,7 @@ describe('Feature: ListCashFlowController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/cash-flows?%s', $query));
+            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/cash-flows?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -132,7 +126,6 @@ describe('Feature: ListCashFlowController', function () {
         it('can apply search, filter, sort, and pagination together when using /api/v1/cash-flows GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             $amount_to_search = 100;
 
@@ -154,7 +147,7 @@ describe('Feature: ListCashFlowController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/cash-flows?%s', $query));
+            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/cash-flows?%s', $query));
 
             // Assert
             $response->assertOk()
@@ -167,11 +160,10 @@ describe('Feature: ListCashFlowController', function () {
         it('can return empty data and 0 total record when no records found upon using /api/v1/cash-flows GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Act:
 
-            $response = $this->get('/api/v1/cash-flows');
+            $response = $this->actingAs($user)->get('/api/v1/cash-flows');
 
             // Assert:
             $response->assertOk()
@@ -187,7 +179,6 @@ describe('Feature: ListCashFlowController', function () {
         it('can handle server error response when using /api/v1/cash-flows GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(ListCashFlows::class, function (MockInterface $mock) {
@@ -197,7 +188,7 @@ describe('Feature: ListCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->get('/api/v1/cash-flows');
+            $response = $this->actingAs($user)->get('/api/v1/cash-flows');
 
             // Assert:
             $response->assertInternalServerError()

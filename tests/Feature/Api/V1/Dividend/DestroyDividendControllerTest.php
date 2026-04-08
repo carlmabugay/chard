@@ -3,7 +3,6 @@
 use App\Application\Dividend\UseCases\DeleteDividend;
 use App\Models\Dividend as DividendModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: DestroyDividendController', function () {
@@ -13,10 +12,9 @@ describe('Feature: DestroyDividendController', function () {
         it('can hard delete dividend resource when using /api/v1/dividends/{id}/destroy DELETE api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();
-            Sanctum::actingAs($dividend->portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/dividends/%s/destroy', $dividend->id));
+            $response = $this->actingAs($dividend->portfolio->user)->delete(sprintf('/api/v1/dividends/%s/destroy', $dividend->id));
 
             // Assert:
             $this->assertModelMissing($dividend);
@@ -35,10 +33,9 @@ describe('Feature: DestroyDividendController', function () {
             // Arrange:
             $random_id = 100;
             $dividend = DividendModel::factory()->create();
-            Sanctum::actingAs($dividend->portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/dividends/%s/destroy', $random_id));
+            $response = $this->actingAs($dividend->portfolio->user)->delete(sprintf('/api/v1/dividends/%s/destroy', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -53,7 +50,6 @@ describe('Feature: DestroyDividendController', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(DeleteDividend::class, function (MockInterface $mock) {
@@ -63,7 +59,7 @@ describe('Feature: DestroyDividendController', function () {
             });
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/dividends/%s/destroy', $random_id));
+            $response = $this->actingAs($user)->delete(sprintf('/api/v1/dividends/%s/destroy', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

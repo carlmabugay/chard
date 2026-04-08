@@ -3,7 +3,6 @@
 use App\Application\CashFlow\UserCases\RestoreCashFlow;
 use App\Models\CashFlow as CashFlowModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: RestoreCashFlowController', function () {
@@ -13,10 +12,9 @@ describe('Feature: RestoreCashFlowController', function () {
         it('can restore trashed cash flow resource when using /api/v1/cash-flows PATCH api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
-            Sanctum::actingAs($cash_flow->portfolio->user);
 
             // Act:
-            $response = $this->patch(sprintf('/api/v1/cash-flows/%s', $cash_flow->id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->patch(sprintf('/api/v1/cash-flows/%s', $cash_flow->id));
 
             // Assert:
             $this->assertNotSoftDeleted($cash_flow);
@@ -35,10 +33,9 @@ describe('Feature: RestoreCashFlowController', function () {
             // Arrange:
             $random_id = 100;
             $cash_flow = CashFlowModel::factory()->create();
-            Sanctum::actingAs($cash_flow->portfolio->user);
 
             // Act:
-            $response = $this->patch(sprintf('/api/v1/cash-flows/%s', $random_id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->patch(sprintf('/api/v1/cash-flows/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -53,7 +50,6 @@ describe('Feature: RestoreCashFlowController', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(RestoreCashFlow::class, function (MockInterface $mock) {
@@ -63,7 +59,7 @@ describe('Feature: RestoreCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->patch(sprintf('/api/v1/cash-flows/%s', $random_id));
+            $response = $this->actingAs($user)->patch(sprintf('/api/v1/cash-flows/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

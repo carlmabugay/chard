@@ -3,7 +3,6 @@
 use App\Application\Dividend\UseCases\GetDividend;
 use App\Models\Dividend as DividendModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: ShowDividendController', function () {
@@ -13,10 +12,9 @@ describe('Feature: ShowDividendController', function () {
         it('can return a dividend resource when using /api/v1/dividends/{id} GET api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();
-            Sanctum::actingAs($dividend->portfolio->user);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/dividends/%s', $dividend->id));
+            $response = $this->actingAs($dividend->portfolio->user)->get(sprintf('/api/v1/dividends/%s', $dividend->id));
 
             // Assert:
             $response->assertOk()
@@ -45,10 +43,9 @@ describe('Feature: ShowDividendController', function () {
             // Arrange:
             $random_id = 100;
             $dividend = DividendModel::factory()->create();
-            Sanctum::actingAs($dividend->portfolio->user);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/dividends/%s', $random_id));
+            $response = $this->actingAs($dividend->portfolio->user)->get(sprintf('/api/v1/dividends/%s', $random_id));
 
             // Assert
             $response->assertNotFound()
@@ -63,7 +60,6 @@ describe('Feature: ShowDividendController', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(GetDividend::class, function (MockInterface $mock) {
@@ -73,7 +69,7 @@ describe('Feature: ShowDividendController', function () {
             });
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/dividends/%s', $random_id));
+            $response = $this->actingAs($user)->get(sprintf('/api/v1/dividends/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

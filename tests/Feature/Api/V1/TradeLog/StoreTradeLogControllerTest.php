@@ -2,7 +2,6 @@
 
 use App\Application\TradeLog\UseCases\StoreTradeLog;
 use App\Models\Portfolio as PortfolioModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: StoreTradeLogController', function () {
@@ -12,7 +11,6 @@ describe('Feature: StoreTradeLogController', function () {
         it('can store new trade log resource when using /api/v1/trade-logs POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             $payload = [
                 'portfolio_id' => $portfolio->id,
@@ -24,7 +22,7 @@ describe('Feature: StoreTradeLogController', function () {
             ];
 
             // Act:
-            $response = $this->post('/api/v1/trade-logs', $payload);
+            $response = $this->actingAs($portfolio->user)->post('/api/v1/trade-logs', $payload);
 
             // Assert:
             $response->assertCreated()
@@ -50,7 +48,6 @@ describe('Feature: StoreTradeLogController', function () {
         it('can handle server error response when using /api/v1/trade-logs POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             $payload = [
                 'portfolio_id' => $portfolio->id,
@@ -69,7 +66,7 @@ describe('Feature: StoreTradeLogController', function () {
             });
 
             // Act:
-            $response = $this->post('/api/v1/trade-logs', $payload);
+            $response = $this->actingAs($portfolio->user)->post('/api/v1/trade-logs', $payload);
 
             // Assert:
             $response->assertInternalServerError()

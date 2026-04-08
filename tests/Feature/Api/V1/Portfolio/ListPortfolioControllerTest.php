@@ -3,7 +3,6 @@
 use App\Application\Portolio\UseCases\ListPortfolios;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: ListPortfolioController', function () {
@@ -14,12 +13,11 @@ describe('Feature: ListPortfolioController', function () {
             // Arrange:
             $no_of_portfolios = 5;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             PortfolioModel::factory($no_of_portfolios)->for($user)->create();
 
             // Act:
-            $response = $this->get('/api/v1/portfolios');
+            $response = $this->actingAs($user)->get('/api/v1/portfolios');
 
             // Assert:
             $response->assertOk()
@@ -32,7 +30,6 @@ describe('Feature: ListPortfolioController', function () {
             // Arrange:
             $no_of_portfolios = 50;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             PortfolioModel::factory($no_of_portfolios)->for($user)->create();
 
@@ -45,7 +42,7 @@ describe('Feature: ListPortfolioController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/portfolios?%s', $query));
+            $response = $this->actingAs($user)->get(sprintf('/api/v1/portfolios?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -58,7 +55,6 @@ describe('Feature: ListPortfolioController', function () {
         it('can sort portfolios by created_at ascending when using /api/v1/portfolios GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             PortfolioModel::factory()->for($user)->create(['created_at' => now()]);
             PortfolioModel::factory()->for($user)->create(['created_at' => now()->subDays(10)]);
@@ -71,7 +67,7 @@ describe('Feature: ListPortfolioController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/portfolios?%s', $query));
+            $response = $this->actingAs($user)->get(sprintf('/api/v1/portfolios?%s', $query));
 
             $data = $response->json('data');
 
@@ -83,7 +79,6 @@ describe('Feature: ListPortfolioController', function () {
         it('can search portfolios by name when using /api/v1/portfolios GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             PortfolioModel::factory()->for($user)->create(['name' => 'Philippine Stock Market']);
             PortfolioModel::factory()->for($user)->create(['name' => 'Forex - London Session']);
@@ -93,7 +88,7 @@ describe('Feature: ListPortfolioController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/portfolios?%s', $query));
+            $response = $this->actingAs($user)->get(sprintf('/api/v1/portfolios?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -104,7 +99,6 @@ describe('Feature: ListPortfolioController', function () {
         it('can apply search, sort, and pagination together when using /api/v1/portfolios GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             PortfolioModel::factory()->for($user)->create([
                 'name' => 'Philippine Stock Market',
@@ -131,7 +125,7 @@ describe('Feature: ListPortfolioController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/portfolios?%s', $query));
+            $response = $this->actingAs($user)->get(sprintf('/api/v1/portfolios?%s', $query));
 
             // Assert
             $response->assertOk()
@@ -142,10 +136,9 @@ describe('Feature: ListPortfolioController', function () {
         it('can return empty data and 0 total record when no records found upon using /api/v1/portfolios GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Act:
-            $response = $this->get('/api/v1/portfolios');
+            $response = $this->actingAs($user)->get('/api/v1/portfolios');
 
             // Assert:
             $response->assertOk()
@@ -161,7 +154,6 @@ describe('Feature: ListPortfolioController', function () {
         it('can handle server error response when using /api/v1/portfolios GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(ListPortfolios::class, function (MockInterface $mock) {
@@ -171,7 +163,7 @@ describe('Feature: ListPortfolioController', function () {
             });
 
             // Act:
-            $response = $this->get('/api/v1/portfolios');
+            $response = $this->actingAs($user)->get('/api/v1/portfolios');
 
             // Assert:
             $response->assertInternalServerError()

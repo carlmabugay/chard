@@ -3,7 +3,6 @@
 use App\Application\CashFlow\UserCases\DeleteCashFlow;
 use App\Models\CashFlow as CashFlowModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: DestroyCashFlowController', function () {
@@ -13,10 +12,9 @@ describe('Feature: DestroyCashFlowController', function () {
         it('can hard delete a cash flow resource when using /api/v1/cash-flows/{id}/destroy DELETE api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
-            Sanctum::actingAs($cash_flow->portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/cash-flows/%s/destroy', $cash_flow->id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->delete(sprintf('/api/v1/cash-flows/%s/destroy', $cash_flow->id));
 
             // Assert:
             $this->assertModelMissing($cash_flow);
@@ -35,10 +33,9 @@ describe('Feature: DestroyCashFlowController', function () {
             // Arrange:
             $random_id = 100;
             $cash_flow = CashFlowModel::factory()->create();
-            Sanctum::actingAs($cash_flow->portfolio->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/cash-flows/%s/destroy', $random_id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->delete(sprintf('/api/v1/cash-flows/%s/destroy', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -53,7 +50,6 @@ describe('Feature: DestroyCashFlowController', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(DeleteCashFlow::class, function (MockInterface $mock) {
@@ -63,7 +59,7 @@ describe('Feature: DestroyCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/cash-flows/%s/destroy', $random_id));
+            $response = $this->actingAs($user)->delete(sprintf('/api/v1/cash-flows/%s/destroy', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

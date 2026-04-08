@@ -3,7 +3,6 @@
 use App\Application\CashFlow\UserCases\StoreCashFlow;
 use App\Enums\CashFlowType;
 use App\Models\Portfolio as PortfolioModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: StoreCashFlowController', function () {
@@ -13,7 +12,6 @@ describe('Feature: StoreCashFlowController', function () {
         it('can store new cash flow resource when using /api/v1/cash-flows POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             $payload = [
                 'portfolio_id' => $portfolio->id,
@@ -22,7 +20,7 @@ describe('Feature: StoreCashFlowController', function () {
             ];
 
             // Act:
-            $response = $this->post('/api/v1/cash-flows', $payload);
+            $response = $this->actingAs($portfolio->user)->post('/api/v1/cash-flows', $payload);
 
             // Assert:
             $response->assertCreated()
@@ -45,7 +43,6 @@ describe('Feature: StoreCashFlowController', function () {
         it('can handle server error response when using /api/v1/cash-flows POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             $payload = [
                 'portfolio_id' => $portfolio->id,
@@ -61,7 +58,7 @@ describe('Feature: StoreCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->post('/api/v1/cash-flows', $payload);
+            $response = $this->actingAs($portfolio->user)->post('/api/v1/cash-flows', $payload);
 
             // Assert:
             $response->assertInternalServerError()

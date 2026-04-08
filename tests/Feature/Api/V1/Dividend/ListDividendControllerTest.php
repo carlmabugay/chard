@@ -4,7 +4,6 @@ use App\Application\Dividend\UseCases\ListDividends;
 use App\Models\Dividend as DividendModel;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: ListDividendController', function () {
@@ -15,12 +14,11 @@ describe('Feature: ListDividendController', function () {
             // Arrange:
             $no_of_dividends = 50;
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             DividendModel::factory($no_of_dividends)->for($portfolio)->create();
 
             // Act:
-            $response = $this->get('/api/v1/dividends');
+            $response = $this->actingAs($portfolio->user)->get('/api/v1/dividends');
 
             // Assert:
             $response->assertOk()
@@ -34,7 +32,6 @@ describe('Feature: ListDividendController', function () {
             // Arrange:
             $no_of_dividends = 50;
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             DividendModel::factory($no_of_dividends)->for($portfolio)->create();
 
@@ -47,7 +44,7 @@ describe('Feature: ListDividendController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/dividends?%s', $query));
+            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/dividends?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -59,7 +56,6 @@ describe('Feature: ListDividendController', function () {
         it('can sort dividends by amount descending when using /api/v1/dividends GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             DividendModel::factory()->for($portfolio)->create(['amount' => 4000]);
             DividendModel::factory()->for($portfolio)->create(['amount' => 2500]);
@@ -72,7 +68,7 @@ describe('Feature: ListDividendController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/dividends?%s', $query));
+            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/dividends?%s', $query));
 
             $data = $response->json('data');
 
@@ -85,7 +81,6 @@ describe('Feature: ListDividendController', function () {
         it('can search dividends by symbol when using /api/v1/dividends GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             $symbol_to_search = 'BPI';
             DividendModel::factory()->for($portfolio)->create(['symbol' => 'JFC']);
@@ -97,7 +92,7 @@ describe('Feature: ListDividendController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/dividends?%s', $query));
+            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/dividends?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -108,7 +103,6 @@ describe('Feature: ListDividendController', function () {
         it('can apply search, sort, and pagination together when using /api/v1/dividends GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             DividendModel::factory()->for($portfolio)->create(['symbol' => 'JFC', 'amount' => 4000]);
             DividendModel::factory()->for($portfolio)->create(['symbol' => 'AC', 'amount' => 2500]);
@@ -124,7 +118,7 @@ describe('Feature: ListDividendController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/dividends?%s', $query));
+            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/dividends?%s', $query));
 
             // Assert
             $response->assertOk()
@@ -140,7 +134,6 @@ describe('Feature: ListDividendController', function () {
         it('can handle server error response when using /api/v1/dividends GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(ListDividends::class, function (MockInterface $mock) {
@@ -150,7 +143,7 @@ describe('Feature: ListDividendController', function () {
             });
 
             // Act:
-            $response = $this->get('/api/v1/dividends');
+            $response = $this->actingAs($user)->get('/api/v1/dividends');
 
             // Assert:
             $response->assertInternalServerError()

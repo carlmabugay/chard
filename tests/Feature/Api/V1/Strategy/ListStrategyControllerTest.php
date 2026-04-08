@@ -3,7 +3,6 @@
 use App\Application\Strategy\UseCases\ListStrategies;
 use App\Models\Strategy as StrategyModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: ListStrategyController', function () {
@@ -14,12 +13,11 @@ describe('Feature: ListStrategyController', function () {
             // Arrange:
             $no_of_strategies = 5;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             StrategyModel::factory($no_of_strategies)->for($user)->create();
 
             // Act:
-            $response = $this->get('/api/v1/strategies');
+            $response = $this->actingAs($user)->get('/api/v1/strategies');
 
             // Assert:
             $response->assertOk()
@@ -31,7 +29,6 @@ describe('Feature: ListStrategyController', function () {
             // Arrange:
             $no_of_strategies = 50;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             StrategyModel::factory($no_of_strategies)->for($user)->create();
 
@@ -44,7 +41,7 @@ describe('Feature: ListStrategyController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/strategies?%s', $query));
+            $response = $this->actingAs($user)->get(sprintf('/api/v1/strategies?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -56,7 +53,6 @@ describe('Feature: ListStrategyController', function () {
         it('can sort strategies by created_at ascending when using /api/v1/strategies GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             StrategyModel::factory()->for($user)->create(['created_at' => now()]);
             StrategyModel::factory()->for($user)->create(['created_at' => now()->subDays(10)]);
@@ -69,7 +65,7 @@ describe('Feature: ListStrategyController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/strategies?%s', $query));
+            $response = $this->actingAs($user)->get(sprintf('/api/v1/strategies?%s', $query));
 
             $data = $response->json('data');
 
@@ -80,7 +76,6 @@ describe('Feature: ListStrategyController', function () {
         it('can search strategies by name when using /api/v1/strategies GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             StrategyModel::factory()->for($user)->create(['name' => 'Momentum Strategy']);
             StrategyModel::factory()->for($user)->create(['name' => 'Mean Reversion']);
@@ -90,7 +85,7 @@ describe('Feature: ListStrategyController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/strategies?%s', $query));
+            $response = $this->actingAs($user)->get(sprintf('/api/v1/strategies?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -101,7 +96,6 @@ describe('Feature: ListStrategyController', function () {
         it('can apply search, sort, and pagination together when using /api/v1/strategies GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             StrategyModel::factory()->for($user)->create([
                 'name' => 'Momentum Strategy',
@@ -128,7 +122,7 @@ describe('Feature: ListStrategyController', function () {
             ]);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/strategies?%s', $query));
+            $response = $this->actingAs($user)->get(sprintf('/api/v1/strategies?%s', $query));
 
             // Assert
             $response->assertOk()
@@ -139,10 +133,9 @@ describe('Feature: ListStrategyController', function () {
         it('can return empty data and 0 total record when no records found upon using /api/v1/strategies GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Act:
-            $response = $this->get('/api/v1/strategies');
+            $response = $this->actingAs($user)->get('/api/v1/strategies');
 
             // Assert:
             $response->assertOk()
@@ -155,7 +148,6 @@ describe('Feature: ListStrategyController', function () {
         it('can handle server error response when using /api/v1/strategies GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(ListStrategies::class, function (MockInterface $mock) {
@@ -165,7 +157,7 @@ describe('Feature: ListStrategyController', function () {
             });
 
             // Act:
-            $response = $this->get('/api/v1/strategies');
+            $response = $this->actingAs($user)->get('/api/v1/strategies');
 
             // Assert:
             $response->assertInternalServerError()

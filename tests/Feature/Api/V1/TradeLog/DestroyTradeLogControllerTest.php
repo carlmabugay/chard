@@ -3,7 +3,6 @@
 use App\Application\TradeLog\UseCases\DeleteTradeLog;
 use App\Models\TradeLog as TradeLogModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: DestroyTradeLogController', function () {
@@ -14,10 +13,9 @@ describe('Feature: DestroyTradeLogController', function () {
             function () {
                 // Arrange:
                 $trade_log = TradeLogModel::factory()->create();
-                Sanctum::actingAs($trade_log->portfolio->user);
 
                 // Act:
-                $response = $this->delete(sprintf('/api/v1/trade-logs/%s/destroy', $trade_log->id));
+                $response = $this->actingAs($trade_log->portfolio->user)->delete(sprintf('/api/v1/trade-logs/%s/destroy', $trade_log->id));
 
                 // Assert:
                 $this->assertModelMissing($trade_log);
@@ -37,10 +35,9 @@ describe('Feature: DestroyTradeLogController', function () {
                 // Arrange:
                 $random_id = 100;
                 $trade_log = TradeLogModel::factory()->create();
-                Sanctum::actingAs($trade_log->portfolio->user);
 
                 // Act:
-                $response = $this->delete(sprintf('/api/v1/trade-logs/%s/destroy', $random_id));
+                $response = $this->actingAs($trade_log->portfolio->user)->delete(sprintf('/api/v1/trade-logs/%s/destroy', $random_id));
 
                 // Assert:
                 $response->assertNotFound()
@@ -56,7 +53,6 @@ describe('Feature: DestroyTradeLogController', function () {
                 // Arrange:
                 $random_id = 100;
                 $user = UserModel::factory()->create();
-                Sanctum::actingAs($user);
 
                 // Expectation:
                 $this->mock(DeleteTradeLog::class, function (MockInterface $mock) {
@@ -66,7 +62,7 @@ describe('Feature: DestroyTradeLogController', function () {
                 });
 
                 // Act:
-                $response = $this->delete(sprintf('/api/v1/trade-logs/%s/destroy', $random_id));
+                $response = $this->actingAs($user)->delete(sprintf('/api/v1/trade-logs/%s/destroy', $random_id));
 
                 // Assert:
                 $response->assertInternalServerError()

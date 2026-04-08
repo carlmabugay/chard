@@ -3,7 +3,6 @@
 use App\Application\Portolio\UseCases\GetPortfolio;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: ShowPortfolioController', function () {
@@ -13,10 +12,9 @@ describe('Feature: ShowPortfolioController', function () {
         it('can return a portfolio resource when using /api/v1/portfolios/{id} GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/portfolios/%s', $portfolio->id));
+            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/portfolios/%s', $portfolio->id));
 
             // Assert:
             $response->assertOk()
@@ -39,10 +37,9 @@ describe('Feature: ShowPortfolioController', function () {
             // Arrange:
             $random_id = 100;
             $portfolio = PortfolioModel::factory()->create();
-            Sanctum::actingAs($portfolio->user);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/portfolios/%s', $random_id));
+            $response = $this->actingAs($portfolio->user)->get(sprintf('/api/v1/portfolios/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -57,7 +54,6 @@ describe('Feature: ShowPortfolioController', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(GetPortfolio::class, function (MockInterface $mock) {
@@ -67,7 +63,7 @@ describe('Feature: ShowPortfolioController', function () {
             });
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/portfolios/%s', $random_id));
+            $response = $this->actingAs($user)->get(sprintf('/api/v1/portfolios/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

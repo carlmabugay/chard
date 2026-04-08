@@ -3,7 +3,6 @@
 use App\Application\CashFlow\UserCases\GetCashFlow;
 use App\Models\CashFlow as CashFlowModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: ShowCashFlowController', function () {
@@ -13,10 +12,9 @@ describe('Feature: ShowCashFlowController', function () {
         it('can return a cash flow resource when using /api/v1/cash-flows/{id} GET api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
-            Sanctum::actingAs($cash_flow->portfolio->user);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/cash-flows/%s', $cash_flow->id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->get(sprintf('/api/v1/cash-flows/%s', $cash_flow->id));
 
             // Assert:
             $response->assertOk()
@@ -46,10 +44,9 @@ describe('Feature: ShowCashFlowController', function () {
             // Arrange:
             $random_id = 100;
             $cash_flow = CashFlowModel::factory()->create();
-            Sanctum::actingAs($cash_flow->portfolio->user);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/cash-flows/%s', $random_id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->get(sprintf('/api/v1/cash-flows/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -64,7 +61,6 @@ describe('Feature: ShowCashFlowController', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(GetCashFlow::class, function (MockInterface $mock) {
@@ -74,7 +70,7 @@ describe('Feature: ShowCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/cash-flows/%s', $random_id));
+            $response = $this->actingAs($user)->get(sprintf('/api/v1/cash-flows/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

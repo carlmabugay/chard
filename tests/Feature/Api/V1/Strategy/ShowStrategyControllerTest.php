@@ -3,7 +3,6 @@
 use App\Application\Strategy\UseCases\GetStrategy;
 use App\Models\Strategy as StrategyModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: ShowStrategyController', function () {
@@ -13,10 +12,9 @@ describe('Feature: ShowStrategyController', function () {
         it('can return a strategy resource when using /api/v1/strategies/{id} GET api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
-            Sanctum::actingAs($strategy->user);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/strategies/%s', $strategy->id));
+            $response = $this->actingAs($strategy->user)->get(sprintf('/api/v1/strategies/%s', $strategy->id));
 
             // Assert:
             $response->assertOk()
@@ -39,10 +37,9 @@ describe('Feature: ShowStrategyController', function () {
             // Arrange:
             $random_id = 100;
             $strategy = StrategyModel::factory()->create();
-            Sanctum::actingAs($strategy->user);
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/strategies/%s', $random_id));
+            $response = $this->actingAs($strategy->user)->get(sprintf('/api/v1/strategies/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -57,7 +54,6 @@ describe('Feature: ShowStrategyController', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(GetStrategy::class, function (MockInterface $mock) {
@@ -67,7 +63,7 @@ describe('Feature: ShowStrategyController', function () {
             });
 
             // Act:
-            $response = $this->get(sprintf('/api/v1/strategies/%s', $random_id));
+            $response = $this->actingAs($user)->get(sprintf('/api/v1/strategies/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

@@ -3,7 +3,6 @@
 use App\Application\Strategy\UseCases\TrashStrategy;
 use App\Models\Strategy as StrategyModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: TrashStrategyController', function () {
@@ -13,10 +12,9 @@ describe('Feature: TrashStrategyController', function () {
         it('can soft delete a strategy resource when using /api/v1/strategies/{id}/trash DELETE api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
-            Sanctum::actingAs($strategy->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/strategies/%s/trash', $strategy->id));
+            $response = $this->actingAs($strategy->user)->delete(sprintf('/api/v1/strategies/%s/trash', $strategy->id));
 
             // Assert:
             $this->assertSoftDeleted($strategy);
@@ -36,8 +34,7 @@ describe('Feature: TrashStrategyController', function () {
             $strategy = StrategyModel::factory()->create();
 
             // Act:
-            Sanctum::actingAs($strategy->user);
-            $response = $this->delete(sprintf('/api/v1/strategies/%s/trash', $random_id));
+            $response = $this->actingAs($strategy->user)->delete(sprintf('/api/v1/strategies/%s/trash', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -52,7 +49,6 @@ describe('Feature: TrashStrategyController', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(TrashStrategy::class, function (MockInterface $mock) {
@@ -62,7 +58,7 @@ describe('Feature: TrashStrategyController', function () {
             });
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/strategies/%s/trash', $random_id));
+            $response = $this->actingAs($user)->delete(sprintf('/api/v1/strategies/%s/trash', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

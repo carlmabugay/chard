@@ -3,7 +3,6 @@
 use App\Application\Strategy\UseCases\DeleteStrategy;
 use App\Models\Strategy as StrategyModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: DestroyStrategyController', function () {
@@ -13,10 +12,9 @@ describe('Feature: DestroyStrategyController', function () {
         it('can hard delete a strategy resource when using /api/v1/strategies/{id}/destroy DELETE api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
-            Sanctum::actingAs($strategy->user);
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/strategies/%s/destroy', $strategy->id));
+            $response = $this->actingAs($strategy->user)->delete(sprintf('/api/v1/strategies/%s/destroy', $strategy->id));
 
             // Assert:
             $this->assertModelMissing($strategy);
@@ -37,8 +35,7 @@ describe('Feature: DestroyStrategyController', function () {
             $strategy = StrategyModel::factory()->create();
 
             // Act:
-            Sanctum::actingAs($strategy->user);
-            $response = $this->delete(sprintf('/api/v1/strategies/%s/destroy', $random_id));
+            $response = $this->actingAs($strategy->user)->delete(sprintf('/api/v1/strategies/%s/destroy', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -53,7 +50,6 @@ describe('Feature: DestroyStrategyController', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(DeleteStrategy::class, function (MockInterface $mock) {
@@ -63,7 +59,7 @@ describe('Feature: DestroyStrategyController', function () {
             });
 
             // Act:
-            $response = $this->delete(sprintf('/api/v1/strategies/%s/destroy', $random_id));
+            $response = $this->actingAs($user)->delete(sprintf('/api/v1/strategies/%s/destroy', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

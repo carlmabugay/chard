@@ -3,7 +3,6 @@
 use App\Application\Dividend\UseCases\RestoreDividend;
 use App\Models\Dividend as DividendModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: RestoreDividendController', function () {
@@ -13,10 +12,9 @@ describe('Feature: RestoreDividendController', function () {
         it('can restore trashed dividend resource when using /api/v1/dividends PATCH api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->trashed()->create();
-            Sanctum::actingAs($dividend->portfolio->user);
 
             // Act:
-            $response = $this->patch(sprintf('/api/v1/dividends/%s', $dividend->id));
+            $response = $this->actingAs($dividend->portfolio->user)->patch(sprintf('/api/v1/dividends/%s', $dividend->id));
 
             // Assert:
             $this->assertNotSoftDeleted($dividend);
@@ -35,10 +33,9 @@ describe('Feature: RestoreDividendController', function () {
             // Arrange:
             $random_id = 100;
             $dividend = DividendModel::factory()->trashed()->create();
-            Sanctum::actingAs($dividend->portfolio->user);
 
             // Act:
-            $response = $this->patch(sprintf('/api/v1/dividends/%s', $random_id));
+            $response = $this->actingAs($dividend->portfolio->user)->patch(sprintf('/api/v1/dividends/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -53,7 +50,6 @@ describe('Feature: RestoreDividendController', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(RestoreDividend::class, function (MockInterface $mock) {
@@ -63,7 +59,7 @@ describe('Feature: RestoreDividendController', function () {
             });
 
             // Act:
-            $response = $this->patch(sprintf('/api/v1/dividends/%s', $random_id));
+            $response = $this->actingAs($user)->patch(sprintf('/api/v1/dividends/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()

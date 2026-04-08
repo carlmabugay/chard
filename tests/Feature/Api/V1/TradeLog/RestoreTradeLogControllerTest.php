@@ -3,7 +3,6 @@
 use App\Application\TradeLog\UseCases\RestoreTradeLog;
 use App\Models\TradeLog as TradeLogModel;
 use App\Models\User as UserModel;
-use Laravel\Sanctum\Sanctum;
 use Mockery\MockInterface;
 
 describe('Feature: RestoreTradeLogController', function () {
@@ -13,10 +12,9 @@ describe('Feature: RestoreTradeLogController', function () {
         it('can restore trashed trade log resource when using /api/v1/trade-logs PATCH api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
-            Sanctum::actingAs($trade_log->portfolio->user);
 
             // Act:
-            $response = $this->patch(sprintf('/api/v1/trade-logs/%s', $trade_log->id));
+            $response = $this->actingAs($trade_log->portfolio->user)->patch(sprintf('/api/v1/trade-logs/%s', $trade_log->id));
 
             // Assert:
             $this->assertNotSoftDeleted($trade_log);
@@ -35,10 +33,9 @@ describe('Feature: RestoreTradeLogController', function () {
             // Arrange:
             $random_id = 100;
             $trade_log = TradeLogModel::factory()->create();
-            Sanctum::actingAs($trade_log->portfolio->user);
 
             // Act:
-            $response = $this->patch(sprintf('/api/v1/trade-logs/%s', $random_id));
+            $response = $this->actingAs($trade_log->portfolio->user)->patch(sprintf('/api/v1/trade-logs/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
@@ -53,7 +50,6 @@ describe('Feature: RestoreTradeLogController', function () {
             // Arrange:
             $random_id = 100;
             $user = UserModel::factory()->create();
-            Sanctum::actingAs($user);
 
             // Expectation:
             $this->mock(RestoreTradeLog::class, function (MockInterface $mock) {
@@ -63,7 +59,7 @@ describe('Feature: RestoreTradeLogController', function () {
             });
 
             // Act:
-            $response = $this->patch(sprintf('/api/v1/trade-logs/%s', $random_id));
+            $response = $this->actingAs($user)->patch(sprintf('/api/v1/trade-logs/%s', $random_id));
 
             // Assert:
             $response->assertInternalServerError()
