@@ -3,6 +3,7 @@
 namespace App\Application\TradeLog\UseCases;
 
 use App\Domain\TradeLog\Services\TradeLogService;
+use App\Models\TradeLog as TradeLogModel;
 
 class RestoreTradeLog
 {
@@ -10,8 +11,8 @@ class RestoreTradeLog
         protected readonly TradeLogService $service,
     ) {}
 
-    public function handle(int $id): ?bool
+    public function handle(TradeLogModel $trade_log): ?bool
     {
-        return $this->service->restore($id);
+        return $this->service->restore($trade_log);
     }
 }

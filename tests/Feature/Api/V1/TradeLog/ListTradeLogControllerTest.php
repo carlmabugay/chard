@@ -10,7 +10,7 @@ describe('Feature: ListTradeLogController', function () {
 
     describe('Positives', function () {
 
-        it('can return collection of trade logs resource when using /api/v1/trade-logs GET api endpoint.', function () {
+        it('can return collection of trade logs resource when using /api/v1/trade_logs GET api endpoint.', function () {
             // Arrange:
             $no_of_trade_logs = 15;
             $portfolio = PortfolioModel::factory()->create();
@@ -18,7 +18,7 @@ describe('Feature: ListTradeLogController', function () {
             TradeLogModel::factory($no_of_trade_logs)->for($portfolio)->create();
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->getJson('/api/v1/trade-logs');
+            $response = $this->actingAs($portfolio->user)->getJson('/api/v1/trade_logs');
 
             // Assert:
             $response->assertOk()
@@ -26,7 +26,7 @@ describe('Feature: ListTradeLogController', function () {
                 ->assertJsonPath('pagination.total', $no_of_trade_logs);
         });
 
-        it('can paginate trade logs when using /api/v1/trade-logs GET api endpoint.', function () {
+        it('can paginate trade logs when using /api/v1/trade_logs GET api endpoint.', function () {
             // Arrange:
             $no_of_trade_logs = 50;
             $portfolio = PortfolioModel::factory()->create();
@@ -42,7 +42,7 @@ describe('Feature: ListTradeLogController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade-logs?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade_logs?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -51,7 +51,7 @@ describe('Feature: ListTradeLogController', function () {
                 ->assertJsonCount($per_page, 'data');
         });
 
-        it('can filter trade logs by type when using /api/v1/trade-logs GET api endpoint.', function () {
+        it('can filter trade logs by type when using /api/v1/trade_logs GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -65,7 +65,7 @@ describe('Feature: ListTradeLogController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade-logs?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade_logs?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -73,7 +73,7 @@ describe('Feature: ListTradeLogController', function () {
                 ->assertJsonPath('data.0.type', 'buy');
         });
 
-        it('can sort trade logs by shares descending when using /api/v1/trade-logs GET api endpoint.', function () {
+        it('can sort trade logs by shares descending when using /api/v1/trade_logs GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -88,7 +88,7 @@ describe('Feature: ListTradeLogController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade-logs?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade_logs?%s', $query));
 
             $data = $response->json('data');
 
@@ -98,7 +98,7 @@ describe('Feature: ListTradeLogController', function () {
             expect($shares)->toBe([18000, 3500, 290]);
         });
 
-        it('can search trade logs by symbol when using /api/v1/trade-logs GET api endpoint.', function () {
+        it('can search trade logs by symbol when using /api/v1/trade_logs GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -113,7 +113,7 @@ describe('Feature: ListTradeLogController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade-logs?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade_logs?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -121,7 +121,7 @@ describe('Feature: ListTradeLogController', function () {
                 ->assertJsonPath('data.0.symbol', $symbol_to_search);
         });
 
-        it('can apply search, filter, sort, and pagination together when using /api/v1/trade-logs GET api endpoint.', function () {
+        it('can apply search, filter, sort, and pagination together when using /api/v1/trade_logs GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -143,7 +143,7 @@ describe('Feature: ListTradeLogController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade-logs?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade_logs?%s', $query));
 
             // Assert
             $response->assertOk()
@@ -156,11 +156,11 @@ describe('Feature: ListTradeLogController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/trade-logs GET api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/trade_logs GET api endpoint unauthenticated.', function () {
             // Arrange:
 
             // Act:
-            $response = $this->getJson('/api/v1/trade-logs');
+            $response = $this->getJson('/api/v1/trade_logs');
 
             // Assert:
             $response->assertUnauthorized()
@@ -169,7 +169,7 @@ describe('Feature: ListTradeLogController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/trade-logs GET api endpoint.', function () {
+        it('can handle server error response when using /api/v1/trade_logs GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
 
@@ -181,7 +181,7 @@ describe('Feature: ListTradeLogController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->getJson('/api/v1/trade-logs');
+            $response = $this->actingAs($user)->getJson('/api/v1/trade_logs');
 
             // Assert:
             $response->assertInternalServerError()

@@ -5,28 +5,20 @@ namespace App\Http\Controllers\v1\TradeLog;
 use App\Application\TradeLog\UseCases\DeleteTradeLog;
 use App\Http\Controllers\Controller;
 use App\Models\TradeLog;
-use App\Traits\HasModelNotFoundExceptionResponse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class DestroyController extends Controller
 {
-    use HasModelNotFoundExceptionResponse;
-
-    public function __invoke(int $id, DeleteTradeLog $use_case): JsonResponse
+    public function __invoke(TradeLog $trade_log, DeleteTradeLog $use_case): JsonResponse
     {
         try {
 
-            $result = $use_case->handle($id);
+            $result = $use_case->handle($trade_log);
 
             return response()->json([
                 'success' => $result,
             ]);
-
-        } catch (ModelNotFoundException) {
-
-            return $this->modelNotFoundResponse(TradeLog::class, $id);
 
         } catch (Throwable $error) {
 

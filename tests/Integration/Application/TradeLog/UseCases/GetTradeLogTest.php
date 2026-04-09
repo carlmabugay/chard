@@ -2,7 +2,6 @@
 
 use App\Application\TradeLog\UseCases\GetTradeLog;
 use App\Domain\TradeLog\Entities\TradeLog;
-use App\Domain\TradeLog\Services\TradeLogService;
 use App\Models\TradeLog as TradeLogModel;
 
 describe('Integration: GetTradeLog Use Case', function () {
@@ -13,18 +12,10 @@ describe('Integration: GetTradeLog Use Case', function () {
 
         $trade_log_entity = TradeLog::fromEloquentModel($trade_log_model);
 
-        $service = Mockery::mock(TradeLogService::class);
-
-        $use_case = new GetTradeLog($service);
-
-        // Expectation:
-        $service->shouldReceive('findById')
-            ->once()
-            ->with($trade_log_model->id)
-            ->andReturn($trade_log_entity);
+        $use_case = new GetTradeLog;
 
         // Act:
-        $result = $use_case->handle($trade_log_model->id);
+        $result = $use_case->handle($trade_log_model);
 
         // Assert:
         expect($result)

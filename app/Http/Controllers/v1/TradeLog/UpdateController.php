@@ -7,12 +7,13 @@ use App\Application\TradeLog\UseCases\StoreTradeLog;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TradeLog\UpdateTradeLogRequest;
 use App\Http\Resources\TradeLog\TradeLogResource;
+use App\Models\TradeLog;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class UpdateController extends Controller
 {
-    public function __invoke(UpdateTradeLogRequest $request, StoreTradeLog $use_case): TradeLogResource|JsonResponse
+    public function __invoke(TradeLog $trade_log, UpdateTradeLogRequest $request, StoreTradeLog $use_case): TradeLogResource|JsonResponse
     {
         try {
 

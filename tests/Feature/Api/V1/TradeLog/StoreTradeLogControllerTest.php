@@ -8,7 +8,7 @@ describe('Feature: StoreTradeLogController', function () {
 
     describe('Positives', function () {
 
-        it('can store new trade log resource when using /api/v1/trade-logs POST api endpoint.', function () {
+        it('can store new trade log resource when using /api/v1/trade_logs POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -22,7 +22,7 @@ describe('Feature: StoreTradeLogController', function () {
             ];
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/trade-logs', $payload);
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/trade_logs', $payload);
 
             // Assert:
             $response->assertCreated()
@@ -45,7 +45,7 @@ describe('Feature: StoreTradeLogController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/trade-logs POST api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/trade_logs POST api endpoint unauthenticated.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -59,7 +59,7 @@ describe('Feature: StoreTradeLogController', function () {
             ];
 
             // Act:
-            $response = $this->postJson('/api/v1/trade-logs', $payload);
+            $response = $this->postJson('/api/v1/trade_logs', $payload);
 
             // Assert:
             $response->assertUnauthorized()
@@ -68,7 +68,7 @@ describe('Feature: StoreTradeLogController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/trade-logs POST api endpoint.', function () {
+        it('can handle server error response when using /api/v1/trade_logs POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -89,7 +89,7 @@ describe('Feature: StoreTradeLogController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/trade-logs', $payload);
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/trade_logs', $payload);
 
             // Assert:
             $response->assertInternalServerError()

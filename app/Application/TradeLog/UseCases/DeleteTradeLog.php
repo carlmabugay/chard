@@ -3,6 +3,7 @@
 namespace App\Application\TradeLog\UseCases;
 
 use App\Domain\TradeLog\Services\TradeLogService;
+use App\Models\TradeLog;
 
 class DeleteTradeLog
 {
@@ -10,8 +11,8 @@ class DeleteTradeLog
         protected TradeLogService $service
     ) {}
 
-    public function handle(int $id): ?bool
+    public function handle(TradeLog $trade_log): ?bool
     {
-        return $this->service->delete($id);
+        return $this->service->delete($trade_log);
     }
 }

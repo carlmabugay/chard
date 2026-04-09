@@ -87,14 +87,14 @@ Route::prefix('v1')->group(function () {
             Route::delete('/{dividend}/destroy', DestroyDividendController::class);
         });
 
-        Route::prefix('trade-logs')->group(function () {
+        Route::prefix('trade_logs')->group(function () {
             Route::get('/', ListTradeLogController::class);
-            Route::get('/{id}', ShowTradeLogController::class);
+            Route::get('/{trade_log}', ShowTradeLogController::class);
             Route::post('/', StoreTradeLogController::class);
-            Route::put('/', UpdateTradeLogController::class);
-            Route::delete('/{id}/trash', TrashTradeLogController::class);
-            Route::patch('/{id}', RestoreTradeLogController::class);
-            Route::delete('/{id}/destroy', DestroyTradeLogController::class);
+            Route::put('/{trade_log}', UpdateTradeLogController::class);
+            Route::delete('/{trade_log}/trash', TrashTradeLogController::class);
+            Route::patch('/{trade_log}', RestoreTradeLogController::class)->withTrashed();
+            Route::delete('/{trade_log}/destroy', DestroyTradeLogController::class);
         });
 
     });

@@ -2,19 +2,18 @@
 
 use App\Application\TradeLog\UseCases\GetTradeLog;
 use App\Models\TradeLog as TradeLogModel;
-use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: ShowTradeLogController', function () {
 
     describe('Positives', function () {
 
-        it('can return a trade log resource when using /api/v1/trade-logs/{id} GET api endpoint.', function () {
+        it('can return a trade log resource when using /api/v1/trade_logs/{id} GET api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($trade_log->portfolio->user)->getJson(sprintf('/api/v1/trade-logs/%s', $trade_log->id));
+            $response = $this->actingAs($trade_log->portfolio->user)->getJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id));
 
             // Assert:
             $response->assertOk()
@@ -43,12 +42,12 @@ describe('Feature: ShowTradeLogController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/trade-logs/{id} GET api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/trade_logs/{id} GET api endpoint unauthenticated.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 
             // Act:
-            $response = $this->getJson(sprintf('/api/v1/trade-logs/%s', $trade_log->id));
+            $response = $this->getJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id));
 
             // Assert:
             $response->assertUnauthorized()
@@ -57,27 +56,26 @@ describe('Feature: ShowTradeLogController', function () {
                 ]);
         });
 
-        it('can handle error message when no record found upon using /api/v1/trade-logs/{id} GET api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/trade_logs/{id} GET api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $trade_log = TradeLogModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($trade_log->portfolio->user)->getJson(sprintf('/api/v1/trade-logs/%s', $random_id));
+            $response = $this->actingAs($trade_log->portfolio->user)->getJson(sprintf('/api/v1/trade_logs/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Trade log not found.',
-                    'message' => sprintf('Trade log with ID: [%s] not found.', $random_id),
+                    'error' => 'Record not found.',
+                    'message' => sprintf('No query results for model [App\\Models\\TradeLog] %s.', $random_id),
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/trade-logs/{id} GET api endpoint.', function () {
+        it('can handle server error response when using /api/v1/trade_logs/{id} GET api endpoint.', function () {
             // Arrange:
-            $random_id = 100;
-            $user = UserModel::factory()->create();
+            $trade_log = TradeLogModel::factory()->create();
 
             // Expectation:
             $this->mock(GetTradeLog::class, function (MockInterface $mock) {
@@ -87,7 +85,7 @@ describe('Feature: ShowTradeLogController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/trade-logs/%s', $random_id));
+            $response = $this->actingAs($trade_log->portfolio->user)->getJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id));
 
             // Assert:
             $response->assertInternalServerError()

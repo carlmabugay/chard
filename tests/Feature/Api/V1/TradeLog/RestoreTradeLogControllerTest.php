@@ -2,19 +2,18 @@
 
 use App\Application\TradeLog\UseCases\RestoreTradeLog;
 use App\Models\TradeLog as TradeLogModel;
-use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: RestoreTradeLogController', function () {
 
     describe('Positives', function () {
 
-        it('can restore trashed trade log resource when using /api/v1/trade-logs PATCH api endpoint.', function () {
+        it('can restore trashed trade log resource when using /api/v1/trade_logs PATCH api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($trade_log->portfolio->user)->patchJson(sprintf('/api/v1/trade-logs/%s', $trade_log->id));
+            $response = $this->actingAs($trade_log->portfolio->user)->patchJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id));
 
             // Assert:
             $this->assertNotSoftDeleted($trade_log);
@@ -29,12 +28,12 @@ describe('Feature: RestoreTradeLogController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/trade-logs PATCH api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/trade_logs PATCH api endpoint unauthenticated.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 
             // Act:
-            $response = $this->patchJson(sprintf('/api/v1/trade-logs/%s', $trade_log->id));
+            $response = $this->patchJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id));
 
             // Assert:
             $response->assertUnauthorized()
@@ -43,27 +42,26 @@ describe('Feature: RestoreTradeLogController', function () {
                 ]);
         });
 
-        it('can handle error message when no record found upon using /api/v1/trade-logs/{id} PATCH api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/trade_logs/{trade_log} PATCH api endpoint.', function () {
             // Arrange:
             $random_id = 100;
-            $trade_log = TradeLogModel::factory()->create();
+            $trade_log = TradeLogModel::factory()->trashed()->create();
 
             // Act:
-            $response = $this->actingAs($trade_log->portfolio->user)->patchJson(sprintf('/api/v1/trade-logs/%s', $random_id));
+            $response = $this->actingAs($trade_log->portfolio->user)->patchJson(sprintf('/api/v1/trade_logs/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Trade log not found.',
-                    'message' => sprintf('Trade log with ID: [%s] not found.', $random_id),
+                    'error' => 'Record not found.',
+                    'message' => sprintf('No query results for model [App\\Models\\TradeLog] %s.', $random_id),
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/trade-logs/{id} PATCH api endpoint.', function () {
+        it('can handle server error response when using /api/v1/trade_logs/{trade_log} PATCH api endpoint.', function () {
             // Arrange:
-            $random_id = 100;
-            $user = UserModel::factory()->create();
+            $trade_log = TradeLogModel::factory()->trashed()->create();
 
             // Expectation:
             $this->mock(RestoreTradeLog::class, function (MockInterface $mock) {
@@ -73,7 +71,7 @@ describe('Feature: RestoreTradeLogController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->patchJson(sprintf('/api/v1/trade-logs/%s', $random_id));
+            $response = $this->actingAs($trade_log->portfolio->user)->patchJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id));
 
             // Assert:
             $response->assertInternalServerError()

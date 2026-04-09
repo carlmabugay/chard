@@ -8,7 +8,7 @@ describe('Feature: UpdateTradeLogController', function () {
 
     describe('Positives', function () {
 
-        it('can update existing trade log resource when using /api/v1/trade-logs PUT api endpoint.', function () {
+        it('can update existing trade log resource when using /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 
@@ -22,7 +22,7 @@ describe('Feature: UpdateTradeLogController', function () {
             ];
 
             // Act:
-            $response = $this->actingAs($trade_log->portfolio->user)->putJson('/api/v1/trade-logs', $payload);
+            $response = $this->actingAs($trade_log->portfolio->user)->putJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id), $payload);
 
             // Assert:
             $this->assertDatabaseHas('trade_logs', $payload);
@@ -40,7 +40,7 @@ describe('Feature: UpdateTradeLogController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/trade-logs PUT api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/trade_logs/{trade_log} PUT api endpoint unauthenticated.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 
@@ -54,7 +54,7 @@ describe('Feature: UpdateTradeLogController', function () {
             ];
 
             // Act:
-            $response = $this->putJson('/api/v1/trade-logs', $payload);
+            $response = $this->putJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id), $payload);
 
             // Assert:
             $response->assertUnauthorized()
@@ -63,7 +63,33 @@ describe('Feature: UpdateTradeLogController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/trade-logs PUT api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
+            // Arrange:
+            $random_id = 100;
+            $trade_log = TradeLogModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $trade_log->portfolio->id,
+                'symbol' => $trade_log->symbol,
+                'type' => $trade_log->type,
+                'price' => 110,
+                'shares' => $trade_log->shares,
+                'fees' => $trade_log->fees,
+            ];
+
+            // Act:
+            $response = $this->actingAs($trade_log->portfolio->user)->putJson(sprintf('/api/v1/trade_logs/%s', $random_id), $payload);
+
+            // Assert:
+            $response->assertNotFound()
+                ->assertJson([
+                    'success' => false,
+                    'error' => 'Record not found.',
+                    'message' => sprintf('No query results for model [App\\Models\\TradeLog] %s.', $random_id),
+                ]);
+        });
+
+        it('can handle server error response when using /api/v1/trade_logs PUT api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 
@@ -84,7 +110,7 @@ describe('Feature: UpdateTradeLogController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($trade_log->portfolio->user)->putJson('/api/v1/trade-logs', $payload);
+            $response = $this->actingAs($trade_log->portfolio->user)->putJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id), $payload);
 
             // Assert:
             $response->assertInternalServerError()

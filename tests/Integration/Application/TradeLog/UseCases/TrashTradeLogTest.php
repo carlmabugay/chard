@@ -17,11 +17,11 @@ describe('Integration: TrashTradeLog Use Case', function () {
         // Expectation:
         $service->shouldReceive('trash')
             ->once()
-            ->with($trade_log->id)
+            ->with($trade_log)
             ->andReturn(true);
 
         // Act:
-        $result = $use_case->handle($trade_log->id);
+        $result = $use_case->handle($trade_log);
 
         // Assert:
         expect($result)->toBeTrue();

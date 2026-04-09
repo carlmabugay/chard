@@ -3,16 +3,12 @@
 namespace App\Application\TradeLog\UseCases;
 
 use App\Domain\TradeLog\Entities\TradeLog;
-use App\Domain\TradeLog\Services\TradeLogService;
+use App\Models\TradeLog as TradeLogModel;
 
 class GetTradeLog
 {
-    public function __construct(
-        protected TradeLogService $service
-    ) {}
-
-    public function handle(int $id): TradeLog
+    public function handle(TradeLogModel $trade_log): TradeLog
     {
-        return $this->service->findById($id);
+        return TradeLog::fromEloquentModel($trade_log);
     }
 }

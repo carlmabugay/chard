@@ -2,20 +2,19 @@
 
 use App\Application\TradeLog\UseCases\DeleteTradeLog;
 use App\Models\TradeLog as TradeLogModel;
-use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: DestroyTradeLogController', function () {
 
     describe('Positives', function () {
 
-        it('can hard delete trade log resource when using /api/v1/trade-flows/{id}/destroy DELETE api endpoint.',
+        it('can hard delete trade log resource when using /api/v1/trade-flows/{trade_log}/destroy DELETE api endpoint.',
             function () {
                 // Arrange:
                 $trade_log = TradeLogModel::factory()->create();
 
                 // Act:
-                $response = $this->actingAs($trade_log->portfolio->user)->deleteJson(sprintf('/api/v1/trade-logs/%s/destroy', $trade_log->id));
+                $response = $this->actingAs($trade_log->portfolio->user)->deleteJson(sprintf('/api/v1/trade_logs/%s/destroy', $trade_log->id));
 
                 // Assert:
                 $this->assertModelMissing($trade_log);
@@ -30,13 +29,13 @@ describe('Feature: DestroyTradeLogController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/trade-flows/{id}/destroy DELETE api endpoint unauthenticated.',
+        it('can return unauthorized message when trying to access protected /api/v1/trade-flows/{trade_log}/destroy DELETE api endpoint unauthenticated.',
             function () {
                 // Arrange:
                 $trade_log = TradeLogModel::factory()->create();
 
                 // Act:
-                $response = $this->deleteJson(sprintf('/api/v1/trade-logs/%s/destroy', $trade_log->id));
+                $response = $this->deleteJson(sprintf('/api/v1/trade_logs/%s/destroy', $trade_log->id));
 
                 // Assert:
                 $response->assertUnauthorized()
@@ -45,29 +44,28 @@ describe('Feature: DestroyTradeLogController', function () {
                     ]);
             });
 
-        it('can handle error message when no record found upon using /api/v1/trade-logs/{id}/destroy DELETE api endpoint.',
+        it('can handle error message when no record found upon using /api/v1/trade_logs/{trade_log}/destroy DELETE api endpoint.',
             function () {
                 // Arrange:
                 $random_id = 100;
                 $trade_log = TradeLogModel::factory()->create();
 
                 // Act:
-                $response = $this->actingAs($trade_log->portfolio->user)->deleteJson(sprintf('/api/v1/trade-logs/%s/destroy', $random_id));
+                $response = $this->actingAs($trade_log->portfolio->user)->deleteJson(sprintf('/api/v1/trade_logs/%s/destroy', $random_id));
 
                 // Assert:
                 $response->assertNotFound()
                     ->assertJson([
                         'success' => false,
-                        'error' => 'Trade log not found.',
-                        'message' => sprintf('Trade log with ID: [%s] not found.', $random_id),
+                        'error' => 'Record not found.',
+                        'message' => sprintf('No query results for model [App\\Models\\TradeLog] %s.', $random_id),
                     ]);
             });
 
-        it('can handle server error response when using /api/v1/trade-logs/{id}/destroy DELETE api endpoint.',
+        it('can handle server error response when using /api/v1/trade_logs/{trade_log}/destroy DELETE api endpoint.',
             function () {
                 // Arrange:
-                $random_id = 100;
-                $user = UserModel::factory()->create();
+                $trade_log = TradeLogModel::factory()->create();
 
                 // Expectation:
                 $this->mock(DeleteTradeLog::class, function (MockInterface $mock) {
@@ -77,7 +75,7 @@ describe('Feature: DestroyTradeLogController', function () {
                 });
 
                 // Act:
-                $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/trade-logs/%s/destroy', $random_id));
+                $response = $this->actingAs($trade_log->portfolio->user)->deleteJson(sprintf('/api/v1/trade_logs/%s/destroy', $trade_log->id));
 
                 // Assert:
                 $response->assertInternalServerError()

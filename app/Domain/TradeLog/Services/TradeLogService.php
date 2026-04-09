@@ -6,6 +6,7 @@ use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\TradeLog\Contracts\Read\TradeLogReadRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Write\TradeLogWriteRepositoryInterface;
 use App\Domain\TradeLog\Entities\TradeLog;
+use App\Models\TradeLog as TradeLogModel;
 
 class TradeLogService
 {
@@ -32,27 +33,18 @@ class TradeLogService
         return $this->write_repository->store($tradeLog);
     }
 
-    /*
-     * throws ModelNotFoundException
-     */
-    public function trash(int $id): ?bool
+    public function trash(TradeLogModel $trade_log): ?bool
     {
-        return $this->write_repository->trash($id);
+        return $this->write_repository->trash($trade_log);
     }
 
-    /*
-     * throws ModelNotFoundException
-     */
-    public function restore(int $id): ?bool
+    public function restore(TradeLogModel $trade_log): ?bool
     {
-        return $this->write_repository->restore($id);
+        return $this->write_repository->restore($trade_log);
     }
 
-    /*
-     * throws ModelNotFoundException
-     */
-    public function delete(int $id): ?bool
+    public function delete(TradeLogModel $trade_log): ?bool
     {
-        return $this->write_repository->delete($id);
+        return $this->write_repository->delete($trade_log);
     }
 }

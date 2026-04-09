@@ -5,6 +5,7 @@ use App\Domain\TradeLog\Contracts\Read\TradeLogReadRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Write\TradeLogWriteRepositoryInterface;
 use App\Domain\TradeLog\Entities\TradeLog;
 use App\Domain\TradeLog\Services\TradeLogService;
+use App\Models\TradeLog as TradeLogModel;
 
 beforeEach(function () {
     $this->write_repository = Mockery::mock(TradeLogWriteRepositoryInterface::class);
@@ -98,23 +99,15 @@ describe('Unit: TradeLogServiceTest', function () {
 
     it('can soft delete trade log when using trash method.', function () {
         // Arrange:
-        $trade_log = new TradeLog(
-            portfolio_id: rand(1, 10),
-            symbol: 'BPI',
-            type: 'buy',
-            price: 100,
-            shares: 1000,
-            fees: 120,
-            id: rand(1, 10),
-        );
+        $trade_log = Mockery::mock(TradeLogModel::class);
 
         // Act:
         $this->write_repository->shouldReceive('trash')
             ->once()
-            ->with($trade_log->id())
+            ->with($trade_log)
             ->andReturn(true);
 
-        $result = $this->service->trash($trade_log->id());
+        $result = $this->service->trash($trade_log);
 
         // Assert:
         expect($result)->toBeTrue();
@@ -122,24 +115,16 @@ describe('Unit: TradeLogServiceTest', function () {
 
     it('can restore trashed trade log when using restore method.', function () {
         // Arrange:
-        $trade_log = new TradeLog(
-            portfolio_id: rand(1, 10),
-            symbol: 'BPI',
-            type: 'buy',
-            price: 100,
-            shares: 1000,
-            fees: 120,
-            id: rand(1, 10),
-        );
+        $trade_log = Mockery::mock(TradeLogModel::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('restore')
             ->once()
-            ->with($trade_log->id())
+            ->with($trade_log)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->restore($trade_log->id());
+        $result = $this->service->restore($trade_log);
 
         // Assert:
         expect($result)->toBeTrue();
@@ -147,24 +132,16 @@ describe('Unit: TradeLogServiceTest', function () {
 
     it('can hard delete trade log when using delete method.', function () {
         // Arrange:
-        $trade_log = new TradeLog(
-            portfolio_id: rand(1, 10),
-            symbol: 'BPI',
-            type: 'buy',
-            price: 100,
-            shares: 1000,
-            fees: 120,
-            id: rand(1, 10),
-        );
+        $trade_log = Mockery::mock(TradeLogModel::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('delete')
             ->once()
-            ->with($trade_log->id())
+            ->with($trade_log)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->delete($trade_log->id());
+        $result = $this->service->delete($trade_log);
 
         // Assert:
         expect($result)->toBeTrue();
