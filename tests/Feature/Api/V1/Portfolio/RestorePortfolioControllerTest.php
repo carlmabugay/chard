@@ -2,6 +2,7 @@
 
 use App\Application\Portolio\UseCases\RestorePortfolio;
 use App\Models\Portfolio as PortfolioModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: RestorePortfolioController', function () {
@@ -28,7 +29,7 @@ describe('Feature: RestorePortfolioController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{portfolio} PATCH api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/portfolios/{portfolio} PATCH api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->trashed()->create();
 
@@ -39,6 +40,21 @@ describe('Feature: RestorePortfolioController', function () {
             $response->assertUnauthorized()
                 ->assertJson([
                     'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{portfolio} PATCH api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->hasPortfolios()->create();
+            $other_portfolio = PortfolioModel::factory()->create();
+
+            // Act:
+            $response = $this->actingAs($user)->patchJson(sprintf('/api/v1/portfolios/%s', $other_portfolio->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
                 ]);
         });
 

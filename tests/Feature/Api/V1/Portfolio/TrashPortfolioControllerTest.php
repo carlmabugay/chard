@@ -2,6 +2,7 @@
 
 use App\Application\Portolio\UseCases\TrashPortfolio;
 use App\Models\Portfolio as PortfolioModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: TrashPortfolioController', function () {
@@ -28,7 +29,7 @@ describe('Feature: TrashPortfolioController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{portfolio}/trash DELETE api endpoint.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/portfolios/{portfolio}/trash DELETE api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -39,6 +40,21 @@ describe('Feature: TrashPortfolioController', function () {
             $response->assertUnauthorized()
                 ->assertJson([
                     'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{portfolio}/trash DELETE api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->hasPortfolios()->create();
+            $other_portfolio = PortfolioModel::factory()->create();
+
+            // Act:
+            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/portfolios/%s/trash', $other_portfolio->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
                 ]);
         });
 

@@ -8,7 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Portfolio\UpdatePortfolioRequest;
 use App\Http\Resources\Portfolio\PortfolioResource;
 use App\Models\Portfolio;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 use Throwable;
 
 final class UpdateController extends Controller
@@ -16,6 +18,8 @@ final class UpdateController extends Controller
     public function __invoke(Portfolio $portfolio, UpdatePortfolioRequest $request, StorePortfolio $use_case): PortfolioResource|JsonResponse
     {
         try {
+
+            Gate::authorize('update', $portfolio);
 
             $dto = new StorePortfolioDTO(
                 user_id: auth()->id(),
@@ -25,6 +29,12 @@ final class UpdateController extends Controller
             $result = $use_case->handle($dto);
 
             return new PortfolioResource($result);
+
+        } catch (AuthorizationException) {
+
+            return response()->json([
+                'message' => 'Unauthorized.',
+            ], 401);
 
         } catch (Throwable $error) {
 

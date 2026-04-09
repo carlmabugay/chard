@@ -2,6 +2,7 @@
 
 use App\Application\Portolio\UseCases\StorePortfolio;
 use App\Models\Portfolio as PortfolioModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: UpdatePortfolioController', function () {
@@ -35,7 +36,7 @@ describe('Feature: UpdatePortfolioController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{portfolio} PUT api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/portfolios/{portfolio} PUT api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -50,6 +51,25 @@ describe('Feature: UpdatePortfolioController', function () {
             $response->assertUnauthorized()
                 ->assertJson([
                     'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{portfolio} GET api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->hasPortfolios()->create();
+            $other_portfolio = PortfolioModel::factory()->create();
+
+            $payload = [
+                'name' => 'PH Stock Market',
+            ];
+
+            // Act:
+            $response = $this->actingAs($user)->putJson(sprintf('/api/v1/portfolios/%s', $other_portfolio->id), $payload);
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
                 ]);
         });
 

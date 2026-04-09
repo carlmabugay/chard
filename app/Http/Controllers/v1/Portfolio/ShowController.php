@@ -6,7 +6,9 @@ use App\Application\Portolio\UseCases\GetPortfolio;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Portfolio\PortfolioResource;
 use App\Models\Portfolio;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 use Throwable;
 
 final class ShowController extends Controller
@@ -15,9 +17,17 @@ final class ShowController extends Controller
     {
         try {
 
+            Gate::authorize('view', $portfolio);
+
             $result = $use_case->handle($portfolio);
 
             return PortfolioResource::make($result);
+
+        } catch (AuthorizationException) {
+
+            return response()->json([
+                'message' => 'Unauthorized.',
+            ], 401);
 
         } catch (Throwable $error) {
 
