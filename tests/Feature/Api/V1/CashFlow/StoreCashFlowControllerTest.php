@@ -9,7 +9,7 @@ describe('Feature: StoreCashFlowController', function () {
 
     describe('Positives', function () {
 
-        it('can store new cash flow resource when using /api/v1/cash-flows POST api endpoint.', function () {
+        it('can store new cash flow resource when using /api/v1/cash_flows POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -20,7 +20,7 @@ describe('Feature: StoreCashFlowController', function () {
             ];
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/cash-flows', $payload);
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/cash_flows', $payload);
 
             // Assert:
             $response->assertCreated()
@@ -40,18 +40,15 @@ describe('Feature: StoreCashFlowController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/cash-flows POST api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/cash_flows POST api endpoint unauthenticated.', function () {
             // Arrange:
-            $portfolio = PortfolioModel::factory()->create();
-
             $payload = [
-                'portfolio_id' => $portfolio->id,
                 'type' => CashFlowType::DEPOSIT->value,
                 'amount' => 100,
             ];
 
             // Act:
-            $response = $this->postJson('/api/v1/cash-flows', $payload);
+            $response = $this->postJson('/api/v1/cash_flows', $payload);
 
             // Assert:
             $response->assertUnauthorized()
@@ -60,7 +57,7 @@ describe('Feature: StoreCashFlowController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/cash-flows POST api endpoint.', function () {
+        it('can handle server error response when using /api/v1/cash_flows POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -78,7 +75,7 @@ describe('Feature: StoreCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/cash-flows', $payload);
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/cash_flows', $payload);
 
             // Assert:
             $response->assertInternalServerError()

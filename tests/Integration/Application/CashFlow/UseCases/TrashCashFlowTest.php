@@ -17,11 +17,11 @@ describe('Integration: TrashCashFlow Use Case', function () {
         // Expectation:
         $service->shouldReceive('trash')
             ->once()
-            ->with($cash_flow->id)
+            ->with($cash_flow)
             ->andReturn(true);
 
         // Act:
-        $result = $use_case->handle($cash_flow->id);
+        $result = $use_case->handle($cash_flow);
 
         // Assert:
         expect($result)->toBeTrue();

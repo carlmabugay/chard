@@ -6,26 +6,18 @@ use App\Application\CashFlow\UserCases\GetCashFlow;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CashFlow\CashFlowResource;
 use App\Models\CashFlow;
-use App\Traits\HasModelNotFoundExceptionResponse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class ShowController extends Controller
 {
-    use HasModelNotFoundExceptionResponse;
-
-    public function __invoke(int $id, GetCashFlow $use_case): CashFlowResource|JsonResponse
+    public function __invoke(CashFlow $cash_flow, GetCashFlow $use_case): CashFlowResource|JsonResponse
     {
         try {
 
-            $result = $use_case->handle($id);
+            $result = $use_case->handle($cash_flow);
 
             return CashFlowResource::make($result);
-
-        } catch (ModelNotFoundException) {
-
-            return $this->modelNotFoundResponse(CashFlow::class, $id);
 
         } catch (Throwable $error) {
 

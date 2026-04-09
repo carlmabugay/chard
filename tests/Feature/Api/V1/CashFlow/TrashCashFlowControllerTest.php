@@ -2,19 +2,18 @@
 
 use App\Application\CashFlow\UserCases\TrashCashFlow;
 use App\Models\CashFlow as CashFlowModel;
-use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: TrashCashFlowController', function () {
 
     describe('Positives', function () {
 
-        it('can trash existing cash flow resource when using /api/v1/cash-flows/{id}/trash DELETE api endpoint.', function () {
+        it('can trash existing cash flow resource when using /api/v1/cash_flows/{cash_flow}/trash DELETE api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($cash_flow->portfolio->user)->deleteJson(sprintf('/api/v1/cash-flows/%s/trash', $cash_flow->id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->deleteJson(sprintf('/api/v1/cash_flows/%s/trash', $cash_flow->id));
 
             // Assert:
             $this->assertSoftDeleted($cash_flow);
@@ -29,12 +28,12 @@ describe('Feature: TrashCashFlowController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/cash-flows/{id}/trash DELETE api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/cash_flows/{cash_flow}/trash DELETE api endpoint unauthenticated.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
 
             // Act:
-            $response = $this->deleteJson(sprintf('/api/v1/cash-flows/%s/trash', $cash_flow->id));
+            $response = $this->deleteJson(sprintf('/api/v1/cash_flows/%s/trash', $cash_flow->id));
 
             // Assert:
             $response->assertUnauthorized()
@@ -43,28 +42,27 @@ describe('Feature: TrashCashFlowController', function () {
                 ]);
         });
 
-        it('can handle error message when no record found upon using /api/v1/cash-flows/{id}/trash DELETE api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/cash_flows/{cash_flow}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $cash_flow = CashFlowModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($cash_flow->portfolio->user)->deleteJson(sprintf('/api/v1/cash-flows/%s/trash', $random_id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->deleteJson(sprintf('/api/v1/cash_flows/%s/trash', $random_id));
 
             // Assert:
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Cash flow not found.',
-                    'message' => sprintf('Cash flow with ID: [%s] not found.', $random_id),
+                    'error' => 'Record not found.',
+                    'message' => sprintf('No query results for model [App\\Models\\CashFlow] %s.', $random_id),
                 ]);
 
         });
 
-        it('can handle server error response when using /api/v1/cash-flows/{id}/trash DELETE api endpoint.', function () {
+        it('can handle server error response when using /api/v1/cash_flows/{cash_flow}/trash DELETE api endpoint.', function () {
             // Arrange:
-            $random_id = 100;
-            $user = UserModel::factory()->create();
+            $cash_flow = CashFlowModel::factory()->create();
 
             // Expectation:
             $this->mock(TrashCashFlow::class, function (MockInterface $mock) {
@@ -74,7 +72,7 @@ describe('Feature: TrashCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/cash-flows/%s/trash', $random_id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->deleteJson(sprintf('/api/v1/cash_flows/%s/trash', $cash_flow->id));
 
             // Assert:
             $response->assertInternalServerError()

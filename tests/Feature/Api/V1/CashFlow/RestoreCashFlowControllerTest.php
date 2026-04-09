@@ -2,19 +2,18 @@
 
 use App\Application\CashFlow\UserCases\RestoreCashFlow;
 use App\Models\CashFlow as CashFlowModel;
-use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: RestoreCashFlowController', function () {
 
     describe('Positives', function () {
 
-        it('can restore trashed cash flow resource when using /api/v1/cash-flows PATCH api endpoint.', function () {
+        it('can restore trashed cash flow resource when using /api/v1/cash_flows PATCH api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($cash_flow->portfolio->user)->patchJson(sprintf('/api/v1/cash-flows/%s', $cash_flow->id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->patchJson(sprintf('/api/v1/cash_flows/%s', $cash_flow->id));
 
             // Assert:
             $this->assertNotSoftDeleted($cash_flow);
@@ -29,12 +28,12 @@ describe('Feature: RestoreCashFlowController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected  /api/v1/cash-flows PATCH api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected  /api/v1/cash_flows PATCH api endpoint unauthenticated.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
 
             // Act:
-            $response = $this->patchJson(sprintf('/api/v1/cash-flows/%s', $cash_flow->id));
+            $response = $this->patchJson(sprintf('/api/v1/cash_flows/%s', $cash_flow->id));
 
             // Assert:
             $response->assertUnauthorized()
@@ -43,27 +42,26 @@ describe('Feature: RestoreCashFlowController', function () {
                 ]);
         });
 
-        it('can handle error message when no record found upon using /api/v1/cash-flows/{id} PATCH api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/cash_flows/{cash_flow} PATCH api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $cash_flow = CashFlowModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($cash_flow->portfolio->user)->patchJson(sprintf('/api/v1/cash-flows/%s', $random_id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->patchJson(sprintf('/api/v1/cash_flows/%s', $random_id));
 
             // Assert:
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Cash flow not found.',
-                    'message' => sprintf('Cash flow with ID: [%s] not found.', $random_id),
+                    'error' => 'Record not found.',
+                    'message' => sprintf('No query results for model [App\\Models\\CashFlow] %s.', $random_id),
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/cash-flows/{id} PATCH api endpoint.', function () {
+        it('can handle server error response when using /api/v1/cash_flows/{cash_flow} PATCH api endpoint.', function () {
             // Arrange:
-            $random_id = 100;
-            $user = UserModel::factory()->create();
+            $cash_flow = CashFlowModel::factory()->create();
 
             // Expectation:
             $this->mock(RestoreCashFlow::class, function (MockInterface $mock) {
@@ -73,7 +71,7 @@ describe('Feature: RestoreCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->patchJson(sprintf('/api/v1/cash-flows/%s', $random_id));
+            $response = $this->actingAs($cash_flow->portfolio->user)->patchJson(sprintf('/api/v1/cash_flows/%s', $cash_flow->id));
 
             // Assert:
             $response->assertInternalServerError()

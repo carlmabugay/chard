@@ -67,14 +67,14 @@ Route::prefix('v1')->group(function () {
             Route::delete('/{strategy}/destroy', DestroyStrategyController::class);
         });
 
-        Route::prefix('cash-flows')->group(function () {
+        Route::prefix('cash_flows')->group(function () {
             Route::get('/', ListCashFlowController::class);
             Route::post('/', StoreCashFlowController::class);
-            Route::get('/{id}', ShowCashFlowController::class);
-            Route::put('/', UpdateCashFlowController::class);
-            Route::delete('/{id}/trash', TrashCashFlowController::class);
-            Route::patch('/{id}', RestoreCashFlowController::class);
-            Route::delete('/{id}/destroy', DestroyCashFlowController::class);
+            Route::get('/{cash_flow}', ShowCashFlowController::class);
+            Route::put('/{cash_flow}', UpdateCashFlowController::class);
+            Route::delete('/{cash_flow}/trash', TrashCashFlowController::class);
+            Route::patch('/{cash_flow}', RestoreCashFlowController::class)->withTrashed();
+            Route::delete('/{cash_flow}/destroy', DestroyCashFlowController::class);
         });
 
         Route::prefix('dividends')->group(function () {

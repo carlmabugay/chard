@@ -6,6 +6,7 @@ use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\CashFlow\Services\CashFlowService;
 use App\Domain\Common\Query\QueryCriteria;
 use App\Enums\CashFlowType;
+use App\Models\CashFlow as CashFlowModel;
 
 beforeEach(function () {
     $this->write_repository = Mockery::mock(CashFlowWriteRepositoryInterface::class);
@@ -90,21 +91,16 @@ describe('Unit: CashFlowService', function () {
 
     it('can soft delete cash flow when using trash method.', function () {
         // Arrange:
-        $cash_flow = new CashFlow(
-            portfolio_id: rand(1, 10),
-            type: CashFlowType::DEPOSIT,
-            amount: 5000,
-            id: rand(1, 10),
-        );
+        $cash_flow = Mockery::mock(CashFlowModel::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('trash')
             ->once()
-            ->with($cash_flow->id())
+            ->with($cash_flow)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->trash($cash_flow->id());
+        $result = $this->service->trash($cash_flow);
 
         // Assert:
         expect($result)->toBeTrue();
@@ -112,21 +108,16 @@ describe('Unit: CashFlowService', function () {
 
     it('can restore trashed cash flow when using restore method.', function () {
         // Arrange:
-        $cash_flow = new CashFlow(
-            portfolio_id: rand(1, 10),
-            type: CashFlowType::DEPOSIT,
-            amount: 5000,
-            id: rand(1, 10),
-        );
+        $cash_flow = Mockery::mock(CashFlowModel::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('restore')
             ->once()
-            ->with($cash_flow->id())
+            ->with($cash_flow)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->restore($cash_flow->id());
+        $result = $this->service->restore($cash_flow);
 
         // Assert:
         expect($result)->toBeTrue();
@@ -134,21 +125,16 @@ describe('Unit: CashFlowService', function () {
 
     it('can hard delete cash flow when using delete method.', function () {
         // Arrange:
-        $cash_flow = new CashFlow(
-            portfolio_id: rand(1, 10),
-            type: CashFlowType::DEPOSIT,
-            amount: 5000,
-            id: rand(1, 10),
-        );
+        $cash_flow = Mockery::mock(CashFlowModel::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('delete')
             ->once()
-            ->with($cash_flow->id())
+            ->with($cash_flow)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->delete($cash_flow->id());
+        $result = $this->service->delete($cash_flow);
 
         // Assert:
         expect($result)->toBeTrue();

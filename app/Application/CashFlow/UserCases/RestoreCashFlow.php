@@ -3,6 +3,7 @@
 namespace App\Application\CashFlow\UserCases;
 
 use App\Domain\CashFlow\Services\CashFlowService;
+use App\Models\CashFlow as CashFlowModel;
 
 class RestoreCashFlow
 {
@@ -10,8 +11,8 @@ class RestoreCashFlow
         protected CashFlowService $service,
     ) {}
 
-    public function handle(int $id): ?bool
+    public function handle(CashFlowModel $cash_flow): ?bool
     {
-        return $this->service->restore($id);
+        return $this->service->restore($cash_flow);
     }
 }

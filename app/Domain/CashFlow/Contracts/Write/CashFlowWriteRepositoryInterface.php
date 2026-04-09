@@ -3,14 +3,15 @@
 namespace App\Domain\CashFlow\Contracts\Write;
 
 use App\Domain\CashFlow\Entities\CashFlow;
+use App\Models\CashFlow as CashFlowModel;
 
 interface CashFlowWriteRepositoryInterface
 {
     public function store(CashFlow $cash_flow): CashFlow;
 
-    public function trash(int $id): ?bool;
+    public function trash(CashFlowModel $cash_flow): ?bool;
 
-    public function restore(int $id): ?bool;
+    public function restore(CashFlowModel $cash_flow): ?bool;
 
-    public function delete(int $id): ?bool;
+    public function delete(CashFlowModel $cash_flow): ?bool;
 }

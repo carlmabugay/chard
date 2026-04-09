@@ -6,6 +6,7 @@ use App\Domain\CashFlow\Contracts\Read\CashFlowReadRepositoryInterface;
 use App\Domain\CashFlow\Contracts\Write\CashFlowWriteRepositoryInterface;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\Common\Query\QueryCriteria;
+use App\Models\CashFlow as CashFlowModel;
 
 class CashFlowService
 {
@@ -32,27 +33,18 @@ class CashFlowService
         return $this->write_repository->store($cash_flow);
     }
 
-    /*
-     * @throws ModelNotFoundException
-     */
-    public function trash(int $id): ?bool
+    public function trash(CashFlowModel $cash_flow): ?bool
     {
-        return $this->write_repository->trash($id);
+        return $this->write_repository->trash($cash_flow);
     }
 
-    /*
-     * @throws ModelNotFoundException
-     */
-    public function restore(int $id): ?bool
+    public function restore(CashFlowModel $cash_flow): ?bool
     {
-        return $this->write_repository->restore($id);
+        return $this->write_repository->restore($cash_flow);
     }
 
-    /*
-     * @throws ModelNotFoundException
-     */
-    public function delete(int $id): ?bool
+    public function delete(CashFlowModel $cash_flow): ?bool
     {
-        return $this->write_repository->delete($id);
+        return $this->write_repository->delete($cash_flow);
     }
 }

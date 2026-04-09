@@ -11,7 +11,7 @@ describe('Feature: ListCashFlowController', function () {
 
     describe('Positives', function () {
 
-        it('can return collection of cash flow resource when using /api/v1/cash-flows GET api endpoint.', function () {
+        it('can return collection of cash flow resource when using /api/v1/cash_flows GET api endpoint.', function () {
             // Arrange:
             $no_of_cash_flows = 50;
             $portfolio = PortfolioModel::factory()->create();
@@ -19,7 +19,7 @@ describe('Feature: ListCashFlowController', function () {
             CashFlowModel::factory($no_of_cash_flows)->for($portfolio)->create();
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->getJson('/api/v1/cash-flows');
+            $response = $this->actingAs($portfolio->user)->getJson('/api/v1/cash_flows');
 
             // Assert:
             $response->assertOk()
@@ -29,7 +29,7 @@ describe('Feature: ListCashFlowController', function () {
                 ]);
         });
 
-        it('can paginate cash flows when using /api/v1/cash-flows GET api endpoint.', function () {
+        it('can paginate cash flows when using /api/v1/cash_flows GET api endpoint.', function () {
             // Arrange:
             $no_of_cash_flows = 50;
             $portfolio = PortfolioModel::factory()->create();
@@ -45,7 +45,7 @@ describe('Feature: ListCashFlowController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/cash-flows?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/cash_flows?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -54,7 +54,7 @@ describe('Feature: ListCashFlowController', function () {
                 ->assertJsonCount($per_page, 'data');
         });
 
-        it('can filter cash flows by type when using /api/v1/cash-flows GET api endpoint.', function () {
+        it('can filter cash flows by type when using /api/v1/cash_flows GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -68,7 +68,7 @@ describe('Feature: ListCashFlowController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/cash-flows?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/cash_flows?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -76,7 +76,7 @@ describe('Feature: ListCashFlowController', function () {
                 ->assertJsonPath('data.0.type', CashFlowType::DEPOSIT->value);
         });
 
-        it('can sort cash flows by amount descending when using /api/v1/cash-flows GET api endpoint.', function () {
+        it('can sort cash flows by amount descending when using /api/v1/cash_flows GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -91,7 +91,7 @@ describe('Feature: ListCashFlowController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/cash-flows?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/cash_flows?%s', $query));
 
             $data = $response->json('data');
 
@@ -101,7 +101,7 @@ describe('Feature: ListCashFlowController', function () {
             expect($amounts)->toBe([300, 200, 100]);
         });
 
-        it('can search cash flows by amount when using /api/v1/cash-flows GET api endpoint.', function () {
+        it('can search cash flows by amount when using /api/v1/cash_flows GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -115,7 +115,7 @@ describe('Feature: ListCashFlowController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/cash-flows?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/cash_flows?%s', $query));
 
             // Assert:
             $response->assertOk()
@@ -123,7 +123,7 @@ describe('Feature: ListCashFlowController', function () {
                 ->assertJsonPath('data.0.amount', $amount_to_search);
         });
 
-        it('can apply search, filter, sort, and pagination together when using /api/v1/cash-flows GET api endpoint.', function () {
+        it('can apply search, filter, sort, and pagination together when using /api/v1/cash_flows GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -147,7 +147,7 @@ describe('Feature: ListCashFlowController', function () {
             ]);
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/cash-flows?%s', $query));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/cash_flows?%s', $query));
 
             // Assert
             $response->assertOk()
@@ -157,13 +157,13 @@ describe('Feature: ListCashFlowController', function () {
 
         });
 
-        it('can return empty data and 0 total record when no records found upon using /api/v1/cash-flows GET api endpoint.', function () {
+        it('can return empty data and 0 total record when no records found upon using /api/v1/cash_flows GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
 
             // Act:
 
-            $response = $this->actingAs($user)->getJson('/api/v1/cash-flows');
+            $response = $this->actingAs($user)->getJson('/api/v1/cash_flows');
 
             // Assert:
             $response->assertOk()
@@ -176,11 +176,11 @@ describe('Feature: ListCashFlowController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/cash-flows GET api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/cash_flows GET api endpoint unauthenticated.', function () {
             // Arrange:
 
             // Act:
-            $response = $this->getJson('/api/v1/cash-flows');
+            $response = $this->getJson('/api/v1/cash_flows');
 
             // Assert:
             $response->assertUnauthorized()
@@ -189,7 +189,7 @@ describe('Feature: ListCashFlowController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/cash-flows GET api endpoint.', function () {
+        it('can handle server error response when using /api/v1/cash_flows GET api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
 
@@ -201,7 +201,7 @@ describe('Feature: ListCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->getJson('/api/v1/cash-flows');
+            $response = $this->actingAs($user)->getJson('/api/v1/cash_flows');
 
             // Assert:
             $response->assertInternalServerError()

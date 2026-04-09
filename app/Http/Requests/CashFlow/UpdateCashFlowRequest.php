@@ -11,8 +11,6 @@ class UpdateCashFlowRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'portfolio_id' => ['required', 'integer', 'exists:portfolios,id'],
-            'id' => ['required', 'integer', 'exists:cash_flows'],
             'type' => ['required', new Enum(CashFlowType::class)],
             'amount' => ['required', 'integer'],
         ];

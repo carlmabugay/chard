@@ -2,7 +2,6 @@
 
 use App\Application\CashFlow\UserCases\GetCashFlow;
 use App\Domain\CashFlow\Entities\CashFlow;
-use App\Domain\CashFlow\Services\CashFlowService;
 use App\Models\CashFlow as CashFlowModel;
 
 describe('Integration: GetCashFlow Use Case', function () {
@@ -13,18 +12,10 @@ describe('Integration: GetCashFlow Use Case', function () {
 
         $cash_flow_entity = CashFlow::fromEloquentModel($cash_flow_model);
 
-        $service = Mockery::mock(CashFlowService::class);
-
-        $use_case = new GetCashFlow($service);
-
-        // Expectation:
-        $service->shouldReceive('findById')
-            ->once()
-            ->with($cash_flow_model->id)
-            ->andReturn($cash_flow_entity);
+        $use_case = new GetCashFlow;
 
         // Act:
-        $result = $use_case->handle($cash_flow_model->id);
+        $result = $use_case->handle($cash_flow_model);
 
         // Assert:
         expect($result)

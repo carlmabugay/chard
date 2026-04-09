@@ -8,19 +8,17 @@ describe('Feature: UpdateCashFlowController', function () {
 
     describe('Positives', function () {
 
-        it('can update existing cash flow resource when using /api/v1/cash-flows PUT api endpoint.', function () {
+        it('can update existing cash flow resource when using /api/v1/cash_flows/{cash_flow} PUT api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
 
             $payload = [
-                'portfolio_id' => $cash_flow->portfolio->id,
                 'type' => $cash_flow->type->value,
                 'amount' => 1000,
-                'id' => $cash_flow->id,
             ];
 
             // Act:
-            $response = $this->actingAs($cash_flow->portfolio->user)->putJson('/api/v1/cash-flows', $payload);
+            $response = $this->actingAs($cash_flow->portfolio->user)->putJson(sprintf('/api/v1/cash_flows/%s', $cash_flow->id), $payload);
 
             // Assert:
             $this->assertDatabaseHas('cash_flows', $payload);
@@ -38,19 +36,17 @@ describe('Feature: UpdateCashFlowController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/cash-flows PUT api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/cash_flows/{cash_flow} PUT api endpoint unauthenticated.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
 
             $payload = [
-                'portfolio_id' => $cash_flow->portfolio->id,
                 'type' => $cash_flow->type->value,
                 'amount' => 1000,
-                'id' => $cash_flow->id,
             ];
 
             // Act:
-            $response = $this->putJson('/api/v1/cash-flows', $payload);
+            $response = $this->putJson(sprintf('/api/v1/cash_flows/%s', $cash_flow->id), $payload);
 
             // Assert:
             $response->assertUnauthorized()
@@ -59,7 +55,7 @@ describe('Feature: UpdateCashFlowController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/cash-flows PUT api endpoint.', function () {
+        it('can handle server error response when using /api/v1/cash_flows/{cash_flow} PUT api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
 
@@ -67,7 +63,6 @@ describe('Feature: UpdateCashFlowController', function () {
                 'portfolio_id' => $cash_flow->portfolio->id,
                 'type' => $cash_flow->type->value,
                 'amount' => 1000,
-                'id' => $cash_flow->id,
             ];
 
             // Expectation:
@@ -78,7 +73,7 @@ describe('Feature: UpdateCashFlowController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($cash_flow->portfolio->user)->putJson('/api/v1/cash-flows', $payload);
+            $response = $this->actingAs($cash_flow->portfolio->user)->putJson(sprintf('/api/v1/cash_flows/%s', $cash_flow->id), $payload);
 
             // Assert:
             $response->assertInternalServerError()

@@ -23,27 +23,18 @@ class EloquentCashFlowWriteRepository implements CashFlowWriteRepositoryInterfac
 
     }
 
-    /*
-     * @throws ModelNotFoundException
-     */
-    public function trash(int $id): ?bool
+    public function trash(CashFlowModel $cash_flow): ?bool
     {
-        return CashFlowModel::query()->findOrFail($id)->delete();
+        return $cash_flow->query()->delete();
     }
 
-    /*
-     * @throws ModelNotFoundException
-     */
-    public function restore(int $id): ?bool
+    public function restore(CashFlowModel $cash_flow): ?bool
     {
-        return CashFlowModel::query()->withTrashed()->findOrFail($id)->restore();
+        return $cash_flow->query()->restore();
     }
 
-    /*
-     * @throws ModelNotFoundException
-     */
-    public function delete(int $id): ?bool
+    public function delete(CashFlowModel $cash_flow): ?bool
     {
-        return CashFlowModel::query()->findOrFail($id)->forceDelete();
+        return $cash_flow->query()->forceDelete();
     }
 }
