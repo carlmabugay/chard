@@ -2,14 +2,13 @@
 
 use App\Application\Portolio\UseCases\GetPortfolio;
 use App\Models\Portfolio as PortfolioModel;
-use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: ShowPortfolioController', function () {
 
     describe('Positives', function () {
 
-        it('can return a portfolio resource when using /api/v1/portfolios/{id} GET api endpoint.', function () {
+        it('can return a portfolio resource when using /api/v1/portfolios/{portfolio} GET api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -33,7 +32,7 @@ describe('Feature: ShowPortfolioController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{id} GET api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{portfolio} GET api endpoint unauthenticated.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -47,7 +46,7 @@ describe('Feature: ShowPortfolioController', function () {
                 ]);
         });
 
-        it('can handle error message when no record found upon using /api/v1/portfolios/{id} GET api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/portfolios/{portfolio} GET api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $portfolio = PortfolioModel::factory()->create();
@@ -59,15 +58,15 @@ describe('Feature: ShowPortfolioController', function () {
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Portfolio not found.',
-                    'message' => sprintf('Portfolio with ID: [%s] not found.', $random_id),
+                    'error' => 'Record not found.',
+                    'message' => sprintf('No query results for model [App\\Models\\Portfolio] %s.', $random_id),
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/portfolios/{id} GET api endpoint.', function () {
+        it('can handle server error response when using /api/v1/portfolios/{portfolio} GET api endpoint.', function () {
             // Arrange:
             $random_id = 100;
-            $user = UserModel::factory()->create();
+            $portfolio = PortfolioModel::factory()->create();
 
             // Expectation:
             $this->mock(GetPortfolio::class, function (MockInterface $mock) {
@@ -77,7 +76,7 @@ describe('Feature: ShowPortfolioController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/portfolios/%s', $random_id));
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/portfolios/%s', $portfolio->id));
 
             // Assert:
             $response->assertInternalServerError()

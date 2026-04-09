@@ -24,13 +24,4 @@ readonly class StorePortfolioDTO
     {
         return $this->id;
     }
-
-    public static function fromRequest(array $request): self
-    {
-        return new self(
-            user_id: $request['user_id'],
-            name: $request['name'],
-            id: $request['id'] ?? null,
-        );
-    }
 }

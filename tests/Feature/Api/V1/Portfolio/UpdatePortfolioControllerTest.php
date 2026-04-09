@@ -8,18 +8,16 @@ describe('Feature: UpdatePortfolioController', function () {
 
     describe('Positives', function () {
 
-        it('can update existing portfolio resource when using /api/v1/portfolios PUT api endpoint.', function () {
+        it('can update existing portfolio resource when using /api/v1/portfolios/{portfolio} PUT api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
             $payload = [
-                'user_id' => $portfolio->user->id,
-                'id' => $portfolio->id,
                 'name' => 'PH Stock Market',
             ];
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->putJson('/api/v1/portfolios', $payload);
+            $response = $this->actingAs($portfolio->user)->putJson(sprintf('/api/v1/portfolios/%s', $portfolio->id), $payload);
 
             // Assert:
             $this->assertDatabaseHas('portfolios', $payload);
@@ -37,18 +35,16 @@ describe('Feature: UpdatePortfolioController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/portfolios PUT api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{portfolio} PUT api endpoint unauthenticated.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
             $payload = [
-                'user_id' => $portfolio->user->id,
-                'id' => $portfolio->id,
                 'name' => 'PH Stock Market',
             ];
 
             // Act:
-            $response = $this->putJson('/api/v1/portfolios', $payload);
+            $response = $this->putJson(sprintf('/api/v1/portfolios/%s', $portfolio->id), $payload);
 
             // Assert:
             $response->assertUnauthorized()
@@ -57,13 +53,28 @@ describe('Feature: UpdatePortfolioController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/portfolios PUT api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/portfolios/{portfolio} PUT api endpoint.', function () {
+            // Arrange:
+            $random_id = 100;
+            $portfolio = PortfolioModel::factory()->create();
+
+            // Act:
+            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/portfolios/%s', $random_id));
+
+            // Assert:
+            $response->assertNotFound()
+                ->assertJson([
+                    'success' => false,
+                    'error' => 'Record not found.',
+                    'message' => sprintf('No query results for model [App\\Models\\Portfolio] %s.', $random_id),
+                ]);
+        });
+
+        it('can handle server error response when using /api/v1/portfolios/{portfolio} PUT api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
             $payload = [
-                'user_id' => $portfolio->user->id,
-                'id' => $portfolio->id,
                 'name' => 'PH Stock Market',
             ];
 
@@ -75,7 +86,7 @@ describe('Feature: UpdatePortfolioController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->putJson('/api/v1/portfolios', $payload);
+            $response = $this->actingAs($portfolio->user)->putJson(sprintf('/api/v1/portfolios/%s', $portfolio->id), $payload);
 
             // Assert:
             $response->assertInternalServerError()

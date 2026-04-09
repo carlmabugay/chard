@@ -2,7 +2,6 @@
 
 use App\Application\Portolio\UseCases\GetPortfolio;
 use App\Domain\Portfolio\Entities\Portfolio;
-use App\Domain\Portfolio\Services\PortfolioService;
 use App\Models\Portfolio as PortfolioModel;
 
 describe('Integration: GetPortfolio Use Case', function () {
@@ -13,18 +12,10 @@ describe('Integration: GetPortfolio Use Case', function () {
 
         $portfolio_entity = Portfolio::fromEloquentModel($portfolio_model);
 
-        $service = Mockery::mock(PortfolioService::class);
-
-        $use_case = new GetPortfolio($service);
-
-        // Expectation:
-        $service->shouldReceive('findById')
-            ->once()
-            ->with($portfolio_model->id)
-            ->andReturn($portfolio_entity);
+        $use_case = new GetPortfolio;
 
         // Act:
-        $result = $use_case->handle($portfolio_model->id);
+        $result = $use_case->handle($portfolio_model);
 
         // Assert:
         expect($result)

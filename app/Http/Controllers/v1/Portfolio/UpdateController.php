@@ -7,16 +7,20 @@ use App\Application\Portolio\UseCases\StorePortfolio;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Portfolio\UpdatePortfolioRequest;
 use App\Http\Resources\Portfolio\PortfolioResource;
+use App\Models\Portfolio;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class UpdateController extends Controller
 {
-    public function __invoke(UpdatePortfolioRequest $request, StorePortfolio $use_case): PortfolioResource|JsonResponse
+    public function __invoke(Portfolio $portfolio, UpdatePortfolioRequest $request, StorePortfolio $use_case): PortfolioResource|JsonResponse
     {
         try {
 
-            $dto = StorePortfolioDTO::fromRequest($request->validated());
+            $dto = new StorePortfolioDTO(
+                user_id: auth()->id(),
+                name: $request->validated('name'),
+            );
 
             $result = $use_case->handle($dto);
 

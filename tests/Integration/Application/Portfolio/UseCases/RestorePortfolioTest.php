@@ -17,11 +17,11 @@ describe('Integration: RestorePortfolio Use Case', function () {
         // Expectation:
         $service->shouldReceive('restore')
             ->once()
-            ->with($portfolio->id)
+            ->with($portfolio)
             ->andReturn(true);
 
         // Act:
-        $result = $use_case->handle($portfolio->id);
+        $result = $use_case->handle($portfolio);
 
         // Assert:
         expect($result)->toBeTrue();

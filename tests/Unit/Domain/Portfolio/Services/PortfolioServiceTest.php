@@ -5,6 +5,7 @@ use App\Domain\Portfolio\Contracts\Read\PortfolioReadRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
+use App\Models\Portfolio as PortfolioModel;
 
 beforeEach(function () {
     $this->write_repository = Mockery::mock(PortfolioWriteRepositoryInterface::class);
@@ -86,19 +87,15 @@ describe('Unit: PortfolioService', function () {
 
     it('can soft delete portfolio when using trash method.', function () {
         // Arrange:
-        $portfolio = new Portfolio(
-            user_id: rand(1, 10),
-            name: 'PH Stock Market',
-            id: rand(1, 10),
-        );
+        $portfolio = Mockery::mock(PortfolioModel::class);
 
         // Act:
         $this->write_repository->shouldReceive('trash')
             ->once()
-            ->with($portfolio->id())
+            ->with($portfolio)
             ->andReturn(true);
 
-        $result = $this->service->trash($portfolio->id());
+        $result = $this->service->trash($portfolio);
 
         // Assert
         expect($result)->toBeTrue();
@@ -106,19 +103,15 @@ describe('Unit: PortfolioService', function () {
 
     it('can restore trashed portfolio when using restore method.', function () {
         // Arrange:
-        $portfolio = new Portfolio(
-            user_id: rand(1, 10),
-            name: 'PH Stock Market',
-            id: rand(1, 10),
-        );
+        $portfolio = Mockery::mock(PortfolioModel::class);
 
         // Act:
         $this->write_repository->shouldReceive('restore')
             ->once()
-            ->with($portfolio->id())
+            ->with($portfolio)
             ->andReturn(true);
 
-        $result = $this->service->restore($portfolio->id());
+        $result = $this->service->restore($portfolio);
 
         // Assert
         expect($result)->toBeTrue();
@@ -126,20 +119,16 @@ describe('Unit: PortfolioService', function () {
 
     it('can hard delete portfolio when using delete method.', function () {
         // Arrange:
-        $portfolio = new Portfolio(
-            user_id: rand(1, 10),
-            name: 'PH Stock Market',
-            id: rand(1, 10),
-        );
+        $portfolio = Mockery::mock(PortfolioModel::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('delete')
             ->once()
-            ->with($portfolio->id())
+            ->with($portfolio)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->delete($portfolio->id());
+        $result = $this->service->delete($portfolio);
 
         // Assert:
         expect($result)->toBeTrue();

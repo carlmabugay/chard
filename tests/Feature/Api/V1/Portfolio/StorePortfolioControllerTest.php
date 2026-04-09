@@ -13,7 +13,6 @@ describe('Feature: StorePortfolioController', function () {
             $user = UserModel::factory()->create();
 
             $payload = [
-                'user_id' => $user->id,
                 'name' => 'PH Stock Market',
             ];
 
@@ -39,7 +38,6 @@ describe('Feature: StorePortfolioController', function () {
             $user = UserModel::factory()->create();
 
             $payload = [
-                'user_id' => $user->id,
                 'name' => 'PH Stock Market',
             ];
 
@@ -58,7 +56,6 @@ describe('Feature: StorePortfolioController', function () {
             $user = UserModel::factory()->create();
 
             $payload = [
-                'user_id' => $user->id,
                 'name' => 'PH Stock Market',
             ];
 

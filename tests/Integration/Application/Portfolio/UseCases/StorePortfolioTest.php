@@ -12,10 +12,10 @@ describe('Integration: StorePortfolio Use Case', function () {
         // Arrange:
         $user = UserModel::factory()->create();
 
-        $dto = StorePortfolioDTO::fromRequest([
-            'user_id' => $user->id,
-            'name' => 'PH Stock Market',
-        ]);
+        $dto = new StorePortfolioDTO(
+            user_id: $user->id,
+            name: 'PH Stock Market',
+        );
 
         $portfolio_entity = Portfolio::fromDTO($dto);
 

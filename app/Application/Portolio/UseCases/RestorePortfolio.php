@@ -3,6 +3,7 @@
 namespace App\Application\Portolio\UseCases;
 
 use App\Domain\Portfolio\Services\PortfolioService;
+use App\Models\Portfolio as PortfolioModel;
 
 class RestorePortfolio
 {
@@ -10,8 +11,8 @@ class RestorePortfolio
         protected readonly PortfolioService $service
     ) {}
 
-    public function handle(int $id): ?bool
+    public function handle(PortfolioModel $portfolio): ?bool
     {
-        return $this->service->restore($id);
+        return $this->service->restore($portfolio);
     }
 }

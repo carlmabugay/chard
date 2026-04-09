@@ -3,6 +3,7 @@
 namespace App\Application\Portolio\UseCases;
 
 use App\Domain\Portfolio\Services\PortfolioService;
+use App\Models\Portfolio as PortfolioModel;
 
 class DeletePortfolio
 {
@@ -10,8 +11,8 @@ class DeletePortfolio
         protected readonly PortfolioService $service
     ) {}
 
-    public function handle(int $id): ?bool
+    public function handle(PortfolioModel $portfolio): ?bool
     {
-        return $this->service->delete($id);
+        return $this->service->delete($portfolio);
     }
 }

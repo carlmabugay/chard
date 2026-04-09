@@ -6,6 +6,7 @@ use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Portfolio\Contracts\Read\PortfolioReadRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Portfolio\Entities\Portfolio;
+use App\Models\Portfolio as PortfolioModel;
 
 class PortfolioService
 {
@@ -29,18 +30,18 @@ class PortfolioService
         return $this->write_repository->store($portfolio);
     }
 
-    public function trash(int $id): ?bool
+    public function trash(PortfolioModel $portfolio): ?bool
     {
-        return $this->write_repository->trash($id);
+        return $this->write_repository->trash($portfolio);
     }
 
-    public function restore(int $id): ?bool
+    public function restore(PortfolioModel $portfolio): ?bool
     {
-        return $this->write_repository->restore($id);
+        return $this->write_repository->restore($portfolio);
     }
 
-    public function delete(int $id): ?bool
+    public function delete(PortfolioModel $portfolio): ?bool
     {
-        return $this->write_repository->delete($id);
+        return $this->write_repository->delete($portfolio);
     }
 }

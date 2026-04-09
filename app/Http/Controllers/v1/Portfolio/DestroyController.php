@@ -6,7 +6,6 @@ use App\Application\Portolio\UseCases\DeletePortfolio;
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
 use App\Traits\HasModelNotFoundExceptionResponse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
@@ -14,19 +13,15 @@ final class DestroyController extends Controller
 {
     use HasModelNotFoundExceptionResponse;
 
-    public function __invoke(int $id, DeletePortfolio $use_case): JsonResponse
+    public function __invoke(Portfolio $portfolio, DeletePortfolio $use_case): JsonResponse
     {
         try {
 
-            $result = $use_case->handle($id);
+            $result = $use_case->handle($portfolio);
 
             return response()->json([
                 'success' => $result,
             ]);
-
-        } catch (ModelNotFoundException) {
-
-            return $this->modelNotFoundResponse(Portfolio::class, $id);
 
         } catch (Throwable $error) {
 

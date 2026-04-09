@@ -2,14 +2,13 @@
 
 use App\Application\Portolio\UseCases\RestorePortfolio;
 use App\Models\Portfolio as PortfolioModel;
-use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: RestorePortfolioController', function () {
 
     describe('Positives', function () {
 
-        it('can restore trashed portfolio resource when using /api/v1/portfolios PATCH api endpoint.', function () {
+        it('can restore trashed portfolio resource when using /api/v1/portfolios/{portfolio} PATCH api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->trashed()->create();
 
@@ -29,7 +28,7 @@ describe('Feature: RestorePortfolioController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/portfolios PATCH api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{portfolio} PATCH api endpoint unauthenticated.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->trashed()->create();
 
@@ -43,7 +42,7 @@ describe('Feature: RestorePortfolioController', function () {
                 ]);
         });
 
-        it('can handle error message when no record found upon using /api/v1/portfolios/{id} PATCH api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/portfolios/{portfolio} PATCH api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $portfolio = PortfolioModel::factory()->trashed()->create();
@@ -55,15 +54,14 @@ describe('Feature: RestorePortfolioController', function () {
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Portfolio not found.',
-                    'message' => sprintf('Portfolio with ID: [%s] not found.', $random_id),
+                    'error' => 'Record not found.',
+                    'message' => sprintf('No query results for model [App\\Models\\Portfolio] %s.', $random_id),
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/portfolios/{id} PATCH api endpoint.', function () {
+        it('can handle server error response when using /api/v1/portfolios/{portfolio} PATCH api endpoint.', function () {
             // Arrange:
-            $random_id = 100;
-            $user = UserModel::factory()->create();
+            $portfolio = PortfolioModel::factory()->create();
 
             // Expectation:
             $this->mock(RestorePortfolio::class, function (MockInterface $mock) {
@@ -73,7 +71,7 @@ describe('Feature: RestorePortfolioController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->patchJson(sprintf('/api/v1/portfolios/%s', $random_id));
+            $response = $this->actingAs($portfolio->user)->patchJson(sprintf('/api/v1/portfolios/%s', $portfolio->id));
 
             // Assert:
             $response->assertInternalServerError()

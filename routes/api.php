@@ -50,11 +50,11 @@ Route::prefix('v1')->group(function () {
         Route::prefix('portfolios')->group(function () {
             Route::get('/', ListPortfolioController::class);
             Route::post('/', StorePortfolioController::class);
-            Route::get('/{id}', ShowPortfolioController::class);
-            Route::put('/', UpdatePortfolioController::class);
-            Route::delete('/{id}/trash', TrashPortfolioController::class);
-            Route::patch('/{id}', RestorePortfolioController::class);
-            Route::delete('/{id}/destroy', DestroyPortfolioController::class);
+            Route::get('/{portfolio}', ShowPortfolioController::class);
+            Route::put('/{portfolio}', UpdatePortfolioController::class);
+            Route::delete('/{portfolio}/trash', TrashPortfolioController::class);
+            Route::patch('/{portfolio}', RestorePortfolioController::class)->withTrashed();
+            Route::delete('/{portfolio}/destroy', DestroyPortfolioController::class);
         });
 
         Route::prefix('strategies')->group(function () {

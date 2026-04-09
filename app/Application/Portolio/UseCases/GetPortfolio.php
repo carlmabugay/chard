@@ -3,16 +3,12 @@
 namespace App\Application\Portolio\UseCases;
 
 use App\Domain\Portfolio\Entities\Portfolio;
-use App\Domain\Portfolio\Services\PortfolioService;
+use App\Models\Portfolio as PortfolioModel;
 
 class GetPortfolio
 {
-    public function __construct(
-        private readonly PortfolioService $service
-    ) {}
-
-    public function handle(int $id): Portfolio
+    public function handle(PortfolioModel $portfolio): Portfolio
     {
-        return $this->service->findById($id);
+        return Portfolio::fromEloquentModel($portfolio);
     }
 }

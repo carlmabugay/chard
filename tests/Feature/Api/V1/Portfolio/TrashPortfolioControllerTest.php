@@ -2,14 +2,13 @@
 
 use App\Application\Portolio\UseCases\TrashPortfolio;
 use App\Models\Portfolio as PortfolioModel;
-use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: TrashPortfolioController', function () {
 
     describe('Positives', function () {
 
-        it('can soft delete portfolio resource when using /api/v1/portfolios/{id}/trash DELETE api endpoint.', function () {
+        it('can soft delete portfolio resource when using /api/v1/portfolios/{portfolio}/trash DELETE api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -29,7 +28,7 @@ describe('Feature: TrashPortfolioController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{id}/trash DELETE api endpoint.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{portfolio}/trash DELETE api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();
 
@@ -43,7 +42,7 @@ describe('Feature: TrashPortfolioController', function () {
                 ]);
         });
 
-        it('can handle error message when no record found upon using /api/v1/portfolios/{id}/trash DELETE api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/portfolios/{portfolio}/trash DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $portfolio = PortfolioModel::factory()->create();
@@ -55,15 +54,14 @@ describe('Feature: TrashPortfolioController', function () {
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Portfolio not found.',
-                    'message' => sprintf('Portfolio with ID: [%s] not found.', $random_id),
+                    'error' => 'Record not found.',
+                    'message' => sprintf('No query results for model [App\\Models\\Portfolio] %s.', $random_id),
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/portfolios/{id}/trash DELETE api endpoint.', function () {
+        it('can handle server error response when using /api/v1/portfolios/{portfolio}/trash DELETE api endpoint.', function () {
             // Arrange:
-            $random_id = 100;
-            $user = UserModel::factory()->create();
+            $portfolio = PortfolioModel::factory()->create();
 
             // Expectation:
             $this->mock(TrashPortfolio::class, function (MockInterface $mock) {
@@ -73,7 +71,7 @@ describe('Feature: TrashPortfolioController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/portfolios/%s/trash', $random_id));
+            $response = $this->actingAs($portfolio->user)->deleteJson(sprintf('/api/v1/portfolios/%s/trash', $portfolio->id));
 
             // Assert:
             $response->assertInternalServerError()

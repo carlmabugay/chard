@@ -16,7 +16,10 @@ final class StoreController extends Controller
     {
         try {
 
-            $dto = StorePortfolioDTO::fromRequest($request->validated());
+            $dto = new StorePortfolioDTO(
+                user_id: auth()->id(),
+                name: $request->validated('name'),
+            );
 
             $result = $use_case->handle($dto);
 

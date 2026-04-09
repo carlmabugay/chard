@@ -21,18 +21,18 @@ class EloquentPortfolioWriteRepository implements PortfolioWriteRepositoryInterf
         return Portfolio::fromEloquentModel($stored_portfolio);
     }
 
-    public function trash(int $id): ?bool
+    public function trash(PortfolioModel $portfolio): ?bool
     {
-        return PortfolioModel::query()->findOrFail($id)->delete();
+        return $portfolio->query()->delete();
     }
 
-    public function restore(int $id): ?bool
+    public function restore(PortfolioModel $portfolio): ?bool
     {
-        return PortfolioModel::query()->withTrashed()->findOrFail($id)->restore();
+        return $portfolio->query()->restore();
     }
 
-    public function delete(int $id): ?bool
+    public function delete(PortfolioModel $portfolio): ?bool
     {
-        return PortfolioModel::query()->findOrFail($id)->forceDelete();
+        return $portfolio->query()->forceDelete();
     }
 }
