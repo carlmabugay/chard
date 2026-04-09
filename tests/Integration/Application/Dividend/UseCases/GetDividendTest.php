@@ -2,7 +2,6 @@
 
 use App\Application\Dividend\UseCases\GetDividend;
 use App\Domain\Dividend\Entities\Dividend;
-use App\Domain\Dividend\Services\DividendService;
 use App\Models\Dividend as DividendModel;
 
 describe('Integration: GetDividend Use Case', function () {
@@ -14,18 +13,10 @@ describe('Integration: GetDividend Use Case', function () {
 
         $dividend_entity = Dividend::fromEloquentModel($dividend_model);
 
-        $service = Mockery::mock(DividendService::class);
-
-        $use_case = new GetDividend($service);
-
-        // Expectation:
-        $service->shouldReceive('findById')
-            ->once()
-            ->with($dividend_model->id)
-            ->andReturn($dividend_entity);
+        $use_case = new GetDividend;
 
         // Act:
-        $result = $use_case->handle($dividend_model->id);
+        $result = $use_case->handle($dividend_model);
 
         // Assert:
         expect($result)

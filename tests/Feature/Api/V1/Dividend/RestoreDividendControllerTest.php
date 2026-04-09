@@ -2,7 +2,6 @@
 
 use App\Application\Dividend\UseCases\RestoreDividend;
 use App\Models\Dividend as DividendModel;
-use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: RestoreDividendController', function () {
@@ -43,7 +42,7 @@ describe('Feature: RestoreDividendController', function () {
                 ]);
         });
 
-        it('can handle error message when no record found upon using /api/v1/dividends/{id} PATCH api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/dividends/{dividend} PATCH api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $dividend = DividendModel::factory()->trashed()->create();
@@ -55,15 +54,14 @@ describe('Feature: RestoreDividendController', function () {
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Dividend not found.',
-                    'message' => sprintf('Dividend with ID: [%s] not found.', $random_id),
+                    'error' => 'Record not found.',
+                    'message' => sprintf('No query results for model [App\\Models\\Dividend] %s.', $random_id),
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/dividends/{id} PATCH api endpoint.', function () {
+        it('can handle server error response when using /api/v1/dividends/{dividend} PATCH api endpoint.', function () {
             // Arrange:
-            $random_id = 100;
-            $user = UserModel::factory()->create();
+            $dividend = DividendModel::factory()->trashed()->create();
 
             // Expectation:
             $this->mock(RestoreDividend::class, function (MockInterface $mock) {
@@ -73,7 +71,7 @@ describe('Feature: RestoreDividendController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->patchJson(sprintf('/api/v1/dividends/%s', $random_id));
+            $response = $this->actingAs($dividend->portfolio->user)->patchJson(sprintf('/api/v1/dividends/%s', $dividend->id));
 
             // Assert:
             $response->assertInternalServerError()

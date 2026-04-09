@@ -12,7 +12,6 @@ class UpdateDividendRequest extends FormRequest
             'portfolio_id' => ['required', 'integer', 'exists:portfolios,id'],
             'symbol' => ['required', 'string'],
             'amount' => ['required', 'integer', 'min:1'],
-            'id' => ['required', 'integer', 'exists:dividends,id'],
             'recorded_at' => ['required', 'date', 'date_format:Y-m-d H:i:s'],
         ];
     }

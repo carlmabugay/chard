@@ -52,6 +52,27 @@ describe('Feature: UpdateStrategyController', function () {
                 ]);
         });
 
+        it('can handle error message when no record found upon using /api/v1/strategies/{strategy} PUT api endpoint.', function () {
+            // Arrange:
+            $random_id = 100;
+            $strategy = StrategyModel::factory()->create();
+
+            $payload = [
+                'name' => 'Pullback Trading',
+            ];
+
+            // Act:
+            $response = $this->actingAs($strategy->user)->putJson(sprintf('/api/v1/strategies/%s', $random_id), $payload);
+
+            // Assert:
+            $response->assertNotFound()
+                ->assertJson([
+                    'success' => false,
+                    'error' => 'Record not found.',
+                    'message' => sprintf('No query results for model [App\\Models\\Strategy] %s.', $random_id),
+                ]);
+        });
+
         it('can handle server error response when using /api/v1/strategies/{strategy} PUT api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();

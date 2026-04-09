@@ -23,27 +23,24 @@ class EloquentDividendWriteRepository implements DividendWriteRepositoryInterfac
         return Dividend::fromEloquentModel($stored_dividend);
     }
 
-    /*
-     * @throws ModelNotFoundException
-     */
-    public function trash(int $id): ?bool
+    public function trash(DividendModel $dividend): ?bool
     {
-        return DividendModel::query()->findOrFail($id)->delete();
+        return $dividend->query()->delete();
     }
 
     /*
      * @throws ModelNotFoundException
      */
-    public function restore(int $id): ?bool
+    public function restore(DividendModel $dividend): ?bool
     {
-        return DividendModel::query()->withTrashed()->findOrFail($id)->restore();
+        return $dividend->query()->restore();
     }
 
     /*
      * @throws ModelNotFoundException
      */
-    public function delete(int $id): ?bool
+    public function delete(DividendModel $dividend): ?bool
     {
-        return DividendModel::query()->findOrFail($id)->forceDelete();
+        return $dividend->query()->forceDelete();
     }
 }

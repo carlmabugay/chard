@@ -3,6 +3,7 @@
 namespace App\Application\Dividend\UseCases;
 
 use App\Domain\Dividend\Services\DividendService;
+use App\Models\Dividend as DividendModel;
 
 class RestoreDividend
 {
@@ -10,9 +11,9 @@ class RestoreDividend
         protected readonly DividendService $service
     ) {}
 
-    public function handle(int $id): ?bool
+    public function handle(DividendModel $dividend): ?bool
     {
 
-        return $this->service->restore($id);
+        return $this->service->restore($dividend);
     }
 }

@@ -55,6 +55,28 @@ describe('Feature: UpdateCashFlowController', function () {
                 ]);
         });
 
+        it('can handle error message when no record found upon using /api/v1/cash_flows/{cash_flow} PUT api endpoint.', function () {
+            // Arrange:
+            $random_id = 100;
+            $cash_flow = CashFlowModel::factory()->create();
+
+            $payload = [
+                'type' => $cash_flow->type->value,
+                'amount' => 1000,
+            ];
+
+            // Act:
+            $response = $this->actingAs($cash_flow->portfolio->user)->putJson(sprintf('/api/v1/cash_flows/%s', $random_id), $payload);
+
+            // Assert:
+            $response->assertNotFound()
+                ->assertJson([
+                    'success' => false,
+                    'error' => 'Record not found.',
+                    'message' => sprintf('No query results for model [App\\Models\\CashFlow] %s.', $random_id),
+                ]);
+        });
+
         it('can handle server error response when using /api/v1/cash_flows/{cash_flow} PUT api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();

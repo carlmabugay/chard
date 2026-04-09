@@ -8,7 +8,7 @@ describe('Feature: UpdateDividendController', function () {
 
     describe('Positives', function () {
 
-        it('can update existing cash flow resource when using /api/v1/dividends PUT api endpoint.', function () {
+        it('can update existing cash flow resource when using /api/v1/dividends/{dividend} PUT api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();
 
@@ -16,12 +16,11 @@ describe('Feature: UpdateDividendController', function () {
                 'portfolio_id' => $dividend->portfolio->id,
                 'symbol' => $dividend->symbol,
                 'amount' => 1000,
-                'id' => $dividend->id,
                 'recorded_at' => $dividend->recorded_at->toDateTimeString(),
             ];
 
             // Act:
-            $response = $this->actingAs($dividend->portfolio->user)->putJson('/api/v1/dividends', $payload);
+            $response = $this->actingAs($dividend->portfolio->user)->putJson(sprintf('/api/v1/dividends/%s', $dividend->id), $payload);
 
             // Assert:
             $this->assertDatabaseHas('dividends', $payload);
@@ -39,7 +38,7 @@ describe('Feature: UpdateDividendController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/dividends PUT api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/dividends/{dividend} PUT api endpoint unauthenticated.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();
 
@@ -47,12 +46,11 @@ describe('Feature: UpdateDividendController', function () {
                 'portfolio_id' => $dividend->portfolio->id,
                 'symbol' => $dividend->symbol,
                 'amount' => 1000,
-                'id' => $dividend->id,
                 'recorded_at' => $dividend->recorded_at->toDateTimeString(),
             ];
 
             // Act:
-            $response = $this->putJson('/api/v1/dividends', $payload);
+            $response = $this->putJson(sprintf('/api/v1/cash_flows/%s', $dividend->id), $payload);
 
             // Assert:
             $response->assertUnauthorized()
@@ -61,7 +59,7 @@ describe('Feature: UpdateDividendController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/dividends PUT api endpoint.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/dividends PUT api endpoint unauthenticated.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();
 
@@ -69,7 +67,51 @@ describe('Feature: UpdateDividendController', function () {
                 'portfolio_id' => $dividend->portfolio->id,
                 'symbol' => $dividend->symbol,
                 'amount' => 1000,
-                'id' => $dividend->id,
+                'recorded_at' => $dividend->recorded_at->toDateTimeString(),
+            ];
+
+            // Act:
+            $response = $this->putJson(sprintf('/api/v1/dividends/%s', $dividend->id), $payload);
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can handle error message when no record found upon using /api/v1/portfolios/{portfolio} PUT api endpoint.', function () {
+            // Arrange:
+            $random_id = 100;
+            $dividend = DividendModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $dividend->portfolio->id,
+                'symbol' => $dividend->symbol,
+                'amount' => 1000,
+                'recorded_at' => $dividend->recorded_at->toDateTimeString(),
+            ];
+
+            // Act:
+            $response = $this->actingAs($dividend->portfolio->user)->putJson(sprintf('/api/v1/dividends/%s', $random_id), $payload);
+
+            // Assert:
+            $response->assertNotFound()
+                ->assertJson([
+                    'success' => false,
+                    'error' => 'Record not found.',
+                    'message' => sprintf('No query results for model [App\\Models\\Dividend] %s.', $random_id),
+                ]);
+        });
+
+        it('can handle server error response when using /api/v1/dividends/{dividend} PUT api endpoint.', function () {
+            // Arrange:
+            $dividend = DividendModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $dividend->portfolio->id,
+                'symbol' => $dividend->symbol,
+                'amount' => 1000,
                 'recorded_at' => $dividend->recorded_at->toDateTimeString(),
             ];
 
@@ -81,7 +123,7 @@ describe('Feature: UpdateDividendController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($dividend->portfolio->user)->putJson('/api/v1/dividends', $payload);
+            $response = $this->actingAs($dividend->portfolio->user)->putJson(sprintf('/api/v1/dividends/%s', $dividend->id), $payload);
 
             // Assert:
             $response->assertInternalServerError()

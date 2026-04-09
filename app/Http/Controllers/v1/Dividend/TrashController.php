@@ -5,28 +5,20 @@ namespace App\Http\Controllers\v1\Dividend;
 use App\Application\Dividend\UseCases\TrashDividend;
 use App\Http\Controllers\Controller;
 use App\Models\Dividend;
-use App\Traits\HasModelNotFoundExceptionResponse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class TrashController extends Controller
 {
-    use HasModelNotFoundExceptionResponse;
-
-    public function __invoke(int $id, TrashDividend $use_case): JsonResponse
+    public function __invoke(Dividend $dividend, TrashDividend $use_case): JsonResponse
     {
         try {
 
-            $result = $use_case->handle($id);
+            $result = $use_case->handle($dividend);
 
             return response()->json([
                 'success' => $result,
             ]);
-
-        } catch (ModelNotFoundException) {
-
-            return $this->modelNotFoundResponse(Dividend::class, $id);
 
         } catch (Throwable $error) {
 

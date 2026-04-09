@@ -2,7 +2,6 @@
 
 use App\Application\Dividend\UseCases\DeleteDividend;
 use App\Models\Dividend as DividendModel;
-use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: DestroyDividendController', function () {
@@ -55,15 +54,15 @@ describe('Feature: DestroyDividendController', function () {
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Dividend not found.',
-                    'message' => sprintf('Dividend with ID: [%s] not found.', $random_id),
+                    'error' => 'Record not found.',
+                    'message' => sprintf('No query results for model [App\\Models\\Dividend] %s.', $random_id),
                 ]);
         });
 
         it('can handle server error response when using /api/v1/dividends/{id}/destroy DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
-            $user = UserModel::factory()->create();
+            $dividend = DividendModel::factory()->create();
 
             // Expectation:
             $this->mock(DeleteDividend::class, function (MockInterface $mock) {
@@ -73,7 +72,7 @@ describe('Feature: DestroyDividendController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/dividends/%s/destroy', $random_id));
+            $response = $this->actingAs($dividend->portfolio->user)->deleteJson(sprintf('/api/v1/dividends/%s/destroy', $dividend->id));
 
             // Assert:
             $response->assertInternalServerError()

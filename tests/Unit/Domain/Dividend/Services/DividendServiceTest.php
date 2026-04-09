@@ -5,6 +5,7 @@ use App\Domain\Dividend\Contracts\Read\DividendReadRepositoryInterface;
 use App\Domain\Dividend\Contracts\Write\DividendWriteRepositoryInterface;
 use App\Domain\Dividend\Entities\Dividend;
 use App\Domain\Dividend\Services\DividendService;
+use App\Models\Dividend as DividendModel;
 
 beforeEach(function () {
     $this->write_repository = Mockery::mock(DividendWriteRepositoryInterface::class);
@@ -88,42 +89,32 @@ describe('Unit: DividendService', function () {
 
     it('can soft delete dividend when using trash method.', function () {
         // Arrange:
-        $dividend = new Dividend(
-            portfolio_id: rand(1, 10),
-            symbol: 'JFC',
-            amount: 5000,
-            id: rand(1, 10),
-        );
+        $dividend = Mockery::mock(DividendModel::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('trash')
             ->once()
-            ->with($dividend->id())
+            ->with($dividend)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->trash($dividend->id());
+        $result = $this->service->trash($dividend);
 
         expect($result)->toBeTrue();
     });
 
     it('can restore trashed dividend when using trash method.', function () {
         // Arrange:
-        $dividend = new Dividend(
-            portfolio_id: rand(1, 10),
-            symbol: 'JFC',
-            amount: 5000,
-            id: rand(1, 10),
-        );
+        $dividend = Mockery::mock(DividendModel::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('restore')
             ->once()
-            ->with($dividend->id())
+            ->with($dividend)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->restore($dividend->id());
+        $result = $this->service->restore($dividend);
 
         // Assert:
         expect($result)->toBeTrue();
@@ -131,21 +122,16 @@ describe('Unit: DividendService', function () {
 
     it('can hard delete dividend when using delete method.', function () {
         // Arrange:
-        $dividend = new Dividend(
-            portfolio_id: rand(1, 10),
-            symbol: 'JFC',
-            amount: 5000,
-            id: rand(1, 10),
-        );
+        $dividend = Mockery::mock(DividendModel::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('delete')
             ->once()
-            ->with($dividend->id())
+            ->with($dividend)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->delete($dividend->id());
+        $result = $this->service->delete($dividend);
 
         // Assert:
         expect($result)->toBeTrue();

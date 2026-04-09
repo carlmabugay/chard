@@ -17,11 +17,11 @@ describe('Integration: RestoreDividend Use Case', function () {
         // Expectation:
         $service->shouldReceive('restore')
             ->once()
-            ->with($dividend->id)
+            ->with($dividend)
             ->andReturn(true);
 
         // Act:
-        $result = $use_case->handle($dividend->id);
+        $result = $use_case->handle($dividend);
 
         // Assert
         expect($result)->toBeTrue();

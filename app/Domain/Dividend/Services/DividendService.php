@@ -6,6 +6,7 @@ use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Dividend\Contracts\Read\DividendReadRepositoryInterface;
 use App\Domain\Dividend\Contracts\Write\DividendWriteRepositoryInterface;
 use App\Domain\Dividend\Entities\Dividend;
+use App\Models\Dividend as DividendModel;
 
 class DividendService
 {
@@ -32,27 +33,18 @@ class DividendService
         return $this->write_repository->store($dividend);
     }
 
-    /*
-    * @throws ModelNotFoundException
-    */
-    public function trash(int $id): ?bool
+    public function trash(DividendModel $dividend): ?bool
     {
-        return $this->write_repository->trash($id);
+        return $this->write_repository->trash($dividend);
     }
 
-    /*
-     * @throws ModelNotFoundException
-     */
-    public function restore(int $id): ?bool
+    public function restore(DividendModel $dividend): ?bool
     {
-        return $this->write_repository->restore($id);
+        return $this->write_repository->restore($dividend);
     }
 
-    /*
-    * @throws ModelNotFoundException
-    */
-    public function delete(int $id): ?bool
+    public function delete(DividendModel $dividend): ?bool
     {
-        return $this->write_repository->delete($id);
+        return $this->write_repository->delete($dividend);
     }
 }

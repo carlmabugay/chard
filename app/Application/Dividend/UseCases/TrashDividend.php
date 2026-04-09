@@ -3,6 +3,7 @@
 namespace App\Application\Dividend\UseCases;
 
 use App\Domain\Dividend\Services\DividendService;
+use App\Models\Dividend as DividendModel;
 
 class TrashDividend
 {
@@ -10,8 +11,8 @@ class TrashDividend
         protected readonly DividendService $service
     ) {}
 
-    public function handle(int $id): ?bool
+    public function handle(DividendModel $dividend): ?bool
     {
-        return $this->service->trash($id);
+        return $this->service->trash($dividend);
     }
 }

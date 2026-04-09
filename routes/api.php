@@ -79,12 +79,12 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('dividends')->group(function () {
             Route::get('/', ListDividendController::class);
-            Route::get('/{id}', ShowDividendController::class);
+            Route::get('/{dividend}', ShowDividendController::class);
             Route::post('/', StoreDividendController::class);
-            Route::put('/', UpdateDividendController::class);
-            Route::delete('/{id}/trash', TrashDividendController::class);
-            Route::patch('/{id}', RestoreDividendController::class);
-            Route::delete('/{id}/destroy', DestroyDividendController::class);
+            Route::put('/{dividend}', UpdateDividendController::class);
+            Route::delete('/{dividend}/trash', TrashDividendController::class);
+            Route::patch('/{dividend}', RestoreDividendController::class)->withTrashed();
+            Route::delete('/{dividend}/destroy', DestroyDividendController::class);
         });
 
         Route::prefix('trade-logs')->group(function () {

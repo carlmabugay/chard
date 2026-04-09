@@ -3,14 +3,12 @@
 namespace App\Application\Dividend\UseCases;
 
 use App\Domain\Dividend\Entities\Dividend;
-use App\Domain\Dividend\Services\DividendService;
+use App\Models\Dividend as DividendModel;
 
 class GetDividend
 {
-    public function __construct(private readonly DividendService $service) {}
-
-    public function handle(int $id): Dividend
+    public function handle(DividendModel $dividend): Dividend
     {
-        return $this->service->findById($id);
+        return Dividend::fromEloquentModel($dividend);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Application\Dividend\UseCases;
 
 use App\Domain\Dividend\Services\DividendService;
+use App\Models\Dividend as DividendModel;
 
 class DeleteDividend
 {
@@ -10,8 +11,8 @@ class DeleteDividend
         protected readonly DividendService $service
     ) {}
 
-    public function handle(int $id): ?bool
+    public function handle(DividendModel $dividend): ?bool
     {
-        return $this->service->delete($id);
+        return $this->service->delete($dividend);
     }
 }
