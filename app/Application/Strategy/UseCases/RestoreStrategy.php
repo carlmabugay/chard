@@ -3,6 +3,7 @@
 namespace App\Application\Strategy\UseCases;
 
 use App\Domain\Strategy\Services\StrategyService;
+use App\Models\Strategy as StrategyModel;
 
 class RestoreStrategy
 {
@@ -10,8 +11,8 @@ class RestoreStrategy
         protected StrategyService $service
     ) {}
 
-    public function handle(int $id): ?bool
+    public function handle(StrategyModel $strategy): ?bool
     {
-        return $this->service->restore($id);
+        return $this->service->restore($strategy);
     }
 }

@@ -3,16 +3,12 @@
 namespace App\Application\Strategy\UseCases;
 
 use App\Domain\Strategy\Entities\Strategy;
-use App\Domain\Strategy\Services\StrategyService;
+use App\Models\Strategy as StrategyModel;
 
 class GetStrategy
 {
-    public function __construct(
-        private readonly StrategyService $service
-    ) {}
-
-    public function handle(int $id): Strategy
+    public function handle(StrategyModel $strategy): Strategy
     {
-        return $this->service->findById($id);
+        return Strategy::fromEloquentModel($strategy);
     }
 }

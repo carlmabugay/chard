@@ -8,18 +8,16 @@ describe('Feature: UpdateStrategyController', function () {
 
     describe('Positives', function () {
 
-        it('can update existing strategy resource when using /api/v1/strategies PUT api endpoint.', function () {
+        it('can update existing strategy resource when using /api/v1/strategies/{strategy} PUT api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
 
             $payload = [
-                'user_id' => $strategy->user->id,
-                'id' => $strategy->id,
                 'name' => 'Pullback Trading',
             ];
 
             // Act:
-            $response = $this->actingAs($strategy->user)->putJson('/api/v1/strategies', $payload);
+            $response = $this->actingAs($strategy->user)->putJson(sprintf('/api/v1/strategies/%s', $strategy->id), $payload);
 
             // Assert:
             $this->assertDatabaseHas('strategies', $payload);
@@ -36,18 +34,16 @@ describe('Feature: UpdateStrategyController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/strategies PUT api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/strategies/{strategy} PUT api endpoint unauthenticated.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
 
             $payload = [
-                'user_id' => $strategy->user->id,
-                'id' => $strategy->id,
                 'name' => 'Pullback Trading',
             ];
 
             // Act:
-            $response = $this->putJson('/api/v1/strategies', $payload);
+            $response = $this->putJson(sprintf('/api/v1/strategies/%s', $strategy->id), $payload);
 
             // Assert:
             $response->assertUnauthorized()
@@ -56,13 +52,11 @@ describe('Feature: UpdateStrategyController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/strategies PUT api endpoint.', function () {
+        it('can handle server error response when using /api/v1/strategies/{strategy} PUT api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
 
             $payload = [
-                'user_id' => $strategy->user->id,
-                'id' => $strategy->id,
                 'name' => 'Pullback Trading',
             ];
 
@@ -74,7 +68,7 @@ describe('Feature: UpdateStrategyController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($strategy->user)->putJson('/api/v1/strategies', $payload);
+            $response = $this->actingAs($strategy->user)->putJson(sprintf('/api/v1/strategies/%s', $strategy->id), $payload);
 
             // Assert:
             $response->assertInternalServerError()

@@ -13,7 +13,6 @@ describe('Feature: StoreStrategyController', function () {
             $user = UserModel::factory()->create();
 
             $payload = [
-                'user_id' => $user->id,
                 'name' => 'Trend Following',
             ];
 
@@ -39,7 +38,6 @@ describe('Feature: StoreStrategyController', function () {
             $user = UserModel::factory()->create();
 
             $payload = [
-                'user_id' => $user->id,
                 'name' => 'Trend Following',
             ];
 
@@ -58,7 +56,6 @@ describe('Feature: StoreStrategyController', function () {
             $user = UserModel::factory()->create();
 
             $payload = [
-                'user_id' => $user->id,
                 'name' => 'Trend Following',
             ];
 

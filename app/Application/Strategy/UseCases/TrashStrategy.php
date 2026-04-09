@@ -3,6 +3,7 @@
 namespace App\Application\Strategy\UseCases;
 
 use App\Domain\Strategy\Services\StrategyService;
+use App\Models\Strategy as StrategyModel;
 
 class TrashStrategy
 {
@@ -10,8 +11,8 @@ class TrashStrategy
         protected readonly StrategyService $service
     ) {}
 
-    public function handle(int $id): ?bool
+    public function handle(StrategyModel $strategy): ?bool
     {
-        return $this->service->trash($id);
+        return $this->service->trash($strategy);
     }
 }

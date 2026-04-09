@@ -5,6 +5,7 @@ use App\Domain\Strategy\Contracts\Read\StrategyReadRepositoryInterface;
 use App\Domain\Strategy\Contracts\Write\StrategyWriteRepositoryInterface;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Domain\Strategy\Services\StrategyService;
+use App\Models\Strategy as StrategyModel;
 
 beforeEach(function () {
     $this->write_repository = Mockery::mock(StrategyWriteRepositoryInterface::class);
@@ -86,20 +87,16 @@ describe('Unit: StrategyService', function () {
 
     it('can soft delete strategy when using trash method.', function () {
         // Arrange:
-        $strategy = new Strategy(
-            user_id: rand(1, 10),
-            name: 'Trend Following',
-            id: rand(1, 10),
-        );
+        $strategy = Mockery::mock(StrategyModel::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('trash')
             ->once()
-            ->with($strategy->id())
+            ->with($strategy)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->trash($strategy->id());
+        $result = $this->service->trash($strategy);
 
         // Assert:
         expect($result)->toBeTrue();
@@ -107,20 +104,16 @@ describe('Unit: StrategyService', function () {
 
     it('can restore trashed strategy when using restore method.', function () {
         // Arrange:
-        $strategy = new Strategy(
-            user_id: rand(1, 10),
-            name: 'Trend Following',
-            id: rand(1, 10),
-        );
+        $strategy = Mockery::mock(StrategyModel::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('restore')
             ->once()
-            ->with($strategy->id())
+            ->with($strategy)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->restore($strategy->id());
+        $result = $this->service->restore($strategy);
 
         // Assert:
         expect($result)->toBeTrue();
@@ -128,20 +121,16 @@ describe('Unit: StrategyService', function () {
 
     it('can hard delete strategy when using delete method.', function () {
         // Arrange:
-        $strategy = new Strategy(
-            user_id: rand(1, 10),
-            name: 'Trend Following',
-            id: rand(1, 10),
-        );
+        $strategy = Mockery::mock(StrategyModel::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('delete')
             ->once()
-            ->with($strategy->id())
+            ->with($strategy)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->delete($strategy->id());
+        $result = $this->service->delete($strategy);
 
         // Assert:
         expect($result)->toBeTrue();

@@ -3,6 +3,7 @@
 namespace App\Application\Strategy\UseCases;
 
 use App\Domain\Strategy\Services\StrategyService;
+use App\Models\Strategy as StrategyModel;
 
 class DeleteStrategy
 {
@@ -10,8 +11,8 @@ class DeleteStrategy
         protected readonly StrategyService $service
     ) {}
 
-    public function handle(int $id): ?bool
+    public function handle(StrategyModel $strategy): ?bool
     {
-        return $this->service->delete($id);
+        return $this->service->delete($strategy);
     }
 }

@@ -6,7 +6,6 @@ use App\Application\Strategy\UseCases\TrashStrategy;
 use App\Http\Controllers\Controller;
 use App\Models\Strategy;
 use App\Traits\HasModelNotFoundExceptionResponse;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
@@ -14,19 +13,15 @@ final class TrashController extends Controller
 {
     use HasModelNotFoundExceptionResponse;
 
-    public function __invoke(int $id, TrashStrategy $use_case): JsonResponse
+    public function __invoke(Strategy $strategy, TrashStrategy $use_case): JsonResponse
     {
         try {
 
-            $result = $use_case->handle($id);
+            $result = $use_case->handle($strategy);
 
             return response()->json([
                 'success' => $result,
             ]);
-
-        } catch (ModelNotFoundException) {
-
-            return $this->modelNotFoundResponse(Strategy::class, $id);
 
         } catch (Throwable $error) {
 

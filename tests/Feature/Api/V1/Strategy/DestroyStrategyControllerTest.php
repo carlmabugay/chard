@@ -2,14 +2,13 @@
 
 use App\Application\Strategy\UseCases\DeleteStrategy;
 use App\Models\Strategy as StrategyModel;
-use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: DestroyStrategyController', function () {
 
     describe('Positives', function () {
 
-        it('can hard delete a strategy resource when using /api/v1/strategies/{id}/destroy DELETE api endpoint.', function () {
+        it('can hard delete a strategy resource when using /api/v1/strategies/{strategy}/destroy DELETE api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
 
@@ -29,7 +28,7 @@ describe('Feature: DestroyStrategyController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/strategies/{id}/destroy DELETE api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/strategies/{strategy}/destroy DELETE api endpoint unauthenticated.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
 
@@ -43,7 +42,7 @@ describe('Feature: DestroyStrategyController', function () {
                 ]);
         });
 
-        it('can handle error message when no record found upon using /api/v1/strategies/{id}/destroy DELETE api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/strategies/{strategy}/destroy DELETE api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $strategy = StrategyModel::factory()->create();
@@ -55,15 +54,14 @@ describe('Feature: DestroyStrategyController', function () {
             $response->assertNotFound()
                 ->assertJson([
                     'success' => false,
-                    'error' => 'Strategy not found.',
-                    'message' => sprintf('Strategy with ID: [%s] not found.', $random_id),
+                    'error' => 'Record not found.',
+                    'message' => sprintf('No query results for model [App\\Models\\Strategy] %s.', $random_id),
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/strategies/{id}/destroy DELETE api endpoint.', function () {
+        it('can handle server error response when using /api/v1/strategies/{strategy}/destroy DELETE api endpoint.', function () {
             // Arrange:
-            $random_id = 100;
-            $user = UserModel::factory()->create();
+            $strategy = StrategyModel::factory()->create();
 
             // Expectation:
             $this->mock(DeleteStrategy::class, function (MockInterface $mock) {
@@ -73,7 +71,7 @@ describe('Feature: DestroyStrategyController', function () {
             });
 
             // Act:
-            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/strategies/%s/destroy', $random_id));
+            $response = $this->actingAs($strategy->user)->deleteJson(sprintf('/api/v1/strategies/%s/destroy', $strategy->id));
 
             // Assert:
             $response->assertInternalServerError()

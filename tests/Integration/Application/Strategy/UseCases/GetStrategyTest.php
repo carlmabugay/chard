@@ -2,7 +2,6 @@
 
 use App\Application\Strategy\UseCases\GetStrategy;
 use App\Domain\Strategy\Entities\Strategy;
-use App\Domain\Strategy\Services\StrategyService;
 use App\Models\Strategy as StrategyModel;
 
 describe('Integration: GetStrategy Use Case', function () {
@@ -13,18 +12,10 @@ describe('Integration: GetStrategy Use Case', function () {
 
         $strategy_entity = Strategy::fromEloquentModel($strategy_model);
 
-        $service = Mockery::mock(StrategyService::class);
-
-        $use_case = new GetStrategy($service);
-
-        // Expectation:
-        $service->shouldReceive('findById')
-            ->once()
-            ->with($strategy_model->id)
-            ->andReturn($strategy_entity);
+        $use_case = new GetStrategy;
 
         // Act:
-        $result = $use_case->handle($strategy_model->id);
+        $result = $use_case->handle($strategy_model);
 
         // Assert:
         expect($result)

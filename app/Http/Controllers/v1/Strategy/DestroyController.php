@@ -14,11 +14,11 @@ final class DestroyController extends Controller
 {
     use HasModelNotFoundExceptionResponse;
 
-    public function __invoke(int $id, DeleteStrategy $use_case): JsonResponse
+    public function __invoke(Strategy $strategy, DeleteStrategy $use_case): JsonResponse
     {
         try {
 
-            $result = $use_case->handle($id);
+            $result = $use_case->handle($strategy);
 
             return response()->json([
                 'success' => $result,

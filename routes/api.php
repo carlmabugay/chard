@@ -60,11 +60,11 @@ Route::prefix('v1')->group(function () {
         Route::prefix('strategies')->group(function () {
             Route::get('/', ListStrategyController::class);
             Route::post('/', StoreStrategyController::class);
-            Route::get('/{id}', ShowStrategyController::class);
-            Route::put('/', UpdateStrategyController::class);
-            Route::delete('/{id}/trash', TrashStrategyController::class);
-            Route::patch('/{id}', RestoreStrategyController::class);
-            Route::delete('/{id}/destroy', DestroyStrategyController::class);
+            Route::get('/{strategy}', ShowStrategyController::class);
+            Route::put('/{strategy}', UpdateStrategyController::class);
+            Route::delete('/{strategy}/trash', TrashStrategyController::class);
+            Route::patch('/{strategy}', RestoreStrategyController::class)->withTrashed();
+            Route::delete('/{strategy}/destroy', DestroyStrategyController::class);
         });
 
         Route::prefix('cash-flows')->group(function () {

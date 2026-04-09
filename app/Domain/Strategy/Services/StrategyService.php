@@ -6,6 +6,7 @@ use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Strategy\Contracts\Read\StrategyReadRepositoryInterface;
 use App\Domain\Strategy\Contracts\Write\StrategyWriteRepositoryInterface;
 use App\Domain\Strategy\Entities\Strategy;
+use App\Models\Strategy as StrategyModel;
 
 class StrategyService
 {
@@ -29,18 +30,18 @@ class StrategyService
         return $this->write_repository->store($strategy);
     }
 
-    public function trash(int $id): ?bool
+    public function trash(StrategyModel $strategy): ?bool
     {
-        return $this->write_repository->trash($id);
+        return $this->write_repository->trash($strategy);
     }
 
-    public function restore(int $id): ?bool
+    public function restore(StrategyModel $strategy): ?bool
     {
-        return $this->write_repository->restore($id);
+        return $this->write_repository->restore($strategy);
     }
 
-    public function delete(int $id): ?bool
+    public function delete(StrategyModel $strategy): ?bool
     {
-        return $this->write_repository->delete($id);
+        return $this->write_repository->delete($strategy);
     }
 }

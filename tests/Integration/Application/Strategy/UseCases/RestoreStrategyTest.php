@@ -17,11 +17,11 @@ describe('Integration: DeleteStrategy Use Case', function () {
         // Expectation:
         $service->shouldReceive('restore')
             ->once()
-            ->with($strategy->id)
+            ->with($strategy)
             ->andReturn(true);
 
         // Act:
-        $result = $use_case->handle($strategy->id);
+        $result = $use_case->handle($strategy);
 
         // Assert:
         expect($result)->toBeTrue();

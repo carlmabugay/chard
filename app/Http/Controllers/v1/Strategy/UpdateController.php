@@ -7,16 +7,20 @@ use App\Application\Strategy\UseCases\StoreStrategy;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Strategy\UpdateStrategyRequest;
 use App\Http\Resources\Strategy\StrategyResource;
+use App\Models\Strategy;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class UpdateController extends Controller
 {
-    public function __invoke(UpdateStrategyRequest $request, StoreStrategy $use_case): StrategyResource|JsonResponse
+    public function __invoke(Strategy $strategy, UpdateStrategyRequest $request, StoreStrategy $use_case): StrategyResource|JsonResponse
     {
         try {
 
-            $dto = StoreStrategyDTO::fromRequest($request->validated());
+            $dto = new StoreStrategyDTO(
+                user_id: auth()->id(),
+                name: $request->validated('name'),
+            );
 
             $result = $use_case->handle($dto);
 
