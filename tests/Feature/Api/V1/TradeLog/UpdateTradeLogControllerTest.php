@@ -2,6 +2,7 @@
 
 use App\Application\TradeLog\UseCases\StoreTradeLog;
 use App\Models\TradeLog as TradeLogModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: UpdateTradeLogController', function () {
@@ -40,7 +41,7 @@ describe('Feature: UpdateTradeLogController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/trade_logs/{trade_log} PUT api endpoint unauthenticated.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 
@@ -60,6 +61,30 @@ describe('Feature: UpdateTradeLogController', function () {
             $response->assertUnauthorized()
                 ->assertJson([
                     'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can return unauthenticated message when trying to access protected /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->create();
+            $other_trade_log = TradeLogModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $other_trade_log->portfolio->id,
+                'symbol' => $other_trade_log->symbol,
+                'type' => $other_trade_log->type,
+                'price' => 110,
+                'shares' => $other_trade_log->shares,
+                'fees' => $other_trade_log->fees,
+            ];
+
+            // Act:
+            $response = $this->actingAs($user)->putJson(sprintf('/api/v1/trade_logs/%s', $other_trade_log->id), $payload);
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
                 ]);
         });
 

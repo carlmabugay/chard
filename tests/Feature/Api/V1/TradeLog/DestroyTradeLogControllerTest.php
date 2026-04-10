@@ -2,6 +2,7 @@
 
 use App\Application\TradeLog\UseCases\DeleteTradeLog;
 use App\Models\TradeLog as TradeLogModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: DestroyTradeLogController', function () {
@@ -29,7 +30,7 @@ describe('Feature: DestroyTradeLogController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/trade-flows/{trade_log}/destroy DELETE api endpoint unauthenticated.',
+        it('can return unauthenticated message when trying to access protected /api/v1/trade_logs/{trade_log}/destroy DELETE api endpoint.',
             function () {
                 // Arrange:
                 $trade_log = TradeLogModel::factory()->create();
@@ -43,6 +44,21 @@ describe('Feature: DestroyTradeLogController', function () {
                         'message' => 'Unauthenticated.',
                     ]);
             });
+
+        it('can return unauthorized message when trying to access protected /api/v1/trade_logs/{trade_log}/destroy DELETE api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->create();
+            $other_trade_log = TradeLogModel::factory()->create();
+
+            // Act:
+            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/trade_logs/%s/destroy', $other_trade_log->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
+                ]);
+        });
 
         it('can handle error message when no record found upon using /api/v1/trade_logs/{trade_log}/destroy DELETE api endpoint.',
             function () {

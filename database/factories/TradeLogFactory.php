@@ -17,7 +17,7 @@ class TradeLogFactory extends Factory
             'symbol' => fake()->currencyCode(),
             'type' => fake()->randomElement(['buy', 'sell']),
             'price' => fake()->randomFloat(2, 10, 5000),
-            'shares' => fake()->randomFloat(2, 10, 500000),
+            'shares' => fake()->randomNumber(5, 10),
             'fees' => fake()->randomFloat(2, 10, 500000),
         ];
     }

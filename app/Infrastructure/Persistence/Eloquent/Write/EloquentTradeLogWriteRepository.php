@@ -10,7 +10,7 @@ class EloquentTradeLogWriteRepository implements TradeLogWriteRepositoryInterfac
 {
     public function store(TradeLog $trade_log): TradeLog
     {
-        $stored_trade_log = TradeLogModel::query()->updateOrCreate(
+        $stored_trade_log = TradeLogModel::updateOrCreate(
             ['id' => $trade_log->id()],
             [
                 'portfolio_id' => $trade_log->portfolioId(),

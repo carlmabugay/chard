@@ -6,7 +6,9 @@ use App\Application\TradeLog\UseCases\GetTradeLog;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TradeLog\TradeLogResource;
 use App\Models\TradeLog;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 use Throwable;
 
 final class ShowController extends Controller
@@ -15,9 +17,17 @@ final class ShowController extends Controller
     {
         try {
 
+            Gate::authorize('view', $trade_log);
+
             $result = $use_case->handle($trade_log);
 
             return TradeLogResource::make($result);
+
+        } catch (AuthorizationException) {
+
+            return response()->json([
+                'message' => 'Unauthorized.',
+            ], 401);
 
         } catch (Throwable $error) {
 

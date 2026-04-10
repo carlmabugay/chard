@@ -2,6 +2,7 @@
 
 use App\Application\TradeLog\UseCases\RestoreTradeLog;
 use App\Models\TradeLog as TradeLogModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: RestoreTradeLogController', function () {
@@ -28,7 +29,7 @@ describe('Feature: RestoreTradeLogController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/trade_logs PATCH api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/trade_logs PATCH api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 
@@ -39,6 +40,21 @@ describe('Feature: RestoreTradeLogController', function () {
             $response->assertUnauthorized()
                 ->assertJson([
                     'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can return unauthorized message when trying to access protected /api/v1/trade_logs/{trade_log} PATCH api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->create();
+            $other_trade_log = TradeLogModel::factory()->create();
+
+            // Act:
+            $response = $this->actingAs($user)->patchJson(sprintf('/api/v1/trade_logs/%s', $other_trade_log->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
                 ]);
         });
 
