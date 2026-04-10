@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Portfolio;
+use App\Models\Strategy;
 use App\Policies\PortfolioPolicy;
+use App\Policies\StrategyPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,5 +25,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(Portfolio::class, PortfolioPolicy::class);
+        Gate::policy(Strategy::class, StrategyPolicy::class);
     }
 }

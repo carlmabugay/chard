@@ -2,6 +2,7 @@
 
 use App\Application\Strategy\UseCases\DeleteStrategy;
 use App\Models\Strategy as StrategyModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: DestroyStrategyController', function () {
@@ -28,7 +29,7 @@ describe('Feature: DestroyStrategyController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/strategies/{strategy}/destroy DELETE api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/strategies/{strategy}/destroy DELETE api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
 
@@ -39,6 +40,21 @@ describe('Feature: DestroyStrategyController', function () {
             $response->assertUnauthorized()
                 ->assertJson([
                     'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can return unauthorized message when trying to access protected /api/v1/strategies/{strategy}/destroy DELETE api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->hasStrategies()->create();
+            $other_strategy = StrategyModel::factory()->create();
+
+            // Act:
+            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/strategies/%s/destroy', $other_strategy->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
                 ]);
         });
 

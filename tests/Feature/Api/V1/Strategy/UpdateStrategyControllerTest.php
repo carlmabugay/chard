@@ -2,6 +2,7 @@
 
 use App\Application\Strategy\UseCases\StoreStrategy;
 use App\Models\Strategy as StrategyModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: UpdateStrategyController', function () {
@@ -49,6 +50,25 @@ describe('Feature: UpdateStrategyController', function () {
             $response->assertUnauthorized()
                 ->assertJson([
                     'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can return unauthorized message when trying to access protected /api/v1/strategies/{strategy} PUT api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->hasStrategies()->create();
+            $other_strategy = StrategyModel::factory()->create();
+
+            $payload = [
+                'name' => 'Pullback Trading',
+            ];
+
+            // Act:
+            $response = $this->actingAs($user)->putJson(sprintf('/api/v1/strategies/%s', $other_strategy->id), $payload);
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
                 ]);
         });
 

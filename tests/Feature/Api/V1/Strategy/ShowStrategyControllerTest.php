@@ -2,6 +2,7 @@
 
 use App\Application\Strategy\UseCases\GetStrategy;
 use App\Models\Strategy as StrategyModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: ShowStrategyController', function () {
@@ -32,7 +33,7 @@ describe('Feature: ShowStrategyController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/strategies/{strategy} GET api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/strategies/{strategy} GET api endpoint unauthenticated.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
 
@@ -43,6 +44,21 @@ describe('Feature: ShowStrategyController', function () {
             $response->assertUnauthorized()
                 ->assertJson([
                     'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can return unauthorized message when trying to access protected /api/v1/strategies/{strategy} GET api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->hasStrategies()->create();
+            $other_strategy = StrategyModel::factory()->create();
+
+            // Act:
+            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/strategies/%s', $other_strategy->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
                 ]);
         });
 

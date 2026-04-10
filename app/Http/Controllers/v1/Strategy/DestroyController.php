@@ -5,7 +5,9 @@ namespace App\Http\Controllers\v1\Strategy;
 use App\Application\Strategy\UseCases\DeleteStrategy;
 use App\Http\Controllers\Controller;
 use App\Models\Strategy;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 use Throwable;
 
 final class DestroyController extends Controller
@@ -14,11 +16,19 @@ final class DestroyController extends Controller
     {
         try {
 
+            Gate::authorize('destroy', $strategy);
+
             $result = $use_case->handle($strategy);
 
             return response()->json([
                 'success' => $result,
             ]);
+
+        } catch (AuthorizationException) {
+
+            return response()->json([
+                'message' => 'Unauthorized.',
+            ], 401);
 
         } catch (Throwable $error) {
 

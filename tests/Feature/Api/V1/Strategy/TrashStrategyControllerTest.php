@@ -2,6 +2,7 @@
 
 use App\Application\Strategy\UseCases\TrashStrategy;
 use App\Models\Strategy as StrategyModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: TrashStrategyController', function () {
@@ -27,7 +28,7 @@ describe('Feature: TrashStrategyController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/strategies/{strategy}/trash DELETE api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/strategies/{strategy}/trash DELETE api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
 
@@ -38,6 +39,21 @@ describe('Feature: TrashStrategyController', function () {
             $response->assertUnauthorized()
                 ->assertJson([
                     'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can return unauthorized message when trying to access protected /api/v1/strategies/{strategy}/trash DELETE api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->hasStrategies()->create();
+            $other_strategy = StrategyModel::factory()->create();
+
+            // Act:
+            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/strategies/%s/trash', $other_strategy->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
                 ]);
         });
 
