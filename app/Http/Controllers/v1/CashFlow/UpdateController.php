@@ -22,6 +22,7 @@ final class UpdateController extends Controller
                 portfolio_id: $cash_flow->portfolio->id,
                 type: CashFlowType::fromInput($request->validated('type')),
                 amount: $request->validated('amount'),
+                id: $cash_flow->id,
             );
 
             $result = $use_case->handle($dto);

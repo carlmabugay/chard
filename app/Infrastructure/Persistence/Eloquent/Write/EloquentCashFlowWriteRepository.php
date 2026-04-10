@@ -25,16 +25,16 @@ class EloquentCashFlowWriteRepository implements CashFlowWriteRepositoryInterfac
 
     public function trash(CashFlowModel $cash_flow): ?bool
     {
-        return $cash_flow->query()->delete();
+        return $cash_flow->delete();
     }
 
     public function restore(CashFlowModel $cash_flow): ?bool
     {
-        return $cash_flow->query()->restore();
+        return $cash_flow->restore();
     }
 
     public function delete(CashFlowModel $cash_flow): ?bool
     {
-        return $cash_flow->query()->forceDelete();
+        return $cash_flow->forceDelete();
     }
 }

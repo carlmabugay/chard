@@ -24,6 +24,7 @@ final class UpdateController extends Controller
             $dto = new StorePortfolioDTO(
                 user_id: auth()->id(),
                 name: $request->validated('name'),
+                id: $portfolio->id,
             );
 
             $result = $use_case->handle($dto);

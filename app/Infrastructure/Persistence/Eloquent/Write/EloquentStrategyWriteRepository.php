@@ -23,16 +23,16 @@ class EloquentStrategyWriteRepository implements StrategyWriteRepositoryInterfac
 
     public function trash(StrategyModel $strategy): ?bool
     {
-        return $strategy->query()->delete();
+        return $strategy->delete();
     }
 
     public function restore(StrategyModel $strategy): ?bool
     {
-        return $strategy->query()->restore();
+        return $strategy->restore();
     }
 
     public function delete(StrategyModel $strategy): ?bool
     {
-        return $strategy->query()->forceDelete();
+        return $strategy->forceDelete();
     }
 }

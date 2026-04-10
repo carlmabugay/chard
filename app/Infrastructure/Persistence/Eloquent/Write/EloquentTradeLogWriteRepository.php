@@ -27,16 +27,16 @@ class EloquentTradeLogWriteRepository implements TradeLogWriteRepositoryInterfac
 
     public function trash(TradeLogModel $trade_log): ?bool
     {
-        return $trade_log->query()->delete();
+        return $trade_log->delete();
     }
 
     public function restore(TradeLogModel $trade_log): ?bool
     {
-        return $trade_log->query()->restore();
+        return $trade_log->restore();
     }
 
     public function delete(TradeLogModel $trade_log): ?bool
     {
-        return $trade_log->query()->forceDelete();
+        return $trade_log->forceDelete();
     }
 }

@@ -23,16 +23,16 @@ class EloquentPortfolioWriteRepository implements PortfolioWriteRepositoryInterf
 
     public function trash(PortfolioModel $portfolio): ?bool
     {
-        return $portfolio->query()->delete();
+        return $portfolio->delete();
     }
 
     public function restore(PortfolioModel $portfolio): ?bool
     {
-        return $portfolio->query()->restore();
+        return $portfolio->restore();
     }
 
     public function delete(PortfolioModel $portfolio): ?bool
     {
-        return $portfolio->query()->forceDelete();
+        return $portfolio->forceDelete();
     }
 }
