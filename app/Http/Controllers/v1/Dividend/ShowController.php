@@ -6,7 +6,9 @@ use App\Application\Dividend\UseCases\GetDividend;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Dividend\DividendResource;
 use App\Models\Dividend;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 use Throwable;
 
 final class ShowController extends Controller
@@ -15,9 +17,17 @@ final class ShowController extends Controller
     {
         try {
 
+            Gate::authorize('view', $dividend);
+
             $result = $use_case->handle($dividend);
 
             return DividendResource::make($result);
+
+        } catch (AuthorizationException) {
+
+            return response()->json([
+                'message' => 'Unauthorized.',
+            ], 401);
 
         } catch (Throwable $error) {
 

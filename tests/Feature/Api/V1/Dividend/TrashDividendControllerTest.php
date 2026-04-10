@@ -2,6 +2,7 @@
 
 use App\Application\Dividend\UseCases\TrashDividend;
 use App\Models\Dividend as DividendModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: TrashDividendController', function () {
@@ -28,7 +29,7 @@ describe('Feature: TrashDividendController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/dividends/{dividend}/trash DELETE api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/dividends/{dividend}/trash DELETE api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();
 
@@ -39,6 +40,21 @@ describe('Feature: TrashDividendController', function () {
             $response->assertUnauthorized()
                 ->assertJson([
                     'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can return unauthorized message when trying to access protected /api/v1/dividends/{dividend}/trash DELETE api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->create();
+            $other_dividend = DividendModel::factory()->create();
+
+            // Act:
+            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/dividends/%s/trash', $other_dividend->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
                 ]);
         });
 

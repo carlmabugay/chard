@@ -2,6 +2,7 @@
 
 use App\Application\Dividend\UseCases\GetDividend;
 use App\Models\Dividend as DividendModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: ShowDividendController', function () {
@@ -38,7 +39,7 @@ describe('Feature: ShowDividendController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/dividends/{dividend} GET api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/dividends/{dividend} GET api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();
 
@@ -49,6 +50,21 @@ describe('Feature: ShowDividendController', function () {
             $response->assertUnauthorized()
                 ->assertJson([
                     'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can return unauthorized message when trying to access protected /api/v1/dividends/{dividend} GET api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->create();
+            $other_dividend = DividendModel::factory()->create();
+
+            // Act:
+            $response = $this->actingAs($user)->getJson(sprintf('/api/v1/dividends/%s', $other_dividend->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
                 ]);
         });
 

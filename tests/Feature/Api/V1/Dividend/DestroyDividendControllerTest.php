@@ -2,6 +2,7 @@
 
 use App\Application\Dividend\UseCases\DeleteDividend;
 use App\Models\Dividend as DividendModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: DestroyDividendController', function () {
@@ -28,7 +29,7 @@ describe('Feature: DestroyDividendController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/dividends/{id}/destroy DELETE api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/dividends/{id}/destroy DELETE api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();
 
@@ -39,6 +40,21 @@ describe('Feature: DestroyDividendController', function () {
             $response->assertUnauthorized()
                 ->assertJson([
                     'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can return unauthorized message when trying to access protected /api/v1/dividends/{dividend}/destroy DELETE api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->create();
+            $other_dividend = DividendModel::factory()->create();
+
+            // Act:
+            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/dividends/%s/destroy', $other_dividend->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
                 ]);
         });
 

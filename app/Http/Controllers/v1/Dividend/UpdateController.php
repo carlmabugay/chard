@@ -8,7 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Dividend\UpdateDividendRequest;
 use App\Http\Resources\Dividend\DividendResource;
 use App\Models\Dividend;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 use Throwable;
 
 final class UpdateController extends Controller
@@ -17,11 +19,25 @@ final class UpdateController extends Controller
     {
         try {
 
-            $dto = StoreDividendDTO::fromRequest($request->validated());
+            Gate::authorize('update', $dividend);
+
+            $dto = new StoreDividendDTO(
+                portfolio_id: $request->validated('portfolio_id'),
+                symbol: $request->validated('symbol'),
+                amount: $request->validated('amount'),
+                id: $dividend->id,
+                recorded_at: $request->validated('recorded_at'),
+            );
 
             $result = $use_case->handle($dto);
 
             return DividendResource::make($result);
+
+        } catch (AuthorizationException) {
+
+            return response()->json([
+                'message' => 'Unauthorized.',
+            ], 401);
 
         } catch (Throwable $error) {
 
