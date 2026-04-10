@@ -99,4 +99,22 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
         $this->assertDatabaseMissing($portfolio);
     });
 
+    it('can delete associated child records when a portfolio is hard deleted using delete method.', function () {
+        // Arrange:
+        $portfolio = PortfolioModel::factory()
+            ->hasCashFlows()
+            ->hasDividends()
+            ->hasTradeLogs()
+            ->create();
+
+        // Act:
+        $this->repository->delete($portfolio);
+
+        // Assert:
+        $this->assertDatabaseMissing($portfolio);
+        $this->assertDatabaseMissing('cash_flows', $portfolio->cashFlows->all());
+        $this->assertDatabaseMissing('dividends', $portfolio->dividends->all());
+        $this->assertDatabaseMissing('trade_logs', $portfolio->tradeLogs->all());
+    });
+
 });

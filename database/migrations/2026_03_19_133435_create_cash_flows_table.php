@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cash_flows', function (Blueprint $table) {
-            $table->foreignId('portfolio_id')->constrained();
+            $table->foreignId('portfolio_id')->constrained()->cascadeOnDelete();
 
             $table->id();
             $table->enum('type', CashFlowType::values())->default(CashFlowType::DEPOSIT->value);

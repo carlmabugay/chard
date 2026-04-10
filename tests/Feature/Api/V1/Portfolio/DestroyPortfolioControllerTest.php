@@ -11,7 +11,11 @@ describe('Feature: DestroyPortfolioController', function () {
 
         it('can hard delete a portfolio resource when using /api/v1/portfolios/{portfolio}/destroy DELETE api endpoint.', function () {
             // Arrange:
-            $portfolio = PortfolioModel::factory()->create();
+            $portfolio = PortfolioModel::factory()
+                ->hasCashFlows()
+                ->hasDividends()
+                ->hasTradeLogs()
+                ->create();
 
             // Act:
             $response = $this->actingAs($portfolio->user)->deleteJson(sprintf('/api/v1/portfolios/%s/destroy', $portfolio->id));
@@ -19,6 +23,9 @@ describe('Feature: DestroyPortfolioController', function () {
             // Assert:
             $this->assertModelMissing($portfolio);
             $this->assertDatabaseMissing($portfolio);
+            $this->assertDatabaseMissing('cash_flows', $portfolio->cashFlows->all());
+            $this->assertDatabaseMissing('dividends', $portfolio->dividends->all());
+            $this->assertDatabaseMissing('trade_logs', $portfolio->tradeLogs->all());
 
             $response->assertOk()
                 ->assertJson([

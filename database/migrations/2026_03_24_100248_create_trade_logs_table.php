@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('trade_logs', function (Blueprint $table) {
 
-            $table->foreignId('portfolio_id')->constrained();
+            $table->foreignId('portfolio_id')->constrained()->cascadeOnDelete();
 
             $table->id();
             $table->string('symbol');
