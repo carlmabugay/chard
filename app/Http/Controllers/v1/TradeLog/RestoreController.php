@@ -22,6 +22,7 @@ final class RestoreController extends Controller
 
             return response()->json([
                 'success' => $result,
+                'message' => __('messages.success.restored', ['record' => 'Trade log']),
             ]);
 
         } catch (AuthorizationException) {

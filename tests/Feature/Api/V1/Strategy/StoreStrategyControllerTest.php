@@ -23,6 +23,7 @@ describe('Feature: StoreStrategyController', function () {
             $response->assertCreated()
                 ->assertJson([
                     'success' => true,
+                    'message' => __('messages.success.stored', ['record' => 'Strategy']),
                     'data' => [
                         'name' => $payload['name'],
                     ],

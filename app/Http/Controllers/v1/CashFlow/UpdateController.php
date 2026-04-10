@@ -31,7 +31,10 @@ final class UpdateController extends Controller
 
             $result = $use_case->handle($dto);
 
-            return CashFlowResource::make($result);
+            return CashFlowResource::make($result)
+                ->additional([
+                    'message' => __('messages.success.updated', ['record' => 'Cash flow']),
+                ]);
 
         } catch (AuthorizationException) {
 

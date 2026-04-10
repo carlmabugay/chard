@@ -26,6 +26,7 @@ describe('Feature: UpdateStrategyController', function () {
             $response->assertOk()
                 ->assertJson([
                     'success' => true,
+                    'message' => __('messages.success.updated', ['record' => 'Strategy']),
                     'data' => [
                         'name' => $payload['name'],
                     ],

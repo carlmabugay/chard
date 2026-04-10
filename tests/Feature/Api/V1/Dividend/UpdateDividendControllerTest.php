@@ -29,6 +29,7 @@ describe('Feature: UpdateDividendController', function () {
             $response->assertOk()
                 ->assertJson([
                     'success' => true,
+                    'message' => __('messages.success.updated', ['record' => 'Dividend']),
                     'data' => [
                         'amount' => $payload['amount'],
                     ],

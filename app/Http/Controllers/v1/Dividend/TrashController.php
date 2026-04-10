@@ -22,6 +22,7 @@ final class TrashController extends Controller
 
             return response()->json([
                 'success' => $result,
+                'message' => __('messages.success.trashed', ['record' => 'Dividend']),
             ]);
 
         } catch (AuthorizationException) {

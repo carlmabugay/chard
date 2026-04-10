@@ -20,7 +20,12 @@ final class StoreController extends Controller
 
             $result = $use_case->handle($dto);
 
-            return new CashFlowResource($result)->response()->setStatusCode(201);
+            return new CashFlowResource($result)
+                ->additional([
+                    'message' => __('messages.success.stored', ['record' => 'Cash flow']),
+                ])
+                ->response()
+                ->setStatusCode(201);
 
         } catch (Throwable $error) {
 

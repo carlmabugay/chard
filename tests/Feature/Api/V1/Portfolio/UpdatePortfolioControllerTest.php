@@ -26,6 +26,7 @@ describe('Feature: UpdatePortfolioController', function () {
             $response->assertOk()
                 ->assertJson([
                     'success' => true,
+                    'message' => __('messages.success.updated', ['record' => 'Portfolio']),
                     'data' => [
                         'name' => $payload['name'],
                     ],

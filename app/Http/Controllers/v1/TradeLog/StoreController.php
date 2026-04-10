@@ -21,7 +21,12 @@ final class StoreController extends Controller
 
             $result = $use_case->handle($dto);
 
-            return new TradeLogResource($result)->response()->setStatusCode(201);
+            return new TradeLogResource($result)
+                ->additional([
+                    'message' => __('messages.success.stored', ['record' => 'Trade log']),
+                ])
+                ->response()
+                ->setStatusCode(201);
 
         } catch (Throwable $error) {
 

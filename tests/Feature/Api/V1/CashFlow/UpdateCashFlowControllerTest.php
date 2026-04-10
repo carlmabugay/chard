@@ -27,6 +27,7 @@ describe('Feature: UpdateCashFlowController', function () {
             $response->assertOk()
                 ->assertJson([
                     'success' => true,
+                    'message' => __('messages.success.updated', ['record' => 'Cash flow']),
                     'data' => [
                         'amount' => $payload['amount'],
                     ],

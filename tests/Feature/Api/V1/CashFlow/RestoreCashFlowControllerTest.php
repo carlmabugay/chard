@@ -20,8 +20,9 @@ describe('Feature: RestoreCashFlowController', function () {
             $this->assertNotSoftDeleted($cash_flow);
 
             $response->assertOk()
-                ->assertJson([
+                ->assertExactJson([
                     'success' => true,
+                    'message' => __('messages.success.restored', ['record' => 'Cash flow']),
                 ]);
         });
 

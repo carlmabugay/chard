@@ -20,8 +20,9 @@ describe('Feature: RestoreTradeLogController', function () {
             $this->assertNotSoftDeleted($trade_log);
 
             $response->assertOk()
-                ->assertJson([
+                ->assertExactJson([
                     'success' => true,
+                    'message' => __('messages.success.restored', ['record' => 'Trade log']),
                 ]);
         });
 

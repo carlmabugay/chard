@@ -29,7 +29,10 @@ final class UpdateController extends Controller
 
             $result = $use_case->handle($dto);
 
-            return new StrategyResource($result);
+            return new StrategyResource($result)
+                ->additional([
+                    'message' => __('messages.success.updated', ['record' => 'Strategy']),
+                ]);
 
         } catch (AuthorizationException) {
 

@@ -26,6 +26,7 @@ describe('Feature: StoreCashFlowController', function () {
             $response->assertCreated()
                 ->assertJson([
                     'success' => true,
+                    'message' => __('messages.success.stored', ['record' => 'Cash flow']),
                     'data' => [
                         'type' => $payload['type'],
                         'amount' => $payload['amount'],

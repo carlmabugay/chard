@@ -20,8 +20,9 @@ describe('Feature: RestorePortfolioController', function () {
             $this->assertNotSoftDeleted($portfolio);
 
             $response->assertOk()
-                ->assertJson([
-                    'success' => $response,
+                ->assertExactJson([
+                    'success' => true,
+                    'message' => __('messages.success.restored', ['record' => 'Portfolio']),
                 ]);
         });
 

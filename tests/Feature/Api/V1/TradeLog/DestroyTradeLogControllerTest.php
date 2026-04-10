@@ -22,8 +22,9 @@ describe('Feature: DestroyTradeLogController', function () {
                 $this->assertDatabaseMissing($trade_log);
 
                 $response->assertOk()
-                    ->assertJson([
+                    ->assertExactJson([
                         'success' => true,
+                        'message' => __('messages.success.destroyed', ['record' => 'Trade log']),
                     ]);
             });
     });

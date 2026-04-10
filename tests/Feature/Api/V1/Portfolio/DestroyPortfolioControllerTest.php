@@ -28,8 +28,9 @@ describe('Feature: DestroyPortfolioController', function () {
             $this->assertDatabaseMissing('trade_logs', $portfolio->tradeLogs->all());
 
             $response->assertOk()
-                ->assertJson([
+                ->assertExactJson([
                     'success' => true,
+                    'message' => __('messages.success.destroyed', ['record' => 'Portfolio']),
                 ]);
         });
     });

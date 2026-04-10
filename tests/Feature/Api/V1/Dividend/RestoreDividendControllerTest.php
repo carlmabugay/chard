@@ -20,8 +20,9 @@ describe('Feature: RestoreDividendController', function () {
             $this->assertNotSoftDeleted($dividend);
 
             $response->assertOk()
-                ->assertJson([
+                ->assertExactJson([
                     'success' => true,
+                    'message' => __('messages.success.restored', ['record' => 'Dividend']),
                 ]);
         });
 

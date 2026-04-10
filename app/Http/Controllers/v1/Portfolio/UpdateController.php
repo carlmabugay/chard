@@ -29,7 +29,9 @@ final class UpdateController extends Controller
 
             $result = $use_case->handle($dto);
 
-            return new PortfolioResource($result);
+            return new PortfolioResource($result)->additional([
+                'message' => __('messages.success.updated', ['record' => 'Portfolio']),
+            ]);
 
         } catch (AuthorizationException) {
 

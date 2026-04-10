@@ -20,8 +20,9 @@ describe('Feature: TrashStrategyController', function () {
             $this->assertSoftDeleted($strategy);
 
             $response->assertOk()
-                ->assertJson([
+                ->assertExactJson([
                     'success' => true,
+                    'message' => __('messages.success.trashed', ['record' => 'Strategy']),
                 ]);
         });
     });

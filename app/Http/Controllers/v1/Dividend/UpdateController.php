@@ -31,7 +31,10 @@ final class UpdateController extends Controller
 
             $result = $use_case->handle($dto);
 
-            return DividendResource::make($result);
+            return DividendResource::make($result)
+                ->additional([
+                    'message' => __('messages.success.updated', ['record' => 'Dividend']),
+                ]);
 
         } catch (AuthorizationException) {
 

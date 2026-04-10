@@ -28,6 +28,7 @@ describe('Feature: StoreTradeLogController', function () {
             $response->assertCreated()
                 ->assertJson([
                     'success' => true,
+                    'message' => __('messages.success.stored', ['record' => 'Trade log']),
                     'data' => [
                         'symbol' => $payload['symbol'],
                         'type' => $payload['type'],

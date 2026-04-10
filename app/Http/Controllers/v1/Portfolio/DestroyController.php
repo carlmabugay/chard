@@ -22,6 +22,7 @@ final class DestroyController extends Controller
 
             return response()->json([
                 'success' => $result,
+                'message' => __('messages.success.destroyed', ['record' => 'Portfolio']),
             ]);
 
         } catch (AuthorizationException) {

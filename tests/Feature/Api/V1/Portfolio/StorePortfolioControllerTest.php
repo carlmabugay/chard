@@ -23,6 +23,7 @@ describe('Feature: StorePortfolioController', function () {
             $response->assertCreated()
                 ->assertJson([
                     'success' => true,
+                    'message' => __('messages.success.stored', ['record' => 'Portfolio']),
                     'data' => [
                         'name' => $payload['name'],
                     ],

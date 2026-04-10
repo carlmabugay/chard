@@ -23,7 +23,12 @@ final class StoreController extends Controller
 
             $result = $use_case->handle($dto);
 
-            return new StrategyResource($result)->response()->setStatusCode(201);
+            return new StrategyResource($result)
+                ->additional([
+                    'message' => __('messages.success.stored', ['record' => 'Strategy']),
+                ])
+                ->response()
+                ->setStatusCode(201);
 
         } catch (Throwable $error) {
 

@@ -20,8 +20,9 @@ describe('Feature: TrashPortfolioController', function () {
             $this->assertSoftDeleted($portfolio);
 
             $response->assertOk()
-                ->assertJson([
-                    'success' => $response,
+                ->assertExactJson([
+                    'success' => true,
+                    'message' => __('messages.success.trashed', ['record' => 'Portfolio']),
                 ]);
         });
 

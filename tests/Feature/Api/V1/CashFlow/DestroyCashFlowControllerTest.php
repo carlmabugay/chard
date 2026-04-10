@@ -21,8 +21,9 @@ describe('Feature: DestroyCashFlowController', function () {
             $this->assertDatabaseMissing($cash_flow);
 
             $response->assertOk()
-                ->assertJson([
+                ->assertExactJson([
                     'success' => true,
+                    'message' => __('messages.success.destroyed', ['record' => 'Cash flow']),
                 ]);
         });
 

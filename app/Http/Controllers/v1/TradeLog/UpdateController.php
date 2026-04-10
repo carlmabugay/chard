@@ -33,7 +33,9 @@ final class UpdateController extends Controller
 
             $result = $use_case->handle($dto);
 
-            return TradeLogResource::make($result);
+            return TradeLogResource::make($result)->additional([
+                'message' => __('messages.success.updated', ['record' => 'Trade log']),
+            ]);
 
         } catch (AuthorizationException) {
 

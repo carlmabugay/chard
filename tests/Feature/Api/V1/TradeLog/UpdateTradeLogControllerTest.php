@@ -31,6 +31,7 @@ describe('Feature: UpdateTradeLogController', function () {
             $response->assertOk()
                 ->assertJson([
                     'success' => true,
+                    'message' => __('messages.success.updated', ['record' => 'Trade log']),
                     'data' => [
                         'price' => $payload['price'],
                     ],

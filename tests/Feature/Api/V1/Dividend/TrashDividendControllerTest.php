@@ -20,8 +20,9 @@ describe('Feature: TrashDividendController', function () {
             $this->assertSoftDeleted($dividend);
 
             $response->assertOk()
-                ->assertJson([
+                ->assertExactJson([
                     'success' => true,
+                    'message' => __('messages.success.trashed', ['record' => 'Dividend']),
                 ]);
         });
 

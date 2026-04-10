@@ -20,7 +20,12 @@ final class StoreController extends Controller
 
             $result = $use_case->handle($dto);
 
-            return DividendResource::make($result)->response()->setStatusCode(201);
+            return DividendResource::make($result)
+                ->additional([
+                    'message' => __('messages.success.stored', ['record' => 'Dividend']),
+                ])
+                ->response()
+                ->setStatusCode(201);
 
         } catch (Throwable $error) {
 

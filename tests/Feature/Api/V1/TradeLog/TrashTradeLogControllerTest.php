@@ -20,8 +20,9 @@ describe('Feature: TrashTradeLogController', function () {
             $this->assertSoftDeleted($trade_log);
 
             $response->assertOk()
-                ->assertJson([
+                ->assertExactJson([
                     'success' => true,
+                    'message' => __('messages.success.trashed', ['record' => 'Trade log']),
                 ]);
         });
 

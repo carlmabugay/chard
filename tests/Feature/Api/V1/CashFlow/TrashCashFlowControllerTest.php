@@ -20,8 +20,9 @@ describe('Feature: TrashCashFlowController', function () {
             $this->assertSoftDeleted($cash_flow);
 
             $response->assertOk()
-                ->assertJson([
+                ->assertExactJson([
                     'success' => true,
+                    'message' => __('messages.success.trashed', ['record' => 'Cash flow']),
                 ]);
         });
 

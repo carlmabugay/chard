@@ -21,8 +21,9 @@ describe('Feature: DestroyDividendController', function () {
             $this->assertDatabaseMissing($dividend);
 
             $response->assertOk()
-                ->assertJson([
+                ->assertExactJson([
                     'success' => true,
+                    'message' => __('messages.success.destroyed', ['record' => 'Dividend']),
                 ]);
         });
     });

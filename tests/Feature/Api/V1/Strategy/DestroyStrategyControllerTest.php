@@ -21,8 +21,9 @@ describe('Feature: DestroyStrategyController', function () {
             $this->assertDatabaseMissing($strategy);
 
             $response->assertOk()
-                ->assertJson([
+                ->assertExactJson([
                     'success' => true,
+                    'message' => __('messages.success.destroyed', ['record' => 'Strategy']),
                 ]);
         });
     });
