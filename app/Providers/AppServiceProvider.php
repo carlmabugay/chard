@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\CashFlow;
 use App\Models\Portfolio;
 use App\Models\Strategy;
+use App\Policies\CashFlowPolicy;
 use App\Policies\PortfolioPolicy;
 use App\Policies\StrategyPolicy;
 use Illuminate\Support\Facades\Gate;
@@ -26,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::policy(Portfolio::class, PortfolioPolicy::class);
         Gate::policy(Strategy::class, StrategyPolicy::class);
+        Gate::policy(CashFlow::class, CashFlowPolicy::class);
     }
 }

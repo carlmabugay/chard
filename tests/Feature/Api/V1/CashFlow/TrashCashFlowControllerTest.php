@@ -2,6 +2,7 @@
 
 use App\Application\CashFlow\UserCases\TrashCashFlow;
 use App\Models\CashFlow as CashFlowModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: TrashCashFlowController', function () {
@@ -28,7 +29,7 @@ describe('Feature: TrashCashFlowController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/cash_flows/{cash_flow}/trash DELETE api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/cash_flows/{cash_flow}/trash DELETE api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
 
@@ -39,6 +40,21 @@ describe('Feature: TrashCashFlowController', function () {
             $response->assertUnauthorized()
                 ->assertJson([
                     'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can return unauthorized message when trying to access protected /api/v1/cash_flows/{cash_flow}/trash DELETE api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->create();
+            $other_cash_flow = CashFlowModel::factory()->create();
+
+            // Act:
+            $response = $this->actingAs($user)->deleteJson(sprintf('/api/v1/cash_flows/%s/trash', $other_cash_flow->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
                 ]);
         });
 

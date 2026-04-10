@@ -2,13 +2,14 @@
 
 use App\Application\CashFlow\UserCases\RestoreCashFlow;
 use App\Models\CashFlow as CashFlowModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: RestoreCashFlowController', function () {
 
     describe('Positives', function () {
 
-        it('can restore trashed cash flow resource when using /api/v1/cash_flows PATCH api endpoint.', function () {
+        it('can restore trashed cash flow resource when using /api/v1/cash_flows/{cash_flow} PATCH api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
 
@@ -28,7 +29,7 @@ describe('Feature: RestoreCashFlowController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected  /api/v1/cash_flows PATCH api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected  /api/v1/cash_flows/{cash_flow} PATCH api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
 
@@ -39,6 +40,21 @@ describe('Feature: RestoreCashFlowController', function () {
             $response->assertUnauthorized()
                 ->assertJson([
                     'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can return unauthorized message when trying to access protected /api/v1/cash_flows/{cash_flow} PATCH api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->create();
+            $other_cash_flow = CashFlowModel::factory()->create();
+
+            // Act:
+            $response = $this->actingAs($user)->patchJson(sprintf('/api/v1/cash_flows/%s', $other_cash_flow->id));
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
                 ]);
         });
 

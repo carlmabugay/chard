@@ -9,7 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CashFlow\UpdateCashFlowRequest;
 use App\Http\Resources\CashFlow\CashFlowResource;
 use App\Models\CashFlow;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 use Throwable;
 
 final class UpdateController extends Controller
@@ -17,6 +19,8 @@ final class UpdateController extends Controller
     public function __invoke(CashFlow $cash_flow, UpdateCashFlowRequest $request, StoreCashFlow $use_case): CashFlowResource|JsonResponse
     {
         try {
+
+            Gate::authorize('update', $cash_flow);
 
             $dto = new StoreCashFlowDTO(
                 portfolio_id: $cash_flow->portfolio->id,
@@ -28,6 +32,12 @@ final class UpdateController extends Controller
             $result = $use_case->handle($dto);
 
             return CashFlowResource::make($result);
+
+        } catch (AuthorizationException) {
+
+            return response()->json([
+                'message' => 'Unauthorized.',
+            ], 401);
 
         } catch (Throwable $error) {
 

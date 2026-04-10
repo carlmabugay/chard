@@ -2,6 +2,7 @@
 
 use App\Application\CashFlow\UserCases\StoreCashFlow;
 use App\Models\CashFlow as CashFlowModel;
+use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
 describe('Feature: UpdateCashFlowController', function () {
@@ -36,7 +37,7 @@ describe('Feature: UpdateCashFlowController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/cash_flows/{cash_flow} PUT api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/cash_flows/{cash_flow} PUT api endpoint.', function () {
             // Arrange:
             $cash_flow = CashFlowModel::factory()->create();
 
@@ -52,6 +53,26 @@ describe('Feature: UpdateCashFlowController', function () {
             $response->assertUnauthorized()
                 ->assertJson([
                     'message' => 'Unauthenticated.',
+                ]);
+        });
+
+        it('can return unauthorized message when trying to access protected /api/v1/cash_flows/{cash_flow} PUT api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->create();
+            $other_cash_flow = CashFlowModel::factory()->create();
+
+            $payload = [
+                'type' => $other_cash_flow->type->value,
+                'amount' => 1000,
+            ];
+
+            // Act:
+            $response = $this->actingAs($user)->putJson(sprintf('/api/v1/cash_flows/%s', $other_cash_flow->id), $payload);
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertJson([
+                    'message' => 'Unauthorized.',
                 ]);
         });
 
