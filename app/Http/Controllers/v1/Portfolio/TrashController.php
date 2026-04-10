@@ -27,9 +27,7 @@ final class TrashController extends Controller
 
         } catch (AuthorizationException) {
 
-            return response()->json([
-                'message' => 'Unauthorized.',
-            ], 401);
+            return $this->unauthorizedResponse();
 
         } catch (Throwable $error) {
 

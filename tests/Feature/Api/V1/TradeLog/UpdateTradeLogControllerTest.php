@@ -42,7 +42,7 @@ describe('Feature: UpdateTradeLogController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 
@@ -60,12 +60,13 @@ describe('Feature: UpdateTradeLogController', function () {
 
             // Assert:
             $response->assertUnauthorized()
-                ->assertJson([
-                    'message' => 'Unauthenticated.',
+                ->assertExactJson([
+                    'success' => false,
+                    'message' => __('messages.unauthenticated'),
                 ]);
         });
 
-        it('can return unauthenticated message when trying to access protected /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
             $other_trade_log = TradeLogModel::factory()->create();
@@ -84,8 +85,9 @@ describe('Feature: UpdateTradeLogController', function () {
 
             // Assert:
             $response->assertUnauthorized()
-                ->assertJson([
-                    'message' => 'Unauthorized.',
+                ->assertExactJson([
+                    'success' => false,
+                    'message' => __('messages.unauthorized'),
                 ]);
         });
 

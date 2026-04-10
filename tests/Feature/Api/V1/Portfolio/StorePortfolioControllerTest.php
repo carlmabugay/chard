@@ -34,7 +34,7 @@ describe('Feature: StorePortfolioController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/portfolios POST api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/portfolios POST api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
 
@@ -47,8 +47,9 @@ describe('Feature: StorePortfolioController', function () {
 
             // Assert:
             $response->assertUnauthorized()
-                ->assertJson([
-                    'message' => 'Unauthenticated.',
+                ->assertExactJson([
+                    'success' => false,
+                    'message' => __('messages.unauthenticated'),
                 ]);
         });
 

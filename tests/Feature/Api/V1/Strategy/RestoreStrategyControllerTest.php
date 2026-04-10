@@ -37,9 +37,11 @@ describe('Feature: TrashStrategyController', function () {
             // Act:
             $response = $this->patchJson(sprintf('/api/v1/strategies/%s', $strategy->id));
 
+            // Assert:
             $response->assertUnauthorized()
-                ->assertJson([
-                    'message' => 'Unauthenticated.',
+                ->assertExactJson([
+                    'success' => false,
+                    'message' => __('messages.unauthenticated'),
                 ]);
         });
 
@@ -53,8 +55,9 @@ describe('Feature: TrashStrategyController', function () {
 
             // Assert:
             $response->assertUnauthorized()
-                ->assertJson([
-                    'message' => 'Unauthorized.',
+                ->assertExactJson([
+                    'success' => false,
+                    'message' => __('messages.unauthorized'),
                 ]);
         });
 

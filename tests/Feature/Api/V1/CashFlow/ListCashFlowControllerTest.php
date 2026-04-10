@@ -176,7 +176,7 @@ describe('Feature: ListCashFlowController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/cash_flows GET api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/cash_flows GET api endpoint.', function () {
             // Arrange:
 
             // Act:
@@ -184,8 +184,9 @@ describe('Feature: ListCashFlowController', function () {
 
             // Assert:
             $response->assertUnauthorized()
-                ->assertJson([
-                    'message' => 'Unauthenticated.',
+                ->assertExactJson([
+                    'success' => false,
+                    'message' => __('messages.unauthenticated'),
                 ]);
         });
 

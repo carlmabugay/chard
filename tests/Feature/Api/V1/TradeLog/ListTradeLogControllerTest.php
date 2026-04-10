@@ -156,7 +156,7 @@ describe('Feature: ListTradeLogController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/trade_logs GET api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/trade_logs GET api endpoint.', function () {
             // Arrange:
 
             // Act:
@@ -164,8 +164,9 @@ describe('Feature: ListTradeLogController', function () {
 
             // Assert:
             $response->assertUnauthorized()
-                ->assertJson([
-                    'message' => 'Unauthenticated.',
+                ->assertExactJson([
+                    'success' => false,
+                    'message' => __('messages.unauthenticated'),
                 ]);
         });
 

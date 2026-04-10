@@ -36,7 +36,7 @@ describe('Feature: UpdateStrategyController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/strategies/{strategy} PUT api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/strategies/{strategy} PUT api endpoint.', function () {
             // Arrange:
             $strategy = StrategyModel::factory()->create();
 
@@ -49,8 +49,9 @@ describe('Feature: UpdateStrategyController', function () {
 
             // Assert:
             $response->assertUnauthorized()
-                ->assertJson([
-                    'message' => 'Unauthenticated.',
+                ->assertExactJson([
+                    'success' => false,
+                    'message' => __('messages.unauthenticated'),
                 ]);
         });
 
@@ -68,8 +69,9 @@ describe('Feature: UpdateStrategyController', function () {
 
             // Assert:
             $response->assertUnauthorized()
-                ->assertJson([
-                    'message' => 'Unauthorized.',
+                ->assertExactJson([
+                    'success' => false,
+                    'message' => __('messages.unauthorized'),
                 ]);
         });
 

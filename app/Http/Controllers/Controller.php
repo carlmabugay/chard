@@ -16,4 +16,12 @@ abstract class Controller
             'message' => $message,
         ], $code);
     }
+
+    public function unauthorizedResponse(?string $message = null, int $code = 401)
+    {
+        return response()->json([
+            'success' => false,
+            'message' => $message ?? __('messages.unauthorized'),
+        ], $code);
+    }
 }

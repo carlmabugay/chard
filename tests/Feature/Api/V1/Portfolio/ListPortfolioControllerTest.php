@@ -148,7 +148,7 @@ describe('Feature: ListPortfolioController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthorized message when trying to access protected /api/v1/portfolios GET api endpoint unauthenticated.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/portfolios GET api endpoint.', function () {
             // Arrange:
 
             // Act:
@@ -156,10 +156,10 @@ describe('Feature: ListPortfolioController', function () {
 
             // Assert:
             $response->assertUnauthorized()
-                ->assertJson([
-                    'message' => 'Unauthenticated.',
+                ->assertExactJson([
+                    'success' => false,
+                    'message' => __('messages.unauthenticated'),
                 ]);
-
         });
 
         it('can handle server error response when using /api/v1/portfolios GET api endpoint.', function () {

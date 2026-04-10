@@ -56,8 +56,9 @@ describe('Feature: UpdateDividendController', function () {
 
             // Assert:
             $response->assertUnauthorized()
-                ->assertJson([
-                    'message' => 'Unauthenticated.',
+                ->assertExactJson([
+                    'success' => false,
+                    'message' => __('messages.unauthenticated'),
                 ]);
         });
 
@@ -78,8 +79,9 @@ describe('Feature: UpdateDividendController', function () {
 
             // Assert:
             $response->assertUnauthorized()
-                ->assertJson([
-                    'message' => 'Unauthorized.',
+                ->assertExactJson([
+                    'success' => false,
+                    'message' => __('messages.unauthorized'),
                 ]);
         });
 

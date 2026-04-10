@@ -50,8 +50,9 @@ describe('Feature: UpdatePortfolioController', function () {
 
             // Assert:
             $response->assertUnauthorized()
-                ->assertJson([
-                    'message' => 'Unauthenticated.',
+                ->assertExactJson([
+                    'success' => false,
+                    'message' => __('messages.unauthenticated'),
                 ]);
         });
 
@@ -70,7 +71,8 @@ describe('Feature: UpdatePortfolioController', function () {
             // Assert:
             $response->assertUnauthorized()
                 ->assertJson([
-                    'message' => 'Unauthorized.',
+                    'success' => false,
+                    'message' => __('messages.unauthorized'),
                 ]);
         });
 
