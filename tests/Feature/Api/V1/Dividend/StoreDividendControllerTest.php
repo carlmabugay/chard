@@ -64,6 +64,29 @@ describe('Feature: StoreCashFlowController', function () {
                 ]);
         });
 
+        it('can return unauthorized message when trying to access protected /api/v1/dividends POST api endpoint.', function () {
+            // Arrange:
+            PortfolioModel::factory()->create();
+            $other_portfolio = PortfolioModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $other_portfolio->id,
+                'symbol' => 'JFC',
+                'amount' => 100,
+                'recorded_at' => now()->toDateTimeString(),
+            ];
+
+            // Act:
+            $response = $this->postJson('/api/v1/dividends', $payload);
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertExactJson([
+                    'success' => false,
+                    'message' => __('messages.unauthenticated'),
+                ]);
+        });
+
         it('can handle server error response when using /api/v1/dividends POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();

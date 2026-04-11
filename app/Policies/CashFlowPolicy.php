@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\CashFlow;
+use App\Models\Portfolio;
 use App\Models\User;
 
 class CashFlowPolicy
@@ -10,6 +11,11 @@ class CashFlowPolicy
     public function view(User $user, CashFlow $cash_flow): bool
     {
         return $user->id === $cash_flow->portfolio->user->id;
+    }
+
+    public function store(User $user, Portfolio $portfolio): bool
+    {
+        return $user->id === $portfolio->user->id;
     }
 
     public function update(User $user, CashFlow $cash_flow): bool

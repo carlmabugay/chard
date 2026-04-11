@@ -23,9 +23,9 @@ class EloquentTradeLogReadRepository implements TradeLogReadRepositoryInterface
         $query = TradeLogModel::query()->with('portfolio');
 
         $query = EloquentQueryApplier::apply(
-            $query,
-            $criteria,
-            fn ($query, $search) => $this->applySearch($query, $search, self::SEARCHABLE_COLUMNS)
+            query: $query,
+            criteria: $criteria,
+            searchCallback: fn ($query, $search) => $this->applySearch($query, $search, self::SEARCHABLE_COLUMNS)
         );
 
         $paginator = $query->paginate(

@@ -7,7 +7,11 @@ use App\Application\Dividend\UseCases\StoreDividend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dividend\CreateDividendRequest;
 use App\Http\Resources\Dividend\DividendResource;
+use App\Models\Dividend;
+use App\Models\Portfolio;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 use Throwable;
 
 final class StoreController extends Controller
@@ -15,6 +19,11 @@ final class StoreController extends Controller
     public function __invoke(CreateDividendRequest $request, StoreDividend $use_case): DividendResource|JsonResponse
     {
         try {
+
+            // TODO: Use service here.
+            $portfolio = Portfolio::find($request->validated('portfolio_id'));
+
+            Gate::authorize('store', [Dividend::class, $portfolio]);
 
             $dto = StoreDividendDTO::fromRequest($request->validated());
 
@@ -27,6 +36,9 @@ final class StoreController extends Controller
                 ->response()
                 ->setStatusCode(201);
 
+        } catch (AuthorizationException) {
+
+            return $this->unauthorizedResponse();
         } catch (Throwable $error) {
 
             return $this->errorResponse($error->getMessage());

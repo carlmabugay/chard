@@ -21,9 +21,9 @@ class EloquentPortfolioReadRepository implements PortfolioReadRepositoryInterfac
     public function findAll(QueryCriteria $criteria): array
     {
         $query = EloquentQueryApplier::apply(
-            PortfolioModel::query(),
-            $criteria,
-            fn ($query, $search) => $this->applySearch($query, $search, self::SEARCHABLE_COLUMNS)
+            query: PortfolioModel::query(),
+            criteria: $criteria,
+            searchCallback: fn ($query, $search) => $this->applySearch($query, $search, self::SEARCHABLE_COLUMNS)
         );
 
         $paginator = $query->paginate(

@@ -21,9 +21,9 @@ class EloquentStrategyReadRepository implements StrategyReadRepositoryInterface
     public function findAll(QueryCriteria $criteria): array
     {
         $query = EloquentQueryApplier::apply(
-            StrategyModel::query(),
-            $criteria,
-            fn ($query, $search) => $this->applySearch($query, $search, self::SEARCHABLE_COLUMNS)
+            query: StrategyModel::query(),
+            criteria: $criteria,
+            searchCallback: fn ($query, $search) => $this->applySearch($query, $search, self::SEARCHABLE_COLUMNS)
         );
 
         $paginator = $query->paginate(

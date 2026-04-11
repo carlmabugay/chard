@@ -70,6 +70,31 @@ describe('Feature: StoreTradeLogController', function () {
                 ]);
         });
 
+        it('can return unauthorized message when trying to access protected /api/v1/trade_logs POST api endpoint.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+            $other_portfolio = PortfolioModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $other_portfolio->id,
+                'symbol' => 'BPI',
+                'type' => 'buy',
+                'price' => 100,
+                'shares' => 1000,
+                'fees' => 120,
+            ];
+
+            // Act:
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/trade_logs', $payload);
+
+            // Assert:
+            $response->assertUnauthorized()
+                ->assertExactJson([
+                    'success' => false,
+                    'message' => __('messages.unauthorized'),
+                ]);
+        });
+
         it('can handle server error response when using /api/v1/trade_logs POST api endpoint.', function () {
             // Arrange:
             $portfolio = PortfolioModel::factory()->create();

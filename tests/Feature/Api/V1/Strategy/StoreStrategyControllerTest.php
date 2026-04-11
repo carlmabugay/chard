@@ -36,8 +36,6 @@ describe('Feature: StoreStrategyController', function () {
 
         it('can return unauthenticated message when trying to access protected /api/v1/strategies POST api endpoint.', function () {
             // Arrange:
-            $user = UserModel::factory()->create();
-
             $payload = [
                 'name' => 'Trend Following',
             ];
