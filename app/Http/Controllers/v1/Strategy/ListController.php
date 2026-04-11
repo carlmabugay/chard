@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Application\Strategy\UseCases\ListStrategies;
+use App\Domain\Strategy\Contracts\ListStrategiesInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Strategy\StrategyCollection;
 use App\Traits\HasPaginatedResponse;
@@ -15,7 +15,7 @@ final class ListController extends Controller
 {
     use HasPaginatedResponse;
 
-    public function __invoke(Request $request, ListStrategies $use_case): JsonResource|JsonResponse
+    public function __invoke(Request $request, ListStrategiesInterface $use_case): JsonResource|JsonResponse
     {
         try {
 

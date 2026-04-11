@@ -4,11 +4,12 @@ namespace App\Domain\Strategy\Services;
 
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Strategy\Contracts\Read\StrategyReadRepositoryInterface;
+use App\Domain\Strategy\Contracts\StrategyServiceInterface;
 use App\Domain\Strategy\Contracts\Write\StrategyWriteRepositoryInterface;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Models\Strategy as StrategyModel;
 
-class StrategyService
+class StrategyService implements StrategyServiceInterface
 {
     public function __construct(
         private readonly StrategyWriteRepositoryInterface $write_repository,

@@ -3,12 +3,13 @@
 namespace App\Application\Strategy\UseCases;
 
 use App\Domain\Common\Query\QueryCriteria;
-use App\Domain\Strategy\Services\StrategyService;
+use App\Domain\Strategy\Contracts\ListStrategiesInterface;
+use App\Domain\Strategy\Contracts\StrategyServiceInterface;
 
-class ListStrategies
+class ListStrategies implements ListStrategiesInterface
 {
     public function __construct(
-        private readonly StrategyService $service
+        private readonly StrategyServiceInterface $service
     ) {}
 
     public function handle(QueryCriteria $criteria): array

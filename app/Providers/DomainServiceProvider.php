@@ -2,14 +2,18 @@
 
 namespace App\Providers;
 
+use App\Application\Strategy\UseCases\ListStrategies;
 use App\Domain\CashFlow\Contracts\Read\CashFlowReadRepositoryInterface;
 use App\Domain\CashFlow\Contracts\Write\CashFlowWriteRepositoryInterface;
 use App\Domain\Dividend\Contracts\Read\DividendReadRepositoryInterface;
 use App\Domain\Dividend\Contracts\Write\DividendWriteRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Read\PortfolioReadRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Write\PortfolioWriteRepositoryInterface;
+use App\Domain\Strategy\Contracts\ListStrategiesInterface;
 use App\Domain\Strategy\Contracts\Read\StrategyReadRepositoryInterface;
+use App\Domain\Strategy\Contracts\StrategyServiceInterface;
 use App\Domain\Strategy\Contracts\Write\StrategyWriteRepositoryInterface;
+use App\Domain\Strategy\Services\StrategyService;
 use App\Domain\TradeLog\Contracts\Read\TradeLogReadRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Write\TradeLogWriteRepositoryInterface;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentCashFlowReadRepository;
@@ -32,6 +36,9 @@ class DomainServiceProvider extends ServiceProvider
 
         StrategyReadRepositoryInterface::class => EloquentStrategyReadRepository::class,
         StrategyWriteRepositoryInterface::class => EloquentStrategyWriteRepository::class,
+
+        StrategyServiceInterface::class => StrategyService::class,
+        ListStrategiesInterface::class => ListStrategies::class,
 
         CashFlowReadRepositoryInterface::class => EloquentCashFlowReadRepository::class,
         CashFlowWriteRepositoryInterface::class => EloquentCashFlowWriteRepository::class,
