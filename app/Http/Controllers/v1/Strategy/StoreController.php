@@ -5,14 +5,14 @@ namespace App\Http\Controllers\v1\Strategy;
 use App\Application\Strategy\DTOs\StoreStrategyDTO;
 use App\Application\Strategy\UseCases\StoreStrategy;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Strategy\CreateStrategyRequest;
+use App\Http\Requests\Strategy\StoreStrategyRequest;
 use App\Http\Resources\Strategy\StrategyResource;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class StoreController extends Controller
 {
-    public function __invoke(CreateStrategyRequest $request, StoreStrategy $use_case): StrategyResource|JsonResponse
+    public function __invoke(StoreStrategyRequest $request, StoreStrategy $use_case): StrategyResource|JsonResponse
     {
         try {
 

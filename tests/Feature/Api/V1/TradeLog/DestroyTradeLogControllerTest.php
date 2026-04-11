@@ -9,7 +9,7 @@ describe('Feature: DestroyTradeLogController', function () {
 
     describe('Positives', function () {
 
-        it('can hard delete trade log resource when using /api/v1/trade-flows/{trade_log}/destroy DELETE api endpoint.',
+        it('can hard delete trade log resource when using /api/v1/trade_logs/{trade_log}/destroy DELETE api endpoint.',
             function () {
                 // Arrange:
                 $trade_log = TradeLogModel::factory()->create();

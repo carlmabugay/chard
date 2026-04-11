@@ -40,7 +40,7 @@ describe('Feature: UpdateDividendController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthenticated message when trying to access protected /api/v1/dividends PUT api endpoint.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/dividends/{dividend} PUT api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->create();
 
@@ -62,7 +62,7 @@ describe('Feature: UpdateDividendController', function () {
                 ]);
         });
 
-        it('can return unauthorized message when trying to access protected /api/v1/dividends/{dividend} GET api endpoint.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/dividends/{dividend} PUT api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
             $other_dividend = DividendModel::factory()->create();
@@ -85,7 +85,7 @@ describe('Feature: UpdateDividendController', function () {
                 ]);
         });
 
-        it('can handle error message when no record found upon using /api/v1/portfolios/{portfolio} PUT api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/dividends/{dividend} PUT api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $dividend = DividendModel::factory()->create();
@@ -136,6 +136,125 @@ describe('Feature: UpdateDividendController', function () {
                     'success' => false,
                     'error' => 'An unexpected error occurred. Please try again later.',
                     'message' => 'This is a mock exception message.',
+                ]);
+        });
+
+    });
+
+    describe('Validations', function () {
+
+        it('requires symbol, amount, and recorded_at fields when using /api/v1/dividends/{dividend} PUT api endpoint.', function () {
+            // Arrange:
+            $dividend = DividendModel::factory()->create();
+
+            $payload = [];
+
+            // Act:
+            $response = $this->actingAs($dividend->portfolio->user)->putJson(sprintf('/api/v1/dividends/%s', $dividend->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'symbol' => [__('validation.required', ['attribute' => 'symbol'])],
+                        'amount' => [__('validation.required', ['attribute' => 'amount'])],
+                        'recorded_at' => [__('validation.required', ['attribute' => 'recorded at'])],
+                    ],
+                ]);
+        });
+
+        it('requires portfolio id field to exits when using /api/v1/dividends/{dividend} PUT api endpoint.', function () {
+            // Arrange:
+            $dividend = DividendModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => 100,
+                'symbol' => $dividend->symbol,
+                'amount' => $dividend->amount,
+                'recorded_at' => $dividend->recorded_at->toDateTimeString(),
+            ];
+
+            // Act:
+            $response = $this->actingAs($dividend->portfolio->user)->putJson(sprintf('/api/v1/dividends/%s', $dividend->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'portfolio_id' => [__('validation.exists', ['attribute' => 'portfolio id'])],
+                    ],
+                ]);
+        });
+
+        it('requires amount field to be numeric when using /api/v1/dividends/{dividend} PUT api endpoint.', function () {
+            // Arrange:
+            $dividend = DividendModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $dividend->portfolio->id,
+                'symbol' => $dividend->symbol,
+                'amount' => 'not-an-integer',
+                'recorded_at' => $dividend->recorded_at->toDateTimeString(),
+            ];
+
+            // Act:
+            $response = $this->actingAs($dividend->portfolio->user)->putJson(sprintf('/api/v1/dividends/%s', $dividend->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'amount' => [__('validation.numeric', ['attribute' => 'amount'])],
+                    ],
+                ]);
+        });
+
+        it('requires amount field to be at least 1 when using /api/v1/dividends/{dividend} PUT api endpoint.', function () {
+            // Arrange:
+            $dividend = DividendModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $dividend->portfolio->id,
+                'symbol' => $dividend->symbol,
+                'amount' => 0,
+                'recorded_at' => $dividend->recorded_at->toDateTimeString(),
+            ];
+
+            // Act:
+            $response = $this->actingAs($dividend->portfolio->user)->putJson(sprintf('/api/v1/dividends/%s', $dividend->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'amount' => [__('validation.min.numeric', ['attribute' => 'amount', 'min' => 1])],
+                    ],
+                ]);
+        });
+
+        it('requires recorded at field to be valid date format when using /api/v1/dividends/{dividend} PUT api endpoint.', function () {
+            // Arrange:
+            $dividend = DividendModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $dividend->portfolio->id,
+                'symbol' => $dividend->symbol,
+                'amount' => $dividend->amount,
+                'recorded_at' => 'not-a-date',
+            ];
+
+            // Act:
+            $response = $this->actingAs($dividend->portfolio->user)->putJson(sprintf('/api/v1/dividends/%s', $dividend->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'recorded_at' => [
+                            __('validation.date', ['attribute' => 'recorded at']),
+                            __('validation.date_format', ['attribute' => 'recorded at', 'format' => 'Y-m-d H:i:s']),
+                        ],
+                    ],
                 ]);
         });
 

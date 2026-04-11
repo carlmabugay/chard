@@ -9,7 +9,7 @@ describe('Feature: RestoreTradeLogController', function () {
 
     describe('Positives', function () {
 
-        it('can restore trashed trade log resource when using /api/v1/trade_logs PATCH api endpoint.', function () {
+        it('can restore trashed trade log resource when using /api/v1/trade_logs/{trade_log} PATCH api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 
@@ -30,7 +30,7 @@ describe('Feature: RestoreTradeLogController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthenticated message when trying to access protected /api/v1/trade_logs PATCH api endpoint.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/trade_logs/{trade_log} PATCH api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 

@@ -23,7 +23,7 @@ final class UpdateController extends Controller
             Gate::authorize('update', $cash_flow);
 
             $dto = new StoreCashFlowDTO(
-                portfolio_id: $cash_flow->portfolio->id,
+                portfolio_id: $request->validated('portfolio_id') ?? $cash_flow->portfolio->id,
                 type: CashFlowType::fromInput($request->validated('type')),
                 amount: $request->validated('amount'),
                 id: $cash_flow->id,

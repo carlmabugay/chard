@@ -117,7 +117,7 @@ describe('Feature: UpdateTradeLogController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/trade_logs PUT api endpoint.', function () {
+        it('can handle server error response when using /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 
@@ -146,6 +146,232 @@ describe('Feature: UpdateTradeLogController', function () {
                     'success' => false,
                     'error' => 'An unexpected error occurred. Please try again later.',
                     'message' => 'This is a mock exception message.',
+                ]);
+        });
+
+    });
+
+    describe('Validations', function () {
+
+        it('requires symbol, type, price, shares, and fees fields when using /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
+            // Arrange:
+            $trade_log = TradeLogModel::factory()->create();
+
+            $payload = [];
+
+            // Act:
+            $response = $this->actingAs($trade_log->portfolio->user)->putJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'symbol' => [__('validation.required', ['attribute' => 'symbol'])],
+                        'type' => [__('validation.required', ['attribute' => 'type'])],
+                        'price' => [__('validation.required', ['attribute' => 'price'])],
+                        'shares' => [__('validation.required', ['attribute' => 'shares'])],
+                        'fees' => [__('validation.required', ['attribute' => 'fees'])],
+                    ],
+                ]);
+        });
+
+        it('requires portfolio id field to exists when using /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
+            // Arrange:
+            $trade_log = TradeLogModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => 100,
+                'symbol' => $trade_log->symbol,
+                'type' => $trade_log->type,
+                'price' => $trade_log->price,
+                'shares' => $trade_log->shares,
+                'fees' => $trade_log->fees,
+            ];
+
+            // Act:
+            $response = $this->actingAs($trade_log->portfolio->user)->putJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'portfolio_id' => [__('validation.exists', ['attribute' => 'portfolio id'])],
+                    ],
+                ]);
+        });
+
+        it('requires type field to be valid when using /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
+            // Arrange:
+            $trade_log = TradeLogModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $trade_log->portfolio->id,
+                'symbol' => $trade_log->symbol,
+                'type' => 'not-a-valid-type',
+                'price' => $trade_log->price,
+                'shares' => $trade_log->shares,
+                'fees' => $trade_log->fees,
+            ];
+
+            // Act:
+            $response = $this->actingAs($trade_log->portfolio->user)->putJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'type' => [__('validation.in', ['attribute' => 'type'])],
+                    ],
+                ]);
+        });
+
+        it('requires price field to be numeric when using /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
+            // Arrange:
+            $trade_log = TradeLogModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $trade_log->portfolio->id,
+                'symbol' => $trade_log->symbol,
+                'type' => $trade_log->type,
+                'price' => 'not-a-valid-price',
+                'shares' => $trade_log->shares,
+                'fees' => $trade_log->fees,
+            ];
+
+            // Act:
+            $response = $this->actingAs($trade_log->portfolio->user)->putJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'price' => [__('validation.numeric', ['attribute' => 'price'])],
+                    ],
+                ]);
+        });
+
+        it('requires price field to be at least 1 when using /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
+            // Arrange:
+            $trade_log = TradeLogModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $trade_log->portfolio->id,
+                'symbol' => $trade_log->symbol,
+                'type' => $trade_log->type,
+                'price' => 0,
+                'shares' => $trade_log->shares,
+                'fees' => $trade_log->fees,
+            ];
+
+            // Act:
+            $response = $this->actingAs($trade_log->portfolio->user)->putJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'price' => [__('validation.min.numeric', ['attribute' => 'price', 'min' => 1])],
+                    ],
+                ]);
+        });
+
+        it('requires shares field to be numeric when using /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
+            // Arrange:
+            $trade_log = TradeLogModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $trade_log->portfolio->id,
+                'symbol' => $trade_log->symbol,
+                'type' => $trade_log->type,
+                'price' => $trade_log->price,
+                'shares' => 'not-a-valid-shares',
+                'fees' => $trade_log->fees,
+            ];
+
+            // Act:
+            $response = $this->actingAs($trade_log->portfolio->user)->putJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'shares' => [__('validation.numeric', ['attribute' => 'shares'])],
+                    ],
+                ]);
+        });
+
+        it('requires shares field to be at least 1 when using /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
+            // Arrange:
+            $trade_log = TradeLogModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $trade_log->portfolio->id,
+                'symbol' => $trade_log->symbol,
+                'type' => $trade_log->type,
+                'price' => $trade_log->price,
+                'shares' => 0,
+                'fees' => $trade_log->fees,
+            ];
+
+            // Act:
+            $response = $this->actingAs($trade_log->portfolio->user)->putJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'shares' => [__('validation.min.numeric', ['attribute' => 'shares', 'min' => 1])],
+                    ],
+                ]);
+        });
+
+        it('requires fees field to be numeric when using /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
+            // Arrange:
+            $trade_log = TradeLogModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $trade_log->portfolio->id,
+                'symbol' => $trade_log->symbol,
+                'type' => $trade_log->type,
+                'price' => $trade_log->price,
+                'shares' => $trade_log->shares,
+                'fees' => 'not-a-valid-fees',
+            ];
+
+            // Act:
+            $response = $this->actingAs($trade_log->portfolio->user)->putJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'fees' => [__('validation.numeric', ['attribute' => 'fees'])],
+                    ],
+                ]);
+        });
+
+        it('requires fees field to be at least 1 when using /api/v1/trade_logs/{trade_log} PUT api endpoint.', function () {
+            // Arrange:
+            $trade_log = TradeLogModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $trade_log->portfolio->id,
+                'symbol' => $trade_log->symbol,
+                'type' => $trade_log->type,
+                'price' => $trade_log->price,
+                'shares' => $trade_log->shares,
+                'fees' => 0,
+            ];
+
+            // Act:
+            $response = $this->actingAs($trade_log->portfolio->user)->putJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'fees' => [__('validation.min.numeric', ['attribute' => 'fees', 'min' => 1])],
+                    ],
                 ]);
         });
 

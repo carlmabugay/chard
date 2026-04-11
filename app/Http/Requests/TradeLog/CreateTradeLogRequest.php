@@ -9,12 +9,12 @@ class CreateTradeLogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'portfolio_id' => ['required', 'integer', 'exists:portfolios,id'],
-            'symbol' => ['required', 'string'],
-            'type' => ['required', 'string'],
-            'price' => ['required', 'numeric'],
-            'shares' => ['required', 'integer', 'min:0'],
-            'fees' => ['required', 'numeric', 'min:0'],
+            'portfolio_id' => ['required', 'exists:portfolios,id'],
+            'symbol' => ['required'],
+            'type' => ['required', 'in:buy,sell'],
+            'price' => ['required', 'numeric', 'min:1'],
+            'shares' => ['required', 'numeric', 'min:1'],
+            'fees' => ['required', 'numeric', 'min:1'],
         ];
     }
 

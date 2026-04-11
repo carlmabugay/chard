@@ -90,4 +90,116 @@ describe('Feature: StoreCashFlowController', function () {
 
     });
 
+    describe('Validations', function () {
+
+        it('requires portfolio id, type and amount fields when using /api/v1/cash_flows POST api endpoint.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            $payload = [];
+
+            // Act:
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/cash_flows', $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'portfolio_id' => [__('validation.required', ['attribute' => 'portfolio id'])],
+                        'type' => [__('validation.required', ['attribute' => 'type'])],
+                        'amount' => [__('validation.required', ['attribute' => 'amount'])],
+                    ],
+                ]);
+        });
+
+        it('requires portfolio id field to exists when using /api/v1/cash_flows POST api endpoint.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => 100,
+                'type' => CashFlowType::DEPOSIT->value,
+                'amount' => 2000,
+            ];
+
+            // Act:
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/cash_flows', $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'portfolio_id' => [__('validation.exists', ['attribute' => 'portfolio id'])],
+                    ],
+                ]);
+        });
+
+        it('requires valid type field when using /api/v1/cash_flows POST api endpoint.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $portfolio->id,
+                'type' => 'not-cash-flow-type',
+                'amount' => 2000,
+            ];
+
+            // Act:
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/cash_flows', $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'type' => [__('validation.enum', ['attribute' => 'type'])],
+                    ],
+                ]);
+        });
+
+        it('requires amount field to be numeric when using /api/v1/cash_flows POST api endpoint.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $portfolio->id,
+                'type' => CashFlowType::DEPOSIT->value,
+                'amount' => 'not-cash-flow-amount',
+            ];
+
+            // Act:
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/cash_flows', $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'amount' => [__('validation.numeric', ['attribute' => 'amount'])],
+                    ],
+                ]);
+        });
+
+        it('requires amount field to be at least 1 when using /api/v1/cash_flows POST api endpoint.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $portfolio->id,
+                'type' => CashFlowType::DEPOSIT->value,
+                'amount' => 0,
+            ];
+
+            // Act:
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/cash_flows', $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'amount' => [__('validation.min.numeric', ['attribute' => 'amount', 'min' => 1])],
+                    ],
+                ]);
+        });
+
+    });
+
 });

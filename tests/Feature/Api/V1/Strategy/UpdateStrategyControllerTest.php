@@ -32,6 +32,7 @@ describe('Feature: UpdateStrategyController', function () {
                     ],
                 ]);
         });
+
     });
 
     describe('Negatives', function () {
@@ -120,6 +121,56 @@ describe('Feature: UpdateStrategyController', function () {
                     'success' => false,
                     'error' => 'An unexpected error occurred. Please try again later.',
                     'message' => 'This is a mock exception message.',
+                ]);
+        });
+
+    });
+
+    describe('Validations', function () {
+
+        it('requires name field when using /api/v1/strategies/{strategy} PUT api endpoint.', function () {
+
+            // Arrange:
+            $user = UserModel::factory()->create();
+
+            $payload = [];
+
+            // Act:
+            $response = $this->actingAs($user)->postJson('/api/v1/strategies', $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertExactJson([
+                    'message' => __('validation.required', ['attribute' => 'name']),
+                    'errors' => [
+                        'name' => [
+                            0 => __('validation.required', ['attribute' => 'name']),
+                        ],
+                    ],
+                ]);
+
+        });
+
+        it('limits name field to 255 characters when using /api/v1/strategies/{strategy} PUT api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->create();
+
+            $payload = [
+                'name' => fake()->text(500),
+            ];
+
+            // Act:
+            $response = $this->actingAs($user)->postJson('/api/v1/strategies', $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertExactJson([
+                    'message' => __('validation.max.string', ['attribute' => 'name', 'max' => 255]),
+                    'errors' => [
+                        'name' => [
+                            0 => __('validation.max.string', ['attribute' => 'name', 'max' => 255]),
+                        ],
+                    ],
                 ]);
         });
 

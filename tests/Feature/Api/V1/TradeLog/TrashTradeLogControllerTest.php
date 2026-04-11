@@ -9,7 +9,7 @@ describe('Feature: TrashTradeLogController', function () {
 
     describe('Positives', function () {
 
-        it('can trash existing trade log resource when using /api/v1/trade_logs/trash DELETE api endpoint.', function () {
+        it('can trash existing trade log resource when using /api/v1/trade_logs/{trade_log}/trash DELETE api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 
@@ -30,7 +30,7 @@ describe('Feature: TrashTradeLogController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthenticated message when trying to access protected /api/v1/trade_logs/trash DELETE api endpoint.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/trade_logs/{trade_log}/trash DELETE api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 

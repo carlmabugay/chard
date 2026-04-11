@@ -56,7 +56,7 @@ describe('Feature: UpdatePortfolioController', function () {
                 ]);
         });
 
-        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{portfolio} GET api endpoint.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/portfolios/{portfolio} PUT api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->hasPortfolios()->create();
             $other_portfolio = PortfolioModel::factory()->create();
@@ -121,4 +121,53 @@ describe('Feature: UpdatePortfolioController', function () {
         });
 
     });
+
+    describe('Validations', function () {
+
+        it('requires name field when using /api/v1/portfolios/{portfolio} PUT api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->create();
+
+            $payload = [];
+
+            // Act:
+            $response = $this->actingAs($user)->postJson('/api/v1/portfolios', $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertExactJson([
+                    'message' => __('validation.required', ['attribute' => 'name']),
+                    'errors' => [
+                        'name' => [
+                            0 => __('validation.required', ['attribute' => 'name']),
+                        ],
+                    ],
+                ]);
+        });
+
+        it('limits name field to 255 characters when using /api/v1/portfolios/{portfolio} PUT api endpoint.', function () {
+            // Arrange:
+            $user = UserModel::factory()->create();
+
+            $payload = [
+                'name' => fake()->text(500),
+            ];
+
+            // Act:
+            $response = $this->actingAs($user)->postJson('/api/v1/portfolios', $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertExactJson([
+                    'message' => __('validation.max.string', ['attribute' => 'name', 'max' => 255]),
+                    'errors' => [
+                        'name' => [
+                            0 => __('validation.max.string', ['attribute' => 'name', 'max' => 255]),
+                        ],
+                    ],
+                ]);
+        });
+
+    });
+
 });

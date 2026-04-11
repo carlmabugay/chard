@@ -9,7 +9,7 @@ describe('Feature: RestoreDividendController', function () {
 
     describe('Positives', function () {
 
-        it('can restore trashed dividend resource when using /api/v1/dividends PATCH api endpoint.', function () {
+        it('can restore trashed dividend resource when using /api/v1/dividends/{dividend} PATCH api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->trashed()->create();
 
@@ -30,7 +30,7 @@ describe('Feature: RestoreDividendController', function () {
 
     describe('Negatives', function () {
 
-        it('can return unauthenticated message when trying to access protected /api/v1/dividends PATCH api endpoint.', function () {
+        it('can return unauthenticated message when trying to access protected /api/v1/dividends/{dividend} PATCH api endpoint.', function () {
             // Arrange:
             $dividend = DividendModel::factory()->trashed()->create();
 
@@ -45,7 +45,7 @@ describe('Feature: RestoreDividendController', function () {
                 ]);
         });
 
-        it('can return unauthorized message when trying to access protected /api/v1/dividends PATCH api endpoint.', function () {
+        it('can return unauthorized message when trying to access protected /api/v1/dividends/{dividend} PATCH api endpoint.', function () {
             // Arrange:
             $user = UserModel::factory()->create();
             $other_dividend = DividendModel::factory()->create();

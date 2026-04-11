@@ -33,6 +33,7 @@ describe('Feature: DestroyPortfolioController', function () {
                     'message' => __('messages.success.destroyed', ['record' => 'Portfolio']),
                 ]);
         });
+
     });
 
     describe('Negatives', function () {

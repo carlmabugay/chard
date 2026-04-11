@@ -9,9 +9,9 @@ class UpdateDividendRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'portfolio_id' => ['required', 'integer', 'exists:portfolios,id'],
-            'symbol' => ['required', 'string'],
-            'amount' => ['required', 'integer', 'min:1'],
+            'portfolio_id' => ['exists:portfolios,id'],
+            'symbol' => ['required'],
+            'amount' => ['required', 'numeric', 'min:1'],
             'recorded_at' => ['required', 'date', 'date_format:Y-m-d H:i:s'],
         ];
     }

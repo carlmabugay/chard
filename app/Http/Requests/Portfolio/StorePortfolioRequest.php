@@ -4,12 +4,12 @@ namespace App\Http\Requests\Portfolio;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePortfolioRequest extends FormRequest
+class StorePortfolioRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'max:255'],
         ];
     }
 

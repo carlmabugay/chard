@@ -132,4 +132,112 @@ describe('Feature: UpdateCashFlowController', function () {
 
     });
 
+    describe('Validations', function () {
+
+        it('requires type and amount fields when using /api/v1/cash_flows/{cash_flow} PUT api endpoint.', function () {
+            // Arrange:
+            $cash_flow = CashFlowModel::factory()->create();
+
+            $payload = [];
+
+            // Act:
+            $response = $this->actingAs($cash_flow->portfolio->user)->putJson(sprintf('/api/v1/cash_flows/%s', $cash_flow->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'type' => [__('validation.required', ['attribute' => 'type'])],
+                        'amount' => [__('validation.required', ['attribute' => 'amount'])],
+                    ],
+                ]);
+        });
+
+        it('requires portfolio id field to exists when using /api/v1/cash_flows/{cash_flow} PUT api endpoint.', function () {
+            // Arrange:
+            $cash_flow = CashFlowModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => 100,
+                'type' => $cash_flow->type->value,
+                'amount' => $cash_flow->amount,
+            ];
+
+            // Act:
+            $response = $this->actingAs($cash_flow->portfolio->user)->putJson(sprintf('/api/v1/cash_flows/%s', $cash_flow->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'portfolio_id' => [__('validation.exists', ['attribute' => 'portfolio id'])],
+                    ],
+                ]);
+        });
+
+        it('requires valid type field when using /api/v1/cash_flows/{cash_flow} PUT api endpoint.', function () {
+            // Arrange:
+            $cash_flow = CashFlowModel::factory()->create();
+
+            $payload = [
+                'type' => 'not-cash-flow-type',
+                'amount' => $cash_flow->amount,
+            ];
+
+            // Act:
+            $response = $this->actingAs($cash_flow->portfolio->user)->putJson(sprintf('/api/v1/cash_flows/%s', $cash_flow->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'type' => [__('validation.enum', ['attribute' => 'type'])],
+                    ],
+                ]);
+        });
+
+        it('requires amount field to be numeric when using /api/v1/cash_flows/{cash_flow} PUT api endpoint.', function () {
+            // Arrange:
+            $cash_flow = CashFlowModel::factory()->create();
+
+            $payload = [
+                'type' => $cash_flow->type->value,
+                'amount' => 'not-cash-flow-amount',
+            ];
+
+            // Act:
+            $response = $this->actingAs($cash_flow->portfolio->user)->putJson(sprintf('/api/v1/cash_flows/%s', $cash_flow->id), $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'amount' => [__('validation.numeric', ['attribute' => 'amount'])],
+                    ],
+                ]);
+        });
+
+        it('requires amount field to be at least 1 when using /api/v1/cash_flows/{cash_flow} PUT api endpoint..', function () {
+            // Arrange:
+            $cash_flow = CashFlowModel::factory()->create();
+
+            $payload = [
+                'type' => $cash_flow->type->value,
+                'amount' => 0,
+            ];
+
+            // Act:
+            $response = $this->actingAs($cash_flow->portfolio->user)->postJson('/api/v1/cash_flows', $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'amount' => [__('validation.min.numeric', ['attribute' => 'amount', 'min' => 1])],
+                    ],
+                ]);
+        });
+
+    });
+
 });

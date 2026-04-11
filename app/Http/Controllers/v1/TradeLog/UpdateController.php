@@ -22,7 +22,7 @@ final class UpdateController extends Controller
             Gate::authorize('update', $trade_log);
 
             $dto = new StoreTradeLogDTO(
-                portfolio_id: $request->validated('portfolio_id'),
+                portfolio_id: $request->validated('portfolio_id', $trade_log->portfolio->id),
                 symbol: $request->validated('symbol'),
                 type: $request->validated('type'),
                 price: $request->validated('price'),

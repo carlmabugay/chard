@@ -9,7 +9,7 @@ describe('Feature: ShowTradeLogController', function () {
 
     describe('Positives', function () {
 
-        it('can return a trade log resource when using /api/v1/trade_logs/{id} GET api endpoint.', function () {
+        it('can return a trade log resource when using /api/v1/trade_logs/{trade_log} GET api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 
@@ -74,7 +74,7 @@ describe('Feature: ShowTradeLogController', function () {
                 ]);
         });
 
-        it('can handle error message when no record found upon using /api/v1/trade_logs/{id} GET api endpoint.', function () {
+        it('can handle error message when no record found upon using /api/v1/trade_logs/{trade_log} GET api endpoint.', function () {
             // Arrange:
             $random_id = 100;
             $trade_log = TradeLogModel::factory()->create();
@@ -91,7 +91,7 @@ describe('Feature: ShowTradeLogController', function () {
                 ]);
         });
 
-        it('can handle server error response when using /api/v1/trade_logs/{id} GET api endpoint.', function () {
+        it('can handle server error response when using /api/v1/trade_logs/{trade_log} GET api endpoint.', function () {
             // Arrange:
             $trade_log = TradeLogModel::factory()->create();
 

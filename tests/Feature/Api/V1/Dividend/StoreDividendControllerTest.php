@@ -96,4 +96,124 @@ describe('Feature: StoreCashFlowController', function () {
 
     });
 
+    describe('Validations', function () {
+
+        it('requires portfolio id, symbol, amount, and recorded_at fields when using /api/v1/dividends POST api endpoint.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            $payload = [];
+
+            // Act:
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/dividends', $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'portfolio_id' => [__('validation.required', ['attribute' => 'portfolio id'])],
+                        'symbol' => [__('validation.required', ['attribute' => 'symbol'])],
+                        'amount' => [__('validation.required', ['attribute' => 'amount'])],
+                        'recorded_at' => [__('validation.required', ['attribute' => 'recorded at'])],
+                    ],
+                ]);
+        });
+
+        it('requires portfolio id field to exits when using /api/v1/dividends POST api endpoint.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => 100,
+                'symbol' => 'JFC',
+                'amount' => 100,
+                'recorded_at' => now()->toDateTimeString(),
+            ];
+
+            // Act:
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/dividends', $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'portfolio_id' => [__('validation.exists', ['attribute' => 'portfolio id'])],
+                    ],
+                ]);
+        });
+
+        it('requires amount field to be numeric when using /api/v1/dividends POST api endpoint.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => 100,
+                'symbol' => 'JFC',
+                'amount' => 'not-an-integer',
+                'recorded_at' => now()->toDateTimeString(),
+            ];
+
+            // Act:
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/dividends', $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'amount' => [__('validation.numeric', ['attribute' => 'amount'])],
+                    ],
+                ]);
+        });
+
+        it('requires amount field to be at least 1 when using /api/v1/dividends POST api endpoint.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $portfolio->id,
+                'symbol' => 'JFC',
+                'amount' => 0,
+                'recorded_at' => now()->toDateTimeString(),
+            ];
+
+            // Act:
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/dividends', $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'amount' => [__('validation.min.numeric', ['attribute' => 'amount', 'min' => 1])],
+                    ],
+                ]);
+        });
+
+        it('requires recorded at field to be valid date format when using /api/v1/dividends POST api endpoint.', function () {
+            // Arrange:
+            $portfolio = PortfolioModel::factory()->create();
+
+            $payload = [
+                'portfolio_id' => $portfolio->id,
+                'symbol' => 'JFC',
+                'amount' => 2500,
+                'recorded_at' => 'not-a-date',
+            ];
+
+            // Act:
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/dividends', $payload);
+
+            // Assert:
+            $response->assertUnprocessable()
+                ->assertJson([
+                    'errors' => [
+                        'recorded_at' => [
+                            __('validation.date', ['attribute' => 'recorded at']),
+                            __('validation.date_format', ['attribute' => 'recorded at', 'format' => 'Y-m-d H:i:s']),
+                        ],
+                    ],
+                ]);
+        });
+
+    });
+
 });
