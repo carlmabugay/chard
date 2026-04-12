@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v1\CashFlow;
 
 use App\Application\CashFlow\DTOs\StoreCashFlowDTO;
-use App\Application\CashFlow\UserCases\StoreCashFlow;
+use App\Domain\CashFlow\Contracts\UseCases\StoreCashFlowInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CashFlow\CreateCashFlowRequest;
 use App\Http\Resources\CashFlow\CashFlowResource;
@@ -16,7 +16,7 @@ use Throwable;
 
 final class StoreController extends Controller
 {
-    public function __invoke(CreateCashFlowRequest $request, StoreCashFlow $use_case): CashFlowResource|JsonResponse
+    public function __invoke(CreateCashFlowRequest $request, StoreCashFlowInterface $use_case): CashFlowResource|JsonResponse
     {
         try {
 

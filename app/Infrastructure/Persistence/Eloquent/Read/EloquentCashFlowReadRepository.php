@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Read;
 
-use App\Domain\CashFlow\Contracts\Read\CashFlowReadRepositoryInterface;
+use App\Domain\CashFlow\Contracts\Persistence\Read\CashFlowReadRepositoryInterface;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\Common\Query\QueryCriteria;
 use App\Infrastructure\Persistence\Eloquent\Query\EloquentQueryApplier;

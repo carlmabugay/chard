@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\CashFlow;
 
-use App\Application\CashFlow\UserCases\TrashCashFlow;
+use App\Domain\CashFlow\Contracts\UseCases\TrashCashFlowInterface;
 use App\Http\Controllers\Controller;
 use App\Models\CashFlow;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -12,7 +12,7 @@ use Throwable;
 
 final class TrashController extends Controller
 {
-    public function __invoke(CashFlow $cash_flow, TrashCashFlow $use_case): JsonResponse
+    public function __invoke(CashFlow $cash_flow, TrashCashFlowInterface $use_case): JsonResponse
     {
         try {
 

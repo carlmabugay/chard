@@ -2,13 +2,14 @@
 
 namespace App\Domain\CashFlow\Services;
 
-use App\Domain\CashFlow\Contracts\Read\CashFlowReadRepositoryInterface;
-use App\Domain\CashFlow\Contracts\Write\CashFlowWriteRepositoryInterface;
+use App\Domain\CashFlow\Contracts\Persistence\Read\CashFlowReadRepositoryInterface;
+use App\Domain\CashFlow\Contracts\Persistence\Write\CashFlowWriteRepositoryInterface;
+use App\Domain\CashFlow\Contracts\Services\CashFlowServiceInterface;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\Common\Query\QueryCriteria;
 use App\Models\CashFlow as CashFlowModel;
 
-class CashFlowService
+class CashFlowService implements CashFlowServiceInterface
 {
     public function __construct(
         private readonly CashFlowWriteRepositoryInterface $write_repository,

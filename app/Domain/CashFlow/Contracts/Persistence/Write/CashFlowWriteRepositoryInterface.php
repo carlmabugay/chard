@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\CashFlow\Contracts\Write;
+namespace App\Domain\CashFlow\Contracts\Persistence\Write;
 
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Models\CashFlow as CashFlowModel;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\CashFlow;
 
-use App\Application\CashFlow\UserCases\ListCashFlows;
+use App\Domain\CashFlow\Contracts\UseCases\ListCashFlowsInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CashFlow\CashFlowCollection;
 use App\Traits\HasPaginatedResponse;
@@ -15,7 +15,7 @@ final class ListController extends Controller
 {
     use HasPaginatedResponse;
 
-    public function __invoke(Request $request, ListCashFlows $use_case): JsonResource|JsonResponse
+    public function __invoke(Request $request, ListCashFlowsInterface $use_case): JsonResource|JsonResponse
     {
         try {
 

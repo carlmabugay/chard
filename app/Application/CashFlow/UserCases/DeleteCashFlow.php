@@ -2,13 +2,14 @@
 
 namespace App\Application\CashFlow\UserCases;
 
-use App\Domain\CashFlow\Services\CashFlowService;
+use App\Domain\CashFlow\Contracts\Services\CashFlowServiceInterface;
+use App\Domain\CashFlow\Contracts\UseCases\DeleteCashFlowInterface;
 use App\Models\CashFlow as CashFlowModel;
 
-class DeleteCashFlow
+class DeleteCashFlow implements DeleteCashFlowInterface
 {
     public function __construct(
-        protected CashFlowService $service
+        protected CashFlowServiceInterface $service
     ) {}
 
     public function handle(CashFlowModel $cash_flow): ?bool

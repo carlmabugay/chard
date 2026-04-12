@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\CashFlow;
 
-use App\Application\CashFlow\UserCases\DeleteCashFlow;
+use App\Domain\CashFlow\Contracts\UseCases\DeleteCashFlowInterface;
 use App\Http\Controllers\Controller;
 use App\Models\CashFlow;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -12,7 +12,7 @@ use Throwable;
 
 final class DestroyController extends Controller
 {
-    public function __invoke(CashFlow $cash_flow, DeleteCashFlow $use_case): JsonResponse
+    public function __invoke(CashFlow $cash_flow, DeleteCashFlowInterface $use_case): JsonResponse
     {
         try {
 

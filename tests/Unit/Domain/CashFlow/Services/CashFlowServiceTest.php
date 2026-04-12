@@ -1,7 +1,7 @@
 <?php
 
-use App\Domain\CashFlow\Contracts\Read\CashFlowReadRepositoryInterface;
-use App\Domain\CashFlow\Contracts\Write\CashFlowWriteRepositoryInterface;
+use App\Domain\CashFlow\Contracts\Persistence\Read\CashFlowReadRepositoryInterface;
+use App\Domain\CashFlow\Contracts\Persistence\Write\CashFlowWriteRepositoryInterface;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\CashFlow\Services\CashFlowService;
 use App\Domain\Common\Query\QueryCriteria;

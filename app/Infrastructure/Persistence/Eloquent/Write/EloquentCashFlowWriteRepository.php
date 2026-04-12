@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Write;
 
-use App\Domain\CashFlow\Contracts\Write\CashFlowWriteRepositoryInterface;
+use App\Domain\CashFlow\Contracts\Persistence\Write\CashFlowWriteRepositoryInterface;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Models\CashFlow as CashFlowModel;
 

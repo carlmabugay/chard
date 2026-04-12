@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\CashFlow;
 
-use App\Application\CashFlow\UserCases\GetCashFlow;
+use App\Domain\CashFlow\Contracts\UseCases\GetCashFlowInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CashFlow\CashFlowResource;
 use App\Models\CashFlow;
@@ -13,7 +13,7 @@ use Throwable;
 
 final class ShowController extends Controller
 {
-    public function __invoke(CashFlow $cash_flow, GetCashFlow $use_case): CashFlowResource|JsonResponse
+    public function __invoke(CashFlow $cash_flow, GetCashFlowInterface $use_case): CashFlowResource|JsonResponse
     {
         try {
 

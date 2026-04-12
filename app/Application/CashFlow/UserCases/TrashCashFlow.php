@@ -2,13 +2,14 @@
 
 namespace App\Application\CashFlow\UserCases;
 
-use App\Domain\CashFlow\Services\CashFlowService;
+use App\Domain\CashFlow\Contracts\Services\CashFlowServiceInterface;
+use App\Domain\CashFlow\Contracts\UseCases\TrashCashFlowInterface;
 use App\Models\CashFlow as CashFlowModel;
 
-class TrashCashFlow
+class TrashCashFlow implements TrashCashFlowInterface
 {
     public function __construct(
-        protected readonly CashFlowService $service
+        protected readonly CashFlowServiceInterface $service
     ) {}
 
     public function handle(CashFlowModel $cash_flow): ?bool

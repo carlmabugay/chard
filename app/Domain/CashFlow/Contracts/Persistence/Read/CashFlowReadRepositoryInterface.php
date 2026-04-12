@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\CashFlow\Contracts\Read;
+namespace App\Domain\CashFlow\Contracts\Persistence\Read;
 
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\Common\Query\QueryCriteria;

@@ -3,13 +3,14 @@
 namespace App\Application\CashFlow\UserCases;
 
 use App\Application\CashFlow\DTOs\StoreCashFlowDTO;
+use App\Domain\CashFlow\Contracts\Services\CashFlowServiceInterface;
+use App\Domain\CashFlow\Contracts\UseCases\StoreCashFlowInterface;
 use App\Domain\CashFlow\Entities\CashFlow;
-use App\Domain\CashFlow\Services\CashFlowService;
 
-class StoreCashFlow
+class StoreCashFlow implements StoreCashFlowInterface
 {
     public function __construct(
-        private readonly CashFlowService $service
+        private readonly CashFlowServiceInterface $service
     ) {}
 
     public function handle(StoreCashFlowDTO $dto): CashFlow
