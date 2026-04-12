@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v1\TradeLog;
 
 use App\Application\TradeLog\DTOs\StoreTradeLogDTO;
-use App\Application\TradeLog\UseCases\StoreTradeLog;
+use App\Domain\TradeLog\Contracts\UseCases\StoreTradeLogInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TradeLog\CreateTradeLogRequest;
 use App\Http\Resources\TradeLog\TradeLogResource;
@@ -16,7 +16,7 @@ use Throwable;
 
 final class StoreController extends Controller
 {
-    public function __invoke(CreateTradeLogRequest $request, StoreTradeLog $use_case): TradeLogResource|JsonResponse
+    public function __invoke(CreateTradeLogRequest $request, StoreTradeLogInterface $use_case): TradeLogResource|JsonResponse
     {
 
         try {

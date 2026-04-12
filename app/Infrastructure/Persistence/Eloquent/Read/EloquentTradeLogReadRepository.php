@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Persistence\Eloquent\Read;
 
 use App\Domain\Common\Query\QueryCriteria;
-use App\Domain\TradeLog\Contracts\Read\TradeLogReadRepositoryInterface;
+use App\Domain\TradeLog\Contracts\Persistence\Read\TradeLogReadRepositoryInterface;
 use App\Domain\TradeLog\Entities\TradeLog;
 use App\Infrastructure\Persistence\Eloquent\Query\EloquentQueryApplier;
 use App\Infrastructure\Persistence\Pagination\LaravelPaginatorAdapter;

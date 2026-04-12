@@ -3,13 +3,14 @@
 namespace App\Application\TradeLog\UseCases;
 
 use App\Application\TradeLog\DTOs\StoreTradeLogDTO;
+use App\Domain\TradeLog\Contracts\Services\TradeLogServiceInterface;
+use App\Domain\TradeLog\Contracts\UseCases\StoreTradeLogInterface;
 use App\Domain\TradeLog\Entities\TradeLog;
-use App\Domain\TradeLog\Services\TradeLogService;
 
-class StoreTradeLog
+class StoreTradeLog implements StoreTradeLogInterface
 {
     public function __construct(
-        private readonly TradeLogService $service
+        private readonly TradeLogServiceInterface $service
     ) {}
 
     public function handle(StoreTradeLogDTO $dto): TradeLog

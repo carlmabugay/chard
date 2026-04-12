@@ -1,8 +1,8 @@
 <?php
 
 use App\Domain\Common\Query\QueryCriteria;
-use App\Domain\TradeLog\Contracts\Read\TradeLogReadRepositoryInterface;
-use App\Domain\TradeLog\Contracts\Write\TradeLogWriteRepositoryInterface;
+use App\Domain\TradeLog\Contracts\Persistence\Read\TradeLogReadRepositoryInterface;
+use App\Domain\TradeLog\Contracts\Persistence\Write\TradeLogWriteRepositoryInterface;
 use App\Domain\TradeLog\Entities\TradeLog;
 use App\Domain\TradeLog\Services\TradeLogService;
 use App\Models\TradeLog as TradeLogModel;

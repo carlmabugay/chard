@@ -3,12 +3,13 @@
 namespace App\Domain\TradeLog\Services;
 
 use App\Domain\Common\Query\QueryCriteria;
-use App\Domain\TradeLog\Contracts\Read\TradeLogReadRepositoryInterface;
-use App\Domain\TradeLog\Contracts\Write\TradeLogWriteRepositoryInterface;
+use App\Domain\TradeLog\Contracts\Persistence\Read\TradeLogReadRepositoryInterface;
+use App\Domain\TradeLog\Contracts\Persistence\Write\TradeLogWriteRepositoryInterface;
+use App\Domain\TradeLog\Contracts\Services\TradeLogServiceInterface;
 use App\Domain\TradeLog\Entities\TradeLog;
 use App\Models\TradeLog as TradeLogModel;
 
-class TradeLogService
+class TradeLogService implements TradeLogServiceInterface
 {
     public function __construct(
         private readonly TradeLogWriteRepositoryInterface $write_repository,

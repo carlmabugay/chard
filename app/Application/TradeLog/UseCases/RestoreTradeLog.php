@@ -2,13 +2,14 @@
 
 namespace App\Application\TradeLog\UseCases;
 
-use App\Domain\TradeLog\Services\TradeLogService;
+use App\Domain\TradeLog\Contracts\Services\TradeLogServiceInterface;
+use App\Domain\TradeLog\Contracts\UseCases\RestoreTradeLogInterface;
 use App\Models\TradeLog as TradeLogModel;
 
-class RestoreTradeLog
+class RestoreTradeLog implements RestoreTradeLogInterface
 {
     public function __construct(
-        protected readonly TradeLogService $service,
+        protected readonly TradeLogServiceInterface $service,
     ) {}
 
     public function handle(TradeLogModel $trade_log): ?bool

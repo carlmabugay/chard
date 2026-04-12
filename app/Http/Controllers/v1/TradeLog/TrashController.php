@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\TradeLog;
 
-use App\Application\TradeLog\UseCases\TrashTradeLog;
+use App\Domain\TradeLog\Contracts\UseCases\TrashTradeLogInterface;
 use App\Http\Controllers\Controller;
 use App\Models\TradeLog;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -12,7 +12,7 @@ use Throwable;
 
 final class TrashController extends Controller
 {
-    public function __invoke(TradeLog $trade_log, TrashTradeLog $use_case): JsonResponse
+    public function __invoke(TradeLog $trade_log, TrashTradeLogInterface $use_case): JsonResponse
     {
         try {
 

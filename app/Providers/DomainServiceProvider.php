@@ -26,6 +26,12 @@ use App\Application\Strategy\UseCases\ListStrategies;
 use App\Application\Strategy\UseCases\RestoreStrategy;
 use App\Application\Strategy\UseCases\StoreStrategy;
 use App\Application\Strategy\UseCases\TrashStrategy;
+use App\Application\TradeLog\UseCases\DeleteTradeLog;
+use App\Application\TradeLog\UseCases\GetTradeLog;
+use App\Application\TradeLog\UseCases\ListTradeLogs;
+use App\Application\TradeLog\UseCases\RestoreTradeLog;
+use App\Application\TradeLog\UseCases\StoreTradeLog;
+use App\Application\TradeLog\UseCases\TrashTradeLog;
 use App\Domain\CashFlow\Contracts\Persistence\Read\CashFlowReadRepositoryInterface;
 use App\Domain\CashFlow\Contracts\Persistence\Write\CashFlowWriteRepositoryInterface;
 use App\Domain\CashFlow\Contracts\Services\CashFlowServiceInterface;
@@ -66,8 +72,16 @@ use App\Domain\Strategy\Contracts\UseCases\RestoreStrategyInterface;
 use App\Domain\Strategy\Contracts\UseCases\StoreStrategyInterface;
 use App\Domain\Strategy\Contracts\UseCases\TrashStrategyInterface;
 use App\Domain\Strategy\Services\StrategyService;
-use App\Domain\TradeLog\Contracts\Read\TradeLogReadRepositoryInterface;
-use App\Domain\TradeLog\Contracts\Write\TradeLogWriteRepositoryInterface;
+use App\Domain\TradeLog\Contracts\Persistence\Read\TradeLogReadRepositoryInterface;
+use App\Domain\TradeLog\Contracts\Persistence\Write\TradeLogWriteRepositoryInterface;
+use App\Domain\TradeLog\Contracts\Services\TradeLogServiceInterface;
+use App\Domain\TradeLog\Contracts\UseCases\DeleteTradeLogInterface;
+use App\Domain\TradeLog\Contracts\UseCases\GetTradeLogInterface;
+use App\Domain\TradeLog\Contracts\UseCases\ListTradeLogsInterface;
+use App\Domain\TradeLog\Contracts\UseCases\RestoreTradeLogInterface;
+use App\Domain\TradeLog\Contracts\UseCases\StoreTradeLogInterface;
+use App\Domain\TradeLog\Contracts\UseCases\TrashTradeLogInterface;
+use App\Domain\TradeLog\Services\TradeLogService;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentCashFlowReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentDividendReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentPortfolioReadRepository;
@@ -125,6 +139,13 @@ class DomainServiceProvider extends ServiceProvider
 
         TradeLogReadRepositoryInterface::class => EloquentTradeLogReadRepository::class,
         TradeLogWriteRepositoryInterface::class => EloquentTradeLogWriteRepository::class,
+        TradeLogServiceInterface::class => TradeLogService::class,
+        ListTradeLogsInterface::class => ListTradeLogs::class,
+        StoreTradeLogInterface::class => StoreTradeLog::class,
+        GetTradeLogInterface::class => GetTradeLog::class,
+        TrashTradeLogInterface::class => TrashTradeLog::class,
+        RestoreTradeLogInterface::class => RestoreTradeLog::class,
+        DeleteTradeLogInterface::class => DeleteTradeLog::class,
     ];
 
     /**

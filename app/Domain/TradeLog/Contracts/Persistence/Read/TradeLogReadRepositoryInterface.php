@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\TradeLog\Contracts\Read;
+namespace App\Domain\TradeLog\Contracts\Persistence\Read;
 
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\TradeLog\Entities\TradeLog;

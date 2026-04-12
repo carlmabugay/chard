@@ -3,12 +3,13 @@
 namespace App\Application\TradeLog\UseCases;
 
 use App\Domain\Common\Query\QueryCriteria;
-use App\Domain\TradeLog\Services\TradeLogService;
+use App\Domain\TradeLog\Contracts\Services\TradeLogServiceInterface;
+use App\Domain\TradeLog\Contracts\UseCases\ListTradeLogsInterface;
 
-class ListTradeLogs
+class ListTradeLogs implements ListTradeLogsInterface
 {
     public function __construct(
-        private readonly TradeLogService $service
+        private readonly TradeLogServiceInterface $service
     ) {}
 
     public function handle(QueryCriteria $criteria): array

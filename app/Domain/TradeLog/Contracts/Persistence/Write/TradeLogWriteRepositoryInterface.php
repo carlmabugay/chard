@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\TradeLog\Contracts\Write;
+namespace App\Domain\TradeLog\Contracts\Persistence\Write;
 
 use App\Domain\TradeLog\Entities\TradeLog;
 use App\Models\TradeLog as TradeLogModel;

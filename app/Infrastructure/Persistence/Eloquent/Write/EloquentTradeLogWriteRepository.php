@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Write;
 
-use App\Domain\TradeLog\Contracts\Write\TradeLogWriteRepositoryInterface;
+use App\Domain\TradeLog\Contracts\Persistence\Write\TradeLogWriteRepositoryInterface;
 use App\Domain\TradeLog\Entities\TradeLog;
 use App\Models\TradeLog as TradeLogModel;
 
