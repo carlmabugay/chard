@@ -2,7 +2,7 @@
 
 use App\Application\Strategy\UseCases\ListStrategies;
 use App\Domain\Common\Query\QueryCriteria;
-use App\Domain\Strategy\Contracts\StrategyServiceInterface;
+use App\Domain\Strategy\Contracts\Services\StrategyServiceInterface;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Models\Strategy as StrategyModel;
 

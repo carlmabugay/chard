@@ -1,8 +1,8 @@
 <?php
 
 use App\Domain\Common\Query\QueryCriteria;
-use App\Domain\Strategy\Contracts\Read\StrategyReadRepositoryInterface;
-use App\Domain\Strategy\Contracts\Write\StrategyWriteRepositoryInterface;
+use App\Domain\Strategy\Contracts\Persistence\Read\StrategyReadRepositoryInterface;
+use App\Domain\Strategy\Contracts\Persistence\Write\StrategyWriteRepositoryInterface;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Domain\Strategy\Services\StrategyService;
 use App\Models\Strategy as StrategyModel;

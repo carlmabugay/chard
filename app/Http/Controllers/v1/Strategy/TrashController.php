@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Application\Strategy\UseCases\TrashStrategy;
+use App\Domain\Strategy\Contracts\UseCases\TrashStrategyInterface;
 use App\Http\Controllers\Controller;
 use App\Models\Strategy;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -12,7 +12,7 @@ use Throwable;
 
 final class TrashController extends Controller
 {
-    public function __invoke(Strategy $strategy, TrashStrategy $use_case): JsonResponse
+    public function __invoke(Strategy $strategy, TrashStrategyInterface $use_case): JsonResponse
     {
         try {
 

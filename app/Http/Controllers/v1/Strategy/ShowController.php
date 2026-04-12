@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Application\Strategy\UseCases\GetStrategy;
+use App\Domain\Strategy\Contracts\UseCases\GetStrategyInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Strategy\StrategyResource;
 use App\Models\Strategy;
@@ -13,7 +13,7 @@ use Throwable;
 
 final class ShowController extends Controller
 {
-    public function __invoke(Strategy $strategy, GetStrategy $use_case): StrategyResource|JsonResponse
+    public function __invoke(Strategy $strategy, GetStrategyInterface $use_case): StrategyResource|JsonResponse
     {
         try {
 

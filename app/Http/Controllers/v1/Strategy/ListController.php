@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Domain\Strategy\Contracts\ListStrategiesInterface;
+use App\Domain\Strategy\Contracts\UseCases\ListStrategiesInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Strategy\StrategyCollection;
 use App\Traits\HasPaginatedResponse;

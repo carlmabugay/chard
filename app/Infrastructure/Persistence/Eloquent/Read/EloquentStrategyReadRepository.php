@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Persistence\Eloquent\Read;
 
 use App\Domain\Common\Query\QueryCriteria;
-use App\Domain\Strategy\Contracts\Read\StrategyReadRepositoryInterface;
+use App\Domain\Strategy\Contracts\Persistence\Read\StrategyReadRepositoryInterface;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Infrastructure\Persistence\Eloquent\Query\EloquentQueryApplier;
 use App\Infrastructure\Persistence\Pagination\LaravelPaginatorAdapter;

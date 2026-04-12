@@ -3,8 +3,8 @@
 namespace App\Application\Strategy\UseCases;
 
 use App\Domain\Common\Query\QueryCriteria;
-use App\Domain\Strategy\Contracts\ListStrategiesInterface;
-use App\Domain\Strategy\Contracts\StrategyServiceInterface;
+use App\Domain\Strategy\Contracts\Services\StrategyServiceInterface;
+use App\Domain\Strategy\Contracts\UseCases\ListStrategiesInterface;
 
 class ListStrategies implements ListStrategiesInterface
 {

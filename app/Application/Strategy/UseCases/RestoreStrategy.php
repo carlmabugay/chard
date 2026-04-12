@@ -2,13 +2,14 @@
 
 namespace App\Application\Strategy\UseCases;
 
-use App\Domain\Strategy\Services\StrategyService;
+use App\Domain\Strategy\Contracts\Services\StrategyServiceInterface;
+use App\Domain\Strategy\Contracts\UseCases\RestoreStrategyInterface;
 use App\Models\Strategy as StrategyModel;
 
-class RestoreStrategy
+class RestoreStrategy implements RestoreStrategyInterface
 {
     public function __construct(
-        protected StrategyService $service
+        protected StrategyServiceInterface $service
     ) {}
 
     public function handle(StrategyModel $strategy): ?bool

@@ -1,17 +1,12 @@
 <?php
 
-namespace App\Domain\Strategy\Contracts;
+namespace App\Domain\Strategy\Contracts\Persistence\Write;
 
-use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Models\Strategy as StrategyModel;
 
-interface StrategyServiceInterface
+interface StrategyWriteRepositoryInterface
 {
-    public function findAll(QueryCriteria $criteria): array;
-
-    public function findById(int $id): Strategy;
-
     public function store(Strategy $strategy): Strategy;
 
     public function trash(StrategyModel $strategy): ?bool;

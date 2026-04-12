@@ -2,13 +2,14 @@
 
 namespace App\Application\Strategy\UseCases;
 
-use App\Domain\Strategy\Services\StrategyService;
+use App\Domain\Strategy\Contracts\Services\StrategyServiceInterface;
+use App\Domain\Strategy\Contracts\UseCases\DeleteStrategyInterface;
 use App\Models\Strategy as StrategyModel;
 
-class DeleteStrategy
+class DeleteStrategy implements DeleteStrategyInterface
 {
     public function __construct(
-        protected readonly StrategyService $service
+        protected readonly StrategyServiceInterface $service
     ) {}
 
     public function handle(StrategyModel $strategy): ?bool

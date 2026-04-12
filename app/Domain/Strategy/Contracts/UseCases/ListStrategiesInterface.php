@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Strategy\Contracts;
+namespace App\Domain\Strategy\Contracts\UseCases;
 
 use App\Domain\Common\Query\QueryCriteria;
 

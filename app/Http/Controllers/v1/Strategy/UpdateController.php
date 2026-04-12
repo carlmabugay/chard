@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v1\Strategy;
 
 use App\Application\Strategy\DTOs\StoreStrategyDTO;
-use App\Application\Strategy\UseCases\StoreStrategy;
+use App\Domain\Strategy\Contracts\UseCases\StoreStrategyInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Strategy\StoreStrategyRequest;
 use App\Http\Resources\Strategy\StrategyResource;
@@ -15,7 +15,7 @@ use Throwable;
 
 final class UpdateController extends Controller
 {
-    public function __invoke(Strategy $strategy, StoreStrategyRequest $request, StoreStrategy $use_case): StrategyResource|JsonResponse
+    public function __invoke(Strategy $strategy, StoreStrategyRequest $request, StoreStrategyInterface $use_case): StrategyResource|JsonResponse
     {
         try {
 

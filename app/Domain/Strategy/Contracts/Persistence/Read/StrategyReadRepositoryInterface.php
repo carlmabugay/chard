@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Strategy\Contracts\Read;
+namespace App\Domain\Strategy\Contracts\Persistence\Read;
 
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Strategy\Entities\Strategy;

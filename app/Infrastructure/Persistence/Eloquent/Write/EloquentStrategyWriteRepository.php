@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Write;
 
-use App\Domain\Strategy\Contracts\Write\StrategyWriteRepositoryInterface;
+use App\Domain\Strategy\Contracts\Persistence\Write\StrategyWriteRepositoryInterface;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Models\Strategy as StrategyModel;
 
