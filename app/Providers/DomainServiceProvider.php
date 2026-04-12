@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Application\Portolio\UseCases\DeletePortfolio;
+use App\Application\Portolio\UseCases\GetPortfolio;
+use App\Application\Portolio\UseCases\ListPortfolios;
+use App\Application\Portolio\UseCases\RestorePortfolio;
+use App\Application\Portolio\UseCases\StorePortfolio;
+use App\Application\Portolio\UseCases\TrashPortfolio;
 use App\Application\Strategy\UseCases\DeleteStrategy;
 use App\Application\Strategy\UseCases\GetStrategy;
 use App\Application\Strategy\UseCases\ListStrategies;
@@ -12,8 +18,16 @@ use App\Domain\CashFlow\Contracts\Read\CashFlowReadRepositoryInterface;
 use App\Domain\CashFlow\Contracts\Write\CashFlowWriteRepositoryInterface;
 use App\Domain\Dividend\Contracts\Read\DividendReadRepositoryInterface;
 use App\Domain\Dividend\Contracts\Write\DividendWriteRepositoryInterface;
-use App\Domain\Portfolio\Contracts\Read\PortfolioReadRepositoryInterface;
-use App\Domain\Portfolio\Contracts\Write\PortfolioWriteRepositoryInterface;
+use App\Domain\Portfolio\Contracts\Persistence\Read\PortfolioReadRepositoryInterface;
+use App\Domain\Portfolio\Contracts\Persistence\Write\PortfolioWriteRepositoryInterface;
+use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
+use App\Domain\Portfolio\Contracts\UseCases\DeletePortfolioInterface;
+use App\Domain\Portfolio\Contracts\UseCases\GetPortfolioInterface;
+use App\Domain\Portfolio\Contracts\UseCases\ListPortfoliosInterface;
+use App\Domain\Portfolio\Contracts\UseCases\RestorePortfolioInterface;
+use App\Domain\Portfolio\Contracts\UseCases\StorePortfolioInterface;
+use App\Domain\Portfolio\Contracts\UseCases\TrashPortfolioInterface;
+use App\Domain\Portfolio\Services\PortfolioService;
 use App\Domain\Strategy\Contracts\Persistence\Read\StrategyReadRepositoryInterface;
 use App\Domain\Strategy\Contracts\Persistence\Write\StrategyWriteRepositoryInterface;
 use App\Domain\Strategy\Contracts\Services\StrategyServiceInterface;
@@ -43,10 +57,16 @@ class DomainServiceProvider extends ServiceProvider
     public $bindings = [
         PortfolioReadRepositoryInterface::class => EloquentPortfolioReadRepository::class,
         PortfolioWriteRepositoryInterface::class => EloquentPortfolioWriteRepository::class,
+        PortfolioServiceInterface::class => PortfolioService::class,
+        ListPortfoliosInterface::class => ListPortfolios::class,
+        StorePortfolioInterface::class => StorePortfolio::class,
+        GetPortfolioInterface::class => GetPortfolio::class,
+        TrashPortfolioInterface::class => TrashPortfolio::class,
+        RestorePortfolioInterface::class => RestorePortfolio::class,
+        DeletePortfolioInterface::class => DeletePortfolio::class,
 
         StrategyReadRepositoryInterface::class => EloquentStrategyReadRepository::class,
         StrategyWriteRepositoryInterface::class => EloquentStrategyWriteRepository::class,
-
         StrategyServiceInterface::class => StrategyService::class,
         ListStrategiesInterface::class => ListStrategies::class,
         StoreStrategyInterface::class => StoreStrategy::class,

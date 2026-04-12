@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Write;
 
-use App\Domain\Portfolio\Contracts\Write\PortfolioWriteRepositoryInterface;
+use App\Domain\Portfolio\Contracts\Persistence\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Models\Portfolio as PortfolioModel;
 

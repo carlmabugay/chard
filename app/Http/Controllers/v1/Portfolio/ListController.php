@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Portfolio;
 
-use App\Application\Portolio\UseCases\ListPortfolios;
+use App\Domain\Portfolio\Contracts\UseCases\ListPortfoliosInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Portfolio\PortfolioCollection;
 use App\Traits\HasPaginatedResponse;
@@ -15,7 +15,7 @@ final class ListController extends Controller
 {
     use HasPaginatedResponse;
 
-    public function __invoke(Request $request, ListPortfolios $use_case): JsonResource|JsonResponse
+    public function __invoke(Request $request, ListPortfoliosInterface $use_case): JsonResource|JsonResponse
     {
         try {
 

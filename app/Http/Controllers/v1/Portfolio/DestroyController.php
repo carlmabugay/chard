@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Portfolio;
 
-use App\Application\Portolio\UseCases\DeletePortfolio;
+use App\Domain\Portfolio\Contracts\UseCases\DeletePortfolioInterface;
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -12,7 +12,7 @@ use Throwable;
 
 final class DestroyController extends Controller
 {
-    public function __invoke(Portfolio $portfolio, DeletePortfolio $use_case): JsonResponse
+    public function __invoke(Portfolio $portfolio, DeletePortfolioInterface $use_case): JsonResponse
     {
         try {
 

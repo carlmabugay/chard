@@ -2,13 +2,14 @@
 
 namespace App\Application\Portolio\UseCases;
 
-use App\Domain\Portfolio\Services\PortfolioService;
+use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
+use App\Domain\Portfolio\Contracts\UseCases\TrashPortfolioInterface;
 use App\Models\Portfolio as PortfolioModel;
 
-class TrashPortfolio
+class TrashPortfolio implements TrashPortfolioInterface
 {
     public function __construct(
-        protected readonly PortfolioService $service,
+        protected readonly PortfolioServiceInterface $service,
     ) {}
 
     public function handle(PortfolioModel $portfolio): ?bool

@@ -3,12 +3,13 @@
 namespace App\Application\Portolio\UseCases;
 
 use App\Domain\Common\Query\QueryCriteria;
-use App\Domain\Portfolio\Services\PortfolioService;
+use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
+use App\Domain\Portfolio\Contracts\UseCases\ListPortfoliosInterface;
 
-class ListPortfolios
+class ListPortfolios implements ListPortfoliosInterface
 {
     public function __construct(
-        private readonly PortfolioService $service
+        private readonly PortfolioServiceInterface $service
     ) {}
 
     public function handle(QueryCriteria $criteria): array

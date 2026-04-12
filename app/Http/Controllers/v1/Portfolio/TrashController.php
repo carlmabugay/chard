@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Portfolio;
 
-use App\Application\Portolio\UseCases\TrashPortfolio;
+use App\Domain\Portfolio\Contracts\UseCases\TrashPortfolioInterface;
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -12,7 +12,7 @@ use Throwable;
 
 final class TrashController extends Controller
 {
-    public function __invoke(Portfolio $portfolio, TrashPortfolio $use_case): JsonResponse
+    public function __invoke(Portfolio $portfolio, TrashPortfolioInterface $use_case): JsonResponse
     {
         try {
 

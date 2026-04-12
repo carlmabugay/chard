@@ -3,12 +3,13 @@
 namespace App\Domain\Portfolio\Services;
 
 use App\Domain\Common\Query\QueryCriteria;
-use App\Domain\Portfolio\Contracts\Read\PortfolioReadRepositoryInterface;
-use App\Domain\Portfolio\Contracts\Write\PortfolioWriteRepositoryInterface;
+use App\Domain\Portfolio\Contracts\Persistence\Read\PortfolioReadRepositoryInterface;
+use App\Domain\Portfolio\Contracts\Persistence\Write\PortfolioWriteRepositoryInterface;
+use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Models\Portfolio as PortfolioModel;
 
-class PortfolioService
+class PortfolioService implements PortfolioServiceInterface
 {
     public function __construct(
         private readonly PortfolioWriteRepositoryInterface $write_repository,

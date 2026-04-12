@@ -3,13 +3,14 @@
 namespace App\Application\Portolio\UseCases;
 
 use App\Application\Portolio\DTOs\StorePortfolioDTO;
+use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
+use App\Domain\Portfolio\Contracts\UseCases\StorePortfolioInterface;
 use App\Domain\Portfolio\Entities\Portfolio;
-use App\Domain\Portfolio\Services\PortfolioService;
 
-class StorePortfolio
+class StorePortfolio implements StorePortfolioInterface
 {
     public function __construct(
-        private readonly PortfolioService $service
+        private readonly PortfolioServiceInterface $service
     ) {}
 
     public function handle(StorePortfolioDTO $dto): Portfolio

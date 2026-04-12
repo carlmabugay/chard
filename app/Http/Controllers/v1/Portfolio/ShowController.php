@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Portfolio;
 
-use App\Application\Portolio\UseCases\GetPortfolio;
+use App\Domain\Portfolio\Contracts\UseCases\GetPortfolioInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Portfolio\PortfolioResource;
 use App\Models\Portfolio;
@@ -13,7 +13,7 @@ use Throwable;
 
 final class ShowController extends Controller
 {
-    public function __invoke(Portfolio $portfolio, GetPortfolio $use_case): PortfolioResource|JsonResponse
+    public function __invoke(Portfolio $portfolio, GetPortfolioInterface $use_case): PortfolioResource|JsonResponse
     {
         try {
 

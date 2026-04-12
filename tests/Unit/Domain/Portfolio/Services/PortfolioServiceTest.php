@@ -1,8 +1,8 @@
 <?php
 
 use App\Domain\Common\Query\QueryCriteria;
-use App\Domain\Portfolio\Contracts\Read\PortfolioReadRepositoryInterface;
-use App\Domain\Portfolio\Contracts\Write\PortfolioWriteRepositoryInterface;
+use App\Domain\Portfolio\Contracts\Persistence\Read\PortfolioReadRepositoryInterface;
+use App\Domain\Portfolio\Contracts\Persistence\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
 use App\Models\Portfolio as PortfolioModel;

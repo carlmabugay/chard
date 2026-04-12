@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v1\Portfolio;
 
 use App\Application\Portolio\DTOs\StorePortfolioDTO;
-use App\Application\Portolio\UseCases\StorePortfolio;
+use App\Domain\Portfolio\Contracts\UseCases\StorePortfolioInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Portfolio\StorePortfolioRequest;
 use App\Http\Resources\Portfolio\PortfolioResource;
@@ -12,7 +12,7 @@ use Throwable;
 
 final class StoreController extends Controller
 {
-    public function __invoke(StorePortfolioRequest $request, StorePortfolio $use_case): PortfolioResource|JsonResponse
+    public function __invoke(StorePortfolioRequest $request, StorePortfolioInterface $use_case): PortfolioResource|JsonResponse
     {
         try {
 
