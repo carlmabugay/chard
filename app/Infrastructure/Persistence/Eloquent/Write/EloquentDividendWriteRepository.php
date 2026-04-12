@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Write;
 
-use App\Domain\Dividend\Contracts\Write\DividendWriteRepositoryInterface;
+use App\Domain\Dividend\Contracts\Persistence\Write\DividendWriteRepositoryInterface;
 use App\Domain\Dividend\Entities\Dividend;
 use App\Models\Dividend as DividendModel;
 

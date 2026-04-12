@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v1\Dividend;
 
 use App\Application\Dividend\DTOs\StoreDividendDTO;
-use App\Application\Dividend\UseCases\StoreDividend;
+use App\Domain\Dividend\Contracts\UseCases\StoreDividendInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dividend\CreateDividendRequest;
 use App\Http\Resources\Dividend\DividendResource;
@@ -16,7 +16,7 @@ use Throwable;
 
 final class StoreController extends Controller
 {
-    public function __invoke(CreateDividendRequest $request, StoreDividend $use_case): DividendResource|JsonResponse
+    public function __invoke(CreateDividendRequest $request, StoreDividendInterface $use_case): DividendResource|JsonResponse
     {
         try {
 

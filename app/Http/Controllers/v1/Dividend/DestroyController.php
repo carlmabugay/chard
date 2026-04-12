@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Dividend;
 
-use App\Application\Dividend\UseCases\DeleteDividend;
+use App\Domain\Dividend\Contracts\UseCases\DeleteDividendInterface;
 use App\Http\Controllers\Controller;
 use App\Models\Dividend;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -12,7 +12,7 @@ use Throwable;
 
 final class DestroyController extends Controller
 {
-    public function __invoke(Dividend $dividend, DeleteDividend $use_case): JsonResponse
+    public function __invoke(Dividend $dividend, DeleteDividendInterface $use_case): JsonResponse
     {
         try {
 

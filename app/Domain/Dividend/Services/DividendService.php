@@ -3,12 +3,13 @@
 namespace App\Domain\Dividend\Services;
 
 use App\Domain\Common\Query\QueryCriteria;
-use App\Domain\Dividend\Contracts\Read\DividendReadRepositoryInterface;
-use App\Domain\Dividend\Contracts\Write\DividendWriteRepositoryInterface;
+use App\Domain\Dividend\Contracts\Persistence\Read\DividendReadRepositoryInterface;
+use App\Domain\Dividend\Contracts\Persistence\Write\DividendWriteRepositoryInterface;
+use App\Domain\Dividend\Contracts\Services\DividendServiceInterface;
 use App\Domain\Dividend\Entities\Dividend;
 use App\Models\Dividend as DividendModel;
 
-class DividendService
+class DividendService implements DividendServiceInterface
 {
     public function __construct(
         private readonly DividendWriteRepositoryInterface $write_repository,

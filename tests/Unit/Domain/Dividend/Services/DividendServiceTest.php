@@ -1,8 +1,8 @@
 <?php
 
 use App\Domain\Common\Query\QueryCriteria;
-use App\Domain\Dividend\Contracts\Read\DividendReadRepositoryInterface;
-use App\Domain\Dividend\Contracts\Write\DividendWriteRepositoryInterface;
+use App\Domain\Dividend\Contracts\Persistence\Read\DividendReadRepositoryInterface;
+use App\Domain\Dividend\Contracts\Persistence\Write\DividendWriteRepositoryInterface;
 use App\Domain\Dividend\Entities\Dividend;
 use App\Domain\Dividend\Services\DividendService;
 use App\Models\Dividend as DividendModel;

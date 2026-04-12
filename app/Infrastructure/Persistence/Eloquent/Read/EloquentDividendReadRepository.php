@@ -3,7 +3,7 @@
 namespace App\Infrastructure\Persistence\Eloquent\Read;
 
 use App\Domain\Common\Query\QueryCriteria;
-use App\Domain\Dividend\Contracts\Read\DividendReadRepositoryInterface;
+use App\Domain\Dividend\Contracts\Persistence\Read\DividendReadRepositoryInterface;
 use App\Domain\Dividend\Entities\Dividend;
 use App\Infrastructure\Persistence\Eloquent\Query\EloquentQueryApplier;
 use App\Infrastructure\Persistence\Pagination\LaravelPaginatorAdapter;

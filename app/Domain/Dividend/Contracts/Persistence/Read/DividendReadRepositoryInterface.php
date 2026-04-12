@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Dividend\Contracts\Read;
+namespace App\Domain\Dividend\Contracts\Persistence\Read;
 
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Dividend\Entities\Dividend;

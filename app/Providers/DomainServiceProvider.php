@@ -8,6 +8,12 @@ use App\Application\CashFlow\UserCases\ListCashFlows;
 use App\Application\CashFlow\UserCases\RestoreCashFlow;
 use App\Application\CashFlow\UserCases\StoreCashFlow;
 use App\Application\CashFlow\UserCases\TrashCashFlow;
+use App\Application\Dividend\UseCases\DeleteDividend;
+use App\Application\Dividend\UseCases\GetDividend;
+use App\Application\Dividend\UseCases\ListDividends;
+use App\Application\Dividend\UseCases\RestoreDividend;
+use App\Application\Dividend\UseCases\StoreDividend;
+use App\Application\Dividend\UseCases\TrashDividend;
 use App\Application\Portolio\UseCases\DeletePortfolio;
 use App\Application\Portolio\UseCases\GetPortfolio;
 use App\Application\Portolio\UseCases\ListPortfolios;
@@ -30,8 +36,16 @@ use App\Domain\CashFlow\Contracts\UseCases\RestoreCashFlowInterface;
 use App\Domain\CashFlow\Contracts\UseCases\StoreCashFlowInterface;
 use App\Domain\CashFlow\Contracts\UseCases\TrashCashFlowInterface;
 use App\Domain\CashFlow\Services\CashFlowService;
-use App\Domain\Dividend\Contracts\Read\DividendReadRepositoryInterface;
-use App\Domain\Dividend\Contracts\Write\DividendWriteRepositoryInterface;
+use App\Domain\Dividend\Contracts\Persistence\Read\DividendReadRepositoryInterface;
+use App\Domain\Dividend\Contracts\Persistence\Write\DividendWriteRepositoryInterface;
+use App\Domain\Dividend\Contracts\Services\DividendServiceInterface;
+use App\Domain\Dividend\Contracts\UseCases\DeleteDividendInterface;
+use App\Domain\Dividend\Contracts\UseCases\GetDividendInterface;
+use App\Domain\Dividend\Contracts\UseCases\ListDividendsInterface;
+use App\Domain\Dividend\Contracts\UseCases\RestoreDividendInterface;
+use App\Domain\Dividend\Contracts\UseCases\StoreDividendInterface;
+use App\Domain\Dividend\Contracts\UseCases\TrashDividendInterface;
+use App\Domain\Dividend\Services\DividendService;
 use App\Domain\Portfolio\Contracts\Persistence\Read\PortfolioReadRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Persistence\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
@@ -101,6 +115,13 @@ class DomainServiceProvider extends ServiceProvider
 
         DividendReadRepositoryInterface::class => EloquentDividendReadRepository::class,
         DividendWriteRepositoryInterface::class => EloquentDividendWriteRepository::class,
+        DividendServiceInterface::class => DividendService::class,
+        ListDividendsInterface::class => ListDividends::class,
+        GetDividendInterface::class => GetDividend::class,
+        StoreDividendInterface::class => StoreDividend::class,
+        TrashDividendInterface::class => TrashDividend::class,
+        RestoreDividendInterface::class => RestoreDividend::class,
+        DeleteDividendInterface::class => DeleteDividend::class,
 
         TradeLogReadRepositoryInterface::class => EloquentTradeLogReadRepository::class,
         TradeLogWriteRepositoryInterface::class => EloquentTradeLogWriteRepository::class,

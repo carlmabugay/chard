@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Dividend;
 
-use App\Application\Dividend\UseCases\ListDividends;
+use App\Domain\Dividend\Contracts\UseCases\ListDividendsInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Dividend\DividendCollection;
 use App\Traits\HasPaginatedResponse;
@@ -15,7 +15,7 @@ final class ListController extends Controller
 {
     use HasPaginatedResponse;
 
-    public function __invoke(Request $request, ListDividends $use_case): JsonResource|JsonResponse
+    public function __invoke(Request $request, ListDividendsInterface $use_case): JsonResource|JsonResponse
     {
         try {
 

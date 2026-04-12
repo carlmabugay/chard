@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Dividend;
 
-use App\Application\Dividend\UseCases\GetDividend;
+use App\Domain\Dividend\Contracts\UseCases\GetDividendInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Dividend\DividendResource;
 use App\Models\Dividend;
@@ -13,7 +13,7 @@ use Throwable;
 
 final class ShowController extends Controller
 {
-    public function __invoke(Dividend $dividend, GetDividend $use_case): DividendResource|JsonResponse
+    public function __invoke(Dividend $dividend, GetDividendInterface $use_case): DividendResource|JsonResponse
     {
         try {
 

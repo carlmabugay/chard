@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Dividend;
 
-use App\Application\Dividend\UseCases\TrashDividend;
+use App\Domain\Dividend\Contracts\UseCases\TrashDividendInterface;
 use App\Http\Controllers\Controller;
 use App\Models\Dividend;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -12,7 +12,7 @@ use Throwable;
 
 final class TrashController extends Controller
 {
-    public function __invoke(Dividend $dividend, TrashDividend $use_case): JsonResponse
+    public function __invoke(Dividend $dividend, TrashDividendInterface $use_case): JsonResponse
     {
         try {
 

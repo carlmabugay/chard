@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v1\Dividend;
 
 use App\Application\Dividend\DTOs\StoreDividendDTO;
-use App\Application\Dividend\UseCases\StoreDividend;
+use App\Domain\Dividend\Contracts\UseCases\StoreDividendInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dividend\UpdateDividendRequest;
 use App\Http\Resources\Dividend\DividendResource;
@@ -15,7 +15,7 @@ use Throwable;
 
 final class UpdateController extends Controller
 {
-    public function __invoke(Dividend $dividend, UpdateDividendRequest $request, StoreDividend $use_case): DividendResource|JsonResponse
+    public function __invoke(Dividend $dividend, UpdateDividendRequest $request, StoreDividendInterface $use_case): DividendResource|JsonResponse
     {
         try {
 

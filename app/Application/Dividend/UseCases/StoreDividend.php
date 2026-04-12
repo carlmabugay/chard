@@ -3,13 +3,14 @@
 namespace App\Application\Dividend\UseCases;
 
 use App\Application\Dividend\DTOs\StoreDividendDTO;
+use App\Domain\Dividend\Contracts\Services\DividendServiceInterface;
+use App\Domain\Dividend\Contracts\UseCases\StoreDividendInterface;
 use App\Domain\Dividend\Entities\Dividend;
-use App\Domain\Dividend\Services\DividendService;
 
-class StoreDividend
+class StoreDividend implements StoreDividendInterface
 {
     public function __construct(
-        private readonly DividendService $service
+        private readonly DividendServiceInterface $service
     ) {}
 
     public function handle(StoreDividendDTO $dto): Dividend
