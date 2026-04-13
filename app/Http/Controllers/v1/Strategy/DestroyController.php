@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
+use App\Application\Strategy\DTOs\StrategyDTO;
 use App\Domain\Strategy\Contracts\UseCases\DeleteStrategyInterface;
 use App\Http\Controllers\Controller;
 use App\Models\Strategy;
@@ -18,7 +19,9 @@ final class DestroyController extends Controller
 
             Gate::authorize('destroy', $strategy);
 
-            $result = $use_case->handle($strategy);
+            $dto = StrategyDTO::fromModel($strategy);
+
+            $result = $use_case->handle($dto);
 
             return response()->json([
                 'success' => $result,

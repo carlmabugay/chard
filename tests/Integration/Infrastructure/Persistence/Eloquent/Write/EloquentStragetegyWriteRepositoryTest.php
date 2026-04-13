@@ -1,5 +1,6 @@
 <?php
 
+use App\Application\Strategy\DTOs\StrategyDTO;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentStrategyWriteRepository;
 use App\Models\Strategy as StrategyModel;
@@ -16,44 +17,39 @@ describe('Integration: EloquentStrategyWriteRepository', function () {
         $table = 'strategies';
         $user = UserModel::factory()->create();
 
-        $strategy = new Strategy(
+        $dto = new StrategyDTO(
             user_id: $user->id,
             name: 'Trend Following',
         );
 
         // Act:
-        $result = $this->repository->store($strategy);
+        $result = $this->repository->store($dto);
 
         // Assert:
         expect($result)->toBeInstanceOf(Strategy::class);
 
         $this->assertDatabaseCount($table, 1);
         $this->assertDatabaseHas($table, [
-            'user_id' => $strategy->userId(),
-            'name' => $strategy->name(),
+            'user_id' => $dto->userId(),
+            'name' => $dto->name(),
         ]);
     });
 
     it('can update strategy when using store method.', function () {
         // Arrange:
-        $user = UserModel::factory()->create();
-        $strategy_model = StrategyModel::factory()->create();
+        $strategy = StrategyModel::factory()->create();
 
-        $strategy_entity = new Strategy(
-            user_id: $user->id,
-            name: 'Pullback Trading',
-            id: $strategy_model->id,
-        );
+        $dto = StrategyDTO::fromModel($strategy);
 
         // Act:
-        $result = $this->repository->store($strategy_entity);
+        $result = $this->repository->store($dto);
 
         // Assert:
         expect($result)->toBeInstanceOf(Strategy::class);
 
         $this->assertDatabaseHas('strategies', [
-            'user_id' => $strategy_entity->userId(),
-            'name' => $strategy_entity->name(),
+            'user_id' => $dto->userId(),
+            'name' => $dto->name(),
         ]);
     });
 
@@ -61,8 +57,10 @@ describe('Integration: EloquentStrategyWriteRepository', function () {
         // Arrange:
         $strategy = StrategyModel::factory()->create();
 
+        $dto = StrategyDTO::fromModel($strategy);
+
         // Act:
-        $this->repository->trash($strategy);
+        $this->repository->trash($dto);
 
         // Assert:
         $this->assertSoftDeleted($strategy);
@@ -72,8 +70,10 @@ describe('Integration: EloquentStrategyWriteRepository', function () {
         // Arrange:
         $strategy = StrategyModel::factory()->trashed()->create();
 
+        $dto = StrategyDTO::fromModel($strategy);
+
         // Act:
-        $this->repository->restore($strategy);
+        $this->repository->restore($dto);
 
         // Assert:
         $this->assertNotSoftDeleted($strategy);
@@ -83,8 +83,10 @@ describe('Integration: EloquentStrategyWriteRepository', function () {
         // Arrange:
         $strategy = StrategyModel::factory()->create();
 
+        $dto = StrategyDTO::fromModel($strategy);
+
         // Act:
-        $this->repository->delete($strategy);
+        $this->repository->delete($dto);
 
         // Assert:
         $this->assertModelMissing($strategy);

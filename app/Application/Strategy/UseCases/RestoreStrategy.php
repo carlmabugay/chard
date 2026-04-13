@@ -2,9 +2,9 @@
 
 namespace App\Application\Strategy\UseCases;
 
+use App\Application\Strategy\DTOs\StrategyDTO;
 use App\Domain\Strategy\Contracts\Services\StrategyServiceInterface;
 use App\Domain\Strategy\Contracts\UseCases\RestoreStrategyInterface;
-use App\Models\Strategy as StrategyModel;
 
 class RestoreStrategy implements RestoreStrategyInterface
 {
@@ -12,7 +12,7 @@ class RestoreStrategy implements RestoreStrategyInterface
         protected StrategyServiceInterface $service
     ) {}
 
-    public function handle(StrategyModel $strategy): ?bool
+    public function handle(StrategyDTO $strategy): ?bool
     {
         return $this->service->restore($strategy);
     }

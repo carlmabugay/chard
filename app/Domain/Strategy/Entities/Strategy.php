@@ -2,7 +2,7 @@
 
 namespace App\Domain\Strategy\Entities;
 
-use App\Application\Strategy\DTOs\StoreStrategyDTO;
+use App\Application\Strategy\DTOs\StrategyDTO;
 use App\Models\Strategy as Model;
 
 class Strategy
@@ -51,7 +51,7 @@ class Strategy
         );
     }
 
-    public static function fromDTO(StoreStrategyDTO $dto): self
+    public static function fromDTO(StrategyDTO $dto): self
     {
         return new self(
             user_id: $dto->userId(),

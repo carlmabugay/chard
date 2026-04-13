@@ -2,37 +2,38 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Write;
 
+use App\Application\Strategy\DTOs\StrategyDTO;
 use App\Domain\Strategy\Contracts\Persistence\Write\StrategyWriteRepositoryInterface;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Models\Strategy as StrategyModel;
 
 class EloquentStrategyWriteRepository implements StrategyWriteRepositoryInterface
 {
-    public function store(Strategy $strategy): Strategy
+    public function store(StrategyDTO $dto): Strategy
     {
         $stored_strategy = StrategyModel::query()->updateOrCreate(
-            ['id' => $strategy->id()],
+            ['id' => $dto->id()],
             [
-                'user_id' => $strategy->userId(),
-                'name' => $strategy->name(),
+                'user_id' => $dto->userId(),
+                'name' => $dto->name(),
             ]
         );
 
         return Strategy::fromEloquentModel($stored_strategy);
     }
 
-    public function trash(StrategyModel $strategy): ?bool
+    public function trash(StrategyDTO $dto): ?bool
     {
-        return $strategy->delete();
+        return StrategyModel::find($dto->id())->delete();
     }
 
-    public function restore(StrategyModel $strategy): ?bool
+    public function restore(StrategyDTO $dto): ?bool
     {
-        return $strategy->restore();
+        return StrategyModel::withTrashed()->find($dto->id())->restore();
     }
 
-    public function delete(StrategyModel $strategy): ?bool
+    public function delete(StrategyDTO $dto): ?bool
     {
-        return $strategy->forceDelete();
+        return StrategyModel::find($dto->id())->forceDelete();
     }
 }

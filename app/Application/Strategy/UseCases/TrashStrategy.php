@@ -2,9 +2,9 @@
 
 namespace App\Application\Strategy\UseCases;
 
+use App\Application\Strategy\DTOs\StrategyDTO;
 use App\Domain\Strategy\Contracts\Services\StrategyServiceInterface;
 use App\Domain\Strategy\Contracts\UseCases\TrashStrategyInterface;
-use App\Models\Strategy as StrategyModel;
 
 class TrashStrategy implements TrashStrategyInterface
 {
@@ -12,8 +12,8 @@ class TrashStrategy implements TrashStrategyInterface
         protected readonly StrategyServiceInterface $service
     ) {}
 
-    public function handle(StrategyModel $strategy): ?bool
+    public function handle(StrategyDTO $dto): ?bool
     {
-        return $this->service->trash($strategy);
+        return $this->service->trash($dto);
     }
 }

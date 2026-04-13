@@ -2,9 +2,9 @@
 
 namespace App\Domain\Strategy\Contracts\Services;
 
+use App\Application\Strategy\DTOs\StrategyDTO;
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Strategy\Entities\Strategy;
-use App\Models\Strategy as StrategyModel;
 
 interface StrategyServiceInterface
 {
@@ -12,11 +12,11 @@ interface StrategyServiceInterface
 
     public function findById(int $id): Strategy;
 
-    public function store(Strategy $strategy): Strategy;
+    public function store(StrategyDTO $dto): Strategy;
 
-    public function trash(StrategyModel $strategy): ?bool;
+    public function trash(StrategyDTO $dto): ?bool;
 
-    public function restore(StrategyModel $strategy): ?bool;
+    public function restore(StrategyDTO $dto): ?bool;
 
-    public function delete(StrategyModel $strategy): ?bool;
+    public function delete(StrategyDTO $dto): ?bool;
 }

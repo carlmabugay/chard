@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Application\Strategy\DTOs\StoreStrategyDTO;
+use App\Application\Strategy\DTOs\StrategyDTO;
 use App\Domain\Strategy\Contracts\UseCases\StoreStrategyInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Strategy\StoreStrategyRequest;
@@ -16,10 +16,7 @@ final class StoreController extends Controller
     {
         try {
 
-            $dto = new StoreStrategyDTO(
-                user_id: auth()->id(),
-                name: $request->validated('name'),
-            );
+            $dto = StrategyDTO::fromRequest($request);
 
             $result = $use_case->handle($dto);
 

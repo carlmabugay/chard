@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Strategy\DTOs\StoreStrategyDTO;
+use App\Application\Strategy\DTOs\StrategyDTO;
 use App\Application\Strategy\UseCases\StoreStrategy;
 use App\Domain\Strategy\Entities\Strategy;
 use App\Domain\Strategy\Services\StrategyService;
@@ -12,10 +12,10 @@ describe('Integration: StoreStrategy Use Case', function () {
         // Arrange:
         $user = UserModel::factory()->create();
 
-        $dto = StoreStrategyDTO::fromRequest([
-            'user_id' => $user->id,
-            'name' => 'Trend Following',
-        ]);
+        $dto = new StrategyDTO(
+            user_id: $user->id,
+            name: 'Trend Following',
+        );
 
         $strategy_entity = Strategy::fromDTO($dto);
 

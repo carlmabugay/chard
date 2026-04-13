@@ -2,12 +2,12 @@
 
 namespace App\Domain\Strategy\Services;
 
+use App\Application\Strategy\DTOs\StrategyDTO;
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Strategy\Contracts\Persistence\Read\StrategyReadRepositoryInterface;
 use App\Domain\Strategy\Contracts\Persistence\Write\StrategyWriteRepositoryInterface;
 use App\Domain\Strategy\Contracts\Services\StrategyServiceInterface;
 use App\Domain\Strategy\Entities\Strategy;
-use App\Models\Strategy as StrategyModel;
 
 class StrategyService implements StrategyServiceInterface
 {
@@ -26,23 +26,23 @@ class StrategyService implements StrategyServiceInterface
         return $this->read_repository->findById($id);
     }
 
-    public function store(Strategy $strategy): Strategy
+    public function store(StrategyDTO $dto): Strategy
     {
-        return $this->write_repository->store($strategy);
+        return $this->write_repository->store($dto);
     }
 
-    public function trash(StrategyModel $strategy): ?bool
+    public function trash(StrategyDTO $dto): ?bool
     {
-        return $this->write_repository->trash($strategy);
+        return $this->write_repository->trash($dto);
     }
 
-    public function restore(StrategyModel $strategy): ?bool
+    public function restore(StrategyDTO $dto): ?bool
     {
-        return $this->write_repository->restore($strategy);
+        return $this->write_repository->restore($dto);
     }
 
-    public function delete(StrategyModel $strategy): ?bool
+    public function delete(StrategyDTO $dto): ?bool
     {
-        return $this->write_repository->delete($strategy);
+        return $this->write_repository->delete($dto);
     }
 }
