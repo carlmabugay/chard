@@ -2,12 +2,12 @@
 
 namespace App\Domain\Portfolio\Services;
 
+use App\Application\Portolio\DTOs\PortfolioDTO;
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Portfolio\Contracts\Persistence\Read\PortfolioReadRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Persistence\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
 use App\Domain\Portfolio\Entities\Portfolio;
-use App\Models\Portfolio as PortfolioModel;
 
 class PortfolioService implements PortfolioServiceInterface
 {
@@ -26,23 +26,23 @@ class PortfolioService implements PortfolioServiceInterface
         return $this->read_repository->findById($id);
     }
 
-    public function store(Portfolio $portfolio): Portfolio
+    public function store(PortfolioDTO $dto): Portfolio
     {
-        return $this->write_repository->store($portfolio);
+        return $this->write_repository->store($dto);
     }
 
-    public function trash(PortfolioModel $portfolio): ?bool
+    public function trash(PortfolioDTO $dto): ?bool
     {
-        return $this->write_repository->trash($portfolio);
+        return $this->write_repository->trash($dto);
     }
 
-    public function restore(PortfolioModel $portfolio): ?bool
+    public function restore(PortfolioDTO $dto): ?bool
     {
-        return $this->write_repository->restore($portfolio);
+        return $this->write_repository->restore($dto);
     }
 
-    public function delete(PortfolioModel $portfolio): ?bool
+    public function delete(PortfolioDTO $dto): ?bool
     {
-        return $this->write_repository->delete($portfolio);
+        return $this->write_repository->delete($dto);
     }
 }

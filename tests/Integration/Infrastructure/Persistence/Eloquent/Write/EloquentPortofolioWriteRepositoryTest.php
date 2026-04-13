@@ -1,5 +1,6 @@
 <?php
 
+use App\Application\Portolio\DTOs\PortfolioDTO;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentPortfolioWriteRepository;
 use App\Models\Portfolio as PortfolioModel;
@@ -18,21 +19,21 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
         $user = UserModel::factory()->create();
         $portfolio_name = 'PH Stock Market';
 
-        $portfolio = new Portfolio(
+        $dto = new PortfolioDTO(
             user_id: $user->id,
             name: $portfolio_name,
         );
 
         // Act:
-        $result = $this->repository->store($portfolio);
+        $result = $this->repository->store($dto);
 
         // Assert:
         expect($result)->toBeInstanceOf(Portfolio::class);
 
         $this->assertDatabaseCount($table, 1);
         $this->assertDatabaseHas($table, [
-            'user_id' => $portfolio->userId(),
-            'name' => $portfolio->name(),
+            'user_id' => $dto->userId(),
+            'name' => $dto->name(),
         ]);
     });
 
@@ -42,22 +43,22 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
         $user = UserModel::factory()->create();
         $portfolio_model = PortfolioModel::factory()->create();
 
-        $portfolio_entity = new Portfolio(
+        $dto = new PortfolioDTO(
             user_id: $user->id,
-            name: 'Dividend Investment',
+            name: 'New Portfolio Name',
             id: $portfolio_model->id,
         );
 
         // Act:
-        $result = $this->repository->store($portfolio_entity);
+        $result = $this->repository->store($dto);
 
         // Assert:
         expect($result)->toBeInstanceOf(Portfolio::class);
 
         $this->assertDatabaseHas('portfolios', [
-            'user_id' => $portfolio_entity->userId(),
-            'name' => $portfolio_entity->name(),
-            'id' => $portfolio_entity->id(),
+            'user_id' => $dto->userId(),
+            'name' => $dto->name(),
+            'id' => $dto->id(),
         ]);
 
     });
@@ -67,8 +68,10 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
         // Arrange:
         $portfolio = PortfolioModel::factory()->create();
 
+        $dto = PortfolioDTO::fromModel($portfolio);
+
         // Act:
-        $result = $this->repository->trash($portfolio);
+        $result = $this->repository->trash($dto);
 
         // Assert
         $this->assertSoftDeleted($portfolio);
@@ -80,8 +83,10 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
         // Arrange:
         $portfolio = PortfolioModel::factory()->trashed()->create();
 
+        $dto = PortfolioDTO::fromModel($portfolio);
+
         // Act:
-        $result = $this->repository->restore($portfolio);
+        $this->repository->restore($dto);
 
         // Assert
         $this->assertNotSoftDeleted($portfolio);
@@ -91,8 +96,10 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
         // Arrange:
         $portfolio = PortfolioModel::factory()->create();
 
+        $dto = PortfolioDTO::fromModel($portfolio);
+
         // Act:
-        $this->repository->delete($portfolio);
+        $this->repository->delete($dto);
 
         // Assert:
         $this->assertModelMissing($portfolio);
@@ -107,8 +114,10 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
             ->hasTradeLogs()
             ->create();
 
+        $dto = PortfolioDTO::fromModel($portfolio);
+
         // Act:
-        $this->repository->delete($portfolio);
+        $this->repository->delete($dto);
 
         // Assert:
         $this->assertDatabaseMissing($portfolio);

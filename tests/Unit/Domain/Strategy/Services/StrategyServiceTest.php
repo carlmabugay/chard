@@ -71,11 +71,7 @@ describe('Unit: StrategyService', function () {
             id: rand(1, 10),
         );
 
-        $strategy = new Strategy(
-            user_id: $dto->userId(),
-            name: $dto->name(),
-            id: $dto->id(),
-        );
+        $strategy = Strategy::fromDTO($dto);
 
         // Expectation:
         $this->write_repository->shouldReceive('store')
@@ -89,7 +85,7 @@ describe('Unit: StrategyService', function () {
         // Assert
         expect($result)
             ->toBeInstanceOf(Strategy::class)
-            ->and($result->id())->toBe($strategy->id());
+            ->and($result->id())->toBe($dto->id());
     });
 
     it('can soft delete strategy when using trash method.', function () {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Portfolio;
 
-use App\Application\Portolio\DTOs\StorePortfolioDTO;
+use App\Application\Portolio\DTOs\PortfolioDTO;
 use App\Domain\Portfolio\Contracts\UseCases\StorePortfolioInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Portfolio\StorePortfolioRequest;
@@ -16,10 +16,7 @@ final class StoreController extends Controller
     {
         try {
 
-            $dto = new StorePortfolioDTO(
-                user_id: auth()->id(),
-                name: $request->validated('name'),
-            );
+            $dto = PortfolioDTO::fromRequest($request);
 
             $result = $use_case->handle($dto);
 

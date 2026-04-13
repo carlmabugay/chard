@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1\Portfolio;
 
+use App\Application\Portolio\DTOs\PortfolioDTO;
 use App\Domain\Portfolio\Contracts\UseCases\TrashPortfolioInterface;
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
@@ -18,7 +19,9 @@ final class TrashController extends Controller
 
             Gate::authorize('trash', $portfolio);
 
-            $result = $use_case->handle($portfolio);
+            $dto = PortfolioDTO::fromModel($portfolio);
+
+            $result = $use_case->handle($dto);
 
             return response()->json([
                 'success' => $result,

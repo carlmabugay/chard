@@ -2,16 +2,16 @@
 
 namespace App\Domain\Portfolio\Contracts\Persistence\Write;
 
+use App\Application\Portolio\DTOs\PortfolioDTO;
 use App\Domain\Portfolio\Entities\Portfolio;
-use App\Models\Portfolio as PortfolioModel;
 
 interface PortfolioWriteRepositoryInterface
 {
-    public function store(Portfolio $portfolio): Portfolio;
+    public function store(PortfolioDTO $dto): Portfolio;
 
-    public function trash(PortfolioModel $portfolio): ?bool;
+    public function trash(PortfolioDTO $dto): ?bool;
 
-    public function restore(PortfolioModel $portfolio): ?bool;
+    public function restore(PortfolioDTO $dto): ?bool;
 
-    public function delete(PortfolioModel $portfolio): ?bool;
+    public function delete(PortfolioDTO $dto): ?bool;
 }

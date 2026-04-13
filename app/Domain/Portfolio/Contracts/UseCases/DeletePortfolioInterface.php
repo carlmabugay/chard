@@ -2,9 +2,9 @@
 
 namespace App\Domain\Portfolio\Contracts\UseCases;
 
-use App\Models\Portfolio as PortfolioModel;
+use App\Application\Portolio\DTOs\PortfolioDTO;
 
 interface DeletePortfolioInterface
 {
-    public function handle(PortfolioModel $portfolio): ?bool;
+    public function handle(PortfolioDTO $dto): ?bool;
 }

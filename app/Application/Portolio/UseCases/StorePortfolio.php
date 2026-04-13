@@ -2,7 +2,7 @@
 
 namespace App\Application\Portolio\UseCases;
 
-use App\Application\Portolio\DTOs\StorePortfolioDTO;
+use App\Application\Portolio\DTOs\PortfolioDTO;
 use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
 use App\Domain\Portfolio\Contracts\UseCases\StorePortfolioInterface;
 use App\Domain\Portfolio\Entities\Portfolio;
@@ -13,10 +13,8 @@ class StorePortfolio implements StorePortfolioInterface
         private readonly PortfolioServiceInterface $service
     ) {}
 
-    public function handle(StorePortfolioDTO $dto): Portfolio
+    public function handle(PortfolioDTO $dto): Portfolio
     {
-        $portfolio = Portfolio::fromDTO($dto);
-
-        return $this->service->store($portfolio);
+        return $this->service->store($dto);
     }
 }

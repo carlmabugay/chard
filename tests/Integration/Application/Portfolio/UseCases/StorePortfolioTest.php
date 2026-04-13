@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Portolio\DTOs\StorePortfolioDTO;
+use App\Application\Portolio\DTOs\PortfolioDTO;
 use App\Application\Portolio\UseCases\StorePortfolio;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
@@ -12,7 +12,7 @@ describe('Integration: StorePortfolio Use Case', function () {
         // Arrange:
         $user = UserModel::factory()->create();
 
-        $dto = new StorePortfolioDTO(
+        $dto = new PortfolioDTO(
             user_id: $user->id,
             name: 'PH Stock Market',
         );

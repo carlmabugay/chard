@@ -2,9 +2,9 @@
 
 namespace App\Application\Portolio\UseCases;
 
+use App\Application\Portolio\DTOs\PortfolioDTO;
 use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
 use App\Domain\Portfolio\Contracts\UseCases\DeletePortfolioInterface;
-use App\Models\Portfolio as PortfolioModel;
 
 class DeletePortfolio implements DeletePortfolioInterface
 {
@@ -12,8 +12,8 @@ class DeletePortfolio implements DeletePortfolioInterface
         protected readonly PortfolioServiceInterface $service
     ) {}
 
-    public function handle(PortfolioModel $portfolio): ?bool
+    public function handle(PortfolioDTO $dto): ?bool
     {
-        return $this->service->delete($portfolio);
+        return $this->service->delete($dto);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Domain\Portfolio\Contracts\Services;
 
+use App\Application\Portolio\DTOs\PortfolioDTO;
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Portfolio\Entities\Portfolio;
-use App\Models\Portfolio as PortfolioModel;
 
 interface PortfolioServiceInterface
 {
@@ -12,11 +12,11 @@ interface PortfolioServiceInterface
 
     public function findById(int $id): Portfolio;
 
-    public function store(Portfolio $portfolio): Portfolio;
+    public function store(PortfolioDTO $dto): Portfolio;
 
-    public function trash(PortfolioModel $portfolio): ?bool;
+    public function trash(PortfolioDTO $dto): ?bool;
 
-    public function restore(PortfolioModel $portfolio): ?bool;
+    public function restore(PortfolioDTO $dto): ?bool;
 
-    public function delete(PortfolioModel $portfolio): ?bool;
+    public function delete(PortfolioDTO $dto): ?bool;
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Application\Portolio\DTOs\PortfolioDTO;
 use App\Application\Portolio\UseCases\TrashPortfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
 use App\Models\Portfolio as PortfolioModel;
@@ -10,6 +11,8 @@ describe('Integration: TrashPortfolio Use Case', function () {
         // Arrange:
         $portfolio = PortfolioModel::factory()->create();
 
+        $dto = PortfolioDTO::fromModel($portfolio);
+
         $service = Mockery::mock(PortfolioService::class);
 
         $use_case = new TrashPortfolio($service);
@@ -17,11 +20,11 @@ describe('Integration: TrashPortfolio Use Case', function () {
         // Expectation:
         $service->shouldReceive('trash')
             ->once()
-            ->with($portfolio)
+            ->with($dto)
             ->andReturn(true);
 
         // Act:
-        $result = $use_case->handle($portfolio);
+        $result = $use_case->handle($dto);
 
         // Assert:
         expect($result)->toBeTrue();

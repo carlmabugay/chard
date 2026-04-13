@@ -2,7 +2,7 @@
 
 namespace App\Domain\Portfolio\Entities;
 
-use App\Application\Portolio\DTOs\StorePortfolioDTO;
+use App\Application\Portolio\DTOs\PortfolioDTO;
 use App\Models\Portfolio as Model;
 
 class Portfolio
@@ -51,7 +51,7 @@ class Portfolio
         );
     }
 
-    public static function fromDTO(StorePortfolioDTO $dto): self
+    public static function fromDTO(PortfolioDTO $dto): self
     {
         return new self(
             user_id: $dto->userId(),

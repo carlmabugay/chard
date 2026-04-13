@@ -39,7 +39,11 @@ describe('Integration: EloquentStrategyWriteRepository', function () {
         // Arrange:
         $strategy = StrategyModel::factory()->create();
 
-        $dto = StrategyDTO::fromModel($strategy);
+        $dto = new StrategyDTO(
+            user_id: $strategy->user_id,
+            name: 'New Strategy Name',
+            id: $strategy->id,
+        );
 
         // Act:
         $result = $this->repository->store($dto);
@@ -50,6 +54,7 @@ describe('Integration: EloquentStrategyWriteRepository', function () {
         $this->assertDatabaseHas('strategies', [
             'user_id' => $dto->userId(),
             'name' => $dto->name(),
+            'id' => $dto->id(),
         ]);
     });
 

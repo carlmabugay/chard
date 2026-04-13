@@ -1,11 +1,11 @@
 <?php
 
+use App\Application\Portolio\DTOs\PortfolioDTO;
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Portfolio\Contracts\Persistence\Read\PortfolioReadRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Persistence\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Domain\Portfolio\Services\PortfolioService;
-use App\Models\Portfolio as PortfolioModel;
 
 beforeEach(function () {
     $this->write_repository = Mockery::mock(PortfolioWriteRepositoryInterface::class);
@@ -65,37 +65,40 @@ describe('Unit: PortfolioService', function () {
 
     it('can store portfolio when using store method.', function () {
         // Arrange:
-        $portfolio = new Portfolio(
+        $dto = new PortfolioDTO(
             user_id: rand(1, 10),
             name: 'PH Stock Market',
+            id: rand(1, 10),
         );
+
+        $portfolio = Portfolio::fromDTO($dto);
 
         // Expectation:
         $this->write_repository->shouldReceive('store')
             ->once()
-            ->with($portfolio)
+            ->with($dto)
             ->andReturn($portfolio);
 
         // Act:
-        $result = $this->service->store($portfolio);
+        $result = $this->service->store($dto);
 
         // Assert
         expect($result)
             ->toBeInstanceOf(Portfolio::class)
-            ->and($result->id())->toBe($portfolio->id());
+            ->and($result->id())->toBe($dto->id());
     });
 
     it('can soft delete portfolio when using trash method.', function () {
         // Arrange:
-        $portfolio = Mockery::mock(PortfolioModel::class);
+        $dto = Mockery::mock(PortfolioDTO::class);
 
         // Act:
         $this->write_repository->shouldReceive('trash')
             ->once()
-            ->with($portfolio)
+            ->with($dto)
             ->andReturn(true);
 
-        $result = $this->service->trash($portfolio);
+        $result = $this->service->trash($dto);
 
         // Assert
         expect($result)->toBeTrue();
@@ -103,15 +106,15 @@ describe('Unit: PortfolioService', function () {
 
     it('can restore trashed portfolio when using restore method.', function () {
         // Arrange:
-        $portfolio = Mockery::mock(PortfolioModel::class);
+        $dto = Mockery::mock(PortfolioDTO::class);
 
         // Act:
         $this->write_repository->shouldReceive('restore')
             ->once()
-            ->with($portfolio)
+            ->with($dto)
             ->andReturn(true);
 
-        $result = $this->service->restore($portfolio);
+        $result = $this->service->restore($dto);
 
         // Assert
         expect($result)->toBeTrue();
@@ -119,16 +122,16 @@ describe('Unit: PortfolioService', function () {
 
     it('can hard delete portfolio when using delete method.', function () {
         // Arrange:
-        $portfolio = Mockery::mock(PortfolioModel::class);
+        $dto = Mockery::mock(PortfolioDTO::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('delete')
             ->once()
-            ->with($portfolio)
+            ->with($dto)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->delete($portfolio);
+        $result = $this->service->delete($dto);
 
         // Assert:
         expect($result)->toBeTrue();

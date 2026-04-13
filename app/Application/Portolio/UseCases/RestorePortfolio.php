@@ -2,9 +2,9 @@
 
 namespace App\Application\Portolio\UseCases;
 
+use App\Application\Portolio\DTOs\PortfolioDTO;
 use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
 use App\Domain\Portfolio\Contracts\UseCases\RestorePortfolioInterface;
-use App\Models\Portfolio as PortfolioModel;
 
 class RestorePortfolio implements RestorePortfolioInterface
 {
@@ -12,8 +12,8 @@ class RestorePortfolio implements RestorePortfolioInterface
         protected readonly PortfolioServiceInterface $service
     ) {}
 
-    public function handle(PortfolioModel $portfolio): ?bool
+    public function handle(PortfolioDTO $dto): ?bool
     {
-        return $this->service->restore($portfolio);
+        return $this->service->restore($dto);
     }
 }

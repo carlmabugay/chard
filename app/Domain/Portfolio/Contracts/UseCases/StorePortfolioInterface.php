@@ -2,10 +2,10 @@
 
 namespace App\Domain\Portfolio\Contracts\UseCases;
 
-use App\Application\Portolio\DTOs\StorePortfolioDTO;
+use App\Application\Portolio\DTOs\PortfolioDTO;
 use App\Domain\Portfolio\Entities\Portfolio;
 
 interface StorePortfolioInterface
 {
-    public function handle(StorePortfolioDTO $dto): Portfolio;
+    public function handle(PortfolioDTO $dto): Portfolio;
 }

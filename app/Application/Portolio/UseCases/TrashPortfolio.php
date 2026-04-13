@@ -2,9 +2,9 @@
 
 namespace App\Application\Portolio\UseCases;
 
+use App\Application\Portolio\DTOs\PortfolioDTO;
 use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
 use App\Domain\Portfolio\Contracts\UseCases\TrashPortfolioInterface;
-use App\Models\Portfolio as PortfolioModel;
 
 class TrashPortfolio implements TrashPortfolioInterface
 {
@@ -12,8 +12,8 @@ class TrashPortfolio implements TrashPortfolioInterface
         protected readonly PortfolioServiceInterface $service,
     ) {}
 
-    public function handle(PortfolioModel $portfolio): ?bool
+    public function handle(PortfolioDTO $dto): ?bool
     {
-        return $this->service->trash($portfolio);
+        return $this->service->trash($dto);
     }
 }
