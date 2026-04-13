@@ -11,7 +11,7 @@ describe('Feature: RestoreCashFlowController', function () {
 
         it('can restore trashed cash flow resource when using /api/v1/cash_flows/{cash_flow} PATCH api endpoint.', function () {
             // Arrange:
-            $cash_flow = CashFlowModel::factory()->create();
+            $cash_flow = CashFlowModel::factory()->trashed()->create();
 
             // Act:
             $response = $this->actingAs($cash_flow->portfolio->user)->patchJson(sprintf('/api/v1/cash_flows/%s', $cash_flow->id));

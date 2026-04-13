@@ -2,9 +2,9 @@
 
 namespace App\Application\CashFlow\UserCases;
 
+use App\Application\CashFlow\DTOs\CashFlowDTO;
 use App\Domain\CashFlow\Contracts\Services\CashFlowServiceInterface;
 use App\Domain\CashFlow\Contracts\UseCases\RestoreCashFlowInterface;
-use App\Models\CashFlow as CashFlowModel;
 
 class RestoreCashFlow implements RestoreCashFlowInterface
 {
@@ -12,8 +12,8 @@ class RestoreCashFlow implements RestoreCashFlowInterface
         protected CashFlowServiceInterface $service,
     ) {}
 
-    public function handle(CashFlowModel $cash_flow): ?bool
+    public function handle(CashFlowDTO $dto): ?bool
     {
-        return $this->service->restore($cash_flow);
+        return $this->service->restore($dto);
     }
 }

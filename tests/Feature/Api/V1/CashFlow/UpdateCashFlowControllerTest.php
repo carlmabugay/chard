@@ -14,6 +14,7 @@ describe('Feature: UpdateCashFlowController', function () {
             $cash_flow = CashFlowModel::factory()->create();
 
             $payload = [
+                'portfolio_id' => $cash_flow->portfolio_id,
                 'type' => $cash_flow->type->value,
                 'amount' => 1000,
             ];

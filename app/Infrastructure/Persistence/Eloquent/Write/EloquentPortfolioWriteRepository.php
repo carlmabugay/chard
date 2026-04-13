@@ -29,7 +29,7 @@ class EloquentPortfolioWriteRepository implements PortfolioWriteRepositoryInterf
 
     public function restore(PortfolioDTO $dto): ?bool
     {
-        return PortfolioModel::withTrashed()->find($dto->id())->restore();
+        return PortfolioModel::onlyTrashed()->find($dto->id())->restore();
     }
 
     public function delete(PortfolioDTO $dto): ?bool

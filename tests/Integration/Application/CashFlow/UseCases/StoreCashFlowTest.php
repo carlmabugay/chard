@@ -1,9 +1,10 @@
 <?php
 
-use App\Application\CashFlow\DTOs\StoreCashFlowDTO;
+use App\Application\CashFlow\DTOs\CashFlowDTO;
 use App\Application\CashFlow\UserCases\StoreCashFlow;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\CashFlow\Services\CashFlowService;
+use App\Enums\CashFlowType;
 use App\Models\Portfolio as PortfolioModel;
 
 describe('Integration: StoreCashFlow Use Case', function () {
@@ -12,11 +13,11 @@ describe('Integration: StoreCashFlow Use Case', function () {
         // Arrange:
         $portfolio = PortfolioModel::factory()->create();
 
-        $dto = StoreCashFlowDTO::fromRequest([
-            'portfolio_id' => $portfolio->id,
-            'type' => 'deposit',
-            'amount' => 5000,
-        ]);
+        $dto = new CashFlowDTO(
+            portfolio_id: $portfolio->id,
+            type: CashFlowType::DEPOSIT,
+            amount: 500,
+        );
 
         $cash_flow_entity = CashFlow::fromDTO($dto);
 
@@ -35,7 +36,9 @@ describe('Integration: StoreCashFlow Use Case', function () {
         // Assert:
         expect($result)
             ->toBeInstanceOf(CashFlow::class)
-            ->and($result->id())->toBe($cash_flow_entity->id());
+            ->and($result->portfolioId())->toBe($dto->portfolioId())
+            ->and($result->type())->toBe($dto->type())
+            ->and($result->amount())->toBe($dto->amount());
     });
 
 });

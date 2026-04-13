@@ -40,13 +40,12 @@ describe('Integration: EloquentPortfolioWriteRepository', function () {
     it('can update portfolio when using store method.', function () {
 
         // Arrange:
-        $user = UserModel::factory()->create();
-        $portfolio_model = PortfolioModel::factory()->create();
+        $portfolio = PortfolioModel::factory()->create();
 
         $dto = new PortfolioDTO(
-            user_id: $user->id,
+            user_id: $portfolio->user->id,
             name: 'New Portfolio Name',
-            id: $portfolio_model->id,
+            id: $portfolio->id,
         );
 
         // Act:

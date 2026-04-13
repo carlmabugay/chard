@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\CashFlow;
 
-use App\Application\CashFlow\DTOs\StoreCashFlowDTO;
+use App\Application\CashFlow\DTOs\CashFlowDTO;
 use App\Domain\CashFlow\Contracts\UseCases\StoreCashFlowInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CashFlow\CreateCashFlowRequest;
@@ -25,7 +25,7 @@ final class StoreController extends Controller
 
             Gate::authorize('store', [CashFlow::class, $portfolio]);
 
-            $dto = StoreCashFlowDTO::fromRequest($request->validated());
+            $dto = CashFlowDTO::fromRequest($request);
 
             $result = $use_case->handle($dto);
 

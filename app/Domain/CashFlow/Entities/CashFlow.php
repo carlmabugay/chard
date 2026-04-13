@@ -2,7 +2,7 @@
 
 namespace App\Domain\CashFlow\Entities;
 
-use App\Application\CashFlow\DTOs\StoreCashFlowDTO;
+use App\Application\CashFlow\DTOs\CashFlowDTO;
 use App\Domain\Portfolio\Entities\Portfolio;
 use App\Enums\CashFlowType;
 use App\Models\CashFlow as Model;
@@ -67,7 +67,7 @@ readonly class CashFlow
         );
     }
 
-    public static function fromDTO(StoreCashFlowDTO $dto): self
+    public static function fromDTO(CashFlowDTO $dto): self
     {
         return new self(
             portfolio_id: $dto->portfolioId(),

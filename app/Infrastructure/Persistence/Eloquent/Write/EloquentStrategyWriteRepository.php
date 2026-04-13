@@ -29,7 +29,7 @@ class EloquentStrategyWriteRepository implements StrategyWriteRepositoryInterfac
 
     public function restore(StrategyDTO $dto): ?bool
     {
-        return StrategyModel::withTrashed()->find($dto->id())->restore();
+        return StrategyModel::onlyTrashed()->find($dto->id())->restore();
     }
 
     public function delete(StrategyDTO $dto): ?bool

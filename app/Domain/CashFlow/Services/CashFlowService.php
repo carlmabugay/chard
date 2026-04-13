@@ -2,12 +2,12 @@
 
 namespace App\Domain\CashFlow\Services;
 
+use App\Application\CashFlow\DTOs\CashFlowDTO;
 use App\Domain\CashFlow\Contracts\Persistence\Read\CashFlowReadRepositoryInterface;
 use App\Domain\CashFlow\Contracts\Persistence\Write\CashFlowWriteRepositoryInterface;
 use App\Domain\CashFlow\Contracts\Services\CashFlowServiceInterface;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Domain\Common\Query\QueryCriteria;
-use App\Models\CashFlow as CashFlowModel;
 
 class CashFlowService implements CashFlowServiceInterface
 {
@@ -29,23 +29,23 @@ class CashFlowService implements CashFlowServiceInterface
         return $this->read_repository->findById($id);
     }
 
-    public function store(CashFlow $cash_flow): CashFlow
+    public function store(CashFlowDTO $dto): CashFlow
     {
-        return $this->write_repository->store($cash_flow);
+        return $this->write_repository->store($dto);
     }
 
-    public function trash(CashFlowModel $cash_flow): ?bool
+    public function trash(CashFlowDTO $dto): ?bool
     {
-        return $this->write_repository->trash($cash_flow);
+        return $this->write_repository->trash($dto);
     }
 
-    public function restore(CashFlowModel $cash_flow): ?bool
+    public function restore(CashFlowDTO $dto): ?bool
     {
-        return $this->write_repository->restore($cash_flow);
+        return $this->write_repository->restore($dto);
     }
 
-    public function delete(CashFlowModel $cash_flow): ?bool
+    public function delete(CashFlowDTO $dto): ?bool
     {
-        return $this->write_repository->delete($cash_flow);
+        return $this->write_repository->delete($dto);
     }
 }

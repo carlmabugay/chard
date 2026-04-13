@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1\CashFlow;
 
+use App\Application\CashFlow\DTOs\CashFlowDTO;
 use App\Domain\CashFlow\Contracts\UseCases\DeleteCashFlowInterface;
 use App\Http\Controllers\Controller;
 use App\Models\CashFlow;
@@ -18,7 +19,9 @@ final class DestroyController extends Controller
 
             Gate::authorize('destroy', $cash_flow);
 
-            $result = $use_case->handle($cash_flow);
+            $dto = CashFlowDTO::fromModel($cash_flow);
+
+            $result = $use_case->handle($dto);
 
             return response()->json([
                 'success' => $result,

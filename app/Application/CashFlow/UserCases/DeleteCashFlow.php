@@ -2,9 +2,9 @@
 
 namespace App\Application\CashFlow\UserCases;
 
+use App\Application\CashFlow\DTOs\CashFlowDTO;
 use App\Domain\CashFlow\Contracts\Services\CashFlowServiceInterface;
 use App\Domain\CashFlow\Contracts\UseCases\DeleteCashFlowInterface;
-use App\Models\CashFlow as CashFlowModel;
 
 class DeleteCashFlow implements DeleteCashFlowInterface
 {
@@ -12,8 +12,8 @@ class DeleteCashFlow implements DeleteCashFlowInterface
         protected CashFlowServiceInterface $service
     ) {}
 
-    public function handle(CashFlowModel $cash_flow): ?bool
+    public function handle(CashFlowDTO $dto): ?bool
     {
-        return $this->service->delete($cash_flow);
+        return $this->service->delete($dto);
     }
 }

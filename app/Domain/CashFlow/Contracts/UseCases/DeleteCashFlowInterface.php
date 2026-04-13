@@ -2,9 +2,9 @@
 
 namespace App\Domain\CashFlow\Contracts\UseCases;
 
-use App\Models\CashFlow as CashFlowModel;
+use App\Application\CashFlow\DTOs\CashFlowDTO;
 
 interface DeleteCashFlowInterface
 {
-    public function handle(CashFlowModel $cash_flow): ?bool;
+    public function handle(CashFlowDTO $dto): ?bool;
 }

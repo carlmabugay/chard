@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\v1\CashFlow;
 
-use App\Application\CashFlow\DTOs\StoreCashFlowDTO;
+use App\Application\CashFlow\DTOs\CashFlowDTO;
 use App\Domain\CashFlow\Contracts\UseCases\StoreCashFlowInterface;
-use App\Enums\CashFlowType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CashFlow\UpdateCashFlowRequest;
 use App\Http\Resources\CashFlow\CashFlowResource;
@@ -22,12 +21,9 @@ final class UpdateController extends Controller
 
             Gate::authorize('update', $cash_flow);
 
-            $dto = new StoreCashFlowDTO(
-                portfolio_id: $request->validated('portfolio_id') ?? $cash_flow->portfolio->id,
-                type: CashFlowType::fromInput($request->validated('type')),
-                amount: $request->validated('amount'),
-                id: $cash_flow->id,
-            );
+            $request->merge(['id' => $cash_flow->id]);
+
+            $dto = CashFlowDTO::fromRequest($request);
 
             $result = $use_case->handle($dto);
 

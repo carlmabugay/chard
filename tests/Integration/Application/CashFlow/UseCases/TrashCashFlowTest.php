@@ -1,5 +1,6 @@
 <?php
 
+use App\Application\CashFlow\DTOs\CashFlowDTO;
 use App\Application\CashFlow\UserCases\TrashCashFlow;
 use App\Domain\CashFlow\Services\CashFlowService;
 use App\Models\CashFlow as CashFlowModel;
@@ -10,6 +11,8 @@ describe('Integration: TrashCashFlow Use Case', function () {
         // Arrange:
         $cash_flow = CashFlowModel::factory()->create();
 
+        $dto = CashFlowDTO::fromModel($cash_flow);
+
         $service = Mockery::mock(CashFlowService::class);
 
         $use_case = new TrashCashFlow($service);
@@ -17,11 +20,11 @@ describe('Integration: TrashCashFlow Use Case', function () {
         // Expectation:
         $service->shouldReceive('trash')
             ->once()
-            ->with($cash_flow)
+            ->with($dto)
             ->andReturn(true);
 
         // Act:
-        $result = $use_case->handle($cash_flow);
+        $result = $use_case->handle($dto);
 
         // Assert:
         expect($result)->toBeTrue();

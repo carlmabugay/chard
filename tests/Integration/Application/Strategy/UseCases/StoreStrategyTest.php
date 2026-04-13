@@ -34,8 +34,8 @@ describe('Integration: StoreStrategy Use Case', function () {
         // Assert:
         expect($result)
             ->toBeInstanceOf(Strategy::class)
-            ->and($result->id())->toBe($strategy_entity->id())
-            ->and($result->name())->toBe($strategy_entity->name());
+            ->and(($result->userId()))->toBe($dto->userId())
+            ->and($result->name())->toBe($dto->name());
     });
 
 });

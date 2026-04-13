@@ -11,7 +11,7 @@ describe('Feature: TrashStrategyController', function () {
 
         it('can restore trashed strategy resource when using /api/v1/strategies/{strategy} PATCH api endpoint.', function () {
             // Arrange:
-            $strategy = StrategyModel::factory()->create();
+            $strategy = StrategyModel::factory()->trashed()->create();
 
             // Act:
             $response = $this->actingAs($strategy->user)->patchJson(sprintf('/api/v1/strategies/%s', $strategy->id));

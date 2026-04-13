@@ -2,20 +2,21 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Write;
 
+use App\Application\CashFlow\DTOs\CashFlowDTO;
 use App\Domain\CashFlow\Contracts\Persistence\Write\CashFlowWriteRepositoryInterface;
 use App\Domain\CashFlow\Entities\CashFlow;
 use App\Models\CashFlow as CashFlowModel;
 
 class EloquentCashFlowWriteRepository implements CashFlowWriteRepositoryInterface
 {
-    public function store(CashFlow $cash_flow): CashFlow
+    public function store(CashFlowDTO $dto): CashFlow
     {
         $stored_cash_flow = CashFlowModel::query()->updateOrCreate(
-            ['id' => $cash_flow->id()],
+            ['id' => $dto->id()],
             [
-                'portfolio_id' => $cash_flow->portfolioId(),
-                'type' => $cash_flow->type(),
-                'amount' => $cash_flow->amount(),
+                'portfolio_id' => $dto->portfolioId(),
+                'type' => $dto->type(),
+                'amount' => $dto->amount(),
             ]
         );
 
@@ -23,18 +24,18 @@ class EloquentCashFlowWriteRepository implements CashFlowWriteRepositoryInterfac
 
     }
 
-    public function trash(CashFlowModel $cash_flow): ?bool
+    public function trash(CashFlowDTO $dto): ?bool
     {
-        return $cash_flow->delete();
+        return CashFlowModel::find($dto->id())->delete();
     }
 
-    public function restore(CashFlowModel $cash_flow): ?bool
+    public function restore(CashFlowDTO $dto): ?bool
     {
-        return $cash_flow->restore();
+        return CashFlowModel::onlyTrashed()->find($dto->id())->restore();
     }
 
-    public function delete(CashFlowModel $cash_flow): ?bool
+    public function delete(CashFlowDTO $dto): ?bool
     {
-        return $cash_flow->forceDelete();
+        return CashFlowModel::find($dto->id())->forceDelete();
     }
 }
