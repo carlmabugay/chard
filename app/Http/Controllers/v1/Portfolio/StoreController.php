@@ -20,7 +20,7 @@ final class StoreController extends Controller
 
             $result = $use_case->handle($dto);
 
-            return new PortfolioResource($result)
+            return PortfolioResource::make($result)
                 ->additional([
                     'message' => __('messages.success.stored', ['record' => 'Portfolio']),
                 ])

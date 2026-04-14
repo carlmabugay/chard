@@ -66,7 +66,7 @@ describe('Feature: StoreCashFlowController', function () {
 
         it('can return unauthorized message when trying to access protected /api/v1/dividends POST api endpoint.', function () {
             // Arrange:
-            PortfolioModel::factory()->create();
+            $portfolio = PortfolioModel::factory()->create();
             $other_portfolio = PortfolioModel::factory()->create();
 
             $payload = [
@@ -77,13 +77,13 @@ describe('Feature: StoreCashFlowController', function () {
             ];
 
             // Act:
-            $response = $this->postJson('/api/v1/dividends', $payload);
+            $response = $this->actingAs($portfolio->user)->postJson('/api/v1/dividends', $payload);
 
             // Assert:
             $response->assertUnauthorized()
                 ->assertExactJson([
                     'success' => false,
-                    'message' => __('messages.unauthenticated'),
+                    'message' => __('messages.unauthorized'),
                 ]);
         });
 

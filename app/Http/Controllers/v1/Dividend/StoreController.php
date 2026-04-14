@@ -4,11 +4,11 @@ namespace App\Http\Controllers\v1\Dividend;
 
 use App\Application\Dividend\DTOs\DividendDTO;
 use App\Domain\Dividend\Contracts\UseCases\StoreDividendInterface;
+use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dividend\CreateDividendRequest;
 use App\Http\Resources\Dividend\DividendResource;
 use App\Models\Dividend;
-use App\Models\Portfolio;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
@@ -16,14 +16,13 @@ use Throwable;
 
 final class StoreController extends Controller
 {
-    public function __invoke(CreateDividendRequest $request, StoreDividendInterface $use_case): DividendResource|JsonResponse
+    public function __invoke(CreateDividendRequest $request, StoreDividendInterface $use_case, PortfolioServiceInterface $portfolio_service): DividendResource|JsonResponse
     {
         try {
 
-            // TODO: Use service here.
-            $portfolio = Portfolio::find($request->validated('portfolio_id'));
+            $portfolio = $portfolio_service->findById($request->validated('portfolio_id'));
 
-            Gate::authorize('store', [Dividend::class, $portfolio]);
+            Gate::authorize('store', [Dividend::class, $portfolio->toEloquentModel()]);
 
             $dto = DividendDTO::fromRequest($request);
 

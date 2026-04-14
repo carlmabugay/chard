@@ -59,4 +59,14 @@ class Portfolio
             id: $dto->id(),
         );
     }
+
+    public function toEloquentModel(): Model
+    {
+        $portfolio = new Model;
+        $portfolio->user_id = self::userId();
+        $portfolio->name = self::name();
+        $portfolio->id = self::id();
+
+        return $portfolio;
+    }
 }
