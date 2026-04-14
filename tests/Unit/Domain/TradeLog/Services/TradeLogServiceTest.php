@@ -1,11 +1,11 @@
 <?php
 
+use App\Application\TradeLog\DTOs\TradeLogDTO;
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\TradeLog\Contracts\Persistence\Read\TradeLogReadRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Persistence\Write\TradeLogWriteRepositoryInterface;
 use App\Domain\TradeLog\Entities\TradeLog;
 use App\Domain\TradeLog\Services\TradeLogService;
-use App\Models\TradeLog as TradeLogModel;
 
 beforeEach(function () {
     $this->write_repository = Mockery::mock(TradeLogWriteRepositoryInterface::class);
@@ -73,7 +73,7 @@ describe('Unit: TradeLogServiceTest', function () {
 
     it('can store trade logs when using store method.', function () {
         // Arrange:
-        $trade_log = new TradeLog(
+        $dto = new TradeLogDTO(
             portfolio_id: rand(1, 10),
             symbol: 'BPI',
             type: 'buy',
@@ -82,32 +82,39 @@ describe('Unit: TradeLogServiceTest', function () {
             fees: 120,
         );
 
+        $trade_log = TradeLog::fromDTO($dto);
+
         // Expectation:
         $this->write_repository->shouldReceive('store')
             ->once()
-            ->with($trade_log)
+            ->with($dto)
             ->andReturn($trade_log);
 
         // Act:
-        $result = $this->service->store($trade_log);
+        $result = $this->service->store($dto);
 
         // Assert:
         expect($result)
             ->toBeInstanceOf(TradeLog::class)
-            ->and($result->id())->toBe($trade_log->id());
+            ->and($result->portfolioId())->toBe($dto->portfolioId())
+            ->and($result->symbol())->toBe($dto->symbol())
+            ->and($result->type())->toBe($dto->type())
+            ->and($result->price())->toBe($dto->price())
+            ->and($result->shares())->toBe($dto->shares())
+            ->and($result->fees())->toBe($dto->fees());
     });
 
     it('can soft delete trade log when using trash method.', function () {
         // Arrange:
-        $trade_log = Mockery::mock(TradeLogModel::class);
+        $dto = Mockery::mock(TradeLogDTO::class);
 
         // Act:
         $this->write_repository->shouldReceive('trash')
             ->once()
-            ->with($trade_log)
+            ->with($dto)
             ->andReturn(true);
 
-        $result = $this->service->trash($trade_log);
+        $result = $this->service->trash($dto);
 
         // Assert:
         expect($result)->toBeTrue();
@@ -115,16 +122,16 @@ describe('Unit: TradeLogServiceTest', function () {
 
     it('can restore trashed trade log when using restore method.', function () {
         // Arrange:
-        $trade_log = Mockery::mock(TradeLogModel::class);
+        $dto = Mockery::mock(TradeLogDTO::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('restore')
             ->once()
-            ->with($trade_log)
+            ->with($dto)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->restore($trade_log);
+        $result = $this->service->restore($dto);
 
         // Assert:
         expect($result)->toBeTrue();
@@ -132,16 +139,16 @@ describe('Unit: TradeLogServiceTest', function () {
 
     it('can hard delete trade log when using delete method.', function () {
         // Arrange:
-        $trade_log = Mockery::mock(TradeLogModel::class);
+        $dto = Mockery::mock(TradeLogDTO::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('delete')
             ->once()
-            ->with($trade_log)
+            ->with($dto)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->delete($trade_log);
+        $result = $this->service->delete($dto);
 
         // Assert:
         expect($result)->toBeTrue();

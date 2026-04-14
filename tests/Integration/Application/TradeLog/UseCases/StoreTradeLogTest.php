@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\TradeLog\DTOs\StoreTradeLogDTO;
+use App\Application\TradeLog\DTOs\TradeLogDTO;
 use App\Application\TradeLog\UseCases\StoreTradeLog;
 use App\Domain\TradeLog\Entities\TradeLog;
 use App\Domain\TradeLog\Services\TradeLogService;
@@ -12,14 +12,14 @@ describe('Integration: StoreTradeLog Use Case', function () {
         // Arrange:
         $portfolio = PortfolioModel::factory()->create();
 
-        $dto = StoreTradeLogDTO::fromRequest([
-            'portfolio_id' => $portfolio->id,
-            'symbol' => 'BPI',
-            'type' => 'buy',
-            'price' => 100,
-            'shares' => 1000,
-            'fees' => 120,
-        ]);
+        $dto = new TradeLogDTO(
+            portfolio_id: $portfolio->id,
+            symbol: 'BPI',
+            type: 'buy',
+            price: 100,
+            shares: 1000,
+            fees: 120,
+        );
 
         $trade_log_entity = TradeLog::fromDTO($dto);
 
@@ -38,7 +38,12 @@ describe('Integration: StoreTradeLog Use Case', function () {
         // Assert:
         expect($result)
             ->toBeInstanceOf(TradeLog::class)
-            ->and($result->id())->toBe($trade_log_entity->id());
+            ->and($result->portfolioId())->toBe($dto->portfolioId())
+            ->and($result->symbol())->toBe($dto->symbol())
+            ->and($result->type())->toBe($dto->type())
+            ->and($result->price())->toBe($dto->price())
+            ->and($result->shares())->toBe($dto->shares())
+            ->and($result->fees())->toBe($dto->fees());
     });
 
 });

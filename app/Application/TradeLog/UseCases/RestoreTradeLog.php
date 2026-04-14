@@ -2,9 +2,9 @@
 
 namespace App\Application\TradeLog\UseCases;
 
+use App\Application\TradeLog\DTOs\TradeLogDTO;
 use App\Domain\TradeLog\Contracts\Services\TradeLogServiceInterface;
 use App\Domain\TradeLog\Contracts\UseCases\RestoreTradeLogInterface;
-use App\Models\TradeLog as TradeLogModel;
 
 class RestoreTradeLog implements RestoreTradeLogInterface
 {
@@ -12,8 +12,8 @@ class RestoreTradeLog implements RestoreTradeLogInterface
         protected readonly TradeLogServiceInterface $service,
     ) {}
 
-    public function handle(TradeLogModel $trade_log): ?bool
+    public function handle(TradeLogDTO $dto): ?bool
     {
-        return $this->service->restore($trade_log);
+        return $this->service->restore($dto);
     }
 }

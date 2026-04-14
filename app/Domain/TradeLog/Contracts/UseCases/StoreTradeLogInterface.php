@@ -2,10 +2,10 @@
 
 namespace App\Domain\TradeLog\Contracts\UseCases;
 
-use App\Application\TradeLog\DTOs\StoreTradeLogDTO;
+use App\Application\TradeLog\DTOs\TradeLogDTO;
 use App\Domain\TradeLog\Entities\TradeLog;
 
 interface StoreTradeLogInterface
 {
-    public function handle(StoreTradeLogDTO $dto): TradeLog;
+    public function handle(TradeLogDTO $dto): TradeLog;
 }

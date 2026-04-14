@@ -2,9 +2,9 @@
 
 namespace App\Application\TradeLog\UseCases;
 
+use App\Application\TradeLog\DTOs\TradeLogDTO;
 use App\Domain\TradeLog\Contracts\Services\TradeLogServiceInterface;
 use App\Domain\TradeLog\Contracts\UseCases\DeleteTradeLogInterface;
-use App\Models\TradeLog;
 
 class DeleteTradeLog implements DeleteTradeLogInterface
 {
@@ -12,8 +12,8 @@ class DeleteTradeLog implements DeleteTradeLogInterface
         protected TradeLogServiceInterface $service
     ) {}
 
-    public function handle(TradeLog $trade_log): ?bool
+    public function handle(TradeLogDTO $dto): ?bool
     {
-        return $this->service->delete($trade_log);
+        return $this->service->delete($dto);
     }
 }

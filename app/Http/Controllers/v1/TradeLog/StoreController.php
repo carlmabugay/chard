@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\TradeLog;
 
-use App\Application\TradeLog\DTOs\StoreTradeLogDTO;
+use App\Application\TradeLog\DTOs\TradeLogDTO;
 use App\Domain\TradeLog\Contracts\UseCases\StoreTradeLogInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TradeLog\CreateTradeLogRequest;
@@ -26,7 +26,7 @@ final class StoreController extends Controller
 
             Gate::authorize('store', [TradeLog::class, $portfolio]);
 
-            $dto = StoreTradeLogDTO::fromRequest($request->validated());
+            $dto = TradeLogDTO::fromRequest($request);
 
             $result = $use_case->handle($dto);
 

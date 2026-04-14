@@ -2,9 +2,9 @@
 
 namespace App\Domain\TradeLog\Contracts\UseCases;
 
-use App\Models\TradeLog as TradeLogModel;
+use App\Application\TradeLog\DTOs\TradeLogDTO;
 
 interface RestoreTradeLogInterface
 {
-    public function handle(TradeLogModel $trade_log): ?bool;
+    public function handle(TradeLogDTO $dto): ?bool;
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\TradeLog;
 
-use App\Application\TradeLog\DTOs\StoreTradeLogDTO;
+use App\Application\TradeLog\DTOs\TradeLogDTO;
 use App\Domain\TradeLog\Contracts\UseCases\StoreTradeLogInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TradeLog\UpdateTradeLogRequest;
@@ -21,15 +21,9 @@ final class UpdateController extends Controller
 
             Gate::authorize('update', $trade_log);
 
-            $dto = new StoreTradeLogDTO(
-                portfolio_id: $request->validated('portfolio_id', $trade_log->portfolio->id),
-                symbol: $request->validated('symbol'),
-                type: $request->validated('type'),
-                price: $request->validated('price'),
-                shares: $request->validated('shares'),
-                fees: $request->validated('fees'),
-                id: $trade_log->id,
-            );
+            $request->merge(['id' => $trade_log->id]);
+
+            $dto = TradeLogDTO::fromRequest($request);
 
             $result = $use_case->handle($dto);
 

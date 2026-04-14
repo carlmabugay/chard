@@ -2,9 +2,9 @@
 
 namespace App\Domain\TradeLog\Contracts\UseCases;
 
-use App\Models\TradeLog;
+use App\Application\TradeLog\DTOs\TradeLogDTO;
 
 interface DeleteTradeLogInterface
 {
-    public function handle(TradeLog $trade_log): ?bool;
+    public function handle(TradeLogDTO $dto): ?bool;
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Application\TradeLog\DTOs\TradeLogDTO;
 use App\Domain\TradeLog\Entities\TradeLog;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentTradeLogWriteRepository;
 use App\Models\Portfolio as PortfolioModel;
@@ -16,7 +17,7 @@ describe('Integration: EloquentTradeLogWriteRepository', function () {
         $table = 'trade_logs';
         $portfolio = PortfolioModel::factory()->create();
 
-        $trade_log = new TradeLog(
+        $dto = new TradeLogDTO(
             portfolio_id: $portfolio->id,
             symbol: 'BPI',
             type: 'buy',
@@ -26,50 +27,49 @@ describe('Integration: EloquentTradeLogWriteRepository', function () {
         );
 
         // Act:
-        $result = $this->repository->store($trade_log);
+        $result = $this->repository->store($dto);
 
         // Assert:
         expect($result)->toBeInstanceOf(TradeLog::class);
 
         $this->assertDatabaseCount($table, 1);
         $this->assertDatabaseHas($table, [
-            'portfolio_id' => $trade_log->portfolioId(),
-            'type' => $trade_log->type(),
-            'symbol' => $trade_log->symbol(),
-            'price' => $trade_log->price(),
-            'shares' => $trade_log->shares(),
-            'fees' => $trade_log->fees(),
+            'portfolio_id' => $dto->portfolioId(),
+            'type' => $dto->type(),
+            'symbol' => $dto->symbol(),
+            'price' => $dto->price(),
+            'shares' => $dto->shares(),
+            'fees' => $dto->fees(),
         ]);
 
     });
 
     it('can update trade log when using store method.', function () {
         // Arrange:
-        $trade_log_model = TradeLogModel::factory()->create();
+        $trade_log = TradeLogModel::factory()->create();
 
-        $trade_log_entity = new TradeLog(
-            portfolio_id: $trade_log_model->portfolio->id,
-            symbol: $trade_log_model->symbol,
+        $dto = new TradeLogDTO(
+            portfolio_id: $trade_log->portfolio_id,
+            symbol: $trade_log->symbol,
             type: 'buy',
-            price: $trade_log_model->price,
+            price: $trade_log->price,
             shares: 5000,
-            fees: $trade_log_model->fees,
+            fees: $trade_log->fees,
         );
 
         // Act:
-        $result = $this->repository->store($trade_log_entity);
+        $result = $this->repository->store($dto);
 
         // Assert:
         expect($result)->toBeInstanceOf(TradeLog::class);
 
         $this->assertDatabaseHas('trade_logs', [
-            'portfolio_id' => $trade_log_entity->portfolioId(),
-            'type' => $trade_log_entity->type(),
-            'symbol' => $trade_log_entity->symbol(),
-            'price' => $trade_log_entity->price(),
-            'shares' => $trade_log_entity->shares(),
-            'fees' => $trade_log_entity->fees(),
-            'id' => $result->id(),
+            'portfolio_id' => $dto->portfolioId(),
+            'type' => $dto->type(),
+            'symbol' => $dto->symbol(),
+            'price' => $dto->price(),
+            'shares' => $dto->shares(),
+            'fees' => $dto->fees(),
         ]);
     });
 
@@ -77,8 +77,10 @@ describe('Integration: EloquentTradeLogWriteRepository', function () {
         // Arrange:
         $trade_log = TradeLogModel::factory()->create();
 
+        $dto = TradeLogDTO::fromModel($trade_log);
+
         // Act:
-        $this->repository->trash($trade_log);
+        $this->repository->trash($dto);
 
         // Assert
         $this->assertSoftDeleted($trade_log);
@@ -88,8 +90,10 @@ describe('Integration: EloquentTradeLogWriteRepository', function () {
         // Arrange:
         $trade_log = TradeLogModel::factory()->trashed()->create();
 
+        $dto = TradeLogDTO::fromModel($trade_log);
+
         // Act:
-        $this->repository->restore($trade_log);
+        $this->repository->restore($dto);
 
         // Assert:
         $this->assertNotSoftDeleted($trade_log);
@@ -99,8 +103,10 @@ describe('Integration: EloquentTradeLogWriteRepository', function () {
         // Arrange:
         $trade_log = TradeLogModel::factory()->create();
 
+        $dto = TradeLogDTO::fromModel($trade_log);
+
         // Act:
-        $this->repository->delete($trade_log);
+        $this->repository->delete($dto);
 
         // Assert:
         $this->assertModelMissing($trade_log);

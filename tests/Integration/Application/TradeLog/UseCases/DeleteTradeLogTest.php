@@ -1,5 +1,6 @@
 <?php
 
+use App\Application\TradeLog\DTOs\TradeLogDTO;
 use App\Application\TradeLog\UseCases\DeleteTradeLog;
 use App\Domain\TradeLog\Services\TradeLogService;
 use App\Models\TradeLog as TradeLogModel;
@@ -8,7 +9,9 @@ describe('Integration: DeleteTradeLog Use Case', function () {
 
     it('can hard delete trade log when using handle method.', function () {
         // Arrange:
-        $cash_flow = TradeLogModel::factory()->create();
+        $trade_log = TradeLogModel::factory()->create();
+
+        $dto = TradeLogDTO::fromModel($trade_log);
 
         $service = Mockery::mock(TradeLogService::class);
 
@@ -17,11 +20,11 @@ describe('Integration: DeleteTradeLog Use Case', function () {
         // Expectation:
         $service->shouldReceive('delete')
             ->once()
-            ->with($cash_flow)
+            ->with($dto)
             ->andReturn(true);
 
         // Act:
-        $result = $use_case->handle($cash_flow);
+        $result = $use_case->handle($dto);
 
         // Assert:
         expect($result)->toBeTrue();

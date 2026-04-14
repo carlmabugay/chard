@@ -2,9 +2,9 @@
 
 namespace App\Domain\TradeLog\Contracts\Services;
 
+use App\Application\TradeLog\DTOs\TradeLogDTO;
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\TradeLog\Entities\TradeLog;
-use App\Models\TradeLog as TradeLogModel;
 
 interface TradeLogServiceInterface
 {
@@ -12,11 +12,11 @@ interface TradeLogServiceInterface
 
     public function findById(int $id): TradeLog;
 
-    public function store(TradeLog $tradeLog): TradeLog;
+    public function store(TradeLogDTO $dto): TradeLog;
 
-    public function trash(TradeLogModel $trade_log): ?bool;
+    public function trash(TradeLogDTO $dto): ?bool;
 
-    public function restore(TradeLogModel $trade_log): ?bool;
+    public function restore(TradeLogDTO $dto): ?bool;
 
-    public function delete(TradeLogModel $trade_log): ?bool;
+    public function delete(TradeLogDTO $dto): ?bool;
 }

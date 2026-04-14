@@ -11,7 +11,7 @@ describe('Feature: RestoreTradeLogController', function () {
 
         it('can restore trashed trade log resource when using /api/v1/trade_logs/{trade_log} PATCH api endpoint.', function () {
             // Arrange:
-            $trade_log = TradeLogModel::factory()->create();
+            $trade_log = TradeLogModel::factory()->trashed()->create();
 
             // Act:
             $response = $this->actingAs($trade_log->portfolio->user)->patchJson(sprintf('/api/v1/trade_logs/%s', $trade_log->id));

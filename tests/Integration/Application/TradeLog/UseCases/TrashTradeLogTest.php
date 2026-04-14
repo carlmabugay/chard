@@ -1,5 +1,6 @@
 <?php
 
+use App\Application\TradeLog\DTOs\TradeLogDTO;
 use App\Application\TradeLog\UseCases\TrashTradeLog;
 use App\Domain\TradeLog\Services\TradeLogService;
 use App\Models\TradeLog as TradeLogModel;
@@ -10,6 +11,8 @@ describe('Integration: TrashTradeLog Use Case', function () {
         // Arrange:
         $trade_log = TradeLogModel::factory()->create();
 
+        $dto = TradeLogDTO::fromModel($trade_log);
+
         $service = Mockery::mock(TradeLogService::class);
 
         $use_case = new TrashTradeLog($service);
@@ -17,11 +20,11 @@ describe('Integration: TrashTradeLog Use Case', function () {
         // Expectation:
         $service->shouldReceive('trash')
             ->once()
-            ->with($trade_log)
+            ->with($dto)
             ->andReturn(true);
 
         // Act:
-        $result = $use_case->handle($trade_log);
+        $result = $use_case->handle($dto);
 
         // Assert:
         expect($result)->toBeTrue();

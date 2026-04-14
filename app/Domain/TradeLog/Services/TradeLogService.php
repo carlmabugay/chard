@@ -2,12 +2,12 @@
 
 namespace App\Domain\TradeLog\Services;
 
+use App\Application\TradeLog\DTOs\TradeLogDTO;
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\TradeLog\Contracts\Persistence\Read\TradeLogReadRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Persistence\Write\TradeLogWriteRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Services\TradeLogServiceInterface;
 use App\Domain\TradeLog\Entities\TradeLog;
-use App\Models\TradeLog as TradeLogModel;
 
 class TradeLogService implements TradeLogServiceInterface
 {
@@ -29,23 +29,23 @@ class TradeLogService implements TradeLogServiceInterface
         return $this->read_repository->findById($id);
     }
 
-    public function store(TradeLog $tradeLog): TradeLog
+    public function store(TradeLogDTO $dto): TradeLog
     {
-        return $this->write_repository->store($tradeLog);
+        return $this->write_repository->store($dto);
     }
 
-    public function trash(TradeLogModel $trade_log): ?bool
+    public function trash(TradeLogDTO $dto): ?bool
     {
-        return $this->write_repository->trash($trade_log);
+        return $this->write_repository->trash($dto);
     }
 
-    public function restore(TradeLogModel $trade_log): ?bool
+    public function restore(TradeLogDTO $dto): ?bool
     {
-        return $this->write_repository->restore($trade_log);
+        return $this->write_repository->restore($dto);
     }
 
-    public function delete(TradeLogModel $trade_log): ?bool
+    public function delete(TradeLogDTO $dto): ?bool
     {
-        return $this->write_repository->delete($trade_log);
+        return $this->write_repository->delete($dto);
     }
 }

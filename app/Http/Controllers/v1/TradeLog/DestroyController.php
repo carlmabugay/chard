@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1\TradeLog;
 
+use App\Application\TradeLog\DTOs\TradeLogDTO;
 use App\Domain\TradeLog\Contracts\UseCases\DeleteTradeLogInterface;
 use App\Http\Controllers\Controller;
 use App\Models\TradeLog;
@@ -18,7 +19,9 @@ final class DestroyController extends Controller
 
             Gate::authorize('destroy', $trade_log);
 
-            $result = $use_case->handle($trade_log);
+            $dto = TradeLogDTO::fromModel($trade_log);
+
+            $result = $use_case->handle($dto);
 
             return response()->json([
                 'success' => $result,
