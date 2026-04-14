@@ -2,12 +2,12 @@
 
 namespace App\Domain\Dividend\Services;
 
+use App\Application\Dividend\DTOs\DividendDTO;
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Dividend\Contracts\Persistence\Read\DividendReadRepositoryInterface;
 use App\Domain\Dividend\Contracts\Persistence\Write\DividendWriteRepositoryInterface;
 use App\Domain\Dividend\Contracts\Services\DividendServiceInterface;
 use App\Domain\Dividend\Entities\Dividend;
-use App\Models\Dividend as DividendModel;
 
 class DividendService implements DividendServiceInterface
 {
@@ -29,23 +29,23 @@ class DividendService implements DividendServiceInterface
         return $this->read_repository->findById($id);
     }
 
-    public function store(Dividend $dividend): Dividend
+    public function store(DividendDTO $dto): Dividend
     {
-        return $this->write_repository->store($dividend);
+        return $this->write_repository->store($dto);
     }
 
-    public function trash(DividendModel $dividend): ?bool
+    public function trash(DividendDTO $dto): ?bool
     {
-        return $this->write_repository->trash($dividend);
+        return $this->write_repository->trash($dto);
     }
 
-    public function restore(DividendModel $dividend): ?bool
+    public function restore(DividendDTO $dto): ?bool
     {
-        return $this->write_repository->restore($dividend);
+        return $this->write_repository->restore($dto);
     }
 
-    public function delete(DividendModel $dividend): ?bool
+    public function delete(DividendDTO $dto): ?bool
     {
-        return $this->write_repository->delete($dividend);
+        return $this->write_repository->delete($dto);
     }
 }

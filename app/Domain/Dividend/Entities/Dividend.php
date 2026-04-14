@@ -2,7 +2,7 @@
 
 namespace App\Domain\Dividend\Entities;
 
-use App\Application\Dividend\DTOs\StoreDividendDTO;
+use App\Application\Dividend\DTOs\DividendDTO;
 use App\Domain\Portfolio\Entities\Portfolio;
 use Illuminate\Database\Eloquent\Model;
 
@@ -59,13 +59,13 @@ readonly class Dividend
         );
     }
 
-    public static function fromDTO(StoreDividendDTO $dto): self
+    public static function fromDTO(DividendDTO $dto): self
     {
         return new self(
             portfolio_id: $dto->portfolioId(),
             symbol: $dto->symbol(),
             amount: $dto->amount(),
-            id: $dto->id,
+            id: $dto->id(),
             recorded_at: $dto->recordedAt(),
         );
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1\Dividend;
 
+use App\Application\Dividend\DTOs\DividendDTO;
 use App\Domain\Dividend\Contracts\UseCases\TrashDividendInterface;
 use App\Http\Controllers\Controller;
 use App\Models\Dividend;
@@ -18,7 +19,9 @@ final class TrashController extends Controller
 
             Gate::authorize('trash', $dividend);
 
-            $result = $use_case->handle($dividend);
+            $dto = DividendDTO::fromModel($dividend);
+
+            $result = $use_case->handle($dto);
 
             return response()->json([
                 'success' => $result,

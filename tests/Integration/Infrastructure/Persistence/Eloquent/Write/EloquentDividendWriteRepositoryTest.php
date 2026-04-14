@@ -1,5 +1,6 @@
 <?php
 
+use App\Application\Dividend\DTOs\DividendDTO;
 use App\Domain\Dividend\Entities\Dividend;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentDividendWriteRepository;
 use App\Models\Dividend as DividendModel;
@@ -16,7 +17,7 @@ describe('Integration: EloquentDividendWriteRepository', function () {
         $table = 'dividends';
         $portfolio = PortfolioModel::factory()->create();
 
-        $dividend_entity = new Dividend(
+        $dto = new DividendDTO(
             portfolio_id: $portfolio->id,
             symbol: 'JFC',
             amount: 5000,
@@ -24,42 +25,45 @@ describe('Integration: EloquentDividendWriteRepository', function () {
         );
 
         // Act:
-        $result = $this->repository->store($dividend_entity);
+        $result = $this->repository->store($dto);
 
         // Assert:
         expect($result)->toBeInstanceOf(Dividend::class);
 
         $this->assertDatabaseCount($table, 1);
         $this->assertDatabaseHas($table, [
-            'portfolio_id' => $dividend_entity->portfolioId(),
-            'symbol' => $dividend_entity->symbol(),
-            'amount' => $dividend_entity->amount(),
-            'recorded_at' => $dividend_entity->recordedAt(),
+            'portfolio_id' => $dto->portfolioId(),
+            'symbol' => $dto->symbol(),
+            'amount' => $dto->amount(),
+            'recorded_at' => $dto->recordedAt(),
         ]);
 
     });
 
     it('can update dividend when using store method.', function () {
         // Arrange:
-        $dividend_model = DividendModel::factory()->create();
+        $dividend = DividendModel::factory()->create();
 
-        $dividend_entity = new Dividend(
-            portfolio_id: $dividend_model->portfolio->id,
+        $dto = new DividendDTO(
+            portfolio_id: $dividend->portfolio_id,
             symbol: 'JFC',
-            amount: 5000,
-            id: $dividend_model->id,
+            amount: $dividend->amount,
+            recorded_at: $dividend->recorded_at,
+            id: $dividend->id,
         );
 
         // Act:
-        $result = $this->repository->store($dividend_entity);
+        $result = $this->repository->store($dto);
 
         // Assert:
         expect($result)->toBeInstanceOf(Dividend::class);
 
         $this->assertDatabaseHas('dividends', [
-            'portfolio_id' => $dividend_entity->portfolioId(),
-            'symbol' => $dividend_entity->symbol(),
-            'amount' => $dividend_entity->amount(),
+            'portfolio_id' => $dto->portfolioId(),
+            'symbol' => $dto->symbol(),
+            'amount' => $dto->amount(),
+            'recorded_at' => $dto->recordedAt(),
+            'id' => $dividend->id,
         ]);
     });
 
@@ -67,8 +71,10 @@ describe('Integration: EloquentDividendWriteRepository', function () {
         // Arrange:
         $dividend = DividendModel::factory()->create();
 
+        $dto = DividendDTO::fromModel($dividend);
+
         // Act:
-        $this->repository->trash($dividend);
+        $this->repository->trash($dto);
 
         // Assert:
         $this->assertSoftDeleted($dividend);
@@ -78,8 +84,10 @@ describe('Integration: EloquentDividendWriteRepository', function () {
         // Arrange:
         $dividend = DividendModel::factory()->trashed()->create();
 
+        $dto = DividendDTO::fromModel($dividend);
+
         // Act:
-        $this->repository->restore($dividend);
+        $this->repository->restore($dto);
 
         // Assert:
         $this->assertNotSoftDeleted($dividend);
@@ -89,8 +97,10 @@ describe('Integration: EloquentDividendWriteRepository', function () {
         // Arrange:
         $dividend = DividendModel::factory()->create();
 
+        $dto = DividendDTO::fromModel($dividend);
+
         // Act:
-        $this->repository->delete($dividend);
+        $this->repository->delete($dto);
 
         // Assert:
         $this->assertModelMissing($dividend);

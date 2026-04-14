@@ -2,9 +2,9 @@
 
 namespace App\Domain\Dividend\Contracts\UseCases;
 
-use App\Models\Dividend as DividendModel;
+use App\Application\Dividend\DTOs\DividendDTO;
 
 interface DeleteDividendInterface
 {
-    public function handle(DividendModel $dividend): ?bool;
+    public function handle(DividendDTO $dto): ?bool;
 }

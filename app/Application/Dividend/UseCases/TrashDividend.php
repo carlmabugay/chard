@@ -2,9 +2,9 @@
 
 namespace App\Application\Dividend\UseCases;
 
+use App\Application\Dividend\DTOs\DividendDTO;
 use App\Domain\Dividend\Contracts\Services\DividendServiceInterface;
 use App\Domain\Dividend\Contracts\UseCases\TrashDividendInterface;
-use App\Models\Dividend as DividendModel;
 
 class TrashDividend implements TrashDividendInterface
 {
@@ -12,8 +12,8 @@ class TrashDividend implements TrashDividendInterface
         protected readonly DividendServiceInterface $service
     ) {}
 
-    public function handle(DividendModel $dividend): ?bool
+    public function handle(DividendDTO $dto): ?bool
     {
-        return $this->service->trash($dividend);
+        return $this->service->trash($dto);
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
+use App\Application\Dividend\DTOs\DividendDTO;
 use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Dividend\Contracts\Persistence\Read\DividendReadRepositoryInterface;
 use App\Domain\Dividend\Contracts\Persistence\Write\DividendWriteRepositoryInterface;
 use App\Domain\Dividend\Entities\Dividend;
 use App\Domain\Dividend\Services\DividendService;
-use App\Models\Dividend as DividendModel;
 
 beforeEach(function () {
     $this->write_repository = Mockery::mock(DividendWriteRepositoryInterface::class);
@@ -67,11 +67,14 @@ describe('Unit: DividendService', function () {
 
     it('can store dividend when using store method.', function () {
         // Arrange:
-        $dividend = new Dividend(
+        $dto = new DividendDTO(
             portfolio_id: rand(1, 10),
             symbol: 'JFC',
             amount: 5000,
+            recorded_at: now(),
         );
+
+        $dividend = Dividend::fromDTO($dto);
 
         // Expectation:
         $this->write_repository->shouldReceive('store')
@@ -79,42 +82,45 @@ describe('Unit: DividendService', function () {
             ->andReturn($dividend);
 
         // Act:
-        $result = $this->service->store($dividend);
+        $result = $this->service->store($dto);
 
         // Assert:
         expect($result)
             ->toBeInstanceOf(Dividend::class)
-            ->and($result->id())->toBe($dividend->id());
+            ->and($result->portfolioId())->toBe($dto->portfolioId())
+            ->and($result->symbol())->toBe($dto->symbol())
+            ->and($result->amount())->toBe($dto->amount())
+            ->and($result->recordedAt())->toBe($dto->recordedAt());
     });
 
     it('can soft delete dividend when using trash method.', function () {
         // Arrange:
-        $dividend = Mockery::mock(DividendModel::class);
+        $dto = Mockery::mock(DividendDTO::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('trash')
             ->once()
-            ->with($dividend)
+            ->with($dto)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->trash($dividend);
+        $result = $this->service->trash($dto);
 
         expect($result)->toBeTrue();
     });
 
     it('can restore trashed dividend when using trash method.', function () {
         // Arrange:
-        $dividend = Mockery::mock(DividendModel::class);
+        $dto = Mockery::mock(DividendDTO::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('restore')
             ->once()
-            ->with($dividend)
+            ->with($dto)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->restore($dividend);
+        $result = $this->service->restore($dto);
 
         // Assert:
         expect($result)->toBeTrue();
@@ -122,16 +128,16 @@ describe('Unit: DividendService', function () {
 
     it('can hard delete dividend when using delete method.', function () {
         // Arrange:
-        $dividend = Mockery::mock(DividendModel::class);
+        $dto = Mockery::mock(DividendDTO::class);
 
         // Expectation:
         $this->write_repository->shouldReceive('delete')
             ->once()
-            ->with($dividend)
+            ->with($dto)
             ->andReturn(true);
 
         // Act:
-        $result = $this->service->delete($dividend);
+        $result = $this->service->delete($dto);
 
         // Assert:
         expect($result)->toBeTrue();

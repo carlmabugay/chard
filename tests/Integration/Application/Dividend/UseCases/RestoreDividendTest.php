@@ -1,5 +1,6 @@
 <?php
 
+use App\Application\Dividend\DTOs\DividendDTO;
 use App\Application\Dividend\UseCases\RestoreDividend;
 use App\Domain\Dividend\Services\DividendService;
 use App\Models\Dividend as DividendModel;
@@ -10,6 +11,8 @@ describe('Integration: RestoreDividend Use Case', function () {
         // Arrange:
         $dividend = DividendModel::factory()->trashed()->create();
 
+        $dto = DividendDTO::fromModel($dividend);
+
         $service = Mockery::mock(DividendService::class);
 
         $use_case = new RestoreDividend($service);
@@ -17,11 +20,11 @@ describe('Integration: RestoreDividend Use Case', function () {
         // Expectation:
         $service->shouldReceive('restore')
             ->once()
-            ->with($dividend)
+            ->with($dto)
             ->andReturn(true);
 
         // Act:
-        $result = $use_case->handle($dividend);
+        $result = $use_case->handle($dto);
 
         // Assert
         expect($result)->toBeTrue();

@@ -85,6 +85,8 @@ describe('Unit: PortfolioService', function () {
         // Assert
         expect($result)
             ->toBeInstanceOf(Portfolio::class)
+            ->and($result->userId())->toBe($dto->userId())
+            ->and($result->name())->toBe($dto->name())
             ->and($result->id())->toBe($dto->id());
     });
 

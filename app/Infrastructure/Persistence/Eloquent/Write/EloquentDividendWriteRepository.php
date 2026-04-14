@@ -2,39 +2,40 @@
 
 namespace App\Infrastructure\Persistence\Eloquent\Write;
 
+use App\Application\Dividend\DTOs\DividendDTO;
 use App\Domain\Dividend\Contracts\Persistence\Write\DividendWriteRepositoryInterface;
 use App\Domain\Dividend\Entities\Dividend;
 use App\Models\Dividend as DividendModel;
 
 class EloquentDividendWriteRepository implements DividendWriteRepositoryInterface
 {
-    public function store(Dividend $dividend): Dividend
+    public function store(DividendDTO $dto): Dividend
     {
         $stored_dividend = DividendModel::query()->updateOrCreate(
-            ['id' => $dividend->id()],
+            ['id' => $dto->id()],
             [
-                'portfolio_id' => $dividend->portfolioId(),
-                'symbol' => $dividend->symbol(),
-                'amount' => $dividend->amount(),
-                'recorded_at' => $dividend->recordedAt(),
+                'portfolio_id' => $dto->portfolioId(),
+                'symbol' => $dto->symbol(),
+                'amount' => $dto->amount(),
+                'recorded_at' => $dto->recordedAt(),
             ],
         );
 
         return Dividend::fromEloquentModel($stored_dividend);
     }
 
-    public function trash(DividendModel $dividend): ?bool
+    public function trash(DividendDTO $dto): ?bool
     {
-        return $dividend->delete();
+        return DividendModel::find($dto->id())->delete();
     }
 
-    public function restore(DividendModel $dividend): ?bool
+    public function restore(DividendDTO $dto): ?bool
     {
-        return $dividend->restore();
+        return DividendModel::onlyTrashed()->find($dto->id())->restore();
     }
 
-    public function delete(DividendModel $dividend): ?bool
+    public function delete(DividendDTO $dto): ?bool
     {
-        return $dividend->forceDelete();
+        return DividendModel::find($dto->id())->forceDelete();
     }
 }

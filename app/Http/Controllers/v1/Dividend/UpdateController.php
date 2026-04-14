@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Dividend;
 
-use App\Application\Dividend\DTOs\StoreDividendDTO;
+use App\Application\Dividend\DTOs\DividendDTO;
 use App\Domain\Dividend\Contracts\UseCases\StoreDividendInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dividend\UpdateDividendRequest;
@@ -21,13 +21,9 @@ final class UpdateController extends Controller
 
             Gate::authorize('update', $dividend);
 
-            $dto = new StoreDividendDTO(
-                portfolio_id: $request->validated('portfolio_id'),
-                symbol: $request->validated('symbol'),
-                amount: $request->validated('amount'),
-                id: $dividend->id,
-                recorded_at: $request->validated('recorded_at'),
-            );
+            $request->merge(['id' => $dividend->id]);
+
+            $dto = DividendDTO::fromRequest($request);
 
             $result = $use_case->handle($dto);
 

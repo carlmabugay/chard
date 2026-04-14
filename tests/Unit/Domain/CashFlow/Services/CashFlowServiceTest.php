@@ -89,6 +89,9 @@ describe('Unit: CashFlowService', function () {
         // Assert:
         expect($result)
             ->toBeInstanceOf(CashFlow::class)
+            ->and($result->portfolioId())->toBe($dto->portfolioId())
+            ->and($result->type())->toBe($dto->type())
+            ->and($result->amount())->toBe($dto->amount())
             ->and($result->id())->toBe($dto->id());
     });
 

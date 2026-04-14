@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Dividend\DTOs\StoreDividendDTO;
+use App\Application\Dividend\DTOs\DividendDTO;
 use App\Application\Dividend\UseCases\StoreDividend;
 use App\Domain\Dividend\Entities\Dividend;
 use App\Domain\Dividend\Services\DividendService;
@@ -13,12 +13,12 @@ describe('Integration: StoreDividend Use Case', function () {
         // Arrange:
         $portfolio = Portfolio::factory()->create();
 
-        $dto = StoreDividendDTO::fromRequest([
-            'portfolio_id' => $portfolio->id,
-            'symbol' => 'JFC',
-            'amount' => 10000,
-            'recorded_at' => now(),
-        ]);
+        $dto = new DividendDTO(
+            portfolio_id: $portfolio->id,
+            symbol: 'JFC',
+            amount: 10000,
+            recorded_at: now(),
+        );
 
         $dividend_entity = Dividend::fromDTO($dto);
 
@@ -37,8 +37,10 @@ describe('Integration: StoreDividend Use Case', function () {
         // Assert:
         expect($result)
             ->toBeInstanceOf(Dividend::class)
-            ->and($result->id())->toBe($dividend_entity->id());
-
+            ->and($result->portfolioId())->toBe($dto->portfolioId())
+            ->and($result->symbol())->toBe($dto->symbol())
+            ->and($result->amount())->toBe($dto->amount())
+            ->and($result->recordedAt())->toBe($dto->recordedAt());
     });
 
 });

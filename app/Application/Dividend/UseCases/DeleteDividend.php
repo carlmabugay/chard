@@ -2,9 +2,9 @@
 
 namespace App\Application\Dividend\UseCases;
 
+use App\Application\Dividend\DTOs\DividendDTO;
 use App\Domain\Dividend\Contracts\Services\DividendServiceInterface;
 use App\Domain\Dividend\Contracts\UseCases\DeleteDividendInterface;
-use App\Models\Dividend as DividendModel;
 
 class DeleteDividend implements DeleteDividendInterface
 {
@@ -12,8 +12,8 @@ class DeleteDividend implements DeleteDividendInterface
         protected readonly DividendServiceInterface $service
     ) {}
 
-    public function handle(DividendModel $dividend): ?bool
+    public function handle(DividendDTO $dto): ?bool
     {
-        return $this->service->delete($dividend);
+        return $this->service->delete($dto);
     }
 }

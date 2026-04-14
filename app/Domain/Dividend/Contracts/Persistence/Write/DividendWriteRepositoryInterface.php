@@ -2,16 +2,16 @@
 
 namespace App\Domain\Dividend\Contracts\Persistence\Write;
 
+use App\Application\Dividend\DTOs\DividendDTO;
 use App\Domain\Dividend\Entities\Dividend;
-use App\Models\Dividend as DividendModel;
 
 interface DividendWriteRepositoryInterface
 {
-    public function store(Dividend $dividend): Dividend;
+    public function store(DividendDTO $dto): Dividend;
 
-    public function trash(DividendModel $dividend): ?bool;
+    public function trash(DividendDTO $dto): ?bool;
 
-    public function restore(DividendModel $dividend): ?bool;
+    public function restore(DividendDTO $dto): ?bool;
 
-    public function delete(DividendModel $dividend): ?bool;
+    public function delete(DividendDTO $dto): ?bool;
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1\Dividend;
 
-use App\Application\Dividend\DTOs\StoreDividendDTO;
+use App\Application\Dividend\DTOs\DividendDTO;
 use App\Domain\Dividend\Contracts\UseCases\StoreDividendInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dividend\CreateDividendRequest;
@@ -25,7 +25,7 @@ final class StoreController extends Controller
 
             Gate::authorize('store', [Dividend::class, $portfolio]);
 
-            $dto = StoreDividendDTO::fromRequest($request->validated());
+            $dto = DividendDTO::fromRequest($request);
 
             $result = $use_case->handle($dto);
 
@@ -39,6 +39,7 @@ final class StoreController extends Controller
         } catch (AuthorizationException) {
 
             return $this->unauthorizedResponse();
+
         } catch (Throwable $error) {
 
             return $this->errorResponse($error->getMessage());

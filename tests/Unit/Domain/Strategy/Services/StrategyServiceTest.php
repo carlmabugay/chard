@@ -85,6 +85,8 @@ describe('Unit: StrategyService', function () {
         // Assert
         expect($result)
             ->toBeInstanceOf(Strategy::class)
+            ->and($result->id())->toBe($dto->id())
+            ->and($result->name())->toBe($dto->name())
             ->and($result->id())->toBe($dto->id());
     });
 

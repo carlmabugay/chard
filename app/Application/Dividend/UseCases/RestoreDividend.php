@@ -2,9 +2,9 @@
 
 namespace App\Application\Dividend\UseCases;
 
+use App\Application\Dividend\DTOs\DividendDTO;
 use App\Domain\Dividend\Contracts\Services\DividendServiceInterface;
 use App\Domain\Dividend\Contracts\UseCases\RestoreDividendInterface;
-use App\Models\Dividend as DividendModel;
 
 class RestoreDividend implements RestoreDividendInterface
 {
@@ -12,8 +12,8 @@ class RestoreDividend implements RestoreDividendInterface
         protected readonly DividendServiceInterface $service
     ) {}
 
-    public function handle(DividendModel $dividend): ?bool
+    public function handle(DividendDTO $dto): ?bool
     {
-        return $this->service->restore($dividend);
+        return $this->service->restore($dto);
     }
 }
