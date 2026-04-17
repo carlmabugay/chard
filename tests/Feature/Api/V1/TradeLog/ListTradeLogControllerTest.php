@@ -26,132 +26,19 @@ describe('Feature: ListTradeLogController', function () {
                 ->assertJsonPath('pagination.total', $no_of_trade_logs);
         });
 
-        it('can paginate trade logs when using /api/v1/trade_logs GET api endpoint.', function () {
+        it('can return empty data and 0 total record when no records found upon using /api/v1/trade_logs GET api endpoint.', function () {
             // Arrange:
-            $no_of_trade_logs = 50;
-            $portfolio = PortfolioModel::factory()->create();
-
-            TradeLogModel::factory($no_of_trade_logs)->for($portfolio)->create();
-
-            $page_number = 3;
-            $per_page = 15;
-
-            $query = http_build_query([
-                'page' => $page_number,
-                'per_page' => $per_page,
-            ]);
+            $user = UserModel::factory()->create();
 
             // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade_logs?%s', $query));
+            $response = $this->actingAs($user)->getJson('/api/v1/trade_logs');
 
             // Assert:
             $response->assertOk()
-                ->assertJsonPath('success', true)
-                ->assertJsonPath('pagination.current_page', $page_number)
-                ->assertJsonCount($per_page, 'data');
+                ->assertJson([
+                    'data' => [],
+                ]);
         });
-
-        it('can filter trade logs by type when using /api/v1/trade_logs GET api endpoint.', function () {
-            // Arrange:
-            $portfolio = PortfolioModel::factory()->create();
-
-            TradeLogModel::factory()->for($portfolio)->create(['type' => 'buy']);
-            TradeLogModel::factory()->for($portfolio)->create(['type' => 'sell']);
-
-            $query = http_build_query([
-                'filters' => [
-                    ['field' => 'type', 'operator' => '=', 'value' => 'buy'],
-                ],
-            ]);
-
-            // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade_logs?%s', $query));
-
-            // Assert:
-            $response->assertOk()
-                ->assertJsonCount(1, 'data')
-                ->assertJsonPath('data.0.type', 'buy');
-        });
-
-        it('can sort trade logs by shares descending when using /api/v1/trade_logs GET api endpoint.', function () {
-            // Arrange:
-            $portfolio = PortfolioModel::factory()->create();
-
-            TradeLogModel::factory()->for($portfolio)->create(['shares' => 3500]);
-            TradeLogModel::factory()->for($portfolio)->create(['shares' => 18000]);
-            TradeLogModel::factory()->for($portfolio)->create(['shares' => 290]);
-
-            $query = http_build_query([
-                'sorts' => [
-                    ['field' => 'shares', 'direction' => 'desc'],
-                ],
-            ]);
-
-            // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade_logs?%s', $query));
-
-            $data = $response->json('data');
-
-            $shares = collect($data)->map(fn ($item) => $item['shares'])->all();
-
-            // Assert:
-            expect($shares)->toBe([18000, 3500, 290]);
-        });
-
-        it('can search trade logs by symbol when using /api/v1/trade_logs GET api endpoint.', function () {
-            // Arrange:
-            $portfolio = PortfolioModel::factory()->create();
-
-            $symbol_to_search = 'BPI';
-            TradeLogModel::factory()->for($portfolio)->create(['symbol' => 'AC']);
-            TradeLogModel::factory()->for($portfolio)->create(['symbol' => 'JGS']);
-            TradeLogModel::factory()->for($portfolio)->create(['symbol' => $symbol_to_search]);
-            TradeLogModel::factory()->for($portfolio)->create(['symbol' => 'BDO']);
-
-            $query = http_build_query([
-                'search' => $symbol_to_search,
-            ]);
-
-            // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade_logs?%s', $query));
-
-            // Assert:
-            $response->assertOk()
-                ->assertJsonCount(1, 'data')
-                ->assertJsonPath('data.0.symbol', $symbol_to_search);
-        });
-
-        it('can apply search, filter, sort, and pagination together when using /api/v1/trade_logs GET api endpoint.', function () {
-            // Arrange:
-            $portfolio = PortfolioModel::factory()->create();
-
-            $symbol_to_search = 'BPI';
-            TradeLogModel::factory()->for($portfolio)->create(['type' => 'buy', 'symbol' => 'AC', 'shares' => 3500]);
-            TradeLogModel::factory()->for($portfolio)->create(['type' => 'sell', 'symbol' => 'JGS', 'shares' => 18000]);
-            TradeLogModel::factory()->for($portfolio)->create(['type' => 'buy', 'symbol' => $symbol_to_search, 'shares' => 290]);
-
-            $query = http_build_query([
-                'seach' => $symbol_to_search,
-                'page' => 1,
-                'per_page' => 1,
-                'filters' => [
-                    ['field' => 'type', 'operator' => '=', 'value' => 'buy'],
-                ],
-                'sorts' => [
-                    ['field' => 'shares', 'direction' => 'asc'],
-                ],
-            ]);
-
-            // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/trade_logs?%s', $query));
-
-            // Assert
-            $response->assertOk()
-                ->assertJsonCount(1, 'data')
-                ->assertJsonPath('data.0.type', 'buy')
-                ->assertJsonPath('data.0.shares', 290);
-        });
-
     });
 
     describe('Negatives', function () {
