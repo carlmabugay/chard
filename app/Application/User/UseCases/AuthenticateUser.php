@@ -3,6 +3,7 @@
 namespace App\Application\User\UseCases;
 
 use App\Domain\User\Services\UserService;
+use Illuminate\Foundation\Http\FormRequest;
 
 class AuthenticateUser
 {
@@ -10,8 +11,8 @@ class AuthenticateUser
         protected readonly UserService $service
     ) {}
 
-    public function handle(array $credentials): bool|string
+    public function handle(FormRequest $request): bool|string
     {
-        return $this->service->authenticate($credentials);
+        return $this->service->authenticate($request);
     }
 }

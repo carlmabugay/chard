@@ -8,7 +8,7 @@ describe('Feature: LoginUserController', function () {
 
     describe('Positives', function () {
 
-        it('can authenticate user using /api/v1/user/login POST api endpoint.', function () {
+        it('can authenticate user using /api/v1/user/login POST api endpoint or /login POST web endpoint.', function (string $route) {
             // Arrange:
             $user = UserModel::factory()->create();
 
@@ -18,10 +18,10 @@ describe('Feature: LoginUserController', function () {
             ];
 
             // Act:
-            $response = $this->postJson('/api/v1/user/login', $payload);
+            $response = $this->postJson($route, $payload);
 
             // Assert:
-            $response->assertStatus(200);
+            $response->assertOk();
             $this->assertAuthenticated();
         });
 
@@ -29,7 +29,7 @@ describe('Feature: LoginUserController', function () {
 
     describe('Negatives', function () {
 
-        it('can return invalid credentials using /api/v1/user/login POST api endpoint.', function () {
+        it('can return invalid credentials using /api/v1/user/login POST api endpoint or /login POST web endpoint.', function ($route) {
             // Arrange:
             $user = UserModel::factory()->create();
 
@@ -39,7 +39,7 @@ describe('Feature: LoginUserController', function () {
             ];
 
             // Act:
-            $response = $this->postJson('/api/v1/user/login', $payload);
+            $response = $this->postJson($route, $payload);
 
             // Assert:
             $response->assertStatus(401)
@@ -50,7 +50,7 @@ describe('Feature: LoginUserController', function () {
             $this->assertGuest();
         });
 
-        it('can handle server error response when using /api/v1/user/login POST api endpoint.', function () {
+        it('can handle server error response when using /api/v1/user/login POST api endpoint or /login POST web endpoint.', function (string $route) {
             // Arrange:
             $user = UserModel::factory()->create();
 
@@ -67,7 +67,7 @@ describe('Feature: LoginUserController', function () {
             });
 
             // Act:
-            $response = $this->postJson('/api/v1/user/login', $payload);
+            $response = $this->postJson($route, $payload);
 
             // Assert:
             $response->assertInternalServerError()
@@ -77,7 +77,30 @@ describe('Feature: LoginUserController', function () {
                     'message' => 'This is a mock exception message.',
                 ]);
         });
+    });
+
+    describe('Validation', function () {
+
+        it('requires email and password fields when using /api/v1/user/login POST api endpoint.', function (string $route) {
+            // Arrange:
+
+            // Act:
+            $response = $this->postJson($route, []);
+
+            // Assert:
+            $response->assertStatus(422)
+                ->assertJson([
+                    'errors' => [
+                        'email' => [
+                            0 => __('validation.required', ['attribute' => 'email']),
+                        ],
+                        'password' => [
+                            0 => __('validation.required', ['attribute' => 'password']),
+                        ],
+                    ],
+                ]);
+        });
 
     });
 
-});
+})->with(['/api/v1/user/login', '/login']);

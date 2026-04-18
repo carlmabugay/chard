@@ -13,7 +13,7 @@ final class LoginController extends Controller
     {
         try {
 
-            $result = $use_case->handle($request->validated());
+            $result = $use_case->handle($request);
 
             if (! $result) {
                 return response([
@@ -21,9 +21,15 @@ final class LoginController extends Controller
                 ], 401);
             }
 
-            return response([
-                'token' => $result,
-            ]);
+            $response = [
+                'success' => true,
+            ];
+
+            if (is_string($result)) {
+                $response['token'] = $result;
+            }
+
+            return response($response);
 
         } catch (Throwable $error) {
 

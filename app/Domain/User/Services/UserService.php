@@ -4,30 +4,34 @@ namespace App\Domain\User\Services;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Sanctum\TransientToken;
 
 class UserService
 {
-    public function authenticate(array $credentials): bool|string
+    public function authenticate(Request $request): bool|string
     {
-        if (! Auth::attempt($credentials)) {
+
+        if (! Auth::attempt($request->only(['email', 'password']))) {
             return false;
         }
 
-        return Auth::user()->createToken('API Token')->plainTextToken;
+        if ($request->is('api/*')) {
+            return Auth::user()->createToken('API Token')->plainTextToken;
+        }
+
+        $request->session()->regenerate();
+
+        return true;
     }
 
     public function logout(Request $request): void
     {
-        $user = $request->user();
-
-        // For mocked tests:
-        if ($user->currentAccessToken() && ! ($user->currentAccessToken() instanceof TransientToken)) {
-            $user->currentAccessToken()->delete();
+        if ($request->is('api/*')) {
+            $request->user()->tokens()->delete();
+            auth()->guard('sanctum')->forgetUser();
+        } else {
+            auth()->guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
         }
-
-        Auth::guard('web')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
     }
 }

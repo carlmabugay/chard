@@ -11,6 +11,6 @@ return [
     'fail.trashed' => ':record was not trashed.',
     'fail.restored' => ':record was not restored.',
     'fail.destroyed' => ':record was not deleted.',
-    'unauthenticated' => 'You need to log in and provide API token to access this.',
+    'unauthenticated' => 'You need to log in to access this.',
     'unauthorized' => 'You do not have permission to perform this action.',
 ];
