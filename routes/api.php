@@ -37,6 +37,7 @@ use App\Http\Controllers\v1\TradeLog\TrashController as TrashTradeLogController;
 use App\Http\Controllers\v1\TradeLog\UpdateController as UpdateTradeLogController;
 use App\Http\Controllers\v1\User\LoginController;
 use App\Http\Controllers\v1\User\LogoutController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -44,6 +45,10 @@ Route::prefix('v1')->group(function () {
     Route::post('user/login', LoginController::class);
 
     Route::middleware('auth:sanctum')->group(function () {
+
+        Route::get('/user', function (Request $request) {
+            return $request->user();
+        });
 
         Route::post('user/logout', LogoutController::class);
 
