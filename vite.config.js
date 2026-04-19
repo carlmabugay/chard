@@ -12,6 +12,11 @@ export default defineConfig({
         tailwindcss(),
         vue(),
     ],
+    resolve: {
+        alias: {
+            '@': '/resources/js',
+        },
+    },
     server: {
         host: '0.0.0.0',
         port: 5173,
