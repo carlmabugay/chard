@@ -14,6 +14,6 @@ class LoginController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return Inertia::render('Login');
+        return Inertia::render('login/index');
     }
 }

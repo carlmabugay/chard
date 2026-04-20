@@ -10,7 +10,6 @@ class AuthController extends Controller
 {
     public function __invoke(LoginRequest $request)
     {
-
         $credentials = $request->validated();
 
         if (Auth::attempt($credentials)) {
