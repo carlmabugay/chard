@@ -1,27 +1,35 @@
 <script setup lang="ts">
-import { Head, router, usePage } from '@inertiajs/vue3'
-import { Button } from '@/components/ui/button'
+import {
+    SidebarInset,
+    SidebarProvider,
+} from '@/components/ui/sidebar'
+import SiteHeader from '@/components/SiteHeader.vue'
+import AppSidebar from '@/components/AppSidebar.vue'
+import { Head } from '@inertiajs/vue3'
 
-defineProps({ title: String })
-
-const user = usePage().props.auth.user
+defineProps<{
+    title: string
+}>()
 </script>
 
 <template>
     <Head :title="title"/>
-
-    <nav class="relative bg-black mb-6">
-        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-            <div class="relative flex h-16 items-center justify-between">
-                <div class="flex items-center space-x-6">
-                    <p class="text-primary">{{ user.name }}</p>
-                    <Button @click="router.post('/logout')">Logout</Button>
+    <SidebarProvider
+        :style=" {
+      '--sidebar-width': 'calc(var(--spacing) * 72)',
+      '--header-height': 'calc(var(--spacing) * 12)',
+    }"
+    >
+        <AppSidebar variant="inset"/>
+        <SidebarInset>
+            <SiteHeader/>
+            <div class="flex flex-1 flex-col">
+                <div class="@container/main flex flex-1 flex-col gap-2">
+                    <div class="flex flex-col gap-4 p-4 md:gap-6 md:py-6">
+                        <slot/>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
-
-    <div class="mx-auto max-w-7xl">
-        <slot/>
-    </div>
+        </SidebarInset>
+    </SidebarProvider>
 </template>

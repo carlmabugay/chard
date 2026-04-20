@@ -22,9 +22,15 @@ const props = defineProps<{
     class?: HTMLAttributes['class']
 }>()
 
-const form = useForm({
-    email: null,
-    password: null,
+interface LoginForm {
+    email: string | number | undefined,
+    password: string | number | undefined,
+    remember: boolean
+}
+
+const form = useForm<LoginForm>({
+    email: '',
+    password: '',
     remember: false,
 })
 </script>
