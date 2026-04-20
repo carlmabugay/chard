@@ -9,6 +9,7 @@ createInertiaApp({
             `./pages/${name}.vue`,
             import.meta.glob('./pages/**/*.vue')
         ),
+    title: (title) => `Chard - ${title}`,
 
     setup ({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })

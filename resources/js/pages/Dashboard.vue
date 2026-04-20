@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { router, usePage } from '@inertiajs/vue3'
 import { Button } from '@/components/ui/button'
+import AppLayout from '@/layouts/AppLayout.vue'
 
-const user = usePage().props.auth.user
+defineOptions({
+    layout: [AppLayout, { title: 'Dashboard' }],
+})
+
 </script>
 
 <template>
-    {{ user.name }}
-    <Button @click="router.post('/logout')">Logout</Button>
+    <div>Hello!</div>
 </template>
 
