@@ -2,7 +2,10 @@
 import AppLayout from '@/layouts/AppLayout.vue'
 
 defineOptions({
-    layout: [AppLayout, { title: 'Dashboard' }],
+    layout: [AppLayout, {
+        title: 'Dashboard',
+        breadcrumbs: [{ label: 'Dashboard', url: '/dashboard' }]
+    }],
 })
 
 </script>

@@ -1,6 +1,18 @@
 <script setup lang="ts">
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb'
+
+defineProps<{
+    breadcrumbs: object,
+}>()
 </script>
 
 <template>
@@ -12,12 +24,19 @@ import { SidebarTrigger } from '@/components/ui/sidebar'
                 orientation="vertical"
                 class="mx-2 data-[orientation=vertical]:h-4"
             />
-            <h1 class="text-base font-medium">
-                Dashboard
-            </h1>
-            <div class="ml-auto flex items-center gap-2">
+            <Breadcrumb v-if="breadcrumbs">
+                <BreadcrumbList>
+                    <template v-for="breadcrumb in breadcrumbs" :key="breadcrumb.label">
+                        <BreadcrumbItem>
+                            <BreadcrumbLink :href="breadcrumb.url">
+                                {{ breadcrumb.label }}
+                            </BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator/>
+                    </template>
 
-            </div>
+                </BreadcrumbList>
+            </Breadcrumb>
         </div>
     </header>
 </template>

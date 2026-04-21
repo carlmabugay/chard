@@ -7,6 +7,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar'
+import { Link } from '@inertiajs/vue3'
 
 interface NavItem {
     title: string
@@ -24,8 +25,8 @@ defineProps<{
         <SidebarGroupContent class="flex flex-col gap-2">
             <SidebarMenu>
                 <SidebarMenuItem v-for="item in items" :key="item.title">
-                    <SidebarMenuButton :tooltip="item.title">
-                        <span>{{ item.title }}</span>
+                    <SidebarMenuButton :tooltip="item.title" :is-active="true">
+                        <Link :href="item.url">{{ item.title }}</Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
             </SidebarMenu>

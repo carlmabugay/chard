@@ -5,15 +5,29 @@ import {
 } from '@/components/ui/sidebar'
 import SiteHeader from '@/components/SiteHeader.vue'
 import AppSidebar from '@/components/AppSidebar.vue'
-import { Head } from '@inertiajs/vue3'
+import { Head, usePage } from '@inertiajs/vue3'
+import { toast } from 'vue-sonner'
+import { Toaster } from '@/components/ui/sonner'
+import 'vue-sonner/style.css'
+import { watch } from 'vue'
 
 defineProps<{
     title: string
+    breadcrumbs: object,
 }>()
+
+const page = usePage()
+
+watch(() => page.props.flash, (flash) => {
+    if (flash?.success) {
+        toast.success(flash.success)
+    }
+}, { deep: true })
 </script>
 
 <template>
     <Head :title="title"/>
+    <Toaster position="top-center"/>
     <SidebarProvider
         :style=" {
       '--sidebar-width': 'calc(var(--spacing) * 72)',
@@ -22,7 +36,7 @@ defineProps<{
     >
         <AppSidebar variant="inset"/>
         <SidebarInset>
-            <SiteHeader/>
+            <SiteHeader :breadcrumbs/>
             <div class="flex flex-1 flex-col">
                 <div class="@container/main flex flex-1 flex-col gap-2">
                     <div class="flex flex-col gap-4 p-4 md:gap-6 md:py-6">

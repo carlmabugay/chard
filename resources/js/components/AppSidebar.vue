@@ -15,7 +15,7 @@ const data = {
     navMain: [
         {
             title: 'Dashboard',
-            url: '#',
+            url: '/dashboard',
         },
         {
             title: 'Portfolio',
@@ -23,7 +23,7 @@ const data = {
         },
         {
             title: 'Strategy',
-            url: '#',
+            url: '/strategy',
         },
         {
             title: 'Cash Flow',
