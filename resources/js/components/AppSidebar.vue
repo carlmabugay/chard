@@ -27,7 +27,7 @@ const data = {
         },
         {
             title: 'Cash Flow',
-            url: '#',
+            url: '/cash-flow',
         },
         {
             title: 'Trade Log',
