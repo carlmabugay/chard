@@ -25,7 +25,7 @@ defineProps<{
         <SidebarGroupContent class="flex flex-col gap-2">
             <SidebarMenu>
                 <SidebarMenuItem v-for="item in items" :key="item.title">
-                    <SidebarMenuButton :tooltip="item.title" :is-active="true">
+                    <SidebarMenuButton :tooltip="item.title" :is-active=" $page.url === item.url ">
                         <Link :href="item.url">{{ item.title }}</Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>

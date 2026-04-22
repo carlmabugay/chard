@@ -11,10 +11,12 @@ import { Toaster } from '@/components/ui/sonner'
 import 'vue-sonner/style.css'
 import { watch } from 'vue'
 
-defineProps<{
+interface Props {
     title: string
     breadcrumbs: object,
-}>()
+}
+
+const props = defineProps<Props>()
 
 const page = usePage()
 

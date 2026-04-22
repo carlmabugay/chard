@@ -26,13 +26,13 @@ defineProps<{
             />
             <Breadcrumb v-if="breadcrumbs">
                 <BreadcrumbList>
-                    <template v-for="breadcrumb in breadcrumbs" :key="breadcrumb.label">
+                    <template v-for="(breadcrumb, index) in breadcrumbs" :key="index">
                         <BreadcrumbItem>
                             <BreadcrumbLink :href="breadcrumb.url">
                                 {{ breadcrumb.label }}
                             </BreadcrumbLink>
                         </BreadcrumbItem>
-                        <BreadcrumbSeparator/>
+                        <BreadcrumbSeparator v-if="index < breadcrumbs.length - 1"/>
                     </template>
 
                 </BreadcrumbList>
