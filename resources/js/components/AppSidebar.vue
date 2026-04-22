@@ -19,7 +19,7 @@ const data = {
         },
         {
             title: 'Portfolio',
-            url: '#',
+            url: '/portfolio',
         },
         {
             title: 'Strategy',
