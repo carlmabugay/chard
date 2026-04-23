@@ -31,7 +31,7 @@ const data = {
         },
         {
             title: 'Trade Log',
-            url: '#',
+            url: '/trade-log',
         },
         {
             title: 'Dividend',
