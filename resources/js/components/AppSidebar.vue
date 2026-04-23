@@ -35,7 +35,7 @@ const data = {
         },
         {
             title: 'Dividend',
-            url: '#',
+            url: '/dividend',
         },
 
     ],
