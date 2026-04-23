@@ -17,7 +17,7 @@ class Strategy extends Model
     ];
 
     protected $casts = [
-        'created_at' => 'datetime',
+        'created_at' => 'datetime:F d, Y',
         'updated_at' => 'datetime',
     ];
 
