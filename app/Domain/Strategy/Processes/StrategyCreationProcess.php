@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Processes;
+namespace App\Domain\Strategy\Processes;
 
-use App\Actions\CreateNewStrategyAction;
+use App\Domain\Strategy\Actions\CreateNewStrategyAction;
+use App\Processes\AbstractProcess;
 
 final class StrategyCreationProcess extends AbstractProcess
 {

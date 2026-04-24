@@ -1,16 +1,16 @@
 <?php
 
-use App\Http\Controllers\Web\AuthController;
-use App\Http\Controllers\Web\LogoutController;
-use App\Http\Controllers\Web\Pages\CashFlowController;
-use App\Http\Controllers\Web\Pages\DashboardController;
-use App\Http\Controllers\Web\Pages\DividendController;
-use App\Http\Controllers\Web\Pages\HomeController;
-use App\Http\Controllers\Web\Pages\LoginController as WebLoginController;
-use App\Http\Controllers\Web\Pages\PortfolioController;
-use App\Http\Controllers\Web\Pages\StrategyController;
-use App\Http\Controllers\Web\Pages\TradeLogController;
-use App\Http\Controllers\Web\StrategyController as StoreStrategyController;
+use App\Http\Controllers\Site\AuthController;
+use App\Http\Controllers\Site\LogoutController;
+use App\Http\Controllers\Site\Pages\CashFlowController;
+use App\Http\Controllers\Site\Pages\DashboardController;
+use App\Http\Controllers\Site\Pages\DividendController;
+use App\Http\Controllers\Site\Pages\HomeController;
+use App\Http\Controllers\Site\Pages\LoginController as WebLoginController;
+use App\Http\Controllers\Site\Pages\PortfolioController;
+use App\Http\Controllers\Site\Pages\Strategy\IndexController;
+use App\Http\Controllers\Site\Pages\Strategy\StoreController as StoreStrategyController;
+use App\Http\Controllers\Site\Pages\TradeLogController;
 use Illuminate\Support\Facades\Route;
 
 // Route::post('/login', LoginController::class);
@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::post('/logout', LogoutController::class)->name('logout');
 
-    Route::get('/strategy', StrategyController::class)->name('strategy.index');
+    Route::get('/strategy', IndexController::class)->name('strategy.index');
     Route::post('/strategy', StoreStrategyController::class)->name('strategy.store');
 
     Route::get('/portfolio', PortfolioController::class)->name('portfolio.index');

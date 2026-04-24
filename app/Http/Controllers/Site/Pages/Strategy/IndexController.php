@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web\Pages;
+namespace App\Http\Controllers\Site\Pages\Strategy;
 
 use App\Domain\Strategy\DTOs\StrategyCollectionDTO;
 use App\Domain\Strategy\Processes\StrategyCollectionProcess;
@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class StrategyController extends Controller
+final class IndexController extends Controller
 {
     public function __construct(
         private readonly StrategyCollectionProcess $process,

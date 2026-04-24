@@ -8,6 +8,7 @@ use App\Domain\Strategy\Contracts\Persistence\Read\StrategyReadRepositoryInterfa
 use App\Domain\Strategy\Contracts\Persistence\Write\StrategyWriteRepositoryInterface;
 use App\Domain\Strategy\Contracts\Services\StrategyServiceInterface;
 use App\Domain\Strategy\DTOs\StrategyCollectionDTO;
+use App\Domain\Strategy\DTOs\StrategyCreationDTO;
 use App\Domain\Strategy\Entities\Strategy;
 use Illuminate\Pagination\AbstractPaginator;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -70,5 +71,18 @@ class StrategyService implements StrategyServiceInterface
                 'page',
                 $dto->page
             )->withQueryString();
+    }
+
+    public function save(StrategyCreationDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('strategies')->insert(
+                [
+                    'user_id' => $dto->user_id,
+                    'name' => $dto->name,
+                    'created_at' => now(),
+                ]
+            );
+        });
     }
 }
