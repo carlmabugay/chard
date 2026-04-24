@@ -7,6 +7,7 @@ use App\Domain\Strategy\Processes\StrategyCollectionProcess;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 final class IndexController extends Controller
 {
@@ -14,7 +15,7 @@ final class IndexController extends Controller
         private readonly StrategyCollectionProcess $process,
     ) {}
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): Response
     {
         $dto = new StrategyCollectionDTO(
             search: $request->search,

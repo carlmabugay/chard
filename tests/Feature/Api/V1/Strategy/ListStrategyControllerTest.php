@@ -21,8 +21,12 @@ describe('Feature: ListStrategyController', function () {
 
             // Assert:
             $response->assertOk()
-                ->assertJsonPath('success', true)
-                ->assertJsonPath('pagination.total', $no_of_strategies);
+                ->assertJson([
+                    'success' => true,
+                    'meta' => [
+                        'total' => $no_of_strategies,
+                    ],
+                ]);
         });
 
         it('can return empty data and 0 total record when no records found upon using /api/v1/strategies GET api endpoint.', function () {

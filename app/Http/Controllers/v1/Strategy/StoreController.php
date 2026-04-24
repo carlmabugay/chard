@@ -2,30 +2,36 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Application\Strategy\DTOs\StrategyDTO;
-use App\Domain\Strategy\Contracts\UseCases\StoreStrategyInterface;
+use App\Domain\Strategy\DTOs\StrategyCreationDTO;
+use App\Domain\Strategy\Processes\StrategyCreationProcess;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Strategy\StoreStrategyRequest;
-use App\Http\Resources\Strategy\StrategyResource;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class StoreController extends Controller
 {
-    public function __invoke(StoreStrategyRequest $request, StoreStrategyInterface $use_case): StrategyResource|JsonResponse
+    public function __construct(
+        private readonly StrategyCreationProcess $process,
+    ) {}
+
+    public function __invoke(StoreStrategyRequest $request): JsonResponse
     {
         try {
 
-            $dto = StrategyDTO::fromRequest($request);
+            $dto = new StrategyCreationDTO(
+                user_id: $request->user()->id,
+                name: $request->validated('name'),
+            );
 
-            $result = $use_case->handle($dto);
+            $this->process->run(
+                payload: $dto,
+            );
 
-            return StrategyResource::make($result)
-                ->additional([
-                    'message' => __('messages.success.stored', ['record' => 'Strategy']),
-                ])
-                ->response()
-                ->setStatusCode(201);
+            return response()->json([
+                'success' => true,
+                'message' => __('messages.success.stored', ['record' => 'Strategy']),
+            ])->setStatusCode(201);
 
         } catch (Throwable $error) {
 

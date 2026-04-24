@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Domain\Strategy\Contracts\UseCases\ListStrategiesInterface;
+use App\Domain\Strategy\DTOs\StrategyCollectionDTO;
+use App\Domain\Strategy\Processes\StrategyCollectionProcess;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Strategy\StrategyCollection;
-use App\Traits\HasPaginatedResponse;
+use App\Http\Resources\StrategyResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -13,15 +13,29 @@ use Throwable;
 
 final class ListController extends Controller
 {
-    use HasPaginatedResponse;
+    public function __construct(
+        private readonly StrategyCollectionProcess $process,
+    ) {}
 
-    public function __invoke(Request $request, ListStrategiesInterface $use_case): JsonResource|JsonResponse
+    public function __invoke(Request $request): JsonResource|JsonResponse
     {
         try {
 
-            $result = $use_case->handle($this->prepareQueryCriteria($request));
+            $dto = new StrategyCollectionDTO(
+                search: $request->search,
+                per_page: $request->per_page ?? 5,
+                page: $request->page ?? 1,
+                sort_by: $request->sort_by ?? 'created_at',
+                sort_direction: $request->sort_direction ?? 'desc',
+            );
 
-            return $this->paginatedResponse(StrategyCollection::make($result['data']), $result['pagination']);
+            $result = $this->process->run(
+                payload: $dto
+            );
+
+            return StrategyResource::collection($result)->additional([
+                'success' => true,
+            ]);
 
         } catch (Throwable $error) {
 

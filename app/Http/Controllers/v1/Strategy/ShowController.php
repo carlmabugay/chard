@@ -4,7 +4,7 @@ namespace App\Http\Controllers\v1\Strategy;
 
 use App\Domain\Strategy\Contracts\UseCases\GetStrategyInterface;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Strategy\StrategyResource;
+use App\Http\Resources\StrategyResource;
 use App\Models\Strategy;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;

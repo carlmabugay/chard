@@ -20,13 +20,12 @@ describe('Feature: StoreStrategyController', function () {
             $response = $this->actingAs($user)->postJson('/api/v1/strategies', $payload);
 
             // Assert:
+            $this->assertDatabaseHas('strategies', $payload);
+
             $response->assertCreated()
                 ->assertJson([
                     'success' => true,
                     'message' => __('messages.success.stored', ['record' => 'Strategy']),
-                    'data' => [
-                        'name' => $payload['name'],
-                    ],
                 ]);
         });
 

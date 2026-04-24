@@ -6,7 +6,7 @@ use App\Application\Strategy\DTOs\StrategyDTO;
 use App\Domain\Strategy\Contracts\UseCases\StoreStrategyInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Strategy\StoreStrategyRequest;
-use App\Http\Resources\Strategy\StrategyResource;
+use App\Http\Resources\StrategyResource;
 use App\Models\Strategy;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;

@@ -65,6 +65,7 @@ use App\Domain\Portfolio\Services\PortfolioService;
 use App\Domain\Strategy\Contracts\Persistence\Read\StrategyReadRepositoryInterface;
 use App\Domain\Strategy\Contracts\Persistence\Write\StrategyWriteRepositoryInterface;
 use App\Domain\Strategy\Contracts\Services\StrategyServiceInterface;
+use App\Domain\Strategy\Contracts\StrategyRepositoryInterface;
 use App\Domain\Strategy\Contracts\UseCases\DeleteStrategyInterface;
 use App\Domain\Strategy\Contracts\UseCases\GetStrategyInterface;
 use App\Domain\Strategy\Contracts\UseCases\ListStrategiesInterface;
@@ -72,6 +73,7 @@ use App\Domain\Strategy\Contracts\UseCases\RestoreStrategyInterface;
 use App\Domain\Strategy\Contracts\UseCases\StoreStrategyInterface;
 use App\Domain\Strategy\Contracts\UseCases\TrashStrategyInterface;
 use App\Domain\Strategy\Services\StrategyService;
+use App\Domain\Strategy\StrategyRepository;
 use App\Domain\TradeLog\Contracts\Persistence\Read\TradeLogReadRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Persistence\Write\TradeLogWriteRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Services\TradeLogServiceInterface;
@@ -146,6 +148,8 @@ class DomainServiceProvider extends ServiceProvider
         TrashTradeLogInterface::class => TrashTradeLog::class,
         RestoreTradeLogInterface::class => RestoreTradeLog::class,
         DeleteTradeLogInterface::class => DeleteTradeLog::class,
+
+        StrategyRepositoryInterface::class => StrategyRepository::class,
     ];
 
     /**

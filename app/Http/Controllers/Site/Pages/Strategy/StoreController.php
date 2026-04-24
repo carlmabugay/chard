@@ -25,6 +25,6 @@ final class StoreController extends Controller
             payload: $dto,
         );
 
-        return Redirect::route('strategy.index')->with('success', 'Strategy created.');
+        return Redirect::route('strategy.index')->with('success', __('messages.success.stored', ['record' => 'Strategy']));
     }
 }
