@@ -7,7 +7,11 @@ use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Strategy\Contracts\Persistence\Read\StrategyReadRepositoryInterface;
 use App\Domain\Strategy\Contracts\Persistence\Write\StrategyWriteRepositoryInterface;
 use App\Domain\Strategy\Contracts\Services\StrategyServiceInterface;
+use App\Domain\Strategy\DTOs\StrategyCollectionDTO;
 use App\Domain\Strategy\Entities\Strategy;
+use Illuminate\Pagination\AbstractPaginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class StrategyService implements StrategyServiceInterface
 {
@@ -44,5 +48,27 @@ class StrategyService implements StrategyServiceInterface
     public function delete(StrategyDTO $dto): ?bool
     {
         return $this->write_repository->delete($dto);
+    }
+
+    public function collect(StrategyCollectionDTO $dto): LengthAwarePaginator|AbstractPaginator
+    {
+        $query = DB::table('strategies');
+
+        $search = $dto->search;
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%");
+            });
+        }
+
+        return $query
+            ->orderBy($dto->sort_by, $dto->sort_direction)
+            ->paginate(
+                $dto->per_page,
+                ['id', 'name', 'created_at'],
+                'page',
+                $dto->page
+            )->withQueryString();
     }
 }

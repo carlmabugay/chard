@@ -2,19 +2,34 @@
 
 namespace App\Http\Controllers\Web\Pages;
 
+use App\Domain\Strategy\DTOs\StrategyCollectionDTO;
+use App\Domain\Strategy\Processes\StrategyCollectionProcess;
 use App\Http\Controllers\Controller;
-use App\Models\Strategy;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class StrategyController extends Controller
 {
-    public function __invoke()
-    {
+    public function __construct(
+        private readonly StrategyCollectionProcess $process,
+    ) {}
 
-        $strategies = Strategy::latest()->get();
+    public function __invoke(Request $request)
+    {
+        $dto = new StrategyCollectionDTO(
+            search: $request->search,
+            per_page: $request->per_page ?? 5,
+            page: $request->page ?? 1,
+            sort_by: $request->sort_by ?? 'created_at',
+            sort_direction: $request->sort_direction ?? 'desc',
+        );
+
+        $strategies = $this->process->run(
+            payload: $dto
+        );
 
         return Inertia::render('strategy/index', [
-            'strategies' => $strategies,
+            'result' => $strategies,
         ]);
     }
 }

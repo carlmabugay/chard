@@ -3,9 +3,9 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { EllipsisIcon } from 'lucide-vue-next'
 import { Checkbox } from '@/components/ui/checkbox'
-import type { Props as PageProps } from '@/pages/strategy/props.type'
+import type { StrategiesProps } from '@/pages/strategy/props.type'
 
-const props = defineProps<PageProps>()
+defineProps<StrategiesProps>()
 </script>
 
 <template>
@@ -20,15 +20,15 @@ const props = defineProps<PageProps>()
                 </TableRow>
             </TableHeader>
             <TableBody>
-                <TableRow v-for="strategy in strategies" :key="strategy.id">
+                <TableRow v-for="item in items" :key="item.id">
                     <TableCell>
                         <Checkbox/>
                     </TableCell>
                     <TableCell>
-                        {{ strategy.name }}
+                        {{ item.name }}
                     </TableCell>
                     <TableCell>
-                        {{ strategy.created_at }}
+                        {{ item.created_at }}
                     </TableCell>
                     <TableCell>
                         <EllipsisIcon :size="14"/>

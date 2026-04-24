@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue'
-import type { Props as PageProps } from '@/pages/strategy/props.type'
 import StrategyForm from '@/components/strategy/StrategyForm.vue'
 import DataTable from '@/pages/strategy/components/data-table/index.vue'
+import type { PageProps } from '@/pages/strategy/props.type'
 
 defineOptions({
     layout: [AppLayout, {
@@ -11,7 +11,7 @@ defineOptions({
     }],
 })
 
-const props = defineProps<PageProps>()
+defineProps<PageProps>()
 </script>
 
 <template>
@@ -22,5 +22,5 @@ const props = defineProps<PageProps>()
         </div>
         <StrategyForm/>
     </div>
-    <DataTable :strategies="props.strategies"/>
+    <DataTable :result/>
 </template>
