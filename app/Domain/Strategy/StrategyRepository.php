@@ -5,8 +5,10 @@ namespace App\Domain\Strategy;
 use App\Domain\Strategy\Contracts\StrategyRepositoryInterface;
 use App\Domain\Strategy\DTOs\StrategyCollectionDTO;
 use App\Domain\Strategy\DTOs\StrategyCreationDTO;
+use App\Domain\Strategy\DTOs\StrategyRevisionDTO;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class StrategyRepository implements StrategyRepositoryInterface
 {
@@ -32,6 +34,9 @@ class StrategyRepository implements StrategyRepositoryInterface
             )->withQueryString();
     }
 
+    /**
+     * @throws Throwable
+     */
     public function store(StrategyCreationDTO $dto): void
     {
         DB::transaction(function () use ($dto) {
@@ -42,6 +47,20 @@ class StrategyRepository implements StrategyRepositoryInterface
                     'created_at' => now(),
                 ]
             );
+        }, 2);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function revise(StrategyRevisionDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('strategies')
+                ->where('id', $dto->id)
+                ->update([
+                    'name' => $dto->name,
+                ]);
         }, 2);
     }
 }

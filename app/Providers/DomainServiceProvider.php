@@ -22,7 +22,6 @@ use App\Application\Portolio\UseCases\StorePortfolio;
 use App\Application\Portolio\UseCases\TrashPortfolio;
 use App\Application\Strategy\UseCases\DeleteStrategy;
 use App\Application\Strategy\UseCases\RestoreStrategy;
-use App\Application\Strategy\UseCases\StoreStrategy;
 use App\Application\Strategy\UseCases\TrashStrategy;
 use App\Application\TradeLog\UseCases\DeleteTradeLog;
 use App\Application\TradeLog\UseCases\GetTradeLog;
@@ -66,7 +65,6 @@ use App\Domain\Strategy\Contracts\Services\StrategyServiceInterface;
 use App\Domain\Strategy\Contracts\StrategyRepositoryInterface;
 use App\Domain\Strategy\Contracts\UseCases\DeleteStrategyInterface;
 use App\Domain\Strategy\Contracts\UseCases\RestoreStrategyInterface;
-use App\Domain\Strategy\Contracts\UseCases\StoreStrategyInterface;
 use App\Domain\Strategy\Contracts\UseCases\TrashStrategyInterface;
 use App\Domain\Strategy\Services\StrategyService;
 use App\Domain\Strategy\StrategyRepository;
@@ -108,7 +106,6 @@ class DomainServiceProvider extends ServiceProvider
         StrategyReadRepositoryInterface::class => EloquentStrategyReadRepository::class,
         StrategyWriteRepositoryInterface::class => EloquentStrategyWriteRepository::class,
         StrategyServiceInterface::class => StrategyService::class,
-        StoreStrategyInterface::class => StoreStrategy::class,
         TrashStrategyInterface::class => TrashStrategy::class,
         RestoreStrategyInterface::class => RestoreStrategy::class,
         DeleteStrategyInterface::class => DeleteStrategy::class,

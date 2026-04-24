@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Strategy\UseCases\StoreStrategy;
+use App\Domain\Strategy\Processes\StrategyRevisionProcess;
 use App\Models\Strategy as StrategyModel;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
@@ -27,9 +27,6 @@ describe('Feature: UpdateStrategyController', function () {
                 ->assertJson([
                     'success' => true,
                     'message' => __('messages.success.updated', ['record' => 'Strategy']),
-                    'data' => [
-                        'name' => $payload['name'],
-                    ],
                 ]);
         });
 
@@ -106,8 +103,8 @@ describe('Feature: UpdateStrategyController', function () {
             ];
 
             // Expectation:
-            $this->mock(StoreStrategy::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(StrategyRevisionProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Application\Strategy\DTOs\StrategyDTO;
-use App\Domain\Strategy\Contracts\UseCases\StoreStrategyInterface;
+use App\Domain\Strategy\DTOs\StrategyRevisionDTO;
+use App\Domain\Strategy\Processes\StrategyRevisionProcess;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Strategy\StoreStrategyRequest;
-use App\Http\Resources\StrategyResource;
 use App\Models\Strategy;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
@@ -15,22 +14,29 @@ use Throwable;
 
 final class UpdateController extends Controller
 {
-    public function __invoke(Strategy $strategy, StoreStrategyRequest $request, StoreStrategyInterface $use_case): StrategyResource|JsonResponse
+    public function __construct(
+        protected StrategyRevisionProcess $process
+    ) {}
+
+    public function __invoke(Strategy $strategy, StoreStrategyRequest $request): JsonResponse
     {
         try {
 
             Gate::authorize('update', $strategy);
 
-            $request->merge(['id' => $strategy->id]);
+            $dto = new StrategyRevisionDTO(
+                id: $strategy->id,
+                name: $request->validated('name'),
+            );
 
-            $dto = StrategyDTO::fromRequest($request);
+            $this->process->run(
+                payload: $dto,
+            );
 
-            $result = $use_case->handle($dto);
-
-            return new StrategyResource($result)
-                ->additional([
-                    'message' => __('messages.success.updated', ['record' => 'Strategy']),
-                ]);
+            return response()->json([
+                'success' => true,
+                'message' => __('messages.success.updated', ['record' => 'Strategy']),
+            ]);
 
         } catch (AuthorizationException) {
 
