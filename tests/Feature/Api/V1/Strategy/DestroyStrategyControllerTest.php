@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Strategy\UseCases\DeleteStrategy;
+use App\Domain\Strategy\Processes\DeleteStrategyProcess;
 use App\Models\Strategy as StrategyModel;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
@@ -83,8 +83,8 @@ describe('Feature: DestroyStrategyController', function () {
             $strategy = StrategyModel::factory()->create();
 
             // Expectation:
-            $this->mock(DeleteStrategy::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(DeleteStrategyProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });

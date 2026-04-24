@@ -20,8 +20,6 @@ use App\Application\Portolio\UseCases\ListPortfolios;
 use App\Application\Portolio\UseCases\RestorePortfolio;
 use App\Application\Portolio\UseCases\StorePortfolio;
 use App\Application\Portolio\UseCases\TrashPortfolio;
-use App\Application\Strategy\UseCases\DeleteStrategy;
-use App\Application\Strategy\UseCases\RestoreStrategy;
 use App\Application\TradeLog\UseCases\DeleteTradeLog;
 use App\Application\TradeLog\UseCases\GetTradeLog;
 use App\Application\TradeLog\UseCases\ListTradeLogs;
@@ -61,10 +59,8 @@ use App\Domain\Portfolio\Services\PortfolioService;
 use App\Domain\Strategy\Contracts\Persistence\Write\StrategyWriteRepositoryInterface;
 use App\Domain\Strategy\Contracts\Services\StrategyServiceInterface;
 use App\Domain\Strategy\Contracts\StrategyRepositoryInterface;
-use App\Domain\Strategy\Contracts\UseCases\DeleteStrategyInterface;
-use App\Domain\Strategy\Contracts\UseCases\RestoreStrategyInterface;
+use App\Domain\Strategy\Repositories\StrategyRepository;
 use App\Domain\Strategy\Services\StrategyService;
-use App\Domain\Strategy\StrategyRepository;
 use App\Domain\TradeLog\Contracts\Persistence\Read\TradeLogReadRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Persistence\Write\TradeLogWriteRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Services\TradeLogServiceInterface;
@@ -101,8 +97,6 @@ class DomainServiceProvider extends ServiceProvider
 
         StrategyWriteRepositoryInterface::class => EloquentStrategyWriteRepository::class,
         StrategyServiceInterface::class => StrategyService::class,
-        RestoreStrategyInterface::class => RestoreStrategy::class,
-        DeleteStrategyInterface::class => DeleteStrategy::class,
 
         CashFlowReadRepositoryInterface::class => EloquentCashFlowReadRepository::class,
         CashFlowWriteRepositoryInterface::class => EloquentCashFlowWriteRepository::class,

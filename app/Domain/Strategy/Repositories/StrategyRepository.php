@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Domain\Strategy;
+namespace App\Domain\Strategy\Repositories;
 
 use App\Domain\Strategy\Contracts\StrategyRepositoryInterface;
+use App\Domain\Strategy\DTOs\DeleteStrategyDTO;
+use App\Domain\Strategy\DTOs\RestoreStrategyDTO;
 use App\Domain\Strategy\DTOs\StrategyCollectionDTO;
 use App\Domain\Strategy\DTOs\StrategyCreationDTO;
 use App\Domain\Strategy\DTOs\StrategyRevisionDTO;
@@ -73,9 +75,35 @@ class StrategyRepository implements StrategyRepositoryInterface
         DB::transaction(function () use ($dto) {
             DB::table('strategies')
                 ->where('id', $dto->id)
+                ->whereNull('deleted_at')
                 ->update([
                     'deleted_at' => now(),
                 ]);
+        }, 2);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function restore(RestoreStrategyDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('strategies')
+                ->where('id', $dto->id)
+                ->update([
+                    'deleted_at' => null,
+                ]);
+        }, 2);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function delete(DeleteStrategyDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('strategies')
+                ->delete(id: $dto->id);
         }, 2);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Strategy\UseCases\RestoreStrategy;
+use App\Domain\Strategy\Processes\RestoreStrategyProcess;
 use App\Models\Strategy as StrategyModel;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
@@ -83,8 +83,8 @@ describe('Feature: TrashStrategyController', function () {
             $strategy = StrategyModel::factory()->trashed()->create();
 
             // Expectation:
-            $this->mock(RestoreStrategy::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(RestoreStrategyProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });

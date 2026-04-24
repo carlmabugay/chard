@@ -2,6 +2,8 @@
 
 namespace App\Domain\Strategy\Contracts;
 
+use App\Domain\Strategy\DTOs\DeleteStrategyDTO;
+use App\Domain\Strategy\DTOs\RestoreStrategyDTO;
 use App\Domain\Strategy\DTOs\StrategyCollectionDTO;
 use App\Domain\Strategy\DTOs\StrategyCreationDTO;
 use App\Domain\Strategy\DTOs\StrategyRevisionDTO;
@@ -17,4 +19,8 @@ interface StrategyRepositoryInterface
     public function revise(StrategyRevisionDTO $dto): void;
 
     public function trash(TrashStrategyDTO $dto): void;
+
+    public function restore(RestoreStrategyDTO $dto): void;
+
+    public function delete(DeleteStrategyDTO $dto): void;
 }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Application\Strategy\DTOs\StrategyDTO;
-use App\Domain\Strategy\Contracts\UseCases\RestoreStrategyInterface;
+use App\Domain\Strategy\DTOs\RestoreStrategyDTO;
+use App\Domain\Strategy\Processes\RestoreStrategyProcess;
 use App\Http\Controllers\Controller;
 use App\Models\Strategy;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -13,18 +13,26 @@ use Throwable;
 
 final class RestoreController extends Controller
 {
-    public function __invoke(Strategy $strategy, RestoreStrategyInterface $use_case): JsonResponse
+    public function __construct(
+        protected readonly RestoreStrategyProcess $process,
+    ) {}
+
+    public function __invoke(Strategy $strategy): JsonResponse
     {
         try {
 
             Gate::authorize('restore', $strategy);
 
-            $dto = StrategyDTO::fromModel($strategy);
+            $dto = new RestoreStrategyDTO(
+                id: $strategy->id,
+            );
 
-            $result = $use_case->handle($dto);
+            $this->process->run(
+                payload: $dto,
+            );
 
             return response()->json([
-                'success' => $result,
+                'success' => true,
                 'message' => __('messages.success.restored', ['record' => 'Strategy']),
             ]);
 

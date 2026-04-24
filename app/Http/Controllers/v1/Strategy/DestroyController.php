@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Application\Strategy\DTOs\StrategyDTO;
-use App\Domain\Strategy\Contracts\UseCases\DeleteStrategyInterface;
+use App\Domain\Strategy\DTOs\DeleteStrategyDTO;
+use App\Domain\Strategy\Processes\DeleteStrategyProcess;
 use App\Http\Controllers\Controller;
 use App\Models\Strategy;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -13,18 +13,26 @@ use Throwable;
 
 final class DestroyController extends Controller
 {
-    public function __invoke(Strategy $strategy, DeleteStrategyInterface $use_case): JsonResponse
+    public function __construct(
+        protected readonly DeleteStrategyProcess $process,
+    ) {}
+
+    public function __invoke(Strategy $strategy): JsonResponse
     {
         try {
 
             Gate::authorize('destroy', $strategy);
 
-            $dto = StrategyDTO::fromModel($strategy);
+            $dto = new DeleteStrategyDTO(
+                id: $strategy->id,
+            );
 
-            $result = $use_case->handle($dto);
+            $this->process->run(
+                payload: $dto,
+            );
 
             return response()->json([
-                'success' => $result,
+                'success' => true,
                 'message' => __('messages.success.destroyed', ['record' => 'Strategy']),
             ]);
 
