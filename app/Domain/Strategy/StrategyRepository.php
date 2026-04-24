@@ -6,6 +6,7 @@ use App\Domain\Strategy\Contracts\StrategyRepositoryInterface;
 use App\Domain\Strategy\DTOs\StrategyCollectionDTO;
 use App\Domain\Strategy\DTOs\StrategyCreationDTO;
 use App\Domain\Strategy\DTOs\StrategyRevisionDTO;
+use App\Domain\Strategy\DTOs\TrashStrategyDTO;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -60,6 +61,20 @@ class StrategyRepository implements StrategyRepositoryInterface
                 ->where('id', $dto->id)
                 ->update([
                     'name' => $dto->name,
+                ]);
+        }, 2);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function trash(TrashStrategyDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('strategies')
+                ->where('id', $dto->id)
+                ->update([
+                    'deleted_at' => now(),
                 ]);
         }, 2);
     }
