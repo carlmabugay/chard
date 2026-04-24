@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Domain\Strategy\Contracts\UseCases\GetStrategyInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StrategyResource;
 use App\Models\Strategy;
@@ -13,15 +12,16 @@ use Throwable;
 
 final class ShowController extends Controller
 {
-    public function __invoke(Strategy $strategy, GetStrategyInterface $use_case): StrategyResource|JsonResponse
+    public function __invoke(Strategy $strategy): StrategyResource|JsonResponse
     {
         try {
 
             Gate::authorize('view', $strategy);
 
-            $result = $use_case->handle($strategy);
-
-            return StrategyResource::make($result);
+            return StrategyResource::make($strategy)
+                ->additional([
+                    'success' => true,
+                ]);
 
         } catch (AuthorizationException) {
 

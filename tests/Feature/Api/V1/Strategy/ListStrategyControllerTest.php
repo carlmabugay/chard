@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Strategy\UseCases\ListStrategies;
+use App\Domain\Strategy\Processes\StrategyCollectionProcess;
 use App\Models\Strategy as StrategyModel;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
@@ -63,8 +63,8 @@ describe('Feature: ListStrategyController', function () {
             $user = UserModel::factory()->create();
 
             // Expectation:
-            $this->mock(ListStrategies::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(StrategyCollectionProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });
