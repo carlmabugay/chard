@@ -17,7 +17,7 @@ class StrategyRepository implements StrategyRepositoryInterface
 {
     public function findAll(ListStrategiesDTO $dto): LengthAwarePaginator
     {
-        $query = DB::table('strategies');
+        $query = DB::table('strategies')->whereNull('deleted_at');
 
         $search = $dto->search;
 

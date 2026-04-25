@@ -11,6 +11,7 @@ use App\Http\Controllers\Site\Pages\PortfolioController;
 use App\Http\Controllers\Site\Pages\Strategy\IndexController as ListStrategyController;
 use App\Http\Controllers\Site\Pages\Strategy\ShowController as ShowStrategyController;
 use App\Http\Controllers\Site\Pages\Strategy\StoreController as StoreStrategyController;
+use App\Http\Controllers\Site\Pages\Strategy\TrashController as TrashStrategyController;
 use App\Http\Controllers\Site\Pages\Strategy\UpdateController as UpdateStrategyController;
 use App\Http\Controllers\Site\Pages\TradeLogController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{strategy}', ShowStrategyController::class)->name('strategy.show');
         Route::post('/', StoreStrategyController::class)->name('strategy.store');
         Route::put('/{strategy}', UpdateStrategyController::class)->name('strategy.update');
+        Route::delete('/{strategy}/trash', TrashStrategyController::class);
     });
 
     Route::get('/portfolio', PortfolioController::class)->name('portfolio.index');
