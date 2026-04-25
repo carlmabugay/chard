@@ -1,11 +1,15 @@
 <script setup lang="ts">
-
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { EllipsisIcon } from 'lucide-vue-next'
+import { EllipsisIcon, SquarePenIcon, Trash2Icon, XCircleIcon } from 'lucide-vue-next'
 import { Checkbox } from '@/components/ui/checkbox'
 import type { StrategiesProps } from '@/pages/strategy/props.type'
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
 
 defineProps<StrategiesProps>()
+
+const emit = defineEmits<{
+    (e: 'edit', item: any): void
+}>()
 </script>
 
 <template>
@@ -31,7 +35,30 @@ defineProps<StrategiesProps>()
                         {{ item.created_at }}
                     </TableCell>
                     <TableCell>
-                        <EllipsisIcon :size="14"/>
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger as-child>
+                                <EllipsisIcon :size="18"/>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent class="w-20">
+                                <DropdownMenuItem @click="emit('edit', item)">
+                                    <SquarePenIcon :size="4"/>
+                                    Edit
+                                </DropdownMenuItem>
+
+
+                                <DropdownMenuItem>
+                                    <Trash2Icon :size="4"/>
+                                    Trash
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <XCircleIcon :size="4"/>
+                                    Delete
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+
+
                     </TableCell>
                 </TableRow>
 

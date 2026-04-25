@@ -1,7 +1,7 @@
 export type PageProps = {
     result: {
         data: Strategy[];
-    } & PaginationLabelProps & PaginationNumberProps
+    } & PaginationLabelProps & PaginationNumberProps,
 }
 
 export type StrategiesProps = {

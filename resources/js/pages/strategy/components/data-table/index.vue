@@ -5,12 +5,20 @@ import Pagination from '@/pages/strategy/components/data-table/pagination/index.
 import type { PageProps } from '@/pages/strategy/props.type'
 
 defineProps<PageProps>()
+
+const emit = defineEmits<{
+    (e: 'edit', item: any): void
+}>()
+
+const handleEdit = (item) => {
+    emit('edit', item)
+}
 </script>
 
 <template>
     <div class="space-y-3">
         <Search/>
-        <Table :items="result.data"/>
+        <Table :items="result.data" @edit="handleEdit"/>
         <Pagination
             :to="result.to"
             :from="result.from"

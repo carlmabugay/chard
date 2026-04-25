@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { ChevronFirstIcon, ChevronLeftIcon, ChevronRightIcon, ChevronLastIcon } from 'lucide-vue-next'
-import { Pagination, PaginationContent, PaginationItem, PaginationPrevious } from '@/components/ui/pagination'
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationFirst,
+    PaginationPrevious,
+    PaginationNext,
+    PaginationLast,
+    PaginationEllipsis
+} from '@/components/ui/pagination'
 import type { PaginationNumberProps } from '@/pages/strategy/props.type'
 import { useDataTable } from '@/pages/strategy/composables/useDataTable'
 

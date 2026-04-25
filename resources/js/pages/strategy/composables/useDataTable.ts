@@ -2,7 +2,7 @@ import { router, usePage } from '@inertiajs/vue3'
 import { computed, reactive, watch } from 'vue'
 
 const query = reactive({
-    search: '' as string | null,
+    search: '' as string | number | undefined,
     page: '' as string | null,
 })
 
