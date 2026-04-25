@@ -16,7 +16,6 @@ use App\Application\Dividend\UseCases\StoreDividend;
 use App\Application\Dividend\UseCases\TrashDividend;
 use App\Application\Portolio\UseCases\DeletePortfolio;
 use App\Application\Portolio\UseCases\GetPortfolio;
-use App\Application\Portolio\UseCases\ListPortfolios;
 use App\Application\Portolio\UseCases\RestorePortfolio;
 use App\Application\Portolio\UseCases\StorePortfolio;
 use App\Application\Portolio\UseCases\TrashPortfolio;
@@ -48,19 +47,17 @@ use App\Domain\Dividend\Contracts\UseCases\TrashDividendInterface;
 use App\Domain\Dividend\Services\DividendService;
 use App\Domain\Portfolio\Contracts\Persistence\Read\PortfolioReadRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Persistence\Write\PortfolioWriteRepositoryInterface;
+use App\Domain\Portfolio\Contracts\PortfolioRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
 use App\Domain\Portfolio\Contracts\UseCases\DeletePortfolioInterface;
 use App\Domain\Portfolio\Contracts\UseCases\GetPortfolioInterface;
-use App\Domain\Portfolio\Contracts\UseCases\ListPortfoliosInterface;
 use App\Domain\Portfolio\Contracts\UseCases\RestorePortfolioInterface;
 use App\Domain\Portfolio\Contracts\UseCases\StorePortfolioInterface;
 use App\Domain\Portfolio\Contracts\UseCases\TrashPortfolioInterface;
+use App\Domain\Portfolio\PortfolioRepository;
 use App\Domain\Portfolio\Services\PortfolioService;
-use App\Domain\Strategy\Contracts\Persistence\Write\StrategyWriteRepositoryInterface;
-use App\Domain\Strategy\Contracts\Services\StrategyServiceInterface;
 use App\Domain\Strategy\Contracts\StrategyRepositoryInterface;
 use App\Domain\Strategy\Repositories\StrategyRepository;
-use App\Domain\Strategy\Services\StrategyService;
 use App\Domain\TradeLog\Contracts\Persistence\Read\TradeLogReadRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Persistence\Write\TradeLogWriteRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Services\TradeLogServiceInterface;
@@ -78,7 +75,6 @@ use App\Infrastructure\Persistence\Eloquent\Read\EloquentTradeLogReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentCashFlowWriteRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentDividendWriteRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentPortfolioWriteRepository;
-use App\Infrastructure\Persistence\Eloquent\Write\EloquentStrategyWriteRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentTradeLogWriteRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -88,15 +84,11 @@ class DomainServiceProvider extends ServiceProvider
         PortfolioReadRepositoryInterface::class => EloquentPortfolioReadRepository::class,
         PortfolioWriteRepositoryInterface::class => EloquentPortfolioWriteRepository::class,
         PortfolioServiceInterface::class => PortfolioService::class,
-        ListPortfoliosInterface::class => ListPortfolios::class,
         StorePortfolioInterface::class => StorePortfolio::class,
         GetPortfolioInterface::class => GetPortfolio::class,
         TrashPortfolioInterface::class => TrashPortfolio::class,
         RestorePortfolioInterface::class => RestorePortfolio::class,
         DeletePortfolioInterface::class => DeletePortfolio::class,
-
-        StrategyWriteRepositoryInterface::class => EloquentStrategyWriteRepository::class,
-        StrategyServiceInterface::class => StrategyService::class,
 
         CashFlowReadRepositoryInterface::class => EloquentCashFlowReadRepository::class,
         CashFlowWriteRepositoryInterface::class => EloquentCashFlowWriteRepository::class,
@@ -129,6 +121,7 @@ class DomainServiceProvider extends ServiceProvider
         DeleteTradeLogInterface::class => DeleteTradeLog::class,
 
         StrategyRepositoryInterface::class => StrategyRepository::class,
+        PortfolioRepositoryInterface::class => PortfolioRepository::class,
     ];
 
     /**

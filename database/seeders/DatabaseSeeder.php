@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Portfolio;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,14 +16,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'Carl Mabugay',
             'email' => 'admin@carlmabugay.dev',
         ]);
 
-        User::factory()->create([
-            'name' => 'Ces Irang',
-            'email' => 'ces@carlmabugay.dev',
-        ]);
+        Portfolio::factory()
+            ->count(255)
+            ->for($user)
+            ->create();
+
     }
 }

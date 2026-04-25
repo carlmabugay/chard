@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Portolio\UseCases\ListPortfolios;
+use App\Domain\Portfolio\Processes\ListPortfoliosProcess;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
@@ -21,8 +21,12 @@ describe('Feature: ListPortfolioController', function () {
 
             // Assert:
             $response->assertOk()
-                ->assertJsonPath('success', true)
-                ->assertJsonPath('pagination.total', $no_of_portfolios);
+                ->assertJson([
+                    'success' => true,
+                    'meta' => [
+                        'total' => $no_of_portfolios,
+                    ],
+                ]);
         });
 
         it('can return empty data and 0 total record when no records found upon using /api/v1/portfolios GET api endpoint.', function () {
@@ -62,8 +66,8 @@ describe('Feature: ListPortfolioController', function () {
             $user = UserModel::factory()->create();
 
             // Expectation:
-            $this->mock(ListPortfolios::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(ListPortfoliosProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });

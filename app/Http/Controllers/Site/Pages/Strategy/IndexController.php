@@ -19,7 +19,7 @@ final class IndexController extends Controller
     {
         $dto = new ListStrategiesDTO(
             search: $request->search,
-            per_page: $request->per_page ?? 5,
+            per_page: $request->per_page ?? 10,
             page: $request->page ?? 1,
             sort_by: $request->sort_by ?? 'created_at',
             sort_direction: $request->sort_direction ?? 'desc',

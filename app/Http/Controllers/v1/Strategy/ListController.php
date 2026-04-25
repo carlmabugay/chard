@@ -33,9 +33,10 @@ final class ListController extends Controller
                 payload: $dto
             );
 
-            return StrategyResource::collection($result)->additional([
-                'success' => true,
-            ]);
+            return StrategyResource::collection($result)
+                ->additional([
+                    'success' => true,
+                ]);
 
         } catch (Throwable $error) {
 
