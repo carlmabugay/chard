@@ -8,7 +8,7 @@ describe('HomeControllerTest', function () {
 
         $this->get('/')
             ->assertInertia(fn (Assert $page) => $page
-                ->component('Home')
+                ->component('home/index')
             );
     });
 

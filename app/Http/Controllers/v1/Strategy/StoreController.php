@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Domain\Strategy\DTOs\StrategyCreationDTO;
-use App\Domain\Strategy\Processes\StrategyCreationProcess;
+use App\Domain\Strategy\DTOs\CreateStrategyDTO;
+use App\Domain\Strategy\Processes\CreateStrategyProcess;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Strategy\StoreStrategyRequest;
 use Illuminate\Http\JsonResponse;
@@ -12,14 +12,14 @@ use Throwable;
 final class StoreController extends Controller
 {
     public function __construct(
-        private readonly StrategyCreationProcess $process,
+        protected readonly CreateStrategyProcess $process,
     ) {}
 
     public function __invoke(StoreStrategyRequest $request): JsonResponse
     {
         try {
 
-            $dto = new StrategyCreationDTO(
+            $dto = new CreateStrategyDTO(
                 user_id: $request->user()->id,
                 name: $request->validated('name'),
             );

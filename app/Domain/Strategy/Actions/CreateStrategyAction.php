@@ -3,16 +3,16 @@
 namespace App\Domain\Strategy\Actions;
 
 use App\Domain\Strategy\Contracts\StrategyRepositoryInterface;
-use App\Domain\Strategy\DTOs\StrategyCreationDTO;
+use App\Domain\Strategy\DTOs\CreateStrategyDTO;
 use Closure;
 
-final class CreateNewStrategyAction
+final class CreateStrategyAction
 {
     public function __construct(
-        private readonly StrategyRepositoryInterface $repository
+        protected readonly StrategyRepositoryInterface $repository
     ) {}
 
-    public function handle(StrategyCreationDTO $dto, Closure $next)
+    public function handle(CreateStrategyDTO $dto, Closure $next)
     {
         $this->repository->store($dto);
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Domain\Strategy\DTOs\StrategyRevisionDTO;
-use App\Domain\Strategy\Processes\StrategyRevisionProcess;
+use App\Domain\Strategy\DTOs\UpdateStrategyDTO;
+use App\Domain\Strategy\Processes\UpdateStrategyProcess;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Strategy\StoreStrategyRequest;
 use App\Models\Strategy;
@@ -15,7 +15,7 @@ use Throwable;
 final class UpdateController extends Controller
 {
     public function __construct(
-        protected StrategyRevisionProcess $process
+        protected UpdateStrategyProcess $process
     ) {}
 
     public function __invoke(Strategy $strategy, StoreStrategyRequest $request): JsonResponse
@@ -24,7 +24,7 @@ final class UpdateController extends Controller
 
             Gate::authorize('update', $strategy);
 
-            $dto = new StrategyRevisionDTO(
+            $dto = new UpdateStrategyDTO(
                 id: $strategy->id,
                 name: $request->validated('name'),
             );

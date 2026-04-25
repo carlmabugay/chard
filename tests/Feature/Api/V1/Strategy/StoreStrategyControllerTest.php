@@ -1,6 +1,6 @@
 <?php
 
-use App\Domain\Strategy\Processes\StrategyCreationProcess;
+use App\Domain\Strategy\Processes\CreateStrategyProcess;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
@@ -59,7 +59,7 @@ describe('Feature: StoreStrategyController', function () {
             ];
 
             // Expectation:
-            $this->mock(StrategyCreationProcess::class, function (MockInterface $mock) {
+            $this->mock(CreateStrategyProcess::class, function (MockInterface $mock) {
                 $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));

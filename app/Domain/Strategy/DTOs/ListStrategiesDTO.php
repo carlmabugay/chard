@@ -2,7 +2,7 @@
 
 namespace App\Domain\Strategy\DTOs;
 
-final class StrategyCollectionDTO
+final class ListStrategiesDTO
 {
     public function __construct(
         public ?string $search,

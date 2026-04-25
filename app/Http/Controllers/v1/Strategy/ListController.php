@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\v1\Strategy;
 
-use App\Domain\Strategy\DTOs\StrategyCollectionDTO;
-use App\Domain\Strategy\Processes\StrategyCollectionProcess;
+use App\Domain\Strategy\DTOs\ListStrategiesDTO;
+use App\Domain\Strategy\Processes\ListStrategiesProcess;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StrategyResource;
 use Illuminate\Http\JsonResponse;
@@ -14,14 +14,14 @@ use Throwable;
 final class ListController extends Controller
 {
     public function __construct(
-        private readonly StrategyCollectionProcess $process,
+        protected readonly ListStrategiesProcess $process,
     ) {}
 
     public function __invoke(Request $request): JsonResource|JsonResponse
     {
         try {
 
-            $dto = new StrategyCollectionDTO(
+            $dto = new ListStrategiesDTO(
                 search: $request->search,
                 per_page: $request->per_page ?? 5,
                 page: $request->page ?? 1,

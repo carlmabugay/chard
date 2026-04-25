@@ -3,16 +3,16 @@
 namespace App\Domain\Strategy\Actions;
 
 use App\Domain\Strategy\Contracts\StrategyRepositoryInterface;
-use App\Domain\Strategy\DTOs\StrategyRevisionDTO;
+use App\Domain\Strategy\DTOs\UpdateStrategyDTO;
 use Closure;
 
-final class ReviseStrategyAction
+final class UpdateStrategyAction
 {
     public function __construct(
         protected readonly StrategyRepositoryInterface $repository
     ) {}
 
-    public function handle(StrategyRevisionDTO $dto, Closure $next)
+    public function handle(UpdateStrategyDTO $dto, Closure $next)
     {
         $this->repository->revise($dto);
 

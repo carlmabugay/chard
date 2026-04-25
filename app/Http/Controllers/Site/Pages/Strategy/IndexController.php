@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Site\Pages\Strategy;
 
-use App\Domain\Strategy\DTOs\StrategyCollectionDTO;
-use App\Domain\Strategy\Processes\StrategyCollectionProcess;
+use App\Domain\Strategy\DTOs\ListStrategiesDTO;
+use App\Domain\Strategy\Processes\ListStrategiesProcess;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -12,12 +12,12 @@ use Inertia\Response;
 final class IndexController extends Controller
 {
     public function __construct(
-        private readonly StrategyCollectionProcess $process,
+        protected readonly ListStrategiesProcess $process,
     ) {}
 
     public function __invoke(Request $request): Response
     {
-        $dto = new StrategyCollectionDTO(
+        $dto = new ListStrategiesDTO(
             search: $request->search,
             per_page: $request->per_page ?? 5,
             page: $request->page ?? 1,

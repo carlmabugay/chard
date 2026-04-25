@@ -3,19 +3,19 @@
 namespace App\Domain\Strategy\Repositories;
 
 use App\Domain\Strategy\Contracts\StrategyRepositoryInterface;
+use App\Domain\Strategy\DTOs\CreateStrategyDTO;
 use App\Domain\Strategy\DTOs\DeleteStrategyDTO;
+use App\Domain\Strategy\DTOs\ListStrategiesDTO;
 use App\Domain\Strategy\DTOs\RestoreStrategyDTO;
-use App\Domain\Strategy\DTOs\StrategyCollectionDTO;
-use App\Domain\Strategy\DTOs\StrategyCreationDTO;
-use App\Domain\Strategy\DTOs\StrategyRevisionDTO;
 use App\Domain\Strategy\DTOs\TrashStrategyDTO;
+use App\Domain\Strategy\DTOs\UpdateStrategyDTO;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class StrategyRepository implements StrategyRepositoryInterface
 {
-    public function collect(StrategyCollectionDTO $dto): LengthAwarePaginator
+    public function findAll(ListStrategiesDTO $dto): LengthAwarePaginator
     {
         $query = DB::table('strategies');
 
@@ -40,7 +40,7 @@ class StrategyRepository implements StrategyRepositoryInterface
     /**
      * @throws Throwable
      */
-    public function store(StrategyCreationDTO $dto): void
+    public function store(CreateStrategyDTO $dto): void
     {
         DB::transaction(function () use ($dto) {
             DB::table('strategies')->insert(
@@ -56,7 +56,7 @@ class StrategyRepository implements StrategyRepositoryInterface
     /**
      * @throws Throwable
      */
-    public function revise(StrategyRevisionDTO $dto): void
+    public function revise(UpdateStrategyDTO $dto): void
     {
         DB::transaction(function () use ($dto) {
             DB::table('strategies')

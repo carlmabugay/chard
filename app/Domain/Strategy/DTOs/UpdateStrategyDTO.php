@@ -2,7 +2,7 @@
 
 namespace App\Domain\Strategy\DTOs;
 
-final class StrategyRevisionDTO
+final class UpdateStrategyDTO
 {
     public function __construct(
         public int $id,

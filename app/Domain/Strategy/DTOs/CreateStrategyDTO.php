@@ -2,7 +2,7 @@
 
 namespace App\Domain\Strategy\DTOs;
 
-final class StrategyCreationDTO
+final class CreateStrategyDTO
 {
     public function __construct(
         public int $user_id,
