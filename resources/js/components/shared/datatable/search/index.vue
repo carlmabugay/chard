@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { Input } from '@/components/ui/input'
 import { useDataTable } from '@/composables/useDataTable'
-import { ref } from 'vue'
 import { SearchIcon, XCircleIcon } from 'lucide-vue-next'
 
 const { query, search, clear } = useDataTable()
 
-const term = ref<string | number | undefined>(query.search)
+const term = ref<string | null>(query.search)
 
 const clearSearch = () => {
     clear()
@@ -24,8 +24,6 @@ const clearSearch = () => {
             <span class="absolute inset-y-0 inset-e-0 flex items-center justify-center px-4">
                  <XCircleIcon v-if="term" @click="clearSearch" class="size-4 hover:cursor-pointer"/>
             </span>
-
         </form>
-
     </div>
 </template>

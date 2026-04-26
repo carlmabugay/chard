@@ -1,12 +1,11 @@
 <script setup lang="ts">
-
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { EllipsisIcon, SquarePenIcon, Trash2Icon, XCircleIcon } from 'lucide-vue-next'
 import { Checkbox } from '@/components/ui/checkbox'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
+import DataTableHeader from '@/components/shared/datatable/header/index.vue'
+import { EllipsisIcon, SquarePenIcon, Trash2Icon, XCircleIcon } from 'lucide-vue-next'
 import type { HeadersProps } from '@/components/shared/datatable/props.type'
 import type { PortfolioProps } from '@/pages/portfolio/props.type'
-import DataTableHeader from '@/components/shared/datatable/header/index.vue'
 
 type Props = HeadersProps & PortfolioProps
 
@@ -37,8 +36,6 @@ defineProps<Props>()
                                     <SquarePenIcon :size="4"/>
                                     Edit
                                 </DropdownMenuItem>
-
-
                                 <DropdownMenuItem>
                                     <Trash2Icon :size="4"/>
                                     Trash

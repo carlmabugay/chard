@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ChevronFirstIcon, ChevronLeftIcon, ChevronRightIcon, ChevronLastIcon } from 'lucide-vue-next'
 import {
     Pagination,
     PaginationContent,
@@ -9,6 +8,7 @@ import {
     PaginationNext,
     PaginationLast,
 } from '@/components/ui/pagination'
+import { ChevronFirstIcon, ChevronLeftIcon, ChevronRightIcon, ChevronLastIcon } from 'lucide-vue-next'
 import type { PaginationNumberProps } from '@/components/shared/datatable/props.type'
 import { useDataTable } from '@/composables/useDataTable'
 

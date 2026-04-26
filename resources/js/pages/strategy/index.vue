@@ -2,8 +2,8 @@
 import AppLayout from '@/layouts/AppLayout.vue'
 import StrategyForm from '@/pages/strategy/components/form/index.vue'
 import DataTable from '@/pages/strategy/components/data-table/index.vue'
-import { PageProps } from '@/pages/strategy/props.type'
 import { useStrategyForm } from '@/pages/strategy/composables/useStrategyForm'
+import type { PageProps } from '@/pages/strategy/props.type'
 
 defineOptions({
     layout: [AppLayout, {

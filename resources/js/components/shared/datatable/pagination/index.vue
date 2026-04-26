@@ -2,7 +2,7 @@
 import Label from '@/components/shared/datatable/pagination/label/index.vue'
 import PageSize from '@/components/shared/datatable/pagination/size/index.vue'
 import PaginationNumber from '@/components/shared/datatable/pagination/number/index.vue'
-import { PaginationProps } from '@/components/shared/datatable/props.type'
+import type { PaginationProps } from '@/components/shared/datatable/props.type'
 
 defineProps<PaginationProps>()
 

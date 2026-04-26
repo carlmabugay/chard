@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
-import { EllipsisIcon, SquarePenIcon, Trash2Icon, XCircleIcon } from 'lucide-vue-next'
 import { Checkbox } from '@/components/ui/checkbox'
-import type { StrategiesProps } from '@/pages/strategy/props.type'
-import type { HeadersProps } from '@/components/shared/datatable/props.type'
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
-import { useStrategyAction } from '@/pages/strategy/composables/useStrategyAction'
+import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import DataTableHeader from '@/components/shared/datatable/header/index.vue'
+import { EllipsisIcon, SquarePenIcon, Trash2Icon, XCircleIcon } from 'lucide-vue-next'
+import type { StrategiesProps, Strategy } from '@/pages/strategy/props.type'
+import type { HeadersProps } from '@/components/shared/datatable/props.type'
+import { useStrategyAction } from '@/pages/strategy/composables/useStrategyAction'
 
 type Props = HeadersProps & StrategiesProps
 
@@ -15,7 +15,7 @@ defineProps<Props>()
 const { trash } = useStrategyAction()
 
 const emit = defineEmits<{
-    (e: 'edit', item: any): void
+    (e: 'edit', item: Strategy): void
 }>()
 </script>
 

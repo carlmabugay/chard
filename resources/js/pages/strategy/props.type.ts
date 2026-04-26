@@ -6,7 +6,7 @@ export type StrategiesProps = {
     items: Strategy[]
 }
 
-type Strategy = {
+export type Strategy = {
     id: number,
     name: string,
     created_at: string

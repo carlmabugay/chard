@@ -5,12 +5,20 @@ namespace App\Http\Controllers\Site\Pages\Strategy;
 use App\Domain\Strategy\DTOs\ListStrategiesDTO;
 use App\Domain\Strategy\Processes\ListStrategiesProcess;
 use App\Http\Controllers\Controller;
+use App\Traits\HasDataTableResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 final class IndexController extends Controller
 {
+    use HasDataTableResponse;
+
+    const array HEADERS = [
+        ['label' => 'Name', 'key' => 'name'],
+        ['label' => 'Date created', 'key' => 'created_at'],
+    ];
+
     public function __construct(
         protected readonly ListStrategiesProcess $process,
     ) {}
@@ -29,19 +37,6 @@ final class IndexController extends Controller
             payload: $dto
         );
 
-        return Inertia::render('strategy/index', [
-            'headers' => [
-                ['label' => 'Name', 'key' => 'name'],
-                ['label' => 'Date created', 'key' => 'created_at'],
-            ],
-            'items' => $strategies->items(),
-            'pagination' => [
-                'from' => $strategies->firstItem(),
-                'to' => $strategies->lastItem(),
-                'total' => $strategies->total(),
-                'current_page' => $strategies->currentPage(),
-                'per_page' => $strategies->perPage(),
-            ],
-        ]);
+        return Inertia::render('strategy/index', $this->dataTableResponse($strategies, self::HEADERS));
     }
 }

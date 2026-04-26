@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { HeadersProps } from '@/components/shared/datatable/props.type'
+import type { HeadersProps } from '@/components/shared/datatable/props.type'
 
 defineProps<HeadersProps>()
 </script>

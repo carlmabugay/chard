@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue'
 import DataTable from '@/pages/portfolio/components/data-table/index.vue'
-import { PageProps } from '@/pages/portfolio/props.type'
+import type { PageProps } from '@/pages/portfolio/props.type'
 
 defineOptions({
     layout: [AppLayout, {

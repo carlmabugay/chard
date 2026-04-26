@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import LoginForm from '@/components/LoginForm.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
+import LoginForm from '@/pages/login/components/form/index.vue'
 
 defineOptions({
     layout: [AuthLayout, { title: 'Login' }],

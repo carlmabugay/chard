@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
+import { useForm } from '@inertiajs/vue3'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,7 +17,6 @@ import {
 } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
-import { useForm } from '@inertiajs/vue3'
 
 const props = defineProps<{
     class?: HTMLAttributes['class']
