@@ -29,5 +29,5 @@ const strategyForm = useStrategyForm()
         </div>
 
     </div>
-    <DataTable :result @edit="strategyForm.openEdit"/>
+    <DataTable :headers :items :pagination @edit="strategyForm.openEdit"/>
 </template>

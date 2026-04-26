@@ -9,8 +9,8 @@ import {
     PaginationNext,
     PaginationLast,
 } from '@/components/ui/pagination'
-import type { PaginationNumberProps } from '@/pages/strategy/props.type'
-import { useDataTable } from '@/pages/strategy/composables/useDataTable'
+import type { PaginationNumberProps } from '@/components/shared/datatable/props.type'
+import { useDataTable } from '@/composables/useDataTable'
 
 type Props = PaginationNumberProps & { total: number }
 

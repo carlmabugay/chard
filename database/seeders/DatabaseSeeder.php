@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Portfolio;
+use App\Models\Strategy;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -22,6 +23,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Portfolio::factory()
+            ->count(255)
+            ->for($user)
+            ->create();
+
+        Strategy::factory()
             ->count(255)
             ->for($user)
             ->create();

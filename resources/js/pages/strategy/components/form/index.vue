@@ -34,7 +34,7 @@ const props = defineProps<{
         </DialogTrigger>
         <DialogContent class="sm:max-w-106">
             <DialogHeader>
-                <DialogTitle>{{ props.isUpdate === true ? 'Edit strategy' : 'Create new strategy' }}</DialogTitle>
+                <DialogTitle>{{ props.isUpdate ? 'Edit strategy' : 'Create new strategy' }}</DialogTitle>
             </DialogHeader>
             <form @submit.prevent="props.submit" class="grid gap-4">
                 <div class="grid gap-3">
@@ -49,12 +49,10 @@ const props = defineProps<{
                         </Button>
                     </DialogClose>
                     <Button as="button" :disabled="props.form.processing">
-                        {{ props.isUpdate === true ? 'Update' : 'Create' }}
+                        {{ props.isUpdate ? 'Update' : 'Create' }}
                     </Button>
                 </DialogFooter>
             </form>
         </DialogContent>
     </Dialog>
-
-
 </template>

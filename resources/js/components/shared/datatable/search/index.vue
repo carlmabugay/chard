@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Input } from '@/components/ui/input'
-import { useDataTable } from '@/pages/strategy/composables/useDataTable'
+import { useDataTable } from '@/composables/useDataTable'
 import { ref } from 'vue'
 import { SearchIcon, XCircleIcon } from 'lucide-vue-next'
 

@@ -30,7 +30,19 @@ class IndexController extends Controller
         );
 
         return Inertia::render('portfolio/index', [
-            'result' => $portfolios,
+            'headers' => [
+                ['label' => 'Name', 'key' => 'name'],
+                ['label' => 'Date created', 'key' => 'created_at'],
+                ['label' => 'Date updated', 'key' => 'updated_at'],
+            ],
+            'items' => $portfolios->items(),
+            'pagination' => [
+                'from' => $portfolios->firstItem(),
+                'to' => $portfolios->lastItem(),
+                'total' => $portfolios->total(),
+                'current_page' => $portfolios->currentPage(),
+                'per_page' => $portfolios->perPage(),
+            ],
         ]);
     }
 }

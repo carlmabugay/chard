@@ -4,36 +4,30 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { EllipsisIcon, SquarePenIcon, Trash2Icon, XCircleIcon } from 'lucide-vue-next'
 import { Checkbox } from '@/components/ui/checkbox'
+import type { HeadersProps } from '@/components/shared/datatable/props.type'
+import type { PortfolioProps } from '@/pages/portfolio/props.type'
+import DataTableHeader from '@/components/shared/datatable/header/index.vue'
 
-defineProps<{
-    items: object
-}>()
+type Props = HeadersProps & PortfolioProps
+
+defineProps<Props>()
 </script>
 
 <template>
     <div class="overflow-hidden rounded-lg border">
         <Table>
-            <TableHeader class="bg-muted">
-                <TableRow>
-                    <TableHead/>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Date Created</TableHead>
-                    <TableHead/>
-                </TableRow>
-            </TableHeader>
+            <DataTableHeader :headers/>
             <TableBody>
-                <TableRow v-for="item in items" :key="item.id">
+                <TableRow v-for="(row, rowIndex) in items" :key="rowIndex">
                     <TableCell>
                         <Checkbox/>
                     </TableCell>
-                    <TableCell>
-                        {{ item.name }}
+                    <TableCell v-for="header in headers" :key="header.key">
+                        <slot :name="`cell-${header.key}`" :row="row" :value="row[header.key]">
+                            {{ row[header.key] }}
+                        </slot>
                     </TableCell>
                     <TableCell>
-                        {{ item.created_at }}
-                    </TableCell>
-                    <TableCell>
-
                         <DropdownMenu>
                             <DropdownMenuTrigger as-child>
                                 <EllipsisIcon :size="18"/>

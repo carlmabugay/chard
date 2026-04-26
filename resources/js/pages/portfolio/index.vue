@@ -19,5 +19,5 @@ defineProps<PageProps>()
         <h1 class="text-2xl font-semibold">Portfolios</h1>
         <p class="text-muted-foreground text-sm">Manage all portfolios here.</p>
     </div>
-    <DataTable :result/>
+    <DataTable :headers :items :pagination/>
 </template>

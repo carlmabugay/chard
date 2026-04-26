@@ -30,7 +30,18 @@ final class IndexController extends Controller
         );
 
         return Inertia::render('strategy/index', [
-            'result' => $strategies,
+            'headers' => [
+                ['label' => 'Name', 'key' => 'name'],
+                ['label' => 'Date created', 'key' => 'created_at'],
+            ],
+            'items' => $strategies->items(),
+            'pagination' => [
+                'from' => $strategies->firstItem(),
+                'to' => $strategies->lastItem(),
+                'total' => $strategies->total(),
+                'current_page' => $strategies->currentPage(),
+                'per_page' => $strategies->perPage(),
+            ],
         ]);
     }
 }

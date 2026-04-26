@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PaginationLabelProps } from '@/pages/strategy/props.type'
+import type { PaginationLabelProps } from '@/components/shared/datatable/props.type'
 
 defineProps<PaginationLabelProps>()
 </script>

@@ -1,22 +1,9 @@
-export type PageProps = {
-    result: {
-        data: Strategy[];
-    } & PaginationLabelProps & PaginationNumberProps,
-}
+import { DataTableProps } from '@/components/shared/datatable/props.type'
+
+export type PageProps = DataTableProps & StrategiesProps
 
 export type StrategiesProps = {
     items: Strategy[]
-}
-
-export type PaginationLabelProps = {
-    from: number;
-    to: number;
-    total: number;
-}
-
-export type PaginationNumberProps = {
-    current_page: number;
-    per_page: number;
 }
 
 type Strategy = {

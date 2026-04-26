@@ -29,5 +29,4 @@ import { Label } from '@/components/ui/label'
             </SelectContent>
         </Select>
     </div>
-
 </template>
