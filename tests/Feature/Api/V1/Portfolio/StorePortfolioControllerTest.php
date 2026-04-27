@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Portolio\UseCases\StorePortfolio;
+use App\Domain\Portfolio\Processes\StorePortfolioProcess;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
 
@@ -24,9 +24,6 @@ describe('Feature: StorePortfolioController', function () {
                 ->assertJson([
                     'success' => true,
                     'message' => __('messages.success.stored', ['record' => 'Portfolio']),
-                    'data' => [
-                        'name' => $payload['name'],
-                    ],
                 ]);
         });
 
@@ -62,8 +59,8 @@ describe('Feature: StorePortfolioController', function () {
             ];
 
             // Expectation:
-            $this->mock(StorePortfolio::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(StorePortfolioProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });

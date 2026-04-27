@@ -8,6 +8,7 @@ use App\Http\Controllers\Site\Pages\DividendController;
 use App\Http\Controllers\Site\Pages\HomeController;
 use App\Http\Controllers\Site\Pages\LoginController as WebLoginController;
 use App\Http\Controllers\Site\Pages\Portfolio\IndexController as ListPortfolioController;
+use App\Http\Controllers\Site\Pages\Portfolio\StoreController as StorePortfolioController;
 use App\Http\Controllers\Site\Pages\Strategy\IndexController as ListStrategyController;
 use App\Http\Controllers\Site\Pages\Strategy\ShowController as ShowStrategyController;
 use App\Http\Controllers\Site\Pages\Strategy\StoreController as StoreStrategyController;
@@ -38,7 +39,10 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{strategy}/trash', TrashStrategyController::class);
     });
 
-    Route::get('/portfolio', ListPortfolioController::class)->name('portfolio.index');
+    Route::prefix('portfolio')->group(function () {
+        Route::get('/', ListPortfolioController::class)->name('portfolio.index');
+        Route::post('/', StorePortfolioController::class)->name('portfolio.store');
+    });
 
     Route::get('/cash-flow', CashFlowController::class)->name('cash-flow.index');
 

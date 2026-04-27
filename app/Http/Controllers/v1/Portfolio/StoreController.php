@@ -2,29 +2,37 @@
 
 namespace App\Http\Controllers\v1\Portfolio;
 
-use App\Application\Portolio\DTOs\PortfolioDTO;
-use App\Domain\Portfolio\Contracts\UseCases\StorePortfolioInterface;
+use App\Domain\Portfolio\DTOs\StorePortfolioDTO;
+use App\Domain\Portfolio\Processes\StorePortfolioProcess;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Portfolio\StorePortfolioRequest;
-use App\Http\Resources\Portfolio\PortfolioResource;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 final class StoreController extends Controller
 {
-    public function __invoke(StorePortfolioRequest $request, StorePortfolioInterface $use_case): PortfolioResource|JsonResponse
+    public function __construct(
+        protected StorePortfolioProcess $process,
+    ) {}
+
+    public function __invoke(StorePortfolioRequest $request): JsonResponse
     {
         try {
 
-            $dto = PortfolioDTO::fromRequest($request);
+            $dto = new StorePortfolioDTO(
+                user_id: $request->user()->id,
+                name: $request->validated('name')
+            );
 
-            $result = $use_case->handle($dto);
+            $result = $this->process->run(
+                payload: $dto,
+            );
 
-            return PortfolioResource::make($result)
-                ->additional([
+            return response()
+                ->json([
+                    'success' => true,
                     'message' => __('messages.success.stored', ['record' => 'Portfolio']),
                 ])
-                ->response()
                 ->setStatusCode(201);
 
         } catch (Throwable $error) {
