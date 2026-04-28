@@ -56,7 +56,7 @@ class StrategyRepository implements StrategyRepositoryInterface
     /**
      * @throws Throwable
      */
-    public function revise(UpdateStrategyDTO $dto): void
+    public function update(UpdateStrategyDTO $dto): void
     {
         DB::transaction(function () use ($dto) {
             DB::table('strategies')

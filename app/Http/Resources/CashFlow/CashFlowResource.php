@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\CashFlow;
 
-use App\Http\Resources\Portfolio\PortfolioResource;
+use App\Http\Resources\PortfolioResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

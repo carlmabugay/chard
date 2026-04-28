@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Site\Pages;
+namespace App\Http\Controllers\Site\CashFlow;
 
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 
-class CashFlowController extends Controller
+class IndexController extends Controller
 {
     public function __invoke()
     {

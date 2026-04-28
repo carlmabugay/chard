@@ -11,6 +11,7 @@ use App\Domain\Portfolio\DTOs\TrashPortfolioDTO;
 use App\Domain\Portfolio\DTOs\UpdatePortfolioDTO;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class PortfolioRepository implements PortfolioRepositoryInterface
 {
@@ -36,6 +37,9 @@ class PortfolioRepository implements PortfolioRepositoryInterface
             )->withQueryString();
     }
 
+    /**
+     * @throws Throwable
+     */
     public function store(StorePortfolioDTO $dto): void
     {
         DB::transaction(function () use ($dto) {
@@ -46,6 +50,9 @@ class PortfolioRepository implements PortfolioRepositoryInterface
         }, 2);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function update(UpdatePortfolioDTO $dto): void
     {
         DB::transaction(function () use ($dto) {
@@ -57,6 +64,9 @@ class PortfolioRepository implements PortfolioRepositoryInterface
         }, 2);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function trash(TrashPortfolioDTO $dto): void
     {
         DB::transaction(function () use ($dto) {
@@ -69,6 +79,9 @@ class PortfolioRepository implements PortfolioRepositoryInterface
         }, 2);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function restore(RestorePortfolioDTO $dto): void
     {
         DB::transaction(function () use ($dto) {
@@ -80,6 +93,9 @@ class PortfolioRepository implements PortfolioRepositoryInterface
         }, 2);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function delete(DeletePortfolioDTO $dto): void
     {
         DB::transaction(function () use ($dto) {

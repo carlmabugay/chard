@@ -16,7 +16,7 @@ interface StrategyRepositoryInterface
 
     public function store(CreateStrategyDTO $dto): void;
 
-    public function revise(UpdateStrategyDTO $dto): void;
+    public function update(UpdateStrategyDTO $dto): void;
 
     public function trash(TrashStrategyDTO $dto): void;
 

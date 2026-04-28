@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Site\AuthController;
+use App\Http\Controllers\Site\CashFlow\IndexController as ListCashFlowController;
 use App\Http\Controllers\Site\LogoutController;
-use App\Http\Controllers\Site\Pages\CashFlowController;
 use App\Http\Controllers\Site\Pages\DashboardController;
 use App\Http\Controllers\Site\Pages\DividendController;
 use App\Http\Controllers\Site\Pages\HomeController;
@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{portfolio}/trash', TrashPortfolioController::class);
     });
 
-    Route::get('/cash-flow', CashFlowController::class)->name('cash-flow.index');
+    Route::get('/cash-flow', ListCashFlowController::class)->name('cash-flow.index');
 
     Route::get('/dividend', DividendController::class)->name('dividend.index');
 

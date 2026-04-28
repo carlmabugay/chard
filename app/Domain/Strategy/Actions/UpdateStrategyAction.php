@@ -14,7 +14,7 @@ final class UpdateStrategyAction
 
     public function handle(UpdateStrategyDTO $dto, Closure $next)
     {
-        $this->repository->revise($dto);
+        $this->repository->update($dto);
 
         return $next($dto);
     }

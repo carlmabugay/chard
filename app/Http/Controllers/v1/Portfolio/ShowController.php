@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v1\Portfolio;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Portfolio\PortfolioResource;
+use App\Http\Resources\PortfolioResource;
 use App\Models\Portfolio;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;

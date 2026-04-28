@@ -5,7 +5,7 @@ namespace App\Http\Controllers\v1\Portfolio;
 use App\Domain\Portfolio\DTOs\ListPortfoliosDTO;
 use App\Domain\Portfolio\Processes\ListPortfoliosProcess;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Portfolio\PortfolioResource;
+use App\Http\Resources\PortfolioResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
