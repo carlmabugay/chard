@@ -5,6 +5,7 @@ namespace App\Domain\Portfolio;
 use App\Domain\Portfolio\Contracts\PortfolioRepositoryInterface;
 use App\Domain\Portfolio\DTOs\ListPortfoliosDTO;
 use App\Domain\Portfolio\DTOs\StorePortfolioDTO;
+use App\Domain\Portfolio\DTOs\UpdatePortfolioDTO;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
@@ -39,6 +40,17 @@ class PortfolioRepository implements PortfolioRepositoryInterface
                 'user_id' => $dto->user_id,
                 'name' => $dto->name,
             ]);
+        }, 2);
+    }
+
+    public function update(UpdatePortfolioDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('portfolios')
+                ->where('id', $dto->id)
+                ->update([
+                    'name' => $dto->name,
+                ]);
         }, 2);
     }
 }
