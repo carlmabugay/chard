@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Portolio\UseCases\DeletePortfolio;
+use App\Domain\Portfolio\Processes\DeletePortfolioProcess;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
@@ -91,8 +91,8 @@ describe('Feature: DestroyPortfolioController', function () {
             $portfolio = PortfolioModel::factory()->create();
 
             // Expectation:
-            $this->mock(DeletePortfolio::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(DeletePortfolioProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });

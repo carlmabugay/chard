@@ -3,6 +3,7 @@
 namespace App\Domain\Portfolio\Repositories;
 
 use App\Domain\Portfolio\Contracts\PortfolioRepositoryInterface;
+use App\Domain\Portfolio\DTOs\DeletePortfolioDTO;
 use App\Domain\Portfolio\DTOs\ListPortfoliosDTO;
 use App\Domain\Portfolio\DTOs\RestorePortfolioDTO;
 use App\Domain\Portfolio\DTOs\StorePortfolioDTO;
@@ -76,6 +77,14 @@ class PortfolioRepository implements PortfolioRepositoryInterface
                 ->update([
                     'deleted_at' => null,
                 ]);
+        }, 2);
+    }
+
+    public function delete(DeletePortfolioDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('portfolios')
+                ->delete(id: $dto->id);
         }, 2);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\v1\Portfolio;
 
-use App\Application\Portolio\DTOs\PortfolioDTO;
-use App\Domain\Portfolio\Contracts\UseCases\DeletePortfolioInterface;
+use App\Domain\Portfolio\DTOs\DeletePortfolioDTO;
+use App\Domain\Portfolio\Processes\DeletePortfolioProcess;
 use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -13,18 +13,26 @@ use Throwable;
 
 final class DestroyController extends Controller
 {
-    public function __invoke(Portfolio $portfolio, DeletePortfolioInterface $use_case): JsonResponse
+    public function __construct(
+        protected readonly DeletePortfolioProcess $process,
+    ) {}
+
+    public function __invoke(Portfolio $portfolio): JsonResponse
     {
         try {
 
             Gate::authorize('destroy', $portfolio);
 
-            $dto = PortfolioDTO::fromModel($portfolio);
+            $dto = new DeletePortfolioDTO(
+                id: $portfolio->id,
+            );
 
-            $result = $use_case->handle($dto);
+            $this->process->run(
+                payload: $dto,
+            );
 
             return response()->json([
-                'success' => $result,
+                'success' => true,
                 'message' => __('messages.success.destroyed', ['record' => 'Portfolio']),
             ]);
 
