@@ -6,10 +6,13 @@ import DataTableHeader from '@/components/shared/datatable/header/index.vue'
 import { EllipsisIcon, SquarePenIcon, Trash2Icon, XCircleIcon } from 'lucide-vue-next'
 import type { HeadersProps } from '@/components/shared/datatable/props.type'
 import type { PortfolioProps } from '@/pages/portfolio/props.type'
+import { usePortfolioAction } from '@/pages/portfolio/composables/usePortfolioAction'
 
 type Props = HeadersProps & PortfolioProps
 
 defineProps<Props>()
+
+const { trash } = usePortfolioAction()
 </script>
 
 <template>
@@ -36,7 +39,7 @@ defineProps<Props>()
                                     <SquarePenIcon :size="4"/>
                                     Edit
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>
+                                <DropdownMenuItem @click="trash(row['id'])">
                                     <Trash2Icon :size="4"/>
                                     Trash
                                 </DropdownMenuItem>

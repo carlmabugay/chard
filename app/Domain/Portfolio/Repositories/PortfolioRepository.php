@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Domain\Portfolio;
+namespace App\Domain\Portfolio\Repositories;
 
 use App\Domain\Portfolio\Contracts\PortfolioRepositoryInterface;
 use App\Domain\Portfolio\DTOs\ListPortfoliosDTO;
 use App\Domain\Portfolio\DTOs\StorePortfolioDTO;
+use App\Domain\Portfolio\DTOs\TrashPortfolioDTO;
 use App\Domain\Portfolio\DTOs\UpdatePortfolioDTO;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -50,6 +51,18 @@ class PortfolioRepository implements PortfolioRepositoryInterface
                 ->where('id', $dto->id)
                 ->update([
                     'name' => $dto->name,
+                ]);
+        }, 2);
+    }
+
+    public function trash(TrashPortfolioDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('portfolios')
+                ->where('id', $dto->id)
+                ->whereNull('deleted_at')
+                ->update([
+                    'deleted_at' => now(),
                 ]);
         }, 2);
     }

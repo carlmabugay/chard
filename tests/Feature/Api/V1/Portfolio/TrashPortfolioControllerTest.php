@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Portolio\UseCases\TrashPortfolio;
+use App\Domain\Portfolio\Processes\TrashPortfolioProcess;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
@@ -83,8 +83,8 @@ describe('Feature: TrashPortfolioController', function () {
             $portfolio = PortfolioModel::factory()->create();
 
             // Expectation:
-            $this->mock(TrashPortfolio::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(TrashPortfolioProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });

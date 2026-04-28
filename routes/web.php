@@ -9,6 +9,7 @@ use App\Http\Controllers\Site\Pages\HomeController;
 use App\Http\Controllers\Site\Pages\LoginController as WebLoginController;
 use App\Http\Controllers\Site\Pages\Portfolio\IndexController as ListPortfolioController;
 use App\Http\Controllers\Site\Pages\Portfolio\StoreController as StorePortfolioController;
+use App\Http\Controllers\Site\Pages\Portfolio\TrashController as TrashPortfolioController;
 use App\Http\Controllers\Site\Pages\Portfolio\UpdateController as UpdatePortfolioController;
 use App\Http\Controllers\Site\Pages\Strategy\IndexController as ListStrategyController;
 use App\Http\Controllers\Site\Pages\Strategy\ShowController as ShowStrategyController;
@@ -44,6 +45,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', ListPortfolioController::class)->name('portfolio.index');
         Route::post('/', StorePortfolioController::class)->name('portfolio.store');
         Route::put('/{portfolio}', UpdatePortfolioController::class)->name('portfolio.update');
+        Route::delete('/{portfolio}/trash', TrashPortfolioController::class);
     });
 
     Route::get('/cash-flow', CashFlowController::class)->name('cash-flow.index');

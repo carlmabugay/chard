@@ -17,7 +17,6 @@ use App\Application\Dividend\UseCases\TrashDividend;
 use App\Application\Portolio\UseCases\DeletePortfolio;
 use App\Application\Portolio\UseCases\GetPortfolio;
 use App\Application\Portolio\UseCases\RestorePortfolio;
-use App\Application\Portolio\UseCases\TrashPortfolio;
 use App\Application\TradeLog\UseCases\DeleteTradeLog;
 use App\Application\TradeLog\UseCases\GetTradeLog;
 use App\Application\TradeLog\UseCases\ListTradeLogs;
@@ -51,8 +50,7 @@ use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
 use App\Domain\Portfolio\Contracts\UseCases\DeletePortfolioInterface;
 use App\Domain\Portfolio\Contracts\UseCases\GetPortfolioInterface;
 use App\Domain\Portfolio\Contracts\UseCases\RestorePortfolioInterface;
-use App\Domain\Portfolio\Contracts\UseCases\TrashPortfolioInterface;
-use App\Domain\Portfolio\PortfolioRepository;
+use App\Domain\Portfolio\Repositories\PortfolioRepository;
 use App\Domain\Portfolio\Services\PortfolioService;
 use App\Domain\Strategy\Contracts\StrategyRepositoryInterface;
 use App\Domain\Strategy\Repositories\StrategyRepository;
@@ -83,7 +81,6 @@ class DomainServiceProvider extends ServiceProvider
         PortfolioWriteRepositoryInterface::class => EloquentPortfolioWriteRepository::class,
         PortfolioServiceInterface::class => PortfolioService::class,
         GetPortfolioInterface::class => GetPortfolio::class,
-        TrashPortfolioInterface::class => TrashPortfolio::class,
         RestorePortfolioInterface::class => RestorePortfolio::class,
         DeletePortfolioInterface::class => DeletePortfolio::class,
 
