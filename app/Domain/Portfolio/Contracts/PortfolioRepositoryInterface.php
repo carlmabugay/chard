@@ -3,6 +3,7 @@
 namespace App\Domain\Portfolio\Contracts;
 
 use App\Domain\Portfolio\DTOs\ListPortfoliosDTO;
+use App\Domain\Portfolio\DTOs\RestorePortfolioDTO;
 use App\Domain\Portfolio\DTOs\StorePortfolioDTO;
 use App\Domain\Portfolio\DTOs\TrashPortfolioDTO;
 use App\Domain\Portfolio\DTOs\UpdatePortfolioDTO;
@@ -17,4 +18,6 @@ interface PortfolioRepositoryInterface
     public function update(UpdatePortfolioDTO $dto): void;
 
     public function trash(TrashPortfolioDTO $dto): void;
+
+    public function restore(RestorePortfolioDTO $dto): void;
 }

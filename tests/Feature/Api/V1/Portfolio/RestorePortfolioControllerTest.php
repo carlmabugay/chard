@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Portolio\UseCases\RestorePortfolio;
+use App\Domain\Portfolio\Processes\RestorePortfolioProcess;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
@@ -83,8 +83,8 @@ describe('Feature: RestorePortfolioController', function () {
             $portfolio = PortfolioModel::factory()->create();
 
             // Expectation:
-            $this->mock(RestorePortfolio::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(RestorePortfolioProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });
