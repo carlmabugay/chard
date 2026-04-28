@@ -14,7 +14,6 @@ use App\Application\Dividend\UseCases\ListDividends;
 use App\Application\Dividend\UseCases\RestoreDividend;
 use App\Application\Dividend\UseCases\StoreDividend;
 use App\Application\Dividend\UseCases\TrashDividend;
-use App\Application\Portolio\UseCases\GetPortfolio;
 use App\Application\TradeLog\UseCases\DeleteTradeLog;
 use App\Application\TradeLog\UseCases\GetTradeLog;
 use App\Application\TradeLog\UseCases\ListTradeLogs;
@@ -42,10 +41,8 @@ use App\Domain\Dividend\Contracts\UseCases\StoreDividendInterface;
 use App\Domain\Dividend\Contracts\UseCases\TrashDividendInterface;
 use App\Domain\Dividend\Services\DividendService;
 use App\Domain\Portfolio\Contracts\Persistence\Read\PortfolioReadRepositoryInterface;
-use App\Domain\Portfolio\Contracts\Persistence\Write\PortfolioWriteRepositoryInterface;
 use App\Domain\Portfolio\Contracts\PortfolioRepositoryInterface;
 use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
-use App\Domain\Portfolio\Contracts\UseCases\GetPortfolioInterface;
 use App\Domain\Portfolio\Repositories\PortfolioRepository;
 use App\Domain\Portfolio\Services\PortfolioService;
 use App\Domain\Strategy\Contracts\StrategyRepositoryInterface;
@@ -66,7 +63,6 @@ use App\Infrastructure\Persistence\Eloquent\Read\EloquentPortfolioReadRepository
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentTradeLogReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentCashFlowWriteRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentDividendWriteRepository;
-use App\Infrastructure\Persistence\Eloquent\Write\EloquentPortfolioWriteRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentTradeLogWriteRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -74,9 +70,7 @@ class DomainServiceProvider extends ServiceProvider
 {
     public $bindings = [
         PortfolioReadRepositoryInterface::class => EloquentPortfolioReadRepository::class,
-        PortfolioWriteRepositoryInterface::class => EloquentPortfolioWriteRepository::class,
         PortfolioServiceInterface::class => PortfolioService::class,
-        GetPortfolioInterface::class => GetPortfolio::class,
 
         CashFlowReadRepositoryInterface::class => EloquentCashFlowReadRepository::class,
         CashFlowWriteRepositoryInterface::class => EloquentCashFlowWriteRepository::class,

@@ -20,7 +20,7 @@ describe('Feature: ShowStrategyController', function () {
                     'data' => [
                         'id' => $strategy->id,
                         'name' => $strategy->name,
-                        'created_at' => $strategy->created_at,
+                        'created_at' => $strategy->created_at->format('F d, Y'),
                     ],
                     'success' => true,
                 ]);

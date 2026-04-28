@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\v1\Portfolio;
 
-use App\Domain\Portfolio\Contracts\UseCases\GetPortfolioInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Portfolio\PortfolioResource;
 use App\Models\Portfolio;
@@ -13,15 +12,16 @@ use Throwable;
 
 final class ShowController extends Controller
 {
-    public function __invoke(Portfolio $portfolio, GetPortfolioInterface $use_case): PortfolioResource|JsonResponse
+    public function __invoke(Portfolio $portfolio): PortfolioResource|JsonResponse
     {
         try {
 
             Gate::authorize('view', $portfolio);
 
-            $result = $use_case->handle($portfolio);
-
-            return PortfolioResource::make($result);
+            return PortfolioResource::make($portfolio)
+                ->additional([
+                    'success' => true,
+                ]);
 
         } catch (AuthorizationException) {
 

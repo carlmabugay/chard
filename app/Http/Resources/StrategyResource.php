@@ -12,7 +12,7 @@ class StrategyResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at->format('F d, Y'),
         ];
     }
 }

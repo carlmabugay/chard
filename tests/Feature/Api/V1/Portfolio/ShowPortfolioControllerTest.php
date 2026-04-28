@@ -1,9 +1,7 @@
 <?php
 
-use App\Application\Portolio\UseCases\GetPortfolio;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
-use Mockery\MockInterface;
 
 describe('Feature: ShowPortfolioController', function () {
 
@@ -19,13 +17,13 @@ describe('Feature: ShowPortfolioController', function () {
             // Assert:
             $response->assertOk()
                 ->assertJson([
-                    'success' => true,
                     'data' => [
                         'id' => $portfolio->id,
                         'name' => $portfolio->name,
-                        'created_at' => $portfolio->created_at,
-                        'updated_at' => $portfolio->updated_at,
+                        'created_at' => $portfolio->created_at->format('F d, Y'),
+                        'updated_at' => $portfolio->updated_at->format('F d, Y'),
                     ],
+                    'success' => true,
                 ]);
         });
 
@@ -78,30 +76,6 @@ describe('Feature: ShowPortfolioController', function () {
                     'success' => false,
                     'error' => 'Record not found.',
                     'message' => sprintf('No query results for model [App\\Models\\Portfolio] %s.', $random_id),
-                ]);
-        });
-
-        it('can handle server error response when using /api/v1/portfolios/{portfolio} GET api endpoint.', function () {
-            // Arrange:
-            $random_id = 100;
-            $portfolio = PortfolioModel::factory()->create();
-
-            // Expectation:
-            $this->mock(GetPortfolio::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
-                    ->once()
-                    ->andThrow(new Exception('This is a mock exception message.'));
-            });
-
-            // Act:
-            $response = $this->actingAs($portfolio->user)->getJson(sprintf('/api/v1/portfolios/%s', $portfolio->id));
-
-            // Assert:
-            $response->assertInternalServerError()
-                ->assertJson([
-                    'success' => false,
-                    'error' => 'An unexpected error occurred. Please try again later.',
-                    'message' => 'This is a mock exception message.',
                 ]);
         });
 
