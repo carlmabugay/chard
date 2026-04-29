@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\CashFlow\UserCases\ListCashFlows;
+use App\Domain\CashFlow\Process\ListCashFlowsProcess;
 use App\Models\CashFlow as CashFlowModel;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
@@ -24,7 +24,6 @@ describe('Feature: ListCashFlowController', function () {
             $response->assertOk()
                 ->assertJson([
                     'success' => true,
-                    'data' => [],
                 ]);
         });
 
@@ -66,8 +65,8 @@ describe('Feature: ListCashFlowController', function () {
             $user = UserModel::factory()->create();
 
             // Expectation:
-            $this->mock(ListCashFlows::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(ListCashFlowsProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });

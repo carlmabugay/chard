@@ -10,18 +10,11 @@ class CashFlowResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->resource->id(),
-            'type' => $this->resource->type(),
-            'amount' => $this->resource->amount(),
-            'created_at' => $this->resource->createdAt(),
-            'updated_at' => $this->resource->updatedAt(),
-        ];
-    }
-
-    public function with($request): array
-    {
-        return [
-            'success' => true,
+            'id' => $this->id,
+            'type' => $this->type,
+            'amount' => $this->amount,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }
