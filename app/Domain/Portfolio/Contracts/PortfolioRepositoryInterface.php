@@ -14,6 +14,8 @@ interface PortfolioRepositoryInterface
 {
     public function findAll(ListPortfoliosDTO $dto): LengthAwarePaginator;
 
+    public function findById(int $id): ?\stdClass;
+
     public function store(StorePortfolioDTO $dto): void;
 
     public function update(UpdatePortfolioDTO $dto): void;

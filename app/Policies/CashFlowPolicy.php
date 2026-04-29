@@ -15,7 +15,7 @@ class CashFlowPolicy
 
     public function store(User $user, Portfolio $portfolio): bool
     {
-        return $user->id === $portfolio->user->id;
+        return $user->id === $portfolio->user_id;
     }
 
     public function update(User $user, CashFlow $cash_flow): bool

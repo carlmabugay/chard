@@ -8,10 +8,8 @@ use App\Domain\TradeLog\Contracts\UseCases\StoreTradeLogInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TradeLog\CreateTradeLogRequest;
 use App\Http\Resources\TradeLog\TradeLogResource;
-use App\Models\TradeLog;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
 use Throwable;
 
 final class StoreController extends Controller
@@ -20,10 +18,6 @@ final class StoreController extends Controller
     {
 
         try {
-
-            $portfolio = $portfolio_service->findById($request->validated('portfolio_id'));
-
-            Gate::authorize('store', [TradeLog::class, $portfolio->toEloquentModel()]);
 
             $dto = TradeLogDTO::fromRequest($request);
 

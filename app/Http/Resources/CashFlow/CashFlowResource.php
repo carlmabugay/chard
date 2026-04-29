@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\CashFlow;
 
-use App\Http\Resources\PortfolioResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,7 +15,6 @@ class CashFlowResource extends JsonResource
             'amount' => $this->resource->amount(),
             'created_at' => $this->resource->createdAt(),
             'updated_at' => $this->resource->updatedAt(),
-            'portfolio' => PortfolioResource::make($this->resource->portfolio()),
         ];
     }
 

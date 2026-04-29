@@ -40,11 +40,8 @@ use App\Domain\Dividend\Contracts\UseCases\RestoreDividendInterface;
 use App\Domain\Dividend\Contracts\UseCases\StoreDividendInterface;
 use App\Domain\Dividend\Contracts\UseCases\TrashDividendInterface;
 use App\Domain\Dividend\Services\DividendService;
-use App\Domain\Portfolio\Contracts\Persistence\Read\PortfolioReadRepositoryInterface;
 use App\Domain\Portfolio\Contracts\PortfolioRepositoryInterface;
-use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
 use App\Domain\Portfolio\Repositories\PortfolioRepository;
-use App\Domain\Portfolio\Services\PortfolioService;
 use App\Domain\Strategy\Contracts\StrategyRepositoryInterface;
 use App\Domain\Strategy\Repositories\StrategyRepository;
 use App\Domain\TradeLog\Contracts\Persistence\Read\TradeLogReadRepositoryInterface;
@@ -59,7 +56,6 @@ use App\Domain\TradeLog\Contracts\UseCases\TrashTradeLogInterface;
 use App\Domain\TradeLog\Services\TradeLogService;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentCashFlowReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentDividendReadRepository;
-use App\Infrastructure\Persistence\Eloquent\Read\EloquentPortfolioReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentTradeLogReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentCashFlowWriteRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentDividendWriteRepository;
@@ -69,9 +65,6 @@ use Illuminate\Support\ServiceProvider;
 class DomainServiceProvider extends ServiceProvider
 {
     public $bindings = [
-        PortfolioReadRepositoryInterface::class => EloquentPortfolioReadRepository::class,
-        PortfolioServiceInterface::class => PortfolioService::class,
-
         CashFlowReadRepositoryInterface::class => EloquentCashFlowReadRepository::class,
         CashFlowWriteRepositoryInterface::class => EloquentCashFlowWriteRepository::class,
         CashFlowServiceInterface::class => CashFlowService::class,

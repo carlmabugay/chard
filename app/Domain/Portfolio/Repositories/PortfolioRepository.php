@@ -37,6 +37,11 @@ class PortfolioRepository implements PortfolioRepositoryInterface
             )->withQueryString();
     }
 
+    public function findById(int $id): ?\stdClass
+    {
+        return DB::table('portfolios')->where('id', $id)->first();
+    }
+
     /**
      * @throws Throwable
      */

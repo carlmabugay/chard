@@ -8,10 +8,8 @@ use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CashFlow\CreateCashFlowRequest;
 use App\Http\Resources\CashFlow\CashFlowResource;
-use App\Models\CashFlow;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Gate;
 use Throwable;
 
 final class StoreController extends Controller
@@ -19,10 +17,6 @@ final class StoreController extends Controller
     public function __invoke(CreateCashFlowRequest $request, StoreCashFlowInterface $use_case, PortfolioServiceInterface $portfolio_service): CashFlowResource|JsonResponse
     {
         try {
-
-            $portfolio = $portfolio_service->findById($request->validated('portfolio_id'));
-
-            Gate::authorize('store', [CashFlow::class, $portfolio->toEloquentModel()]);
 
             $dto = CashFlowDTO::fromRequest($request);
 

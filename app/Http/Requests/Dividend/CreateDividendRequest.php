@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests\Dividend;
 
+use App\Domain\Portfolio\Repositories\PortfolioRepository;
+use App\Models\Dividend;
+use App\Models\Portfolio;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class CreateDividendRequest extends FormRequest
 {
@@ -18,6 +22,10 @@ class CreateDividendRequest extends FormRequest
 
     public function authorize(): bool
     {
-        return true;
+        $portfolioData = app(PortfolioRepository::class)->findById($this->portfolio_id);
+
+        $portfolio = Portfolio::fromStdClass($portfolioData);
+
+        return Gate::allows('store', [Dividend::class, $portfolio]);
     }
 }
