@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\v1\CashFlow;
 
-use App\Domain\CashFlow\Contracts\UseCases\GetCashFlowInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CashFlow\CashFlowResource;
 use App\Models\CashFlow;
@@ -13,15 +12,16 @@ use Throwable;
 
 final class ShowController extends Controller
 {
-    public function __invoke(CashFlow $cash_flow, GetCashFlowInterface $use_case): CashFlowResource|JsonResponse
+    public function __invoke(CashFlow $cash_flow): CashFlowResource|JsonResponse
     {
         try {
 
             Gate::authorize('view', $cash_flow);
 
-            $result = $use_case->handle($cash_flow);
-
-            return CashFlowResource::make($result);
+            return CashFlowResource::make($cash_flow)
+                ->additional([
+                    'success' => true,
+                ]);
 
         } catch (AuthorizationException) {
 

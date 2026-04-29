@@ -13,8 +13,8 @@ class CashFlowResource extends JsonResource
             'id' => $this->id,
             'type' => $this->type,
             'amount' => $this->amount,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at->format('F d, Y'),
+            'updated_at' => $this->updated_at->format('F d, Y'),
         ];
     }
 }

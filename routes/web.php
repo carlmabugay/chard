@@ -3,6 +3,7 @@
 use App\Http\Controllers\Site\AuthController;
 use App\Http\Controllers\Site\LogoutController;
 use App\Http\Controllers\Site\Pages\CashFlow\IndexController as ListCashFlowController;
+use App\Http\Controllers\Site\Pages\CashFlow\ShowController as ShowCashFlowController;
 use App\Http\Controllers\Site\Pages\DashboardController;
 use App\Http\Controllers\Site\Pages\DividendController;
 use App\Http\Controllers\Site\Pages\HomeController;
@@ -46,9 +47,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/', StorePortfolioController::class)->name('portfolio.store');
         Route::put('/{portfolio}', UpdatePortfolioController::class)->name('portfolio.update');
         Route::delete('/{portfolio}/trash', TrashPortfolioController::class);
+
     });
 
-    Route::get('/cash-flow', ListCashFlowController::class)->name('cash-flow.index');
+    Route::prefix('portfolio')->group(function () {
+        Route::get('/cash_flow', ListCashFlowController::class)->name('cash-flow.index');
+        Route::get('/{cash_flow}', ShowCashFlowController::class)->name('cash-flow.show');
+    });
 
     Route::get('/dividend', DividendController::class)->name('dividend.index');
 
