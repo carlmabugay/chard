@@ -2,12 +2,8 @@
 
 namespace App\Http\Requests\CashFlow;
 
-use App\Domain\Portfolio\Repositories\PortfolioRepository;
 use App\Enums\CashFlowType;
-use App\Models\CashFlow;
-use App\Models\Portfolio;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rules\Enum;
 
 class CreateCashFlowRequest extends FormRequest
@@ -23,11 +19,6 @@ class CreateCashFlowRequest extends FormRequest
 
     public function authorize(): bool
     {
-
-        $portfolioData = app(PortfolioRepository::class)->findById($this->portfolio_id);
-
-        $portfolio = Portfolio::fromStdClass($portfolioData);
-
-        return Gate::allows('store', [CashFlow::class, $portfolio]);
+        return true;
     }
 }

@@ -4,8 +4,10 @@ namespace App\Domain\CashFlow\Repositories;
 
 use App\Domain\CashFlow\Contracts\CashFlowRepositoryInterface;
 use App\Domain\CashFlow\DTOs\ListCashFlowsDTO;
+use App\Domain\CashFlow\DTOs\StoreCashFlowDTO;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class CashFlowRepository implements CashFlowRepositoryInterface
 {
@@ -31,5 +33,19 @@ class CashFlowRepository implements CashFlowRepositoryInterface
                 'page',
                 $dto->page
             )->withQueryString();
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function store(StoreCashFlowDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('cash_flows')->insert([
+                'portfolio_id' => $dto->portfolio_id,
+                'type' => $dto->type,
+                'amount' => $dto->amount,
+            ]);
+        }, 2);
     }
 }
