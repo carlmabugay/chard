@@ -15,11 +15,7 @@ use App\Application\TradeLog\UseCases\RestoreTradeLog;
 use App\Application\TradeLog\UseCases\StoreTradeLog;
 use App\Application\TradeLog\UseCases\TrashTradeLog;
 use App\Domain\CashFlow\Contracts\CashFlowRepositoryInterface;
-use App\Domain\CashFlow\Contracts\Persistence\Read\CashFlowReadRepositoryInterface;
-use App\Domain\CashFlow\Contracts\Persistence\Write\CashFlowWriteRepositoryInterface;
-use App\Domain\CashFlow\Contracts\Services\CashFlowServiceInterface;
 use App\Domain\CashFlow\Repositories\CashFlowRepository;
-use App\Domain\CashFlow\Services\CashFlowService;
 use App\Domain\Dividend\Contracts\Persistence\Read\DividendReadRepositoryInterface;
 use App\Domain\Dividend\Contracts\Persistence\Write\DividendWriteRepositoryInterface;
 use App\Domain\Dividend\Contracts\Services\DividendServiceInterface;
@@ -44,10 +40,8 @@ use App\Domain\TradeLog\Contracts\UseCases\RestoreTradeLogInterface;
 use App\Domain\TradeLog\Contracts\UseCases\StoreTradeLogInterface;
 use App\Domain\TradeLog\Contracts\UseCases\TrashTradeLogInterface;
 use App\Domain\TradeLog\Services\TradeLogService;
-use App\Infrastructure\Persistence\Eloquent\Read\EloquentCashFlowReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentDividendReadRepository;
 use App\Infrastructure\Persistence\Eloquent\Read\EloquentTradeLogReadRepository;
-use App\Infrastructure\Persistence\Eloquent\Write\EloquentCashFlowWriteRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentDividendWriteRepository;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentTradeLogWriteRepository;
 use Illuminate\Support\ServiceProvider;
@@ -55,9 +49,6 @@ use Illuminate\Support\ServiceProvider;
 class DomainServiceProvider extends ServiceProvider
 {
     public $bindings = [
-        CashFlowReadRepositoryInterface::class => EloquentCashFlowReadRepository::class,
-        CashFlowWriteRepositoryInterface::class => EloquentCashFlowWriteRepository::class,
-        CashFlowServiceInterface::class => CashFlowService::class,
 
         DividendReadRepositoryInterface::class => EloquentDividendReadRepository::class,
         DividendWriteRepositoryInterface::class => EloquentDividendWriteRepository::class,

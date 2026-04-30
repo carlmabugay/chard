@@ -4,7 +4,7 @@ use App\Application\Dividend\UseCases\StoreDividend;
 use App\Models\Portfolio as PortfolioModel;
 use Mockery\MockInterface;
 
-describe('Feature: StoreCashFlowController', function () {
+describe('Feature: StoreDividendController', function () {
 
     describe('Positives', function () {
 

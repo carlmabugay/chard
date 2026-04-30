@@ -5,7 +5,7 @@ namespace App\Http\Controllers\v1\CashFlow;
 use App\Domain\CashFlow\DTOs\ListCashFlowsDTO;
 use App\Domain\CashFlow\Process\ListCashFlowsProcess;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CashFlow\CashFlowResource;
+use App\Http\Resources\CashFlowResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

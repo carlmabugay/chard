@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Site\Pages\CashFlow;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CashFlow\CashFlowResource;
+use App\Http\Resources\CashFlowResource;
 use App\Models\CashFlow;
 use Illuminate\Support\Facades\Gate;
 

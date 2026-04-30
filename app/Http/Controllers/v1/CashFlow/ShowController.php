@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v1\CashFlow;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CashFlow\CashFlowResource;
+use App\Http\Resources\CashFlowResource;
 use App\Models\CashFlow;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
