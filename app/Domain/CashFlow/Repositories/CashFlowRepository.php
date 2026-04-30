@@ -5,6 +5,7 @@ namespace App\Domain\CashFlow\Repositories;
 use App\Domain\CashFlow\Contracts\CashFlowRepositoryInterface;
 use App\Domain\CashFlow\DTOs\ListCashFlowsDTO;
 use App\Domain\CashFlow\DTOs\StoreCashFlowDTO;
+use App\Domain\CashFlow\DTOs\UpdateCashFlowDTO;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -46,6 +47,22 @@ class CashFlowRepository implements CashFlowRepositoryInterface
                 'type' => $dto->type,
                 'amount' => $dto->amount,
             ]);
+        }, 2);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function update(UpdateCashFlowDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('cash_flows')
+                ->where('id', $dto->id)
+                ->update([
+                    'portfolio_id' => $dto->portfolio_id,
+                    'type' => $dto->type,
+                    'amount' => $dto->amount,
+                ]);
         }, 2);
     }
 }

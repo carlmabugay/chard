@@ -38,7 +38,7 @@ class StoreController extends Controller
             payload: $dto
         );
 
-        return Redirect::route('portfolio.index')
+        return Redirect::route('cash-flow.index')
             ->with('success', __('messages.success.stored', ['record' => 'Cash flow']));
     }
 }

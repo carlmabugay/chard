@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\v1\CashFlow;
 
-use App\Application\CashFlow\DTOs\CashFlowDTO;
-use App\Domain\CashFlow\Contracts\UseCases\StoreCashFlowInterface;
+use App\Domain\CashFlow\DTOs\UpdateCashFlowDTO;
+use App\Domain\CashFlow\Process\UpdateCashFlowProcess;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CashFlow\UpdateCashFlowRequest;
-use App\Http\Resources\CashFlow\CashFlowResource;
 use App\Models\CashFlow;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
@@ -15,22 +14,31 @@ use Throwable;
 
 final class UpdateController extends Controller
 {
-    public function __invoke(CashFlow $cash_flow, UpdateCashFlowRequest $request, StoreCashFlowInterface $use_case): CashFlowResource|JsonResponse
+    public function __construct(
+        protected readonly UpdateCashFlowProcess $process
+    ) {}
+
+    public function __invoke(CashFlow $cash_flow, UpdateCashFlowRequest $request): JsonResponse
     {
         try {
 
             Gate::authorize('update', $cash_flow);
 
-            $request->merge(['id' => $cash_flow->id]);
+            $dto = new UpdateCashFlowDTO(
+                id: $cash_flow->id,
+                portfolio_id: $request->validated('portfolio_id'),
+                type: $request->validated('type'),
+                amount: $request->validated('amount'),
+            );
 
-            $dto = CashFlowDTO::fromRequest($request);
+            $this->process->run(
+                payload: $dto,
+            );
 
-            $result = $use_case->handle($dto);
-
-            return CashFlowResource::make($result)
-                ->additional([
-                    'message' => __('messages.success.updated', ['record' => 'Cash flow']),
-                ]);
+            return response()->json([
+                'success' => true,
+                'message' => __('messages.success.updated', ['record' => 'Cash flow']),
+            ]);
 
         } catch (AuthorizationException) {
 

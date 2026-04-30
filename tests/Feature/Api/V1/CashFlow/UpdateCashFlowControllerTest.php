@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\CashFlow\UserCases\StoreCashFlow;
+use App\Domain\CashFlow\Process\UpdateCashFlowProcess;
 use App\Models\CashFlow as CashFlowModel;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
@@ -29,9 +29,6 @@ describe('Feature: UpdateCashFlowController', function () {
                 ->assertJson([
                     'success' => true,
                     'message' => __('messages.success.updated', ['record' => 'Cash flow']),
-                    'data' => [
-                        'amount' => $payload['amount'],
-                    ],
                 ]);
         });
 
@@ -113,8 +110,8 @@ describe('Feature: UpdateCashFlowController', function () {
             ];
 
             // Expectation:
-            $this->mock(StoreCashFlow::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(UpdateCashFlowProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });
