@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\CashFlow\UserCases\DeleteCashFlow;
+use App\Domain\CashFlow\Process\DeleteCashFlowProcess;
 use App\Models\CashFlow as CashFlowModel;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
@@ -84,8 +84,8 @@ describe('Feature: DestroyCashFlowController', function () {
             $cash_flow = CashFlowModel::factory()->create();
 
             // Expectation:
-            $this->mock(DeleteCashFlow::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(DeleteCashFlowProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });

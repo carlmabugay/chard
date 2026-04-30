@@ -2,6 +2,7 @@
 
 namespace App\Domain\CashFlow\Contracts;
 
+use App\Domain\CashFlow\DTOs\DeleteCashFlowDTO;
 use App\Domain\CashFlow\DTOs\ListCashFlowsDTO;
 use App\Domain\CashFlow\DTOs\RestoreCashFlowDTO;
 use App\Domain\CashFlow\DTOs\StoreCashFlowDTO;
@@ -20,4 +21,6 @@ interface CashFlowRepositoryInterface
     public function trash(TrashCashFlowDTO $dto): void;
 
     public function restore(RestoreCashFlowDTO $dto): void;
+
+    public function delete(DeleteCashFlowDTO $dto): void;
 }

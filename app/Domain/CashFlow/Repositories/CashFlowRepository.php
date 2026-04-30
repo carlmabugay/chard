@@ -3,6 +3,7 @@
 namespace App\Domain\CashFlow\Repositories;
 
 use App\Domain\CashFlow\Contracts\CashFlowRepositoryInterface;
+use App\Domain\CashFlow\DTOs\DeleteCashFlowDTO;
 use App\Domain\CashFlow\DTOs\ListCashFlowsDTO;
 use App\Domain\CashFlow\DTOs\RestoreCashFlowDTO;
 use App\Domain\CashFlow\DTOs\StoreCashFlowDTO;
@@ -95,6 +96,16 @@ class CashFlowRepository implements CashFlowRepositoryInterface
                 ->update([
                     'deleted_at' => null,
                 ]);
+        }, 2);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function delete(DeleteCashFlowDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('cash_flows')->delete($dto->id);
         }, 2);
     }
 }
