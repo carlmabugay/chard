@@ -5,6 +5,7 @@ use App\Http\Controllers\Site\LogoutController;
 use App\Http\Controllers\Site\Pages\CashFlow\IndexController as ListCashFlowController;
 use App\Http\Controllers\Site\Pages\CashFlow\ShowController as ShowCashFlowController;
 use App\Http\Controllers\Site\Pages\CashFlow\StoreController as StoreCashFlowController;
+use App\Http\Controllers\Site\Pages\CashFlow\TrashController as TrashCashFlowController;
 use App\Http\Controllers\Site\Pages\CashFlow\UpdateController as UpdateCashFlowController;
 use App\Http\Controllers\Site\Pages\DashboardController;
 use App\Http\Controllers\Site\Pages\DividendController;
@@ -41,14 +42,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/{strategy}', ShowStrategyController::class)->name('strategy.show');
         Route::post('/', StoreStrategyController::class)->name('strategy.store');
         Route::put('/{strategy}', UpdateStrategyController::class)->name('strategy.update');
-        Route::delete('/{strategy}/trash', TrashStrategyController::class);
+        Route::delete('/{strategy}/trash', TrashStrategyController::class)->name('strategy.trash');
     });
 
     Route::prefix('portfolio')->group(function () {
         Route::get('/', ListPortfolioController::class)->name('portfolio.index');
         Route::post('/', StorePortfolioController::class)->name('portfolio.store');
         Route::put('/{portfolio}', UpdatePortfolioController::class)->name('portfolio.update');
-        Route::delete('/{portfolio}/trash', TrashPortfolioController::class);
+        Route::delete('/{portfolio}/trash', TrashPortfolioController::class)->name('portfolio.trash');
 
     });
 
@@ -57,6 +58,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{cash_flow}', ShowCashFlowController::class)->name('cash-flow.show');
         Route::post('/', StoreCashFlowController::class)->name('cash_flow.store');
         Route::put('/{cash_flow}', UpdateCashFlowController::class)->name('cash_flow.update');
+        Route::delete('/{cash_flow}/trash', TrashCashFlowController::class)->name('cash_flow.trash');
     });
 
     Route::get('/dividend', DividendController::class)->name('dividend.index');

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\v1\CashFlow;
 
-use App\Application\CashFlow\DTOs\CashFlowDTO;
-use App\Domain\CashFlow\Contracts\UseCases\TrashCashFlowInterface;
+use App\Domain\CashFlow\DTOs\TrashCashFlowDTO;
+use App\Domain\CashFlow\Process\TrashCashFlowProcess;
 use App\Http\Controllers\Controller;
 use App\Models\CashFlow;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -13,18 +13,26 @@ use Throwable;
 
 final class TrashController extends Controller
 {
-    public function __invoke(CashFlow $cash_flow, TrashCashFlowInterface $use_case): JsonResponse
+    public function __construct(
+        protected TrashCashFlowProcess $process,
+    ) {}
+
+    public function __invoke(CashFlow $cash_flow): JsonResponse
     {
         try {
 
             Gate::authorize('trash', $cash_flow);
 
-            $dto = CashFlowDTO::fromModel($cash_flow);
+            $dto = new TrashCashFlowDTO(
+                id: $cash_flow->id,
+            );
 
-            $result = $use_case->handle($dto);
+            $this->process->run(
+                payload: $dto,
+            );
 
             return response()->json([
-                'success' => $result,
+                'success' => true,
                 'message' => __('messages.success.trashed', ['record' => 'Cash flow']),
             ]);
 

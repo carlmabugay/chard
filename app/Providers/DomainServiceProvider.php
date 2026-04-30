@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Application\CashFlow\UserCases\DeleteCashFlow;
 use App\Application\CashFlow\UserCases\RestoreCashFlow;
-use App\Application\CashFlow\UserCases\TrashCashFlow;
 use App\Application\Dividend\UseCases\DeleteDividend;
 use App\Application\Dividend\UseCases\GetDividend;
 use App\Application\Dividend\UseCases\ListDividends;
@@ -23,7 +22,6 @@ use App\Domain\CashFlow\Contracts\Persistence\Write\CashFlowWriteRepositoryInter
 use App\Domain\CashFlow\Contracts\Services\CashFlowServiceInterface;
 use App\Domain\CashFlow\Contracts\UseCases\DeleteCashFlowInterface;
 use App\Domain\CashFlow\Contracts\UseCases\RestoreCashFlowInterface;
-use App\Domain\CashFlow\Contracts\UseCases\TrashCashFlowInterface;
 use App\Domain\CashFlow\Repositories\CashFlowRepository;
 use App\Domain\CashFlow\Services\CashFlowService;
 use App\Domain\Dividend\Contracts\Persistence\Read\DividendReadRepositoryInterface;
@@ -64,7 +62,6 @@ class DomainServiceProvider extends ServiceProvider
         CashFlowReadRepositoryInterface::class => EloquentCashFlowReadRepository::class,
         CashFlowWriteRepositoryInterface::class => EloquentCashFlowWriteRepository::class,
         CashFlowServiceInterface::class => CashFlowService::class,
-        TrashCashFlowInterface::class => TrashCashFlow::class,
         RestoreCashFlowInterface::class => RestoreCashFlow::class,
         DeleteCashFlowInterface::class => DeleteCashFlow::class,
 

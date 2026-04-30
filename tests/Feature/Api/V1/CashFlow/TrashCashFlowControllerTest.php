@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\CashFlow\UserCases\TrashCashFlow;
+use App\Domain\CashFlow\Process\TrashCashFlowProcess;
 use App\Models\CashFlow as CashFlowModel;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
@@ -84,8 +84,8 @@ describe('Feature: TrashCashFlowController', function () {
             $cash_flow = CashFlowModel::factory()->create();
 
             // Expectation:
-            $this->mock(TrashCashFlow::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(TrashCashFlowProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });
