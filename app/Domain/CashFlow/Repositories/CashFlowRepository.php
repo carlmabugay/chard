@@ -4,6 +4,7 @@ namespace App\Domain\CashFlow\Repositories;
 
 use App\Domain\CashFlow\Contracts\CashFlowRepositoryInterface;
 use App\Domain\CashFlow\DTOs\ListCashFlowsDTO;
+use App\Domain\CashFlow\DTOs\RestoreCashFlowDTO;
 use App\Domain\CashFlow\DTOs\StoreCashFlowDTO;
 use App\Domain\CashFlow\DTOs\TrashCashFlowDTO;
 use App\Domain\CashFlow\DTOs\UpdateCashFlowDTO;
@@ -78,6 +79,21 @@ class CashFlowRepository implements CashFlowRepositoryInterface
                 ->whereNull('deleted_at')
                 ->update([
                     'deleted_at' => now(),
+                ]);
+        }, 2);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function restore(RestoreCashFlowDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('cash_flows')
+                ->where('id', $dto->id)
+                ->whereNotNull('deleted_at')
+                ->update([
+                    'deleted_at' => null,
                 ]);
         }, 2);
     }

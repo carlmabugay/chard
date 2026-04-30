@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers\Site\Pages\CashFlow;
 
-use App\Domain\CashFlow\DTOs\TrashCashFlowDTO;
-use App\Domain\CashFlow\Process\TrashCashFlowProcess;
+use App\Domain\CashFlow\DTOs\RestoreCashFlowDTO;
+use App\Domain\CashFlow\Process\RestoreCashFlowProcess;
 use App\Http\Controllers\Controller;
 use App\Models\CashFlow;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
-class TrashController extends Controller
+class RestoreController extends Controller
 {
     public function __construct(
-        protected TrashCashFlowProcess $process,
+        protected readonly RestoreCashFlowProcess $process,
     ) {}
 
     public function __invoke(CashFlow $cash_flow): RedirectResponse
     {
 
-        Gate::authorize('trash', $cash_flow);
+        Gate::authorize('restore', $cash_flow);
 
-        $dto = new TrashCashFlowDTO(
+        $dto = new RestoreCashFlowDTO(
             id: $cash_flow->id,
         );
 
@@ -30,6 +30,6 @@ class TrashController extends Controller
         );
 
         return Redirect::route('cash-flow.index')
-            ->with('success', __('messages.success.trashed', ['record' => 'Cash flow']));
+            ->with('success', __('messages.success.restored', ['record' => 'Cash flow']));
     }
 }
