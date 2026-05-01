@@ -9,7 +9,7 @@ use App\Traits\HasDataTableResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class IndexController extends Controller
+final class IndexController extends Controller
 {
     use HasDataTableResponse;
 

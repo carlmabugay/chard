@@ -7,8 +7,6 @@ use App\Domain\Dividend\Entities\Dividend;
 
 interface DividendServiceInterface
 {
-    public function findById(int $id): Dividend;
-
     public function store(DividendDTO $dto): Dividend;
 
     public function trash(DividendDTO $dto): ?bool;
