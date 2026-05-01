@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Application\Dividend\UseCases\DeleteDividend;
-use App\Application\Dividend\UseCases\RestoreDividend;
 use App\Application\TradeLog\UseCases\DeleteTradeLog;
 use App\Application\TradeLog\UseCases\GetTradeLog;
 use App\Application\TradeLog\UseCases\ListTradeLogs;
@@ -16,7 +15,6 @@ use App\Domain\Dividend\Contracts\DividendRepositoryInterface;
 use App\Domain\Dividend\Contracts\Persistence\Write\DividendWriteRepositoryInterface;
 use App\Domain\Dividend\Contracts\Services\DividendServiceInterface;
 use App\Domain\Dividend\Contracts\UseCases\DeleteDividendInterface;
-use App\Domain\Dividend\Contracts\UseCases\RestoreDividendInterface;
 use App\Domain\Dividend\Repositories\DividendRepository;
 use App\Domain\Dividend\Services\DividendService;
 use App\Domain\Portfolio\Contracts\PortfolioRepositoryInterface;
@@ -43,7 +41,6 @@ class DomainServiceProvider extends ServiceProvider
     public $bindings = [
         DividendWriteRepositoryInterface::class => EloquentDividendWriteRepository::class,
         DividendServiceInterface::class => DividendService::class,
-        RestoreDividendInterface::class => RestoreDividend::class,
         DeleteDividendInterface::class => DeleteDividend::class,
 
         TradeLogReadRepositoryInterface::class => EloquentTradeLogReadRepository::class,

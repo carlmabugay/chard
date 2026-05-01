@@ -4,6 +4,7 @@ namespace App\Domain\Dividend\Repositories;
 
 use App\Domain\Dividend\Contracts\DividendRepositoryInterface;
 use App\Domain\Dividend\DTOs\ListDividendsDTO;
+use App\Domain\Dividend\DTOs\RestoreDividendDTO;
 use App\Domain\Dividend\DTOs\StoreDividendDTO;
 use App\Domain\Dividend\DTOs\TrashDividendDTO;
 use App\Domain\Dividend\DTOs\UpdateDividendDTO;
@@ -79,6 +80,21 @@ class DividendRepository implements DividendRepositoryInterface
                 ->whereNull('deleted_at')
                 ->update([
                     'deleted_at' => now(),
+                ]);
+        }, 2);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function restore(RestoreDividendDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('dividends')
+                ->where('id', $dto->id)
+                ->whereNotNull('deleted_at')
+                ->update([
+                    'deleted_at' => null,
                 ]);
         }, 2);
     }

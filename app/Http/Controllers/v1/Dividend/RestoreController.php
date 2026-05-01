@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\v1\Dividend;
 
-use App\Application\Dividend\DTOs\DividendDTO;
-use App\Domain\Dividend\Contracts\UseCases\RestoreDividendInterface;
+use App\Domain\Dividend\DTOs\RestoreDividendDTO;
+use App\Domain\Dividend\Process\RestoreDividendProcess;
 use App\Http\Controllers\Controller;
 use App\Models\Dividend;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -13,18 +13,26 @@ use Throwable;
 
 final class RestoreController extends Controller
 {
-    public function __invoke(Dividend $dividend, RestoreDividendInterface $use_case): JsonResponse
+    public function __construct(
+        protected readonly RestoreDividendProcess $process
+    ) {}
+
+    public function __invoke(Dividend $dividend): JsonResponse
     {
         try {
 
             Gate::authorize('restore', $dividend);
 
-            $dto = DividendDTO::fromModel($dividend);
+            $dto = new RestoreDividendDTO(
+                id: $dividend->id,
+            );
 
-            $result = $use_case->handle($dto);
+            $this->process->run(
+                payload: $dto,
+            );
 
             return response()->json([
-                'success' => $result,
+                'success' => true,
                 'message' => __('messages.success.restored', ['record' => 'Dividend']),
             ]);
 

@@ -3,6 +3,7 @@
 namespace App\Domain\Dividend\Contracts;
 
 use App\Domain\Dividend\DTOs\ListDividendsDTO;
+use App\Domain\Dividend\DTOs\RestoreDividendDTO;
 use App\Domain\Dividend\DTOs\StoreDividendDTO;
 use App\Domain\Dividend\DTOs\TrashDividendDTO;
 use App\Domain\Dividend\DTOs\UpdateDividendDTO;
@@ -17,4 +18,6 @@ interface DividendRepositoryInterface
     public function update(UpdateDividendDTO $dto): void;
 
     public function trash(TrashDividendDTO $dto): void;
+
+    public function restore(RestoreDividendDTO $dto): void;
 }
