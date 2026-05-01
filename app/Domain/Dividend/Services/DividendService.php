@@ -3,7 +3,6 @@
 namespace App\Domain\Dividend\Services;
 
 use App\Application\Dividend\DTOs\DividendDTO;
-use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\Dividend\Contracts\Persistence\Read\DividendReadRepositoryInterface;
 use App\Domain\Dividend\Contracts\Persistence\Write\DividendWriteRepositoryInterface;
 use App\Domain\Dividend\Contracts\Services\DividendServiceInterface;
@@ -15,11 +14,6 @@ class DividendService implements DividendServiceInterface
         private readonly DividendWriteRepositoryInterface $write_repository,
         private readonly DividendReadRepositoryInterface $read_repository,
     ) {}
-
-    public function findAll(QueryCriteria $criteria): array
-    {
-        return $this->read_repository->findAll($criteria);
-    }
 
     /*
     * @throws ModelNotFoundException

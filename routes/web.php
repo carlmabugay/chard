@@ -8,7 +8,7 @@ use App\Http\Controllers\Site\Pages\CashFlow\StoreController as StoreCashFlowCon
 use App\Http\Controllers\Site\Pages\CashFlow\TrashController as TrashCashFlowController;
 use App\Http\Controllers\Site\Pages\CashFlow\UpdateController as UpdateCashFlowController;
 use App\Http\Controllers\Site\Pages\DashboardController;
-use App\Http\Controllers\Site\Pages\DividendController;
+use App\Http\Controllers\Site\Pages\Dividend\IndexController;
 use App\Http\Controllers\Site\Pages\HomeController;
 use App\Http\Controllers\Site\Pages\LoginController as WebLoginController;
 use App\Http\Controllers\Site\Pages\Portfolio\IndexController as ListPortfolioController;
@@ -61,7 +61,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{cash_flow}/trash', TrashCashFlowController::class)->name('cash_flow.trash');
     });
 
-    Route::get('/dividend', DividendController::class)->name('dividend.index');
+    Route::get('/dividend', IndexController::class)->name('dividend.index');
 
     Route::get('/trade-log', TradeLogController::class)->name('trade-log.index');
 });

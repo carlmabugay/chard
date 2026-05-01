@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Dividend\UseCases\ListDividends;
+use App\Domain\Dividend\Process\ListDividendsProcess;
 use App\Models\Dividend as DividendModel;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\User as UserModel;
@@ -24,7 +24,6 @@ describe('Feature: ListDividendController', function () {
             $response->assertOk()
                 ->assertJson([
                     'success' => true,
-                    'data' => [],
                 ]);
         });
 
@@ -65,8 +64,8 @@ describe('Feature: ListDividendController', function () {
             $user = UserModel::factory()->create();
 
             // Expectation:
-            $this->mock(ListDividends::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(ListDividendsProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });

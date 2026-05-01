@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Dividend;
 
-use App\Http\Resources\PortfolioResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -11,18 +10,10 @@ class DividendResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->resource->id(),
-            'symbol' => $this->resource->symbol(),
-            'amount' => $this->resource->amount(),
-            'recorded_at' => $this->resource->recordedAt(),
-            'portfolio' => PortfolioResource::make($this->resource->portfolio()),
-        ];
-    }
-
-    public function with($request): array
-    {
-        return [
-            'success' => true,
+            'id' => $this->id,
+            'symbol' => $this->symbol,
+            'amount' => $this->amount,
+            'recorded_at' => $this->resource->recorded_at,
         ];
     }
 }

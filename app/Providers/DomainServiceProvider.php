@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Application\Dividend\UseCases\DeleteDividend;
 use App\Application\Dividend\UseCases\GetDividend;
-use App\Application\Dividend\UseCases\ListDividends;
 use App\Application\Dividend\UseCases\RestoreDividend;
 use App\Application\Dividend\UseCases\StoreDividend;
 use App\Application\Dividend\UseCases\TrashDividend;
@@ -16,15 +15,16 @@ use App\Application\TradeLog\UseCases\StoreTradeLog;
 use App\Application\TradeLog\UseCases\TrashTradeLog;
 use App\Domain\CashFlow\Contracts\CashFlowRepositoryInterface;
 use App\Domain\CashFlow\Repositories\CashFlowRepository;
+use App\Domain\Dividend\Contracts\DividendRepositoryInterface;
 use App\Domain\Dividend\Contracts\Persistence\Read\DividendReadRepositoryInterface;
 use App\Domain\Dividend\Contracts\Persistence\Write\DividendWriteRepositoryInterface;
 use App\Domain\Dividend\Contracts\Services\DividendServiceInterface;
 use App\Domain\Dividend\Contracts\UseCases\DeleteDividendInterface;
 use App\Domain\Dividend\Contracts\UseCases\GetDividendInterface;
-use App\Domain\Dividend\Contracts\UseCases\ListDividendsInterface;
 use App\Domain\Dividend\Contracts\UseCases\RestoreDividendInterface;
 use App\Domain\Dividend\Contracts\UseCases\StoreDividendInterface;
 use App\Domain\Dividend\Contracts\UseCases\TrashDividendInterface;
+use App\Domain\Dividend\Repositories\DividendRepository;
 use App\Domain\Dividend\Services\DividendService;
 use App\Domain\Portfolio\Contracts\PortfolioRepositoryInterface;
 use App\Domain\Portfolio\Repositories\PortfolioRepository;
@@ -53,7 +53,6 @@ class DomainServiceProvider extends ServiceProvider
         DividendReadRepositoryInterface::class => EloquentDividendReadRepository::class,
         DividendWriteRepositoryInterface::class => EloquentDividendWriteRepository::class,
         DividendServiceInterface::class => DividendService::class,
-        ListDividendsInterface::class => ListDividends::class,
         GetDividendInterface::class => GetDividend::class,
         StoreDividendInterface::class => StoreDividend::class,
         TrashDividendInterface::class => TrashDividend::class,
@@ -73,6 +72,7 @@ class DomainServiceProvider extends ServiceProvider
         StrategyRepositoryInterface::class => StrategyRepository::class,
         PortfolioRepositoryInterface::class => PortfolioRepository::class,
         CashFlowRepositoryInterface::class => CashFlowRepository::class,
+        DividendRepositoryInterface::class => DividendRepository::class,
     ];
 
     /**

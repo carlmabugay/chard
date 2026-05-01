@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\v1\Dividend;
 
-use App\Domain\Dividend\Contracts\UseCases\ListDividendsInterface;
+use App\Domain\Dividend\DTOs\ListDividendsDTO;
+use App\Domain\Dividend\Process\ListDividendsProcess;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Dividend\DividendCollection;
-use App\Traits\HasPaginatedResponse;
+use App\Http\Resources\Dividend\DividendResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -13,15 +13,30 @@ use Throwable;
 
 final class ListController extends Controller
 {
-    use HasPaginatedResponse;
+    public function __construct(
+        protected readonly ListDividendsProcess $process
+    ) {}
 
-    public function __invoke(Request $request, ListDividendsInterface $use_case): JsonResource|JsonResponse
+    public function __invoke(Request $request): JsonResource|JsonResponse
     {
         try {
 
-            $result = $use_case->handle($this->prepareQueryCriteria($request));
+            $dto = new ListDividendsDTO(
+                search: $request->search,
+                per_page: $request->per_page ?? 5,
+                page: $request->page ?? 1,
+                sort_by: $request->sort_by ?? 'created_at',
+                sort_direction: $request->sort_direction ?? 'desc',
+            );
 
-            return $this->paginatedResponse(DividendCollection::make($result['data']), $result['pagination']);
+            $result = $this->process->run(
+                payload: $dto,
+            );
+
+            return DividendResource::collection($result)
+                ->additional([
+                    'success' => true,
+                ]);
 
         } catch (Throwable $error) {
 
