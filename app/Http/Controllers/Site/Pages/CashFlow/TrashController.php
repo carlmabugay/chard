@@ -10,7 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
-class TrashController extends Controller
+final class TrashController extends Controller
 {
     public function __construct(
         protected TrashCashFlowProcess $process,
@@ -18,7 +18,6 @@ class TrashController extends Controller
 
     public function __invoke(CashFlow $cash_flow): RedirectResponse
     {
-
         Gate::authorize('trash', $cash_flow);
 
         $dto = new TrashCashFlowDTO(
@@ -29,7 +28,7 @@ class TrashController extends Controller
             payload: $dto,
         );
 
-        return Redirect::route('cash-flow.index')
+        return Redirect::route('cash_flow.index')
             ->with('success', __('messages.success.trashed', ['record' => 'Cash flow']));
     }
 }

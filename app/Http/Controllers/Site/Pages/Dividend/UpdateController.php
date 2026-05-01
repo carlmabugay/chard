@@ -19,7 +19,6 @@ final class UpdateController extends Controller
 
     public function __invoke(Dividend $dividend, UpdateDividendRequest $request): RedirectResponse
     {
-
         Gate::authorize('update', $dividend);
 
         $dto = new UpdateDividendDTO(

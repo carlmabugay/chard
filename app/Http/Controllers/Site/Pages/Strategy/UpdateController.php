@@ -11,7 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
-class UpdateController extends Controller
+final class UpdateController extends Controller
 {
     public function __construct(
         protected UpdateStrategyProcess $process
@@ -19,7 +19,6 @@ class UpdateController extends Controller
 
     public function __invoke(Strategy $strategy, StoreStrategyRequest $request): RedirectResponse
     {
-
         Gate::authorize('update', $strategy);
 
         $dto = new UpdateStrategyDTO(

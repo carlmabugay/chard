@@ -13,7 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
-class StoreController extends Controller
+final class StoreController extends Controller
 {
     public function __construct(
         protected readonly StoreCashFlowProcess $process
@@ -21,7 +21,6 @@ class StoreController extends Controller
 
     public function __invoke(CreateCashFlowRequest $request): RedirectResponse
     {
-
         $portfolioData = app(PortfolioRepository::class)->findById($request->validated('portfolio_id'));
 
         $portfolio = Portfolio::fromStdClass($portfolioData);
@@ -38,7 +37,7 @@ class StoreController extends Controller
             payload: $dto
         );
 
-        return Redirect::route('cash-flow.index')
+        return Redirect::route('cash_flow.index')
             ->with('success', __('messages.success.stored', ['record' => 'Cash flow']));
     }
 }

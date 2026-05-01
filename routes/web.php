@@ -11,6 +11,7 @@ use App\Http\Controllers\Site\Pages\DashboardController;
 use App\Http\Controllers\Site\Pages\Dividend\IndexController as ListDividendsController;
 use App\Http\Controllers\Site\Pages\Dividend\ShowController as ShowDividendController;
 use App\Http\Controllers\Site\Pages\Dividend\StoreController as StoreDividendController;
+use App\Http\Controllers\Site\Pages\Dividend\TrashController as TrashDividendController;
 use App\Http\Controllers\Site\Pages\Dividend\UpdateController as UpdateDividendController;
 use App\Http\Controllers\Site\Pages\HomeController;
 use App\Http\Controllers\Site\Pages\LoginController as WebLoginController;
@@ -57,8 +58,8 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('portfolio')->group(function () {
-        Route::get('/cash_flow', ListCashFlowController::class)->name('cash-flow.index');
-        Route::get('/{cash_flow}', ShowCashFlowController::class)->name('cash-flow.show');
+        Route::get('/cash_flow', ListCashFlowController::class)->name('cash_flow.index');
+        Route::get('/{cash_flow}', ShowCashFlowController::class)->name('cash_flow.show');
         Route::post('/', StoreCashFlowController::class)->name('cash_flow.store');
         Route::put('/{cash_flow}', UpdateCashFlowController::class)->name('cash_flow.update');
         Route::delete('/{cash_flow}/trash', TrashCashFlowController::class)->name('cash_flow.trash');
@@ -69,6 +70,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{dividend}', ShowDividendController::class)->name('dividend.show');
         Route::post('/', StoreDividendController::class)->name('dividend.store');
         Route::put('/{dividend}', UpdateDividendController::class)->name('dividend.update');
+        Route::delete('/{dividend}/trash', TrashDividendController::class)->name('dividend.trash');
     });
 
     Route::get('/trade-log', TradeLogController::class)->name('trade-log.index');

@@ -2,7 +2,7 @@
 
 namespace App\Domain\Dividend\DTOs;
 
-final class RestoreDividendDTO
+final class DeleteDividendDTO
 {
     public function __construct(
         public int $id,

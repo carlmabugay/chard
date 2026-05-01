@@ -10,7 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
-class RestoreController extends Controller
+final class RestoreController extends Controller
 {
     public function __construct(
         protected readonly RestoreCashFlowProcess $process,
@@ -18,7 +18,6 @@ class RestoreController extends Controller
 
     public function __invoke(CashFlow $cash_flow): RedirectResponse
     {
-
         Gate::authorize('restore', $cash_flow);
 
         $dto = new RestoreCashFlowDTO(
@@ -29,7 +28,7 @@ class RestoreController extends Controller
             payload: $dto,
         );
 
-        return Redirect::route('cash-flow.index')
+        return Redirect::route('cash_flow.index')
             ->with('success', __('messages.success.restored', ['record' => 'Cash flow']));
     }
 }

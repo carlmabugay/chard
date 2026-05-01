@@ -10,7 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
-class RestoreController extends Controller
+final class RestoreController extends Controller
 {
     public function __construct(
         protected readonly RestoreDividendProcess $process
@@ -18,7 +18,6 @@ class RestoreController extends Controller
 
     public function __invoke(Dividend $dividend): RedirectResponse
     {
-
         Gate::authorize('restore', $dividend);
 
         $dto = new RestoreDividendDTO(

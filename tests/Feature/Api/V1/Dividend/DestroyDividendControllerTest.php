@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Dividend\UseCases\DeleteDividend;
+use App\Domain\Dividend\Process\DeleteDividendProcess;
 use App\Models\Dividend as DividendModel;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
@@ -84,8 +84,8 @@ describe('Feature: DestroyDividendController', function () {
             $dividend = DividendModel::factory()->create();
 
             // Expectation:
-            $this->mock(DeleteDividend::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(DeleteDividendProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });

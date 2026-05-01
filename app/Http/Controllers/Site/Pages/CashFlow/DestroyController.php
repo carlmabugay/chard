@@ -29,7 +29,7 @@ final class DestroyController extends Controller
             payload: $dto,
         );
 
-        return Redirect::route('cash-flow.index')
+        return Redirect::route('cash_flow.index')
             ->with('success', __('messages.success.destroyed', ['record' => 'Cash flow']));
     }
 }

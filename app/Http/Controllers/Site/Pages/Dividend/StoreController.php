@@ -20,7 +20,6 @@ final class StoreController
 
     public function __invoke(CreateDividendRequest $request): RedirectResponse
     {
-
         $portfolioData = app(PortfolioRepository::class)->findById($request->validated('portfolio_id'));
 
         $portfolio = Portfolio::fromStdClass($portfolioData);

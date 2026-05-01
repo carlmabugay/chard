@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers\Site\Pages\Dividend;
 
-use App\Domain\Dividend\DTOs\TrashDividendDTO;
-use App\Domain\Dividend\Process\TrashDividendProcess;
+use App\Domain\Dividend\DTOs\DeleteDividendDTO;
+use App\Domain\Dividend\Process\DeleteDividendProcess;
 use App\Http\Controllers\Controller;
 use App\Models\Dividend;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
-final class TrashController extends Controller
+final class DestroyController extends Controller
 {
     public function __construct(
-        protected readonly TrashDividendProcess $process,
+        protected readonly DeleteDividendProcess $process
     ) {}
 
     public function __invoke(Dividend $dividend): RedirectResponse
     {
-        Gate::authorize('trash', $dividend);
+        Gate::authorize('destroy', $dividend);
 
-        $dto = new TrashDividendDTO(
+        $dto = new DeleteDividendDTO(
             id: $dividend->id,
         );
 
@@ -29,6 +29,6 @@ final class TrashController extends Controller
         );
 
         return Redirect::route('dividend.index')
-            ->with('success', __('messages.success.trashed', ['record' => 'Dividend']));
+            ->with('success', __('messages.success.destroyed', ['record' => 'Dividend']));
     }
 }

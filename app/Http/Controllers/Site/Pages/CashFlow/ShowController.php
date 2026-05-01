@@ -7,7 +7,7 @@ use App\Http\Resources\CashFlowResource;
 use App\Models\CashFlow;
 use Illuminate\Support\Facades\Gate;
 
-class ShowController extends Controller
+final class ShowController extends Controller
 {
     public function __invoke(CashFlow $cash_flow)
     {

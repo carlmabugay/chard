@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -13,7 +14,7 @@ class DividendResource extends JsonResource
             'id' => $this->id,
             'symbol' => $this->symbol,
             'amount' => $this->amount,
-            'recorded_at' => $this->resource->recorded_at,
+            'recorded_at' => Carbon::make($this->resource->recorded_at)->format('F d, Y'),
         ];
     }
 }

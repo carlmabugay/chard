@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Portfolio\StorePortfolioRequest;
 use Illuminate\Support\Facades\Redirect;
 
-class StoreController extends Controller
+final class StoreController extends Controller
 {
     public function __construct(
         protected StorePortfolioProcess $process
@@ -16,7 +16,6 @@ class StoreController extends Controller
 
     public function __invoke(StorePortfolioRequest $request)
     {
-
         $dto = new StorePortfolioDTO(
             user_id: $request->user()->id,
             name: $request->validated('name'),

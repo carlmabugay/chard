@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class IndexController extends Controller
+final class IndexController extends Controller
 {
     use HasDataTableResponse;
 
@@ -27,7 +27,6 @@ class IndexController extends Controller
 
     public function __invoke(Request $request): Response
     {
-
         $dto = new ListCashFlowsDTO(
             search: $request->search,
             per_page: $request->per_page ?? 5,

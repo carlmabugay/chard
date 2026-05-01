@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class IndexController extends Controller
+final class IndexController extends Controller
 {
     use HasDataTableResponse;
 

@@ -11,7 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
-class UpdateController extends Controller
+final class UpdateController extends Controller
 {
     public function __construct(
         protected readonly UpdateCashFlowProcess $process
@@ -19,7 +19,6 @@ class UpdateController extends Controller
 
     public function __invoke(CashFlow $cash_flow, UpdateCashFlowRequest $request): RedirectResponse
     {
-
         Gate::authorize('update', $cash_flow);
 
         $dto = new UpdateCashFlowDTO(
@@ -33,7 +32,7 @@ class UpdateController extends Controller
             payload: $dto,
         );
 
-        return Redirect::route('cash-flow.index')
+        return Redirect::route('cash_flow.index')
             ->with('success', __('messages.success.updated', ['record' => 'Cash flow']));
     }
 }
