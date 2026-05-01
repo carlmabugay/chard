@@ -11,6 +11,7 @@ use App\Http\Controllers\Site\Pages\DashboardController;
 use App\Http\Controllers\Site\Pages\Dividend\IndexController as ListDividendsController;
 use App\Http\Controllers\Site\Pages\Dividend\ShowController as ShowDividendController;
 use App\Http\Controllers\Site\Pages\Dividend\StoreController as StoreDividendController;
+use App\Http\Controllers\Site\Pages\Dividend\TrashController as TrashDividendController;
 use App\Http\Controllers\Site\Pages\Dividend\UpdateController as UpdateDividendController;
 use App\Http\Controllers\Site\Pages\HomeController;
 use App\Http\Controllers\Site\Pages\LoginController as WebLoginController;
@@ -69,6 +70,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{dividend}', ShowDividendController::class)->name('dividend.show');
         Route::post('/', StoreDividendController::class)->name('dividend.store');
         Route::put('/{dividend}', UpdateDividendController::class)->name('dividend.update');
+        Route::delete('/{dividend}/trash', TrashDividendController::class)->name('dividend.trash');
     });
 
     Route::get('/trade-log', TradeLogController::class)->name('trade-log.index');

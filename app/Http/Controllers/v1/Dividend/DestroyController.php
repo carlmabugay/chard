@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\v1\Dividend;
 
-use App\Application\Dividend\DTOs\DividendDTO;
-use App\Domain\Dividend\Contracts\UseCases\DeleteDividendInterface;
+use App\Domain\Dividend\DTOs\DeleteDividendDTO;
+use App\Domain\Dividend\Process\DeleteDividendProcess;
 use App\Http\Controllers\Controller;
 use App\Models\Dividend;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -13,18 +13,26 @@ use Throwable;
 
 final class DestroyController extends Controller
 {
-    public function __invoke(Dividend $dividend, DeleteDividendInterface $use_case): JsonResponse
+    public function __construct(
+        protected readonly DeleteDividendProcess $process
+    ) {}
+
+    public function __invoke(Dividend $dividend): JsonResponse
     {
         try {
 
             Gate::authorize('destroy', $dividend);
 
-            $dto = DividendDTO::fromModel($dividend);
+            $dto = new DeleteDividendDTO(
+                id: $dividend->id,
+            );
 
-            $result = $use_case->handle($dto);
+            $this->process->run(
+                payload: $dto,
+            );
 
             return response()->json([
-                'success' => $result,
+                'success' => true,
                 'message' => __('messages.success.destroyed', ['record' => 'Dividend']),
             ]);
 
