@@ -12,11 +12,6 @@ class DividendService implements DividendServiceInterface
         private readonly DividendWriteRepositoryInterface $write_repository,
     ) {}
 
-    public function trash(DividendDTO $dto): ?bool
-    {
-        return $this->write_repository->trash($dto);
-    }
-
     public function restore(DividendDTO $dto): ?bool
     {
         return $this->write_repository->restore($dto);

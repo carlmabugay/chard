@@ -10,19 +10,6 @@ beforeEach(function () {
 
 describe('Integration: EloquentDividendWriteRepository', function () {
 
-    it('can soft delete dividend when using trash method.', function () {
-        // Arrange:
-        $dividend = DividendModel::factory()->create();
-
-        $dto = DividendDTO::fromModel($dividend);
-
-        // Act:
-        $this->repository->trash($dto);
-
-        // Assert:
-        $this->assertSoftDeleted($dividend);
-    });
-
     it('can restore trashed dividend when using restore method.', function () {
         // Arrange:
         $dividend = DividendModel::factory()->trashed()->create();

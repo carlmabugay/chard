@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Dividend\UseCases\TrashDividend;
+use App\Domain\Dividend\Process\TrashDividendProcess;
 use App\Models\Dividend as DividendModel;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
@@ -83,8 +83,8 @@ describe('Feature: TrashDividendController', function () {
             $dividend = DividendModel::factory()->create();
 
             // Expectation:
-            $this->mock(TrashDividend::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(TrashDividendProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });

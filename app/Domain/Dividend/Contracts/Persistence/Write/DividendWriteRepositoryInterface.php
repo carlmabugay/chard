@@ -6,8 +6,6 @@ use App\Application\Dividend\DTOs\DividendDTO;
 
 interface DividendWriteRepositoryInterface
 {
-    public function trash(DividendDTO $dto): ?bool;
-
     public function restore(DividendDTO $dto): ?bool;
 
     public function delete(DividendDTO $dto): ?bool;

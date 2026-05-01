@@ -5,6 +5,7 @@ namespace App\Domain\Dividend\Repositories;
 use App\Domain\Dividend\Contracts\DividendRepositoryInterface;
 use App\Domain\Dividend\DTOs\ListDividendsDTO;
 use App\Domain\Dividend\DTOs\StoreDividendDTO;
+use App\Domain\Dividend\DTOs\TrashDividendDTO;
 use App\Domain\Dividend\DTOs\UpdateDividendDTO;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -63,6 +64,21 @@ class DividendRepository implements DividendRepositoryInterface
                     'portfolio_id' => $dto->portfolio_id,
                     'symbol' => $dto->symbol,
                     'amount' => $dto->amount,
+                ]);
+        }, 2);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function trash(TrashDividendDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('dividends')
+                ->where('id', $dto->id)
+                ->whereNull('deleted_at')
+                ->update([
+                    'deleted_at' => now(),
                 ]);
         }, 2);
     }
