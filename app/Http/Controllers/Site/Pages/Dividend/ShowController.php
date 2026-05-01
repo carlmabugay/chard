@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Site\Pages\Dividend;
 
-use App\Http\Resources\Dividend\DividendResource;
+use App\Http\Resources\DividendResource;
 use App\Models\Dividend;
 use Illuminate\Support\Facades\Gate;
 

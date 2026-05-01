@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v1\Dividend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Dividend\DividendResource;
+use App\Http\Resources\DividendResource;
 use App\Models\Dividend;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;

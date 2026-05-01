@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\v1\Dividend;
 
-use App\Application\Dividend\DTOs\DividendDTO;
-use App\Domain\Dividend\Contracts\UseCases\StoreDividendInterface;
+use App\Domain\Dividend\DTOs\UpdateDividendDTO;
+use App\Domain\Dividend\Process\UpdateDividendProcess;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dividend\UpdateDividendRequest;
-use App\Http\Resources\Dividend\DividendResource;
 use App\Models\Dividend;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
@@ -15,22 +14,30 @@ use Throwable;
 
 final class UpdateController extends Controller
 {
-    public function __invoke(Dividend $dividend, UpdateDividendRequest $request, StoreDividendInterface $use_case): DividendResource|JsonResponse
+    public function __construct(
+        protected readonly UpdateDividendProcess $process,
+    ) {}
+
+    public function __invoke(Dividend $dividend, UpdateDividendRequest $request): JsonResponse
     {
         try {
 
             Gate::authorize('update', $dividend);
 
-            $request->merge(['id' => $dividend->id]);
+            $dto = new UpdateDividendDTO(
+                id: $dividend->id,
+                portfolio_id: $request->validated('portfolio_id'),
+                symbol: $request->validated('symbol'),
+                amount: $request->validated('amount'),
+                recorded_at: $request->validated('recorded_at'),
+            );
 
-            $dto = DividendDTO::fromRequest($request);
+            $this->process->run($dto);
 
-            $result = $use_case->handle($dto);
-
-            return DividendResource::make($result)
-                ->additional([
-                    'message' => __('messages.success.updated', ['record' => 'Dividend']),
-                ]);
+            return response()->json([
+                'success' => true,
+                'message' => __('messages.success.updated', ['record' => 'Dividend']),
+            ]);
 
         } catch (AuthorizationException) {
 

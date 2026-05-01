@@ -5,6 +5,7 @@ namespace App\Domain\Dividend\Repositories;
 use App\Domain\Dividend\Contracts\DividendRepositoryInterface;
 use App\Domain\Dividend\DTOs\ListDividendsDTO;
 use App\Domain\Dividend\DTOs\StoreDividendDTO;
+use App\Domain\Dividend\DTOs\UpdateDividendDTO;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -47,6 +48,22 @@ class DividendRepository implements DividendRepositoryInterface
                 'amount' => $dto->amount,
                 'recorded_at' => $dto->recorded_at,
             ]);
+        }, 2);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function update(UpdateDividendDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('dividends')
+                ->where('id', $dto->id)
+                ->update([
+                    'portfolio_id' => $dto->portfolio_id,
+                    'symbol' => $dto->symbol,
+                    'amount' => $dto->amount,
+                ]);
         }, 2);
     }
 }

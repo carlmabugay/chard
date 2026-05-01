@@ -5,7 +5,7 @@ namespace App\Http\Controllers\v1\Dividend;
 use App\Domain\Dividend\DTOs\ListDividendsDTO;
 use App\Domain\Dividend\Process\ListDividendsProcess;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Dividend\DividendResource;
+use App\Http\Resources\DividendResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

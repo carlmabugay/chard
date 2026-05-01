@@ -10,6 +10,8 @@ use App\Http\Controllers\Site\Pages\CashFlow\UpdateController as UpdateCashFlowC
 use App\Http\Controllers\Site\Pages\DashboardController;
 use App\Http\Controllers\Site\Pages\Dividend\IndexController as ListDividendsController;
 use App\Http\Controllers\Site\Pages\Dividend\ShowController as ShowDividendController;
+use App\Http\Controllers\Site\Pages\Dividend\StoreController as StoreDividendController;
+use App\Http\Controllers\Site\Pages\Dividend\UpdateController as UpdateDividendController;
 use App\Http\Controllers\Site\Pages\HomeController;
 use App\Http\Controllers\Site\Pages\LoginController as WebLoginController;
 use App\Http\Controllers\Site\Pages\Portfolio\IndexController as ListPortfolioController;
@@ -65,6 +67,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('dividend')->group(function () {
         Route::get('/', ListDividendsController::class)->name('dividend.index');
         Route::get('/{dividend}', ShowDividendController::class)->name('dividend.show');
+        Route::post('/', StoreDividendController::class)->name('dividend.store');
+        Route::put('/{dividend}', UpdateDividendController::class)->name('dividend.update');
     });
 
     Route::get('/trade-log', TradeLogController::class)->name('trade-log.index');

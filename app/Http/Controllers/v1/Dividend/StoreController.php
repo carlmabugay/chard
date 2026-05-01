@@ -7,7 +7,7 @@ use App\Domain\Dividend\Process\StoreDividendProcess;
 use App\Domain\Portfolio\Repositories\PortfolioRepository;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dividend\CreateDividendRequest;
-use App\Http\Resources\Dividend\DividendResource;
+use App\Http\Resources\DividendResource;
 use App\Models\Dividend;
 use App\Models\Portfolio;
 use Illuminate\Auth\Access\AuthorizationException;

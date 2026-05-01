@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\Dividend\UseCases\StoreDividend;
+use App\Domain\Dividend\Process\UpdateDividendProcess;
 use App\Models\Dividend as DividendModel;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
@@ -30,9 +30,6 @@ describe('Feature: UpdateDividendController', function () {
                 ->assertJson([
                     'success' => true,
                     'message' => __('messages.success.updated', ['record' => 'Dividend']),
-                    'data' => [
-                        'amount' => $payload['amount'],
-                    ],
                 ]);
         });
 
@@ -121,8 +118,8 @@ describe('Feature: UpdateDividendController', function () {
             ];
 
             // Expectation:
-            $this->mock(StoreDividend::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(UpdateDividendProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });
