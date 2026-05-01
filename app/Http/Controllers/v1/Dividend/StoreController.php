@@ -2,32 +2,50 @@
 
 namespace App\Http\Controllers\v1\Dividend;
 
-use App\Application\Dividend\DTOs\DividendDTO;
-use App\Domain\Dividend\Contracts\UseCases\StoreDividendInterface;
-use App\Domain\Portfolio\Contracts\Services\PortfolioServiceInterface;
+use App\Domain\Dividend\DTOs\StoreDividendDTO;
+use App\Domain\Dividend\Process\StoreDividendProcess;
+use App\Domain\Portfolio\Repositories\PortfolioRepository;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dividend\CreateDividendRequest;
 use App\Http\Resources\Dividend\DividendResource;
+use App\Models\Dividend;
+use App\Models\Portfolio;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 use Throwable;
 
 final class StoreController extends Controller
 {
-    public function __invoke(CreateDividendRequest $request, StoreDividendInterface $use_case, PortfolioServiceInterface $portfolio_service): DividendResource|JsonResponse
+    public function __construct(
+        protected readonly StoreDividendProcess $process,
+    ) {}
+
+    public function __invoke(CreateDividendRequest $request): DividendResource|JsonResponse
     {
         try {
 
-            $dto = DividendDTO::fromRequest($request);
+            $portfolioData = app(PortfolioRepository::class)->findById($request->validated('portfolio_id'));
 
-            $result = $use_case->handle($dto);
+            $portfolio = Portfolio::fromStdClass($portfolioData);
 
-            return DividendResource::make($result)
-                ->additional([
-                    'message' => __('messages.success.stored', ['record' => 'Dividend']),
-                ])
-                ->response()
-                ->setStatusCode(201);
+            Gate::allows('store', [Dividend::class, $portfolio]);
+
+            $dto = new StoreDividendDTO(
+                portfolio_id: $request->validated('portfolio_id'),
+                symbol: $request->validated('symbol'),
+                amount: $request->validated('amount'),
+                recorded_at: $request->validated('recorded_at'),
+            );
+
+            $this->process->run(
+                payload: $dto,
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => __('messages.success.stored', ['record' => 'Dividend']),
+            ])->setStatusCode(201);
 
         } catch (AuthorizationException) {
 

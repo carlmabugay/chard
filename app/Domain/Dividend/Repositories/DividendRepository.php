@@ -4,8 +4,10 @@ namespace App\Domain\Dividend\Repositories;
 
 use App\Domain\Dividend\Contracts\DividendRepositoryInterface;
 use App\Domain\Dividend\DTOs\ListDividendsDTO;
+use App\Domain\Dividend\DTOs\StoreDividendDTO;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class DividendRepository implements DividendRepositoryInterface
 {
@@ -31,5 +33,20 @@ class DividendRepository implements DividendRepositoryInterface
                 'page',
                 $dto->page
             )->withQueryString();
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function store(StoreDividendDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('dividends')->insert([
+                'portfolio_id' => $dto->portfolio_id,
+                'symbol' => $dto->symbol,
+                'amount' => $dto->amount,
+                'recorded_at' => $dto->recorded_at,
+            ]);
+        }, 2);
     }
 }
