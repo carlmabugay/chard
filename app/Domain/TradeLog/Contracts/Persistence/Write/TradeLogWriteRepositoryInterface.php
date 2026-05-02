@@ -6,7 +6,5 @@ use App\Application\TradeLog\DTOs\TradeLogDTO;
 
 interface TradeLogWriteRepositoryInterface
 {
-    public function restore(TradeLogDTO $dto): ?bool;
-
     public function delete(TradeLogDTO $dto): ?bool;
 }

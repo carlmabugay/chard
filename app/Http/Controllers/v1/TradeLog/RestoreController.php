@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\v1\TradeLog;
 
-use App\Application\TradeLog\DTOs\TradeLogDTO;
-use App\Domain\TradeLog\Contracts\UseCases\RestoreTradeLogInterface;
+use App\Domain\TradeLog\DTOs\RestoreTradeLogDTO;
+use App\Domain\TradeLog\Process\RestoreTradeLogProcess;
 use App\Http\Controllers\Controller;
 use App\Models\TradeLog;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -13,18 +13,26 @@ use Throwable;
 
 final class RestoreController extends Controller
 {
-    public function __invoke(TradeLog $trade_log, RestoreTradeLogInterface $use_case): JsonResponse
+    public function __construct(
+        protected readonly RestoreTradeLogProcess $process,
+    ) {}
+
+    public function __invoke(TradeLog $trade_log): JsonResponse
     {
         try {
 
             Gate::authorize('restore', $trade_log);
 
-            $dto = TradeLogDTO::fromModel($trade_log);
+            $dto = new RestoreTradeLogDTO(
+                id: $trade_log->id,
+            );
 
-            $result = $use_case->handle($dto);
+            $this->process->run(
+                payload: $dto,
+            );
 
             return response()->json([
-                'success' => $result,
+                'success' => true,
                 'message' => __('messages.success.restored', ['record' => 'Trade log']),
             ]);
 

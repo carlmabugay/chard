@@ -4,6 +4,7 @@ namespace App\Domain\TradeLog\Repositories;
 
 use App\Domain\TradeLog\Contracts\TradeLogRepositoryInterface;
 use App\Domain\TradeLog\DTOs\ListTradeLogsDTO;
+use App\Domain\TradeLog\DTOs\RestoreTradeLogDTO;
 use App\Domain\TradeLog\DTOs\StoreTradeLogDTO;
 use App\Domain\TradeLog\DTOs\TrashTradeLogDTO;
 use App\Domain\TradeLog\DTOs\UpdateTradeLogDTO;
@@ -88,6 +89,21 @@ class TradeLogRepository implements TradeLogRepositoryInterface
                 ->whereNull('deleted_at')
                 ->update([
                     'deleted_at' => now(),
+                ]);
+        }, 2);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function restore(RestoreTradeLogDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('trade_logs')
+                ->where('id', $dto->id)
+                ->whereNotNull('deleted_at')
+                ->update([
+                    'deleted_at' => null,
                 ]);
         }, 2);
     }

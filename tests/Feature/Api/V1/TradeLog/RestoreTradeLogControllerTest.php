@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\TradeLog\UseCases\RestoreTradeLog;
+use App\Domain\TradeLog\Process\RestoreTradeLogProcess;
 use App\Models\TradeLog as TradeLogModel;
 use App\Models\User as UserModel;
 use Mockery\MockInterface;
@@ -83,8 +83,8 @@ describe('Feature: RestoreTradeLogController', function () {
             $trade_log = TradeLogModel::factory()->trashed()->create();
 
             // Expectation:
-            $this->mock(RestoreTradeLog::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(RestoreTradeLogProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });

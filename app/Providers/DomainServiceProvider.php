@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Application\TradeLog\UseCases\DeleteTradeLog;
-use App\Application\TradeLog\UseCases\RestoreTradeLog;
 use App\Domain\CashFlow\Contracts\CashFlowRepositoryInterface;
 use App\Domain\CashFlow\Repositories\CashFlowRepository;
 use App\Domain\Dividend\Contracts\DividendRepositoryInterface;
@@ -16,7 +15,6 @@ use App\Domain\TradeLog\Contracts\Persistence\Write\TradeLogWriteRepositoryInter
 use App\Domain\TradeLog\Contracts\Services\TradeLogServiceInterface;
 use App\Domain\TradeLog\Contracts\TradeLogRepositoryInterface;
 use App\Domain\TradeLog\Contracts\UseCases\DeleteTradeLogInterface;
-use App\Domain\TradeLog\Contracts\UseCases\RestoreTradeLogInterface;
 use App\Domain\TradeLog\Repositories\TradeLogRepository;
 use App\Domain\TradeLog\Services\TradeLogService;
 use App\Infrastructure\Persistence\Eloquent\Write\EloquentTradeLogWriteRepository;
@@ -28,7 +26,6 @@ class DomainServiceProvider extends ServiceProvider
 
         TradeLogWriteRepositoryInterface::class => EloquentTradeLogWriteRepository::class,
         TradeLogServiceInterface::class => TradeLogService::class,
-        RestoreTradeLogInterface::class => RestoreTradeLog::class,
         DeleteTradeLogInterface::class => DeleteTradeLog::class,
 
         StrategyRepositoryInterface::class => StrategyRepository::class,
