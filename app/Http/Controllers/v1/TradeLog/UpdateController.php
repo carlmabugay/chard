@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\v1\TradeLog;
 
-use App\Application\TradeLog\DTOs\TradeLogDTO;
-use App\Domain\TradeLog\Contracts\UseCases\StoreTradeLogInterface;
+use App\Domain\TradeLog\DTOs\UpdateTradeLogDTO;
+use App\Domain\TradeLog\Process\UpdateTradeLogProcess;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TradeLog\UpdateTradeLogRequest;
 use App\Http\Resources\TradeLog\TradeLogResource;
@@ -15,19 +15,32 @@ use Throwable;
 
 final class UpdateController extends Controller
 {
-    public function __invoke(TradeLog $trade_log, UpdateTradeLogRequest $request, StoreTradeLogInterface $use_case): TradeLogResource|JsonResponse
+    public function __construct(
+        protected readonly UpdateTradeLogProcess $process,
+    ) {}
+
+    public function __invoke(TradeLog $trade_log, UpdateTradeLogRequest $request): TradeLogResource|JsonResponse
     {
         try {
 
             Gate::authorize('update', $trade_log);
 
-            $request->merge(['id' => $trade_log->id]);
+            $dto = new UpdateTradeLogDTO(
+                id: $trade_log->id,
+                portfolio_id: $request->validated('portfolio_id'),
+                symbol: $request->validated('symbol'),
+                type: $request->validated('type'),
+                price: $request->validated('price'),
+                shares: $request->validated('shares'),
+                fees: $request->validated('fees'),
+            );
 
-            $dto = TradeLogDTO::fromRequest($request);
+            $this->process->run(
+                payload: $dto,
+            );
 
-            $result = $use_case->handle($dto);
-
-            return TradeLogResource::make($result)->additional([
+            return response()->json([
+                'success' => true,
                 'message' => __('messages.success.updated', ['record' => 'Trade log']),
             ]);
 

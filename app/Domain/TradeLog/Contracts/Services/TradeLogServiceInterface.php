@@ -3,12 +3,9 @@
 namespace App\Domain\TradeLog\Contracts\Services;
 
 use App\Application\TradeLog\DTOs\TradeLogDTO;
-use App\Domain\TradeLog\Entities\TradeLog;
 
 interface TradeLogServiceInterface
 {
-    public function store(TradeLogDTO $dto): TradeLog;
-
     public function trash(TradeLogDTO $dto): ?bool;
 
     public function restore(TradeLogDTO $dto): ?bool;

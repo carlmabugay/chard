@@ -5,6 +5,7 @@ namespace App\Domain\TradeLog\Repositories;
 use App\Domain\TradeLog\Contracts\TradeLogRepositoryInterface;
 use App\Domain\TradeLog\DTOs\ListTradeLogsDTO;
 use App\Domain\TradeLog\DTOs\StoreTradeLogDTO;
+use App\Domain\TradeLog\DTOs\UpdateTradeLogDTO;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -46,6 +47,25 @@ class TradeLogRepository implements TradeLogRepositoryInterface
         DB::transaction(function () use ($dto) {
             DB::table('trade_logs')
                 ->insert([
+                    'portfolio_id' => $dto->portfolio_id,
+                    'symbol' => $dto->symbol,
+                    'type' => $dto->type,
+                    'price' => $dto->price,
+                    'shares' => $dto->shares,
+                    'fees' => $dto->fees,
+                ]);
+        }, 2);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function update(UpdateTradeLogDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('trade_logs')
+                ->where('id', $dto->id)
+                ->update([
                     'portfolio_id' => $dto->portfolio_id,
                     'symbol' => $dto->symbol,
                     'type' => $dto->type,

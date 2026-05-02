@@ -2,9 +2,10 @@
 
 namespace App\Domain\TradeLog\DTOs;
 
-final class StoreTradeLogDTO
+class UpdateTradeLogDTO
 {
     public function __construct(
+        public int $id,
         public int $portfolio_id,
         public string $symbol,
         public string $type,
