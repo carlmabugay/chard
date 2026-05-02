@@ -27,6 +27,7 @@ use App\Http\Controllers\Site\Pages\Strategy\UpdateController as UpdateStrategyC
 use App\Http\Controllers\Site\Pages\TradeLog\IndexController as ListTradeLogsController;
 use App\Http\Controllers\Site\Pages\TradeLog\ShowController as ShowTradeLogController;
 use App\Http\Controllers\Site\Pages\TradeLog\StoreController as StoreTradeLogController;
+use App\Http\Controllers\Site\Pages\TradeLog\TrashController as TrashTradeLogController;
 use App\Http\Controllers\v1\TradeLog\UpdateController as UpdateTradeLogController;
 use Illuminate\Support\Facades\Route;
 
@@ -81,6 +82,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{trade_log}', ShowTradeLogController::class)->name('trade_log.show');
         Route::post('/', StoreTradeLogController::class)->name('trade_log.store');
         Route::put('/{trade_log}', UpdateTradeLogController::class)->name('trade_log.update');
+        Route::delete('/{trade_log}/trash', TrashTradeLogController::class)->name('trade_log.trash');
     });
 
 });

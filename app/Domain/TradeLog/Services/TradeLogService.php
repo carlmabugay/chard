@@ -12,11 +12,6 @@ class TradeLogService implements TradeLogServiceInterface
         private readonly TradeLogWriteRepositoryInterface $write_repository,
     ) {}
 
-    public function trash(TradeLogDTO $dto): ?bool
-    {
-        return $this->write_repository->trash($dto);
-    }
-
     public function restore(TradeLogDTO $dto): ?bool
     {
         return $this->write_repository->restore($dto);

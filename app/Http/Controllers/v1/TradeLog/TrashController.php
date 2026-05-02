@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\v1\TradeLog;
 
-use App\Application\TradeLog\DTOs\TradeLogDTO;
-use App\Domain\TradeLog\Contracts\UseCases\TrashTradeLogInterface;
+use App\Domain\TradeLog\DTOs\TrashTradeLogDTO;
+use App\Domain\TradeLog\Process\TrashTradeLogProcess;
 use App\Http\Controllers\Controller;
 use App\Models\TradeLog;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -13,18 +13,26 @@ use Throwable;
 
 final class TrashController extends Controller
 {
-    public function __invoke(TradeLog $trade_log, TrashTradeLogInterface $use_case): JsonResponse
+    public function __construct(
+        protected readonly TrashTradeLogProcess $process
+    ) {}
+
+    public function __invoke(TradeLog $trade_log): JsonResponse
     {
         try {
 
             Gate::authorize('trash', $trade_log);
 
-            $dto = TradeLogDTO::fromModel($trade_log);
+            $dto = new TrashTradeLogDTO(
+                id: $trade_log->id,
+            );
 
-            $result = $use_case->handle($dto);
+            $this->process->run(
+                payload: $dto,
+            );
 
             return response()->json([
-                'success' => $result,
+                'success' => true,
                 'message' => __('messages.success.trashed', ['record' => 'Trade log']),
             ]);
 

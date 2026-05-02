@@ -5,6 +5,7 @@ namespace App\Domain\TradeLog\Repositories;
 use App\Domain\TradeLog\Contracts\TradeLogRepositoryInterface;
 use App\Domain\TradeLog\DTOs\ListTradeLogsDTO;
 use App\Domain\TradeLog\DTOs\StoreTradeLogDTO;
+use App\Domain\TradeLog\DTOs\TrashTradeLogDTO;
 use App\Domain\TradeLog\DTOs\UpdateTradeLogDTO;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -72,6 +73,21 @@ class TradeLogRepository implements TradeLogRepositoryInterface
                     'price' => $dto->price,
                     'shares' => $dto->shares,
                     'fees' => $dto->fees,
+                ]);
+        }, 2);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function trash(TrashTradeLogDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('trade_logs')
+                ->where('id', $dto->id)
+                ->whereNull('deleted_at')
+                ->update([
+                    'deleted_at' => now(),
                 ]);
         }, 2);
     }

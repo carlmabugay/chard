@@ -8,11 +8,6 @@ use App\Models\TradeLog as TradeLogModel;
 
 class EloquentTradeLogWriteRepository implements TradeLogWriteRepositoryInterface
 {
-    public function trash(TradeLogDTO $dto): ?bool
-    {
-        return TradeLogModel::find($dto->id())->delete();
-    }
-
     public function restore(TradeLogDTO $dto): ?bool
     {
         return TradeLogModel::onlyTrashed()->find($dto->id())->restore();
