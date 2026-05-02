@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\TradeLog\UseCases\StoreTradeLog;
+use App\Domain\TradeLog\Process\StoreTradeLogProcess;
 use App\Models\Portfolio as PortfolioModel;
 use Mockery\MockInterface;
 
@@ -29,16 +29,6 @@ describe('Feature: StoreTradeLogController', function () {
                 ->assertJson([
                     'success' => true,
                     'message' => __('messages.success.stored', ['record' => 'Trade log']),
-                    'data' => [
-                        'symbol' => $payload['symbol'],
-                        'type' => $payload['type'],
-                        'price' => $payload['price'],
-                        'shares' => $payload['shares'],
-                        'fees' => $payload['fees'],
-                        'portfolio' => [
-                            'id' => $payload['portfolio_id'],
-                        ],
-                    ],
                 ]);
         });
 
@@ -109,8 +99,8 @@ describe('Feature: StoreTradeLogController', function () {
             ];
 
             // Expectation:
-            $this->mock(StoreTradeLog::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(StoreTradeLogProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });

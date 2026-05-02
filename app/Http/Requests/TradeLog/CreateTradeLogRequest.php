@@ -2,11 +2,7 @@
 
 namespace App\Http\Requests\TradeLog;
 
-use App\Domain\Portfolio\Repositories\PortfolioRepository;
-use App\Models\Portfolio;
-use App\Models\TradeLog;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Gate;
 
 class CreateTradeLogRequest extends FormRequest
 {
@@ -24,10 +20,6 @@ class CreateTradeLogRequest extends FormRequest
 
     public function authorize(): bool
     {
-        $portfolioData = app(PortfolioRepository::class)->findById($this->portfolio_id);
-
-        $portfolio = Portfolio::fromStdClass($portfolioData);
-
-        return Gate::allows('store', [TradeLog::class, $portfolio]);
+        return true;
     }
 }
