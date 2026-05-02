@@ -3,6 +3,7 @@
 namespace App\Domain\TradeLog\Repositories;
 
 use App\Domain\TradeLog\Contracts\TradeLogRepositoryInterface;
+use App\Domain\TradeLog\DTOs\DeleteTradeLogDTO;
 use App\Domain\TradeLog\DTOs\ListTradeLogsDTO;
 use App\Domain\TradeLog\DTOs\RestoreTradeLogDTO;
 use App\Domain\TradeLog\DTOs\StoreTradeLogDTO;
@@ -105,6 +106,16 @@ class TradeLogRepository implements TradeLogRepositoryInterface
                 ->update([
                     'deleted_at' => null,
                 ]);
+        }, 2);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function delete(DeleteTradeLogDTO $dto): void
+    {
+        DB::transaction(function () use ($dto) {
+            DB::table('trade_logs')->delete($dto->id);
         }, 2);
     }
 }

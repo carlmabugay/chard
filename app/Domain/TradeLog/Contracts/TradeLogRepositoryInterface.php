@@ -2,6 +2,7 @@
 
 namespace App\Domain\TradeLog\Contracts;
 
+use App\Domain\TradeLog\DTOs\DeleteTradeLogDTO;
 use App\Domain\TradeLog\DTOs\ListTradeLogsDTO;
 use App\Domain\TradeLog\DTOs\RestoreTradeLogDTO;
 use App\Domain\TradeLog\DTOs\StoreTradeLogDTO;
@@ -20,4 +21,6 @@ interface TradeLogRepositoryInterface
     public function trash(TrashTradeLogDTO $dto): void;
 
     public function restore(RestoreTradeLogDTO $dto): void;
+
+    public function delete(DeleteTradeLogDTO $dto): void;
 }
