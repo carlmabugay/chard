@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\V1\TradeLog;
 
-use App\Domain\TradeLog\Contracts\UseCases\GetTradeLogInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TradeLog\TradeLogResource;
 use App\Models\TradeLog;
@@ -13,15 +12,16 @@ use Throwable;
 
 final class ShowController extends Controller
 {
-    public function __invoke(TradeLog $trade_log, GetTradeLogInterface $use_case): TradeLogResource|JsonResponse
+    public function __invoke(TradeLog $trade_log): TradeLogResource|JsonResponse
     {
         try {
 
             Gate::authorize('view', $trade_log);
 
-            $result = $use_case->handle($trade_log);
-
-            return TradeLogResource::make($result);
+            return TradeLogResource::make($trade_log)
+                ->additional([
+                    'success' => true,
+                ]);
 
         } catch (AuthorizationException) {
 

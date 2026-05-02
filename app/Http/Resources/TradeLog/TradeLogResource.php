@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\TradeLog;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,8 +17,8 @@ class TradeLogResource extends JsonResource
             'price' => $this->price,
             'shares' => $this->shares,
             'fees' => $this->fees,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => Carbon::make($this->created_at)->format('F d, Y'),
+            'updated_at' => Carbon::make($this->updated_at)->format('F d, Y'),
         ];
     }
 }

@@ -7,8 +7,6 @@ use App\Domain\TradeLog\Entities\TradeLog;
 
 interface TradeLogServiceInterface
 {
-    public function findById(int $id): TradeLog;
-
     public function store(TradeLogDTO $dto): TradeLog;
 
     public function trash(TradeLogDTO $dto): ?bool;

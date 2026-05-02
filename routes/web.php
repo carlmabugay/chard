@@ -25,6 +25,7 @@ use App\Http\Controllers\Site\Pages\Strategy\StoreController as StoreStrategyCon
 use App\Http\Controllers\Site\Pages\Strategy\TrashController as TrashStrategyController;
 use App\Http\Controllers\Site\Pages\Strategy\UpdateController as UpdateStrategyController;
 use App\Http\Controllers\Site\Pages\TradeLog\IndexController as ListTradeLogsController;
+use App\Http\Controllers\Site\Pages\TradeLog\ShowController as ShowTradeLogController;
 use Illuminate\Support\Facades\Route;
 
 // Route::post('/login', LoginController::class);
@@ -75,6 +76,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('trade_log')->group(function () {
         Route::get('/', ListTradeLogsController::class)->name('trade_log.index');
+        Route::get('/{trade_log}', ShowTradeLogController::class)->name('trade_log.show');
     });
 
 });

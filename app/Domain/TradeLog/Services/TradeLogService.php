@@ -3,7 +3,6 @@
 namespace App\Domain\TradeLog\Services;
 
 use App\Application\TradeLog\DTOs\TradeLogDTO;
-use App\Domain\TradeLog\Contracts\Persistence\Read\TradeLogReadRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Persistence\Write\TradeLogWriteRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Services\TradeLogServiceInterface;
 use App\Domain\TradeLog\Entities\TradeLog;
@@ -12,16 +11,7 @@ class TradeLogService implements TradeLogServiceInterface
 {
     public function __construct(
         private readonly TradeLogWriteRepositoryInterface $write_repository,
-        private readonly TradeLogReadRepositoryInterface $read_repository,
     ) {}
-
-    /*
-     * throws ModelNotFoundException
-     */
-    public function findById(int $id): TradeLog
-    {
-        return $this->read_repository->findById($id);
-    }
 
     public function store(TradeLogDTO $dto): TradeLog
     {
