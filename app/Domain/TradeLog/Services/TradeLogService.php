@@ -3,7 +3,6 @@
 namespace App\Domain\TradeLog\Services;
 
 use App\Application\TradeLog\DTOs\TradeLogDTO;
-use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\TradeLog\Contracts\Persistence\Read\TradeLogReadRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Persistence\Write\TradeLogWriteRepositoryInterface;
 use App\Domain\TradeLog\Contracts\Services\TradeLogServiceInterface;
@@ -15,11 +14,6 @@ class TradeLogService implements TradeLogServiceInterface
         private readonly TradeLogWriteRepositoryInterface $write_repository,
         private readonly TradeLogReadRepositoryInterface $read_repository,
     ) {}
-
-    public function findAll(QueryCriteria $criteria): array
-    {
-        return $this->read_repository->findAll($criteria);
-    }
 
     /*
      * throws ModelNotFoundException

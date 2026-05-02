@@ -24,7 +24,7 @@ use App\Http\Controllers\Site\Pages\Strategy\ShowController as ShowStrategyContr
 use App\Http\Controllers\Site\Pages\Strategy\StoreController as StoreStrategyController;
 use App\Http\Controllers\Site\Pages\Strategy\TrashController as TrashStrategyController;
 use App\Http\Controllers\Site\Pages\Strategy\UpdateController as UpdateStrategyController;
-use App\Http\Controllers\Site\Pages\TradeLogController;
+use App\Http\Controllers\Site\Pages\TradeLog\IndexController as ListTradeLogsController;
 use Illuminate\Support\Facades\Route;
 
 // Route::post('/login', LoginController::class);
@@ -73,5 +73,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{dividend}/trash', TrashDividendController::class)->name('dividend.trash');
     });
 
-    Route::get('/trade-log', TradeLogController::class)->name('trade-log.index');
+    Route::prefix('trade_log')->group(function () {
+        Route::get('/', ListTradeLogsController::class)->name('trade_log.index');
+    });
+
 });

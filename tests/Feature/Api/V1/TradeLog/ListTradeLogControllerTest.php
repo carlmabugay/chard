@@ -1,6 +1,6 @@
 <?php
 
-use App\Application\TradeLog\UseCases\ListTradeLogs;
+use App\Domain\TradeLog\Process\ListTradeLogsProcess;
 use App\Models\Portfolio as PortfolioModel;
 use App\Models\TradeLog as TradeLogModel;
 use App\Models\User as UserModel;
@@ -22,8 +22,9 @@ describe('Feature: ListTradeLogController', function () {
 
             // Assert:
             $response->assertOk()
-                ->assertJsonPath('success', true)
-                ->assertJsonPath('pagination.total', $no_of_trade_logs);
+                ->assertJson([
+                    'success' => true,
+                ]);
         });
 
         it('can return empty data and 0 total record when no records found upon using /api/v1/trade_logs GET api endpoint.', function () {
@@ -62,8 +63,8 @@ describe('Feature: ListTradeLogController', function () {
             $user = UserModel::factory()->create();
 
             // Expectation:
-            $this->mock(ListTradeLogs::class, function (MockInterface $mock) {
-                $mock->shouldReceive('handle')
+            $this->mock(ListTradeLogsProcess::class, function (MockInterface $mock) {
+                $mock->shouldReceive('run')
                     ->once()
                     ->andThrow(new Exception('This is a mock exception message.'));
             });

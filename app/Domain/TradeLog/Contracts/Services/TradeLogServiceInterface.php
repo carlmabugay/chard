@@ -3,13 +3,10 @@
 namespace App\Domain\TradeLog\Contracts\Services;
 
 use App\Application\TradeLog\DTOs\TradeLogDTO;
-use App\Domain\Common\Query\QueryCriteria;
 use App\Domain\TradeLog\Entities\TradeLog;
 
 interface TradeLogServiceInterface
 {
-    public function findAll(QueryCriteria $criteria): array;
-
     public function findById(int $id): TradeLog;
 
     public function store(TradeLogDTO $dto): TradeLog;
