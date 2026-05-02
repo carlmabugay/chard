@@ -13,7 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
-class StoreController extends Controller
+final class StoreController extends Controller
 {
     public function __construct(
         protected readonly StoreCashFlowProcess $process

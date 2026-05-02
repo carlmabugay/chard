@@ -6,7 +6,7 @@ use App\Domain\TradeLog\DTOs\UpdateTradeLogDTO;
 use App\Domain\TradeLog\Process\UpdateTradeLogProcess;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TradeLog\UpdateTradeLogRequest;
-use App\Http\Resources\TradeLog\TradeLogResource;
+use App\Http\Resources\TradeLogResource;
 use App\Models\TradeLog;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;

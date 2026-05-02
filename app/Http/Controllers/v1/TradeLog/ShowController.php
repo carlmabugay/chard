@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\TradeLog;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TradeLog\TradeLogResource;
+use App\Http\Resources\TradeLogResource;
 use App\Models\TradeLog;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;

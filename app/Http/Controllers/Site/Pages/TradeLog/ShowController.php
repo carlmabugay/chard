@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Site\Pages\TradeLog;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TradeLog\TradeLogResource;
+use App\Http\Resources\TradeLogResource;
 use App\Models\TradeLog;
 use Illuminate\Support\Facades\Gate;
 
-class ShowController extends Controller
+final class ShowController extends Controller
 {
     public function __invoke(TradeLog $trade_log)
     {

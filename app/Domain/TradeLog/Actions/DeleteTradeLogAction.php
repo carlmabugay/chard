@@ -6,7 +6,7 @@ use App\Domain\TradeLog\Contracts\TradeLogRepositoryInterface;
 use App\Domain\TradeLog\DTOs\DeleteTradeLogDTO;
 use Closure;
 
-class DeleteTradeLogAction
+final class DeleteTradeLogAction
 {
     public function __construct(
         protected readonly TradeLogRepositoryInterface $repository,

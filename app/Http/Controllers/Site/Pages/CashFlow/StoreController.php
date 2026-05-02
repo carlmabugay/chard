@@ -25,7 +25,7 @@ final class StoreController extends Controller
 
         $portfolio = Portfolio::fromStdClass($portfolioData);
 
-        Gate::allows('store', [CashFlow::class, $portfolio]);
+        Gate::authorize('store', [CashFlow::class, $portfolio]);
 
         $dto = new StoreCashFlowDTO(
             portfolio_id: $request->validated('portfolio_id'),

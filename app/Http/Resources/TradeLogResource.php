@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\TradeLog;
+namespace App\Http\Resources;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;

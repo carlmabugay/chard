@@ -5,7 +5,7 @@ namespace App\Http\Controllers\v1\TradeLog;
 use App\Domain\TradeLog\DTOs\ListTradeLogsDTO;
 use App\Domain\TradeLog\Process\ListTradeLogsProcess;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TradeLog\TradeLogResource;
+use App\Http\Resources\TradeLogResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

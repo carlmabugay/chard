@@ -24,7 +24,7 @@ final class StoreController
 
         $portfolio = Portfolio::fromStdClass($portfolioData);
 
-        Gate::allows('store', [Dividend::class, $portfolio]);
+        Gate::authorize('store', [Dividend::class, $portfolio]);
 
         $dto = new StoreDividendDTO(
             portfolio_id: $request->validated('portfolio_id'),

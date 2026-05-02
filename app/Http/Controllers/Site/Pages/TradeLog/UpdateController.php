@@ -11,7 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 
-class UpdateController extends Controller
+final class UpdateController extends Controller
 {
     public function __construct(
         protected readonly UpdateTradeLogProcess $process,
