@@ -20,40 +20,46 @@ const { trash } = usePortfolioAction()
         <Table>
             <DataTableHeader :headers/>
             <TableBody>
-                <TableRow v-for="(row, rowIndex) in items" :key="rowIndex">
-                    <TableCell>
-                        <Checkbox/>
-                    </TableCell>
-                    <TableCell v-for="header in headers" :key="header.key">
-                        <slot :name="`cell-${header.key}`" :row="row" :value="row[header.key]">
-                            {{ row[header.key] }}
-                        </slot>
-                    </TableCell>
-                    <TableCell>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger as-child>
-                                <EllipsisIcon :size="18"/>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent class="w-20">
-                                <DropdownMenuItem>
-                                    <SquarePenIcon :size="4"/>
-                                    Edit
-                                </DropdownMenuItem>
-                                <DropdownMenuItem @click="trash(row['id'])">
-                                    <Trash2Icon :size="4"/>
-                                    Trash
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <XCircleIcon :size="4"/>
-                                    Delete
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-
-
-                    </TableCell>
-                </TableRow>
-
+                <template v-if="items.length > 0">
+                    <TableRow v-for="(row, rowIndex) in items" :key="rowIndex">
+                        <TableCell>
+                            <Checkbox/>
+                        </TableCell>
+                        <TableCell v-for="header in headers" :key="header.key">
+                            <slot :name="`cell-${header.key}`" :row="row" :value="row[header.key]">
+                                {{ row[header.key] }}
+                            </slot>
+                        </TableCell>
+                        <TableCell>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger as-child>
+                                    <EllipsisIcon :size="18"/>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent class="w-20">
+                                    <DropdownMenuItem>
+                                        <SquarePenIcon :size="4"/>
+                                        Edit
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem @click="trash(row['id'])">
+                                        <Trash2Icon :size="4"/>
+                                        Trash
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem>
+                                        <XCircleIcon :size="4"/>
+                                        Delete
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </TableCell>
+                    </TableRow>
+                </template>
+                <template v-else>
+                    <TableRow>
+                        <TableCell colspan="6" class="text-center p-3">
+                            No portfolio found.
+                        </TableCell>
+                    </TableRow>
+                </template>
             </TableBody>
         </Table>
     </div>

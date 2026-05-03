@@ -19,6 +19,6 @@ const handleEdit = (item: Strategy) => {
     <div class="space-y-3">
         <Search/>
         <Table :headers :items @edit="handleEdit"/>
-        <Pagination :pagination/>
+        <Pagination v-if="items.length > 0" :pagination/>
     </div>
 </template>

@@ -1,22 +1,20 @@
 <script setup lang="ts">
 import { Checkbox } from '@/components/ui/checkbox'
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import DataTableHeader from '@/components/shared/datatable/header/index.vue'
 import { EllipsisIcon, SquarePenIcon, Trash2Icon, XCircleIcon } from 'lucide-vue-next'
-import type { StrategiesProps, Strategy } from '@/pages/strategy/props.type'
 import type { HeadersProps } from '@/components/shared/datatable/props.type'
-import { useStrategyAction } from '@/pages/strategy/composables/useStrategyAction'
+import { usePortfolioAction } from '@/pages/portfolio/composables/usePortfolioAction'
+import { CashFlowProps } from '@/pages/cash-flow/props.type'
+import { EmptyContent, EmptyDescription, EmptyTitle } from '@/components/ui/empty'
+import { Button } from '@/components/ui/button'
 
-type Props = HeadersProps & StrategiesProps
+type Props = HeadersProps & CashFlowProps
 
 defineProps<Props>()
 
-const { trash } = useStrategyAction()
-
-const emit = defineEmits<{
-    (e: 'edit', item: Strategy): void
-}>()
+const { trash } = usePortfolioAction()
 </script>
 
 <template>
@@ -60,7 +58,7 @@ const emit = defineEmits<{
                 <template v-else>
                     <TableRow>
                         <TableCell colspan="6" class="text-center p-3">
-                            No strategy found.
+                            No cash flow found.
                         </TableCell>
                     </TableRow>
                 </template>

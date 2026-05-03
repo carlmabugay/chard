@@ -61,8 +61,8 @@ Route::middleware('auth')->group(function () {
 
     });
 
-    Route::prefix('portfolio')->group(function () {
-        Route::get('/cash_flow', ListCashFlowController::class)->name('cash_flow.index');
+    Route::prefix('cash_flow')->group(function () {
+        Route::get('/', ListCashFlowController::class)->name('cash_flow.index');
         Route::get('/{cash_flow}', ShowCashFlowController::class)->name('cash_flow.show');
         Route::post('/', StoreCashFlowController::class)->name('cash_flow.store');
         Route::put('/{cash_flow}', UpdateCashFlowController::class)->name('cash_flow.update');

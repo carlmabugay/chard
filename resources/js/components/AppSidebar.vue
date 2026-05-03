@@ -27,11 +27,11 @@ const data = {
         },
         {
             title: 'Cash Flow',
-            url: '/cash-flow',
+            url: '/cash_flow',
         },
         {
             title: 'Trade Log',
-            url: '/trade-log',
+            url: '/trade_log',
         },
         {
             title: 'Dividend',

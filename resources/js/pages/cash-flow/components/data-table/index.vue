@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Search from '@/components/shared/datatable/search/index.vue'
 import Pagination from '@/components/shared/datatable/pagination/index.vue'
-import Table from '@/pages/portfolio/components/data-table/table/index.vue'
-import type { PageProps } from '@/pages/portfolio/props.type'
+import Table from '@/pages/cash-flow/components/data-table/table/index.vue'
+import type { PageProps } from '@/pages/cash-flow/props.type'
 
 defineProps<PageProps>()
 </script>
