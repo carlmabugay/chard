@@ -3,15 +3,15 @@
 use App\Models\User;
 use Inertia\Testing\AssertableInertia as Assert;
 
-describe('Site: Cash flow Index Page', function () {
+describe('Site: Dividend Index Page', function () {
 
-    it('can render cash flow index page', function () {
+    it('can render dividend index page', function () {
 
         $user = User::factory()->create();
 
-        $this->actingAs($user)->get('/cash_flow')
+        $this->actingAs($user)->get('/dividend')
             ->assertInertia(fn (Assert $page) => $page
-                ->component('cash-flow/index')
+                ->component('dividend/index')
             );
     });
 

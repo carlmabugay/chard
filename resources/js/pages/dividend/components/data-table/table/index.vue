@@ -5,9 +5,9 @@ import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import DataTableHeader from '@/components/shared/datatable/header/index.vue'
 import { EllipsisIcon, SquarePenIcon, Trash2Icon, XCircleIcon } from 'lucide-vue-next'
 import type { HeadersProps } from '@/components/shared/datatable/props.type'
-import { CashFlowProps } from '@/pages/cash-flow/props.type'
+import type { DividendProps } from '@/pages/dividend/props.type'
 
-type Props = HeadersProps & CashFlowProps
+type Props = HeadersProps & DividendProps
 
 defineProps<Props>()
 
@@ -54,7 +54,7 @@ defineProps<Props>()
                 <template v-else>
                     <TableRow>
                         <TableCell colspan="6" class="text-center p-3">
-                            No cash flow found.
+                            No dividend found.
                         </TableCell>
                     </TableRow>
                 </template>
