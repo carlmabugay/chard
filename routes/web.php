@@ -9,6 +9,7 @@ use App\Http\Controllers\Site\Pages\CashFlow\StoreController as StoreCashFlowCon
 use App\Http\Controllers\Site\Pages\CashFlow\TrashController as TrashCashFlowController;
 use App\Http\Controllers\Site\Pages\CashFlow\UpdateController as UpdateCashFlowController;
 use App\Http\Controllers\Site\Pages\DashboardController;
+use App\Http\Controllers\Site\Pages\Dividend\CreateController as CreateDividendController;
 use App\Http\Controllers\Site\Pages\Dividend\IndexController as ListDividendsController;
 use App\Http\Controllers\Site\Pages\Dividend\ShowController as ShowDividendController;
 use App\Http\Controllers\Site\Pages\Dividend\StoreController as StoreDividendController;
@@ -73,6 +74,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('dividend')->group(function () {
         Route::get('/', ListDividendsController::class)->name('dividend.index');
+        Route::get('/create', CreateDividendController::class)->name('dividend.create');
         Route::get('/{dividend}', ShowDividendController::class)->name('dividend.show');
         Route::post('/', StoreDividendController::class)->name('dividend.store');
         Route::put('/{dividend}', UpdateDividendController::class)->name('dividend.update');

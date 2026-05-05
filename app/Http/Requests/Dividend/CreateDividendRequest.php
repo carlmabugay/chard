@@ -12,7 +12,8 @@ class CreateDividendRequest extends FormRequest
             'portfolio_id' => ['required', 'exists:portfolios,id'],
             'symbol' => ['required'],
             'amount' => ['required', 'numeric', 'min:1'],
-            'recorded_at' => ['required', 'date', 'date_format:Y-m-d H:i:s'],
+            // Todo: Bring back once date picker is applied.
+            //            'recorded_at' => ['required', 'date', 'date_format:Y-m-d H:i:s'],
         ];
     }
 

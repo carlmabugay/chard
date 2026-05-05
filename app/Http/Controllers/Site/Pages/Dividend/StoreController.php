@@ -30,7 +30,9 @@ final class StoreController
             portfolio_id: $request->validated('portfolio_id'),
             symbol: $request->validated('symbol'),
             amount: $request->validated('amount'),
-            recorded_at: $request->validated('recorded_at'),
+            // Todo: Bring back once date picker is applied.
+            // $request->validated('recorded_at')
+            recorded_at: now(),
         );
 
         $this->process->run(

@@ -15,7 +15,6 @@ final class IndexController extends Controller
     use HasDataTableResponse;
 
     const array HEADERS = [
-        ['label' => 'Name', 'key' => 'name'],
         ['label' => 'Symbol', 'key' => 'symbol'],
         ['label' => 'Amount', 'key' => 'amount'],
         ['label' => 'Date recorded', 'key' => 'recorded_at'],
@@ -31,7 +30,7 @@ final class IndexController extends Controller
             search: $request->search,
             per_page: $request->per_page ?? 5,
             page: $request->page ?? 1,
-            sort_by: $request->sort_by ?? 'created_at',
+            sort_by: $request->sort_by ?? 'recorded_at',
             sort_direction: $request->sort_direction ?? 'desc',
         );
 
