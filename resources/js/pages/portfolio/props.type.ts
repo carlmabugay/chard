@@ -6,7 +6,7 @@ export type PortfolioProps = {
     items: Portfolio[]
 }
 
-type Portfolio = {
+export type Portfolio = {
     id: number,
     name: string,
     created_at: string

@@ -51,6 +51,7 @@ class PortfolioRepository implements PortfolioRepositoryInterface
             DB::table('portfolios')->insert([
                 'user_id' => $dto->user_id,
                 'name' => $dto->name,
+                'created_at' => now(),
             ]);
         }, 2);
     }
@@ -65,6 +66,7 @@ class PortfolioRepository implements PortfolioRepositoryInterface
                 ->where('id', $dto->id)
                 ->update([
                     'name' => $dto->name,
+                    'updated_at' => now(),
                 ]);
         }, 2);
     }

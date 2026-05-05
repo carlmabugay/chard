@@ -40,7 +40,7 @@ const emit = defineEmits<{
                                     <EllipsisIcon :size="18"/>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent class="w-20">
-                                    <DropdownMenuItem>
+                                    <DropdownMenuItem @click="emit('edit', row)">
                                         <SquarePenIcon :size="4"/>
                                         Edit
                                     </DropdownMenuItem>

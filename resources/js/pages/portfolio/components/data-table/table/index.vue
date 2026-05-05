@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import DataTableHeader from '@/components/shared/datatable/header/index.vue'
 import { EllipsisIcon, SquarePenIcon, Trash2Icon, XCircleIcon } from 'lucide-vue-next'
 import type { HeadersProps } from '@/components/shared/datatable/props.type'
-import type { PortfolioProps } from '@/pages/portfolio/props.type'
+import type { PortfolioProps, Portfolio } from '@/pages/portfolio/props.type'
 import { usePortfolioAction } from '@/pages/portfolio/composables/usePortfolioAction'
 
 type Props = HeadersProps & PortfolioProps
@@ -13,6 +13,10 @@ type Props = HeadersProps & PortfolioProps
 defineProps<Props>()
 
 const { trash } = usePortfolioAction()
+
+const emit = defineEmits<{
+    (e: 'edit', item: Portfolio): void
+}>()
 </script>
 
 <template>
@@ -36,7 +40,7 @@ const { trash } = usePortfolioAction()
                                     <EllipsisIcon :size="18"/>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent class="w-20">
-                                    <DropdownMenuItem>
+                                    <DropdownMenuItem @click="emit('edit', row)">
                                         <SquarePenIcon :size="4"/>
                                         Edit
                                     </DropdownMenuItem>
