@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Site\AuthController;
 use App\Http\Controllers\Site\LogoutController;
+use App\Http\Controllers\Site\Pages\CashFlow\CreateController as CreateCashFlowController;
 use App\Http\Controllers\Site\Pages\CashFlow\IndexController as ListCashFlowController;
 use App\Http\Controllers\Site\Pages\CashFlow\ShowController as ShowCashFlowController;
 use App\Http\Controllers\Site\Pages\CashFlow\StoreController as StoreCashFlowController;
@@ -63,6 +64,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('cash_flow')->group(function () {
         Route::get('/', ListCashFlowController::class)->name('cash_flow.index');
+        Route::get('/create', CreateCashFlowController::class)->name('cash_flow.create');
         Route::get('/{cash_flow}', ShowCashFlowController::class)->name('cash_flow.show');
         Route::post('/', StoreCashFlowController::class)->name('cash_flow.store');
         Route::put('/{cash_flow}', UpdateCashFlowController::class)->name('cash_flow.update');

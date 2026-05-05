@@ -15,7 +15,6 @@ final class IndexController extends Controller
     use HasDataTableResponse;
 
     const array HEADERS = [
-        ['label' => 'Name', 'key' => 'name'],
         ['label' => 'Type', 'key' => 'type'],
         ['label' => 'Amount', 'key' => 'amount'],
         ['label' => 'Date created', 'key' => 'created_at'],
